@@ -7,6 +7,7 @@
   <link href="assets/bootstrap/css/bootstrap.css" rel="stylesheet" />
   <link href="assets/custom/css/general.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+  <link rel="icon" type="image/x-icon" href="files/images/lengko-favicon.png" />
   <title>@yield('title')</title>
 </head>
 <body>
@@ -45,7 +46,10 @@
               <h3>LENGKO</h3>
             </div>
             <hr class="content" />
-            We break the limits!
+            Lokasi:<br />
+            Jl. Sendirian Aja No. 99, Kav. Kapan Kawin, Bandung, Jawa Barat <br /><br />
+            Telepon: +(62)222 0000 2017<br />
+            Fax: +(62)222 1111 2017
           </div>
           <div class="col-md-4 tb-padding-20">
             <h3>Laman</h3>
@@ -59,12 +63,57 @@
             <h3>Kontributor</h3>
             <hr class="content" />
             <ul class="li-unstyled">
-              <li>[10115253] <a href="https://github.com/Gurisa" target="_blank">Raka Suryaardi Widjaja</a></li>
-              <li>[10115169] <a href="https://github.com/AzmiYudista" target="_blank">Azmi Yudista</a></li>
-              <li>[10114200] <a href="https://github.com/gumilarfajardarajat" target="_blank">Gumilar Fajar Darajat</a></li>
-              <li>[10114337] <a href="https://github.com/h4fif" target="_blank">Hafif Imammuddyn</a></li>
-              <li>[10115143] <a href="https://github.com/binsarbernandus" target="_blank">Binsar Bernandus Silalahi</a></li>
-              <li>[10114545] <a href="https://github.com/ridhaakmal" target="_blank">Ridha Akmal Putra</a></li>
+              <li>
+                [10115253] Raka Suryaardi Widjaja
+                <a href="https://github.com/Gurisa" target="_blank">
+                  <img src="files/images/github-fluidicon.png" alt="G" width="20px" height="20px" />
+                </a>
+                <a href="https://trello.com/rakasw" target="_blank">
+                  <img src="files/images/trello-icon.png" alt="T" width="20px" height="20px" />
+                </a>
+              </li>
+              <li>
+                [10115169] Azmi Yudista
+                <a href="https://github.com/AzmiYudista" target="_blank">
+                  <img src="files/images/github-fluidicon.png" alt="G" width="20px" height="20px" />
+                </a>
+                <a href="https://trello.com/azmiyudista" target="_blank">
+                  <img src="files/images/trello-icon.png" alt="T" width="20px" height="20px" />
+                </a>
+              </li>
+              <li>
+                [10114200] Gumilar Fajar Darajat
+                <a href="https://github.com/gumilarfajardarajat" target="_blank">
+                  <img src="files/images/github-fluidicon.png" alt="G" width="20px" height="20px" />
+                </a>
+              </li>
+              <li>
+                [10114337] Hafif Imammuddyn
+                <a href="https://github.com/h4fif" target="_blank">
+                  <img src="files/images/github-fluidicon.png" alt="G" width="20px" height="20px" />
+                </a>
+                <a href="https://trello.com/hafif4" target="_blank">
+                  <img src="files/images/trello-icon.png" alt="T" width="20px" height="20px" />
+                </a>
+              </li>
+              <li>
+                [10115143] Binsar Bernandus Silalahi
+                <a href="https://github.com/binsarbernandus" target="_blank">
+                  <img src="files/images/github-fluidicon.png" alt="G" width="20px" height="20px" />
+                </a>
+                <a href="https://trello.com/binsarbernandus" target="_blank">
+                  <img src="files/images/trello-icon.png" alt="T" width="20px" height="20px" />
+                </a>
+              </li>
+              <li>
+                [10114545] Ridha Akmal Putra
+                <a href="https://github.com/ridhaakmal" target="_blank">
+                  <img src="files/images/github-fluidicon.png" alt="G" width="20px" height="20px" />
+                </a>
+                <a href="https://trello.com/ridhaakmal" target="_blank">
+                  <img src="files/images/trello-icon.png" alt="T" width="20px" height="20px" />
+                </a>
+              </li>
             </ul>
           </div>
         </div>

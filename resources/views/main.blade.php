@@ -13,13 +13,15 @@
 <body>
   <header>
     <nav class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
+      <div class="container main-nav">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#head-navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only"></span>
             <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
           </button>
-          <a class="navbar-brand" href="/">LENGKO</a>
+          <a class="navbar-brand" href="/">
+            <img src="files/images/lengko-navbar.png" alt="LENGKO" />
+          </a>
         </div>
 
         <div id="head-navbar" class="navbar-collapse collapse">
@@ -85,6 +87,9 @@
                 [10114200] Gumilar Fajar Darajat
                 <a href="https://github.com/gumilarfajardarajat" target="_blank">
                   <img src="files/images/github-fluidicon.png" alt="G" width="20px" height="20px" />
+                </a>
+                <a href="https://trello.com/gumilarfajardarajat" target="_blank">
+                  <img src="files/images/trello-icon.png" alt="T" width="20px" height="20px" />
                 </a>
               </li>
               <li>

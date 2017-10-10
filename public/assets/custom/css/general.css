@@ -75,3 +75,24 @@ hr.content {
 .t-margin-20 {
   margin-top: 20px;
 }
+
+.navbar-brand {
+  padding: 0px;
+  height: 60px;
+}
+
+.navbar-brand > img {
+  height: 100%;
+  padding: 7px 15px 7px 15px;
+  width: auto;
+}
+
+.main-nav .nav > li > a {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.main-nav .navbar-toggle {
+  padding: 5px;
+  margin: 15px 5px 15px 0;
+}

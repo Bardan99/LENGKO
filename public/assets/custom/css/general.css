@@ -1,0 +1,98 @@
+body {
+  font-family: "Roboto","sans-serif", "Arial", "Verdana";
+  font-size: 12pt;
+}
+
+body > .container {
+  padding: 70px 15px 0px;
+}
+
+a {
+  color: #3d3d3d;
+}
+
+a:hover, a:active, a:focus {
+  color: #1c1b1b;
+}
+
+hr.content {
+  border: 1px solid #302c30;
+  margin-top: 4px;
+}
+
+.navbar-brand {
+  font-size: 20pt;
+  font-weight: bold;
+}
+
+.footer-head {
+  font-size: 18px;
+}
+
+.footer {
+  background-color: #f5f5f5;
+}
+
+.footer-copyright {
+  padding: 15px;
+  background-color: #3b3737;
+  color: #f5f5f5;
+}
+
+.li-unstyled {
+  list-style: none;
+  padding-left: 0px;
+}
+
+.list-group > a.active,
+.list-group > a.active:hover,
+.list-group > a.active:focus,
+.list-group > a.active:active {
+  background-color: #3b3737;
+  color: #ffffff;
+  border-color: #3b3737;
+}
+
+.list-group > a.active > p {
+  color: #ffffff;
+}
+
+.seperator {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.tb-padding-20 {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.tb-margin-20 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.t-margin-20 {
+  margin-top: 20px;
+}
+
+.navbar-brand {
+  padding: 0px;
+  height: 60px;
+}
+
+.navbar-brand > img {
+  height: 100%;
+  padding: 7px 15px 7px 15px;
+  width: auto;
+}
+
+.main-nav .nav > li > a {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.main-nav .navbar-toggle {
+  padding: 5px;
+  margin: 15px 5px 15px 0;
+}

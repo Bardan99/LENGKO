@@ -20,11 +20,6 @@ hr.content {
   margin-top: 4px;
 }
 
-.navbar-brand {
-  font-size: 20pt;
-  font-weight: bold;
-}
-
 .footer-head {
   font-size: 18px;
 }
@@ -74,6 +69,11 @@ hr.content {
 
 .t-margin-20 {
   margin-top: 20px;
+}
+
+.navbar-brand {
+  font-size: 20pt;
+  font-weight: bold;
 }
 
 .navbar-brand {

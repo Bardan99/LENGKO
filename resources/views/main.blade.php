@@ -91,7 +91,25 @@
                 <a href="https://trello.com/binsarbernandus" target="_blank">
                   <img src="files/images/trello-icon.png" alt="T" width="20px" height="20px" />
                 </a>
-              </li>                            
+              </li>
+              <li>
+                [10115218] Raka Muhamad Pratama
+                <a href="https://github.com/raka1" target="_blank">
+                  <img src="files/images/github-fluidicon.png" alt="G" width="20px" height="20px" />
+                </a>
+                <a href="https://trello.com/rakamuhamadpratama" target="_blank">
+                  <img src="files/images/trello-icon.png" alt="T" width="20px" height="20px" />
+                </a>
+              </li>
+              <li>
+                [10115148] Muhammad Zaki
+                <a href="https://github.com/mhdzakii" target="_blank">
+                  <img src="files/images/github-fluidicon.png" alt="G" width="20px" height="20px" />
+                </a>
+                <a href="https://trello.com/muhammadzaki2" target="_blank">
+                  <img src="files/images/trello-icon.png" alt="T" width="20px" height="20px" />
+                </a>
+              </li>
             </ul>
           </div>
         </div>

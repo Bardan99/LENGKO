@@ -84,24 +84,6 @@
                 </a>
               </li>
               <li>
-                [10114200] Gumilar Fajar Darajat
-                <a href="https://github.com/gumilarfajardarajat" target="_blank">
-                  <img src="files/images/github-fluidicon.png" alt="G" width="20px" height="20px" />
-                </a>
-                <a href="https://trello.com/gumilarfajardarajat" target="_blank">
-                  <img src="files/images/trello-icon.png" alt="T" width="20px" height="20px" />
-                </a>
-              </li>
-              <li>
-                [10114337] Hafif Imammuddyn
-                <a href="https://github.com/h4fif" target="_blank">
-                  <img src="files/images/github-fluidicon.png" alt="G" width="20px" height="20px" />
-                </a>
-                <a href="https://trello.com/hafif4" target="_blank">
-                  <img src="files/images/trello-icon.png" alt="T" width="20px" height="20px" />
-                </a>
-              </li>
-              <li>
                 [10115143] Binsar Bernandus Silalahi
                 <a href="https://github.com/binsarbernandus" target="_blank">
                   <img src="files/images/github-fluidicon.png" alt="G" width="20px" height="20px" />
@@ -109,16 +91,7 @@
                 <a href="https://trello.com/binsarbernandus" target="_blank">
                   <img src="files/images/trello-icon.png" alt="T" width="20px" height="20px" />
                 </a>
-              </li>
-              <li>
-                [10114545] Ridha Akmal Putra
-                <a href="https://github.com/ridhaakmal" target="_blank">
-                  <img src="files/images/github-fluidicon.png" alt="G" width="20px" height="20px" />
-                </a>
-                <a href="https://trello.com/ridhaakmal" target="_blank">
-                  <img src="files/images/trello-icon.png" alt="T" width="20px" height="20px" />
-                </a>
-              </li>
+              </li>                            
             </ul>
           </div>
         </div>

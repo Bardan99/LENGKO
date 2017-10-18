@@ -66,6 +66,20 @@ return [
             'engine' => null,
         ],
 
+        'mysql-production' => [
+            'driver' => 'mysql',
+            'host' => env('DB_PRODUCTION_HOST', 'localhost'),
+            'port' => env('DB_PRODUCTION_PORT', '3306'),
+            'database' => env('DB_PRODUCTION_DATABASE', 'forge'),
+            'username' => env('DB_PRODUCTION_USERNAME', 'forge'),
+            'password' => env('DB_PRODUCTION_PASSWORD', ''),
+            'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix' => '',
+            'strict' => false,
+            'engine' => null,
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', 'localhost'),

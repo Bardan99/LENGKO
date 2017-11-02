@@ -12,3 +12,4 @@
 */
 
 Route::get('/', 'HomeController@view_index');
+Route::get('/{page}/', 'HomeController@view_page');

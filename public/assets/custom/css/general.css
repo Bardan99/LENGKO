@@ -1,10 +1,18 @@
+@import url('https://fonts.googleapis.com/css?family=Material+Icons|Kaushan+Script|Nosifer|Roboto|Parisienne|Rochester|Playfair+Display');
+@font-face {
+  font-family: 'MS Mincho';
+  src: url('/../resources/fonts/msmincho.ttf');
+}
+
+html,
 body {
   font-family: "Roboto","sans-serif", "Arial", "Verdana";
   font-size: 12pt;
+  height:100%;
 }
 
-body > .container {
-  padding: 70px 15px 0px;
+footer {
+  background-color: #fbfbfb;
 }
 
 a {
@@ -15,23 +23,61 @@ a:hover, a:active, a:focus {
   color: #1c1b1b;
 }
 
-hr.content {
-  border: 1px solid #302c30;
-  margin-top: 4px;
+a.navbar-link {
+  color: #3d3d3d;
 }
 
-.footer-head {
-  font-size: 18px;
+a.navbar-link:hover,
+a.navbar-link:active,
+a.navbar-link:focus{
+  text-decoration: none;
+  border-bottom: 3px solid #3d3d3d;
 }
 
-.footer {
-  background-color: #f5f5f5;
+h1.brand-text {
+  margin: 15px 0px 15px 0px;
+  text-align: center;
+  margin: 0px 5px 5px 5px;
+  font-size: 22pt;
+  font-family: 'Kaushan Script', cursive;
 }
 
-.footer-copyright {
-  padding: 15px;
-  background-color: #3b3737;
-  color: #f5f5f5;
+hr.dashed {
+  border: 2px dashed #d9d9d9;
+  margin-left: 10px;
+}
+
+ul.left-navbar {
+  list-style-type: none;
+  padding: 5px;
+}
+
+ul.left-navbar > li {
+  margin: 30px 0px 30px 0px;
+  font-size: 14pt;
+  padding-left: 15px;
+}
+
+.list-group > a.active,
+.list-group > a.active:hover,
+.list-group > a.active:focus,
+.list-group > a.active:active {
+  background-color: #2c3e50;
+  color: #ffffff;
+  border-color: #2c3e50;
+}
+
+.list-group > a.active > p {
+  color: #ffffff;
+}
+
+.pagination > li > a {
+  color: #2c3e50;
+}
+
+.pagination > li > a:hover,
+.pagination > li > a:focus {
+  color: #2c3e50;
 }
 
 .li-unstyled {
@@ -39,60 +85,245 @@ hr.content {
   padding-left: 0px;
 }
 
-.list-group > a.active,
-.list-group > a.active:hover,
-.list-group > a.active:focus,
-.list-group > a.active:active {
-  background-color: #3b3737;
-  color: #ffffff;
-  border-color: #3b3737;
+quote.nosifer {
+  font-size: 22pt;
+  font-family: 'Nosifer', 'Arial', cursive;
 }
 
-.list-group > a.active > p {
-  color: #ffffff;
+quote.msmincho {
+  font-size: 40pt;
+  font-family: 'MS Mincho', 'Arial', sans-serif;
+  font-weight: bold;
 }
 
-.seperator {
-  margin-top: 10px;
+quote.parisienne {
+  font-size: 20pt;
+  font-family: 'Parisienne', 'Arial', cursive;
+}
+
+quote.rochester {
+  font-size: 18pt;
+  font-family: 'Rochester', 'Arial', cursive;
+}
+
+quote.rochester > small {
+  font-weight: bolder;
+}
+
+quote.playfair {
+  font-size: 14pt;
+  font-family: 'Playfair Display', 'Arial', cursive;
+}
+
+quote.playfair > small {
+  font-weight: bolder;
+}
+
+div.menu {
+  background-color: #fbfbfb;
+  box-shadow: 5px 0px 5px #e2dfdf;
+  padding: 10px;
   margin-bottom: 10px;
+  margin-top: 10px;
 }
 
-.tb-padding-20 {
-  padding-top: 20px;
-  padding-bottom: 20px;
+div.menu > img:hover {
+  cursor: pointer;
 }
 
-.tb-margin-20 {
+h2.menu-title {
+  font-size: 16pt;
+}
+
+hr.content {
+  border: 1px solid #302c30;
+  margin-top: 4px;
+}
+
+.img-center {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.obj-center {
+  margin: auto;
+  width: 50%;
+  padding: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.mrg-t-0 {
+  margin-top: 0px;
+}
+
+.mrg-t-20 {
+  margin-top: 20px;
+}
+
+.mrg-b-0 {
+  margin-bottom: 0px;
+}
+
+.mrg-b-20 {
+  margin-bottom: 20px;
+}
+
+.mrg-b-30 {
+  margin-bottom: 30px;
+}
+
+.mrg-tb-20 {
   margin-top: 20px;
   margin-bottom: 20px;
 }
 
-.t-margin-20 {
-  margin-top: 20px;
+.mrg-tb-30 {
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
-.navbar-brand {
-  font-size: 20pt;
-  font-weight: bold;
+.padd-lr-0 {
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
-.navbar-brand {
-  padding: 0px;
-  height: 60px;
+.padd-lr-10 {
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
-.navbar-brand > img {
-  height: 100%;
-  padding: 7px 15px 7px 15px;
-  width: auto;
+.padd-b-20 {
+  padding-bottom: 20px;
 }
 
-.main-nav .nav > li > a {
+.padd-b-30 {
+  padding-bottom: 30px;
+}
+
+.padd-tb-20 {
   padding-top: 20px;
   padding-bottom: 20px;
 }
 
-.main-nav .navbar-toggle {
-  padding: 5px;
-  margin: 15px 5px 15px 0;
+
+#navbar {
+  background-color: #fbfbfb;
+  padding-top:50px;
+}
+
+#content {
+  background-color: #f6f6f6;
+  padding-top:50px;
+}
+
+#footer-copyright {
+  background-color: #34495e;
+  color: #fbfbfb;
+  padding: 20px 0px 20px 0px;
+  bottom:0px;
+}
+
+
+@media screen and (min-width: @screen-sm-min) {
+
+}
+
+/*
+  https://stackoverflow.com/questions/19695784/how-can-i-make-bootstrap-columns-all-the-same-height
+*/
+
+.row{
+  overflow: hidden;
+}
+
+[class*="col-"]{
+  margin-bottom: -99999px;
+  padding-bottom: 99999px;
+}
+
+/*
+  https://www.w3schools.com/howto/howto_css_modals.asp
+*/
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  bottom: 0px;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  -webkit-animation-name: fadeIn; /* Fade in the background */
+  -webkit-animation-duration: 0.4s;
+  animation-name: fadeIn;
+  animation-duration: 0.4s
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  bottom: 0px;
+  background-color: #fefefe;
+  width: 100%;
+  -webkit-animation-name: slideIn;
+  -webkit-animation-duration: 0.4s;
+  animation-name: slideIn;
+  animation-duration: 0.4s
+
+}
+
+/* The Close Button */
+.close {
+  color: #ffffff;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #fefefe;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 2px 16px;
+  background-color: #2c3e50;
+  color: #fefefe;
+}
+
+.modal-body {
+  padding: 2px 16px;
+}
+
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #2c3e50;
+  color: #fefefe;
+}
+
+/* Add Animation */
+@-webkit-keyframes slideIn {
+    from {bottom: -300px; opacity: 0}
+    to {bottom: 0; opacity: 1}
+}
+
+@keyframes slideIn {
+    from {bottom: -300px; opacity: 0}
+    to {bottom: 0; opacity: 1}
+}
+
+@-webkit-keyframes fadeIn {
+    from {opacity: 0}
+    to {opacity: 1}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0}
+    to {opacity: 1}
 }

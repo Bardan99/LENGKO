@@ -1,6 +1,6 @@
 @extends('main')
 
-@section('title', 'LENGKO - Beranda')
+@section('title', 'LENGKO - Boy Band')
 
 @section('content')
   <div class="row mrg-b-30">

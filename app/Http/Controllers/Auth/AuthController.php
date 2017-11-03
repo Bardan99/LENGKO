@@ -8,8 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
-class AuthController extends Controller
-{
+class AuthController extends Controller {
     /*
     |--------------------------------------------------------------------------
     | Registration & Login Controller
@@ -28,7 +27,9 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $username = 'kode_perangkat';
+    protected $redirectTo = '/about/';
+    protected $redirectAfterLogout = '/';
 
     /**
      * Create a new authentication controller instance.
@@ -49,9 +50,8 @@ class AuthController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'kode_perangkat' => 'required|max:15|unique:users',
+            'kata_sandi_perangkat' => 'required|min:6|max:150|confirmed',
         ]);
     }
 
@@ -64,9 +64,13 @@ class AuthController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'kode_perangkat' => $data['kode_perangkat'],
+            'kata_sandi_perangkat' => bcrypt($data['kata_sandi_perangkat']),
         ]);
+    }
+
+    public function authenticated($request, $user)
+    {
+    	return redirect('/');
     }
 }

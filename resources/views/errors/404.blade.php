@@ -1,4 +1,4 @@
-@extends('single')
+@extends('layouts.single')
 
 @section('title', 'LENGKO - Halaman tidak ditemukan')
 
@@ -11,7 +11,7 @@
       <h1 class="text-center">
         Halaman tidak ditemukan
         <br />
-        <small>Oops halaman '{{ $exception->getMessage() }}' tidak tersedia</small>
+        <small>Oops halaman tidak tersedia</small>
       </h1>
     </div>
   </div>

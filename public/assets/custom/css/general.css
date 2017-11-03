@@ -288,6 +288,7 @@ hr.content {
   margin-bottom: 80px;
 }
 
+.form-section > input[type=text],
 .form-section > input[type=email],
 .form-section > input[type=password] {
   width: 100%;
@@ -299,6 +300,7 @@ hr.content {
   border: 0px;
 }
 
+.form-section > input[type=text]:focus,
 .form-section > input[type=email]:focus,
 .form-section > input[type=password]:focus {
   border: 3px solid #34495e;

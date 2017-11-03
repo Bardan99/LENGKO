@@ -11,7 +11,9 @@
 |
 */
 
-Route::get('/', 'HomeController@view');
+Route::auth();
+
+Route::get('/', 'HomeController@index');
 Route::get('/menu/', 'MenuController@view');
 Route::get('/about/', 'AboutController@view');
 Route::get('/login/', 'LoginController@view');

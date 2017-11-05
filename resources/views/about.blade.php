@@ -100,4 +100,12 @@
 
     </div>
   </div>
+
+@endsection
+
+@section('footer-section')
+  @include('addition')
+  @yield('footer-quote')
+  @yield('footer-content')
+  @yield('footer-copyright')
 @endsection

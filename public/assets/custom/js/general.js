@@ -9,6 +9,12 @@ var menu_price = document.getElementById('menu-price');
 var menu_detail = document.getElementById('menu-detail');
 var btn_close = document.getElementsByClassName("close")[0];
 
+function go_to(url) {
+  if (url) {
+    window.location = '/' + url;
+  }
+}
+
 function get_url() {
   var url = window.location.href;
   if (!url) {
@@ -82,12 +88,6 @@ window.onclick = function(event) {
 
 $(document).ready(function() {
 
-  $('.carousel').carousel({
-    interval: 5000,
-    pause: 'hover',
-    direction: 'right'
-  });
-
   $('.slider-for').slick({
      slidesToScroll: 1,
      variableWidth: false,
@@ -95,13 +95,13 @@ $(document).ready(function() {
      fade: true,
      asNavFor: '.slider-nav',
      autoplay: true,
-     autoplaySpeed: 5000,
+     autoplaySpeed: 3000,
      centerMode: true,
      centerPadding: '60px',
   });
 
   $('.slider-nav').slick({
-     slidesToShow: 3,
+     slidesToShow: 4,
      slidesToScroll: 1,
      asNavFor: '.slider-for',
      dots: true,

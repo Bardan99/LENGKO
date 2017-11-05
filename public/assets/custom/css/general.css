@@ -42,9 +42,16 @@ h1.brand-text {
   font-family: 'Kaushan Script', cursive;
 }
 
+h4.brand-description {
+  margin: 15px 0px 15px 0px;
+  text-align: center;
+  margin: 5px;
+  font-size: 18pt;
+  font-family: 'Kaushan Script', cursive;
+}
+
 hr.dashed {
   border: 2px dashed #d9d9d9;
-  margin-left: 10px;
 }
 
 #list-navbar {
@@ -341,6 +348,147 @@ hr.content {
   color: #f6f6f6;
   background-color: #34495e;
 }
+
+
+/* Main Menu */
+
+.main-menu {
+  padding: 20px;
+  margin: 7px 5px 7px 5px;
+  min-height: 200px;
+  box-shadow: 5px 5px 5px #595959;
+  border-radius: 50px/15px;
+  cursor: pointer;
+}
+
+.menu-red {
+  background-color: #e74c3c;
+  border: 1px solid #c0392b;
+  color: #ffffff;
+}
+
+.menu-red:hover,
+.menu-red:active,
+.menu-red:focus {
+  background-color: #e6594b;
+  border: 1px solid #e6594b;
+}
+
+.menu-orange {
+  background-color: #e67e22;
+  border: 1px solid #d35400;
+  color: #ffffff;
+}
+
+.menu-orange:hover,
+.menu-orange:active,
+.menu-orange:focus {
+  background-color: #e78936;
+  border: 1px solid #e78936;
+}
+
+.menu-green {
+  background-color: #1abc9c;
+  border: 1px solid #16a085;
+  color: #ffffff;
+}
+
+.menu-green:hover,
+.menu-green:active,
+.menu-green:focus {
+  background-color: #2cc8a9;
+  border: 1px solid #2cc8a9;
+}
+
+.menu-blue {
+  background-color: #3498db;
+  border: 1px solid #2980b9;
+  color: #ffffff;
+}
+
+.menu-blue:hover,
+.menu-blue:active,
+.menu-blue:focus {
+  background-color: #4ca5e2;
+  border: 1px solid #4ca5e2;
+}
+
+.menu-purple {
+  background-color: #9b59b6;
+  border: 1px solid #8e44ad;
+  color: #ffffff;
+}
+
+.menu-purple:hover,
+.menu-purple:active,
+.menu-purple:focus {
+  background-color: #a760c4;
+  border: 1px solid #a760c4;
+}
+
+.menu-black {
+  background-color: #393939;
+  border: 1px solid #171717;
+  color: #ffffff;
+}
+
+.menu-black:hover,
+.menu-black:active,
+.menu-black:focus {
+  background-color: #343030;
+  border: 1px solid #343030;
+}
+
+.menu-title {
+  margin: 5px 0px 5px 0px;
+}
+
+.menu-title > a {
+  text-decoration: none;
+  font-size: 14pt;
+  color: #f6f6f6;
+}
+
+.menu-title > a:hover {
+  border-bottom: 2px solid #f6f6f6;
+}
+
+.menu-description {
+  text-align: left;
+}
+
+.menu-description > a {
+  color: #f6f6f6;
+}
+
+/* End of Main Menu */
+
+/* Shopping cart */
+
+#shopping-cart {
+  position: fixed;
+  bottom: -2px;
+  right: -2px;
+  background-color: #f39c12;
+  border: 2px solid #000000;
+  color: #f6f6f6;
+  width: 400px;
+  height: 50px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 10px 0px 0px 0px;
+}
+
+/* End of Shopping cart */
+
+/* Custom slick button */
+
+.slick-next:before,
+.slick-prev:before {
+  color: #34495e;
+}
+
+/* End of customizer slick button */
 
 /*
   https://stackoverflow.com/questions/19695784/how-can-i-make-bootstrap-columns-all-the-same-height

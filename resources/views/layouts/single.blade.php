@@ -13,6 +13,7 @@
 
 <body>
   <div class="container-fluid">
+
     <div class="row padd-b-30">
       <div id="content" class="col-md-12">
         @yield('content')
@@ -27,6 +28,7 @@
         </footer>
       </div>
     </div>
+
   </div>
 
   <script type="text/javascript" src="/assets/jquery/jquery.js"></script>

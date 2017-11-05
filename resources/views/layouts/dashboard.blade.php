@@ -13,18 +13,11 @@
 
 <body>
   <div class="container-fluid">
-
-    <div class="row mrg-t-20">
-      <div class="col-md-push-4 col-md-4">
-        <a href="/">
-          <img class="img-center" src="/files/images/logo.png" alt="LENGKO" width="180px" height="80px" />
-        </a>
-        <hr class="dashed" />
+    <div class="row padd-b-30">
+      <div id="navbar" class="col-md-2 mrg-b-20 padd-tb-20">
+        @include('layouts.navbar')
       </div>
-    </div>
-
-    <div class="row mrg-b-20">
-      <div class="col-md-12">
+      <div id="content" class="col-md-10">
         @yield('content')
       </div>
     </div>
@@ -33,11 +26,10 @@
       <div class="col-md-12 padd-lr-0">
         @include('addition')
         <footer class="footer">
-          @yield('footer-section')
+          @yield('footer-quote')
         </footer>
       </div>
     </div>
-
   </div>
 
   <script type="text/javascript" src="/assets/jquery/jquery.js"></script>

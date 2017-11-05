@@ -9,9 +9,9 @@ use App\Http\Requests;
 class DashboardController extends Controller {
 
   public function index() {
-    if (view()->exists('dashboard.main')) {
+    if (view()->exists('dashboard.home')) {
       //$menus = DB::table('hidangan')->skip(0)->take(9)->get();
-      return view('dashboard.main');
+      return view('dashboard.home');
     }
     return abort(404);
   }

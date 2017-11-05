@@ -11,7 +11,12 @@
 |
 */
 
-Route::auth();
+Route::group(['middleware' => 'auth'], function() {
+
+});
+
+Route::get('/dashboard/', 'DashboardController@index');
+Route::get('/dashboard/{param}/', 'DashboardController@view');
 
 Route::get('/', 'HomeController@index');
 Route::get('/menu/', 'MenuController@view');

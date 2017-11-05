@@ -22,7 +22,7 @@
         @foreach ($menus as $key => $value)
         <div class="slider-item">
           <a href="/menu/">
-            <img src="files/images/menus/{{ $value->gambar_hidangan }}" alt="" width="250px" height="250px">
+            <img src="/files/images/menus/{{ $value->gambar_hidangan }}" alt="" width="250px" height="250px">
           </a>
         </div>
         @endforeach

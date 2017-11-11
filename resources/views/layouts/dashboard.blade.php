@@ -36,6 +36,8 @@
   <script type="text/javascript" src="/assets/custom/js/general.js"></script>
   <script type="text/javascript" src="/assets/slick/slick.js"></script>
   <script type="text/javascript" src="/assets/bootstrap/js/bootstrap.js"></script>
+  <script type="text/javascript" src="/assets/chartjs/chart-2.7.1.js"></script>
+  <script type="text/javascript" src="/assets/chartjs/chart-data.js"></script>
 </body>
 
 </html>

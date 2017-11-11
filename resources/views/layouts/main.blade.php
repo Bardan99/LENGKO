@@ -42,7 +42,10 @@
 
   <script type="text/javascript" src="/assets/jquery/jquery.js"></script>
   <script type="text/javascript" src="/assets/custom/js/general.js"></script>
+  <script type="text/javascript" src="/assets/custom/js/alert.js"></script>
+  <script type="text/javascript" src="/assets/sweetalert/sweetalert.js"></script>
   <script type="text/javascript" src="/assets/slick/slick.js"></script>
+  <script type="text/javascript" src="/assets/typeit/typeit.js"></script>
   <script type="text/javascript" src="/assets/bootstrap/js/bootstrap.js"></script>
 </body>
 

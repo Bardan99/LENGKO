@@ -6,8 +6,14 @@
   <div class="container">
 
     <div class="row mrg-b-20">
-      <div class="col-md-push-4 col-md-4">
-        <h4 class="brand-description">Selamat datang [^_^]</h4>
+      <div class="col-md-push-2 col-md-8">
+        <h4 id="brand-description" class="brand-description">
+          Selamat datang di LENGKO Resto's
+          <br />
+          Selamat berbelanja..
+          <br />
+          Eh kok mirip toko sebelah ya (>_<)
+        </h4>
       </div>
     </div>
 
@@ -37,14 +43,14 @@
         </div>
       </div>
       <div class="col-md-4 col-sm-6 col-xs-12">
-        <div class="main-menu menu-purple" onclick="">
+        <div class="main-menu menu-purple" onclick="call_waiter('DEVCODE');">
           <div class="menu-title">
-            <a href="#!">Panggil Pelayan</a>
+            <a href="#!">Bantuan</a>
             &nbsp; <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
           </div>
           <div class="menu-description">
-            Butuh bantuan? Pelayan kami siap membantu anda untuk menyelesaikan
-            pekerjaan rumah anda; enak aja!
+            Butuh bantuan? Kami siap membantu anda untuk menyelesaikan
+            pekerjaan rumah anda; eh salah!
           </div>
         </div>
       </div>
@@ -63,7 +69,7 @@
       </div>
 
       <div class="col-md-4 col-sm-6 col-xs-12">
-        <div class="main-menu menu-green" onclick="go_to('transaction');">
+        <div class="main-menu menu-green" onclick="go_to('reviews');">
           <div class="menu-title">
             <a href="/reviews/">Apa Kata Mereka?</a>
             &nbsp; <span class="glyphicon glyphicon-search" aria-hidden="true"></span>

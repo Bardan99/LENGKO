@@ -9,7 +9,7 @@
         <form method="POST" action="{{ url('/login') }}">
           <div class="form-section">
             <a href="/">
-              <img class="img-center" src="files/images/logo.png" alt="" width="150px" height="70px" />
+              <img class="img-center" src="/files/images/logo.png" alt="" width="150px" height="70px" />
             </a>
             {{ csrf_field() }}
           </div>

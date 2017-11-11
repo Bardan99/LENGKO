@@ -30,7 +30,11 @@
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
-            <li><a href="#">1</a></li>
+            <li>
+              <a href="#">
+                <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+              </a>
+            </li>
             <li>
               <a href="#" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>

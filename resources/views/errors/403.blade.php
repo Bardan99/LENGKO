@@ -1,6 +1,6 @@
 @extends('layouts.single')
 
-@section('title', 'LENGKO - Halaman tidak ditemukan')
+@section('title', 'LENGKO - Halaman tidak tersedia')
 
 @section('content')
   <div class="row padd-tb-200">
@@ -9,9 +9,9 @@
         <img class="img-center" src="/files/images/github-fluidicon.png" alt="" width="120px" height="100px" />
       </a>
       <h1 class="text-center">
-        Halaman tidak ditemukan
+        Halaman terlarang
         <br />
-        <small>Oops halaman tidak tersedia.</small>
+        <small>Oops halaman yang anda minta tidak dapat diakses, <br />Pastikan anda mempunyai otoritas untuk mengakses halaman.</small>
       </h1>
     </div>
   </div>

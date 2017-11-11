@@ -1,47 +1,25 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Be right back.</title>
+@extends('layouts.single')
 
-        <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+@section('title', 'LENGKO - Layanan tidak tersedia')
 
-        <style>
-            html, body {
-                height: 100%;
-            }
+@section('content')
+  <div class="row padd-tb-200">
+    <div class="col-xs-12 col-sm-push-2 col-sm-8 col-md-push-4 col-md-4">
+      <a href="/">
+        <img class="img-center" src="/files/images/github-fluidicon.png" alt="" width="120px" height="100px" />
+      </a>
+      <h1 class="text-center">
+        Layanan tidak tersedia
+        <br />
+        <small>
+          Oops layanan yang anda minta tidak tersedia,<br />
+          silahkan coba beberapa saat lagi.
+        </small>
+      </h1>
+    </div>
+  </div>
+@endsection
 
-            body {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                color: #B0BEC5;
-                display: table;
-                font-weight: 100;
-                font-family: 'Lato';
-            }
+@section('footer-copyright')
 
-            .container {
-                text-align: center;
-                display: table-cell;
-                vertical-align: middle;
-            }
-
-            .content {
-                text-align: center;
-                display: inline-block;
-            }
-
-            .title {
-                font-size: 72px;
-                margin-bottom: 40px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="content">
-                <div class="title">Be right back.</div>
-            </div>
-        </div>
-    </body>
-</html>
+@endsection

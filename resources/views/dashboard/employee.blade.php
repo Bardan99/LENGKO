@@ -7,66 +7,72 @@
   <div class="row mrg-b-20">
     <div class="col-md-12">
 
-      <div class="panel panel-default panel-custom">
-        <div class="panel-heading">Manajemen Pegawai</div>
-        <div class="panel-body">
-          @if (count($data['employee']) > 0)
+      <div class="row">
+        <div class="col-md-12">
 
-          <div class="row">
-            <div class="col-md-offset-8 col-md-4">
-              <div class="input-group">
-                <input type="text" name="" class="form-control" placeholder="Cari Pegawai" />
-                <span class="input-group-btn">
-                  <button class="btn btn-default" type="button">
-                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                  </button>
-                </span>
+          <div class="panel panel-default panel-custom">
+            <div class="panel-heading">Manajemen Pegawai</div>
+            <div class="panel-body">
+              @if (count($data['employee']) > 0)
+
+              <div class="row">
+                <div class="col-md-offset-8 col-md-4">
+                  <div class="input-group">
+                    <input type="text" name="" class="form-control" placeholder="Cari Pegawai" />
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="button">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                      </button>
+                    </span>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
 
-          <div class="row mrg-t-20 padd-lr-20">
-            <table class="table table-hover table-striped">
-              <tr>
-                <th>#</th>
-                <th>Nama</th>
-                <th>Jenis Kelamin</th>
-                <th>Otoritas</th>
-              </tr>
-            @foreach ($data['employee'] as $key => $value)
-              <tr>
-                <td>{{ $value->kode_pegawai }}</td>
-                <td>{{ $value->nama_pegawai }}</td>
-                <td>{{ $value->jenis_kelamin_pegawai }}</td>
-                <td>{{ $value->nama_otoritas }}</td>
-              </tr>
-            @endforeach
-            </table>
-          </div>
-          <div class="row mrg-t-20">
-            <div class="col-md-12">
-              <nav aria-label="Page navigation" class="text-center">
-                <ul class="pagination pagination-lg mrg-tb-0">
-                  <li>
-                    <a href="#" aria-label="Previous">
-                      <span aria-hidden="true">&laquo;</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" aria-label="Next">
-                      <span aria-hidden="true">&raquo;</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
+              <div class="row mrg-t-20 padd-lr-20">
+                <table class="table table-hover table-striped">
+                  <tr>
+                    <th>#</th>
+                    <th>Nama</th>
+                    <th>Jenis Kelamin</th>
+                    <th>Otoritas</th>
+                  </tr>
+                @foreach ($data['employee'] as $key => $value)
+                  <tr>
+                    <td>{{ $value->kode_pegawai }}</td>
+                    <td>{{ $value->nama_pegawai }}</td>
+                    <td>{{ $value->jenis_kelamin_pegawai }}</td>
+                    <td>{{ $value->nama_otoritas }}</td>
+                  </tr>
+                @endforeach
+                </table>
+              </div>
+              <div class="row mrg-t-20">
+                <div class="col-md-12">
+                  <nav aria-label="Page navigation" class="text-center">
+                    <ul class="pagination pagination-lg mrg-tb-0">
+                      <li>
+                        <a href="#" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#" aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+              @endif
+
             </div>
           </div>
-          @endif
 
         </div>
       </div>
@@ -81,7 +87,7 @@
               <form class="form-horizontal">
                 <div class="row">
                   <div class="col-md-3">
-                    <label style="margin: 15px 5px;">Kode</label>
+                    <label style="margin: 10px 5px 10px 0px;">Kode</label>
                   </div>
                   <div class="col-md-9">
                     <input type="text" name="" class="input-lengko-default block" placeholder="Kode Pegawai (Username)" />
@@ -89,7 +95,7 @@
                 </div>
                 <div class="row">
                   <div class="col-md-3">
-                    <label style="margin: 15px 5px;">Kata Sandi</label>
+                    <label style="margin: 10px 5px 10px 0px;">Kata Sandi</label>
                   </div>
                   <div class="col-md-9">
                     <input type="password" name="" class="input-lengko-default block" placeholder="Kata Sandi Pegawai (Password)" />
@@ -97,7 +103,7 @@
                 </div>
                 <div class="row">
                   <div class="col-md-3">
-                    <label style="margin: 15px 5px;">Nama</label>
+                    <label style="margin: 10px 5px 10px 0px;">Nama</label>
                   </div>
                   <div class="col-md-9">
                     <input type="text" name="" class="input-lengko-default block" placeholder="Nama Pegawai" />
@@ -105,7 +111,7 @@
                 </div>
                 <div class="row">
                   <div class="col-md-3">
-                    <label style="margin: 15px 5px;">Jenis Kelamin</label>
+                    <label style="margin: 10px 5px 10px 0px;">Jenis Kelamin</label>
                   </div>
                   <div class="col-md-9">
                     <div class="radio-lengko-default">

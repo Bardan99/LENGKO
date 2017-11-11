@@ -10,9 +10,9 @@
       @foreach ($menus as $key => $value)
         <div class="col-md-4 col-sm-6">
           <div class="menu">
-            <img src="/files/images/menus/{{ $value->gambar_hidangan }}" alt="{{ $value->nama_hidangan }}" width="100%" height="" />
-            <h2 class="menu-title">{{ $value->nama_hidangan }}</h2>
-            {{ $menu_obj->num_to_rp($value->harga_hidangan) }}
+            <img src="/files/images/menus/{{ $value->gambar_menu }}" alt="{{ $value->nama_menu }}" width="100%" height="" />
+            <h2 class="menu-title">{{ $value->nama_menu }}</h2>
+            {{ $menu_obj->num_to_rp($value->harga_menu) }}
             <a href="/" class="pull-right"><i class="material-icons">add_shopping_cart</i></a>
             <br />
           </div>

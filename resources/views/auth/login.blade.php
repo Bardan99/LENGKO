@@ -30,7 +30,7 @@
             @endif
           </div>
           <div class="form-section">
-            <button type="submit" class="block">Masuk</button>
+            <button type="submit" class="btn-lengko btn-lengko-default block">Masuk</button>
           </div>
         </form>
       </div>

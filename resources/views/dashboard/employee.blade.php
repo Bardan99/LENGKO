@@ -29,22 +29,24 @@
               </div>
 
               <div class="row mrg-t-20 padd-lr-20">
-                <table class="table table-hover table-striped">
-                  <tr>
-                    <th>#</th>
-                    <th>Nama</th>
-                    <th>Jenis Kelamin</th>
-                    <th>Otoritas</th>
-                  </tr>
-                @foreach ($data['employee'] as $key => $value)
-                  <tr>
-                    <td>{{ $value->kode_pegawai }}</td>
-                    <td>{{ $value->nama_pegawai }}</td>
-                    <td>{{ $value->jenis_kelamin_pegawai }}</td>
-                    <td>{{ $value->nama_otoritas }}</td>
-                  </tr>
-                @endforeach
-                </table>
+                <div class="table-responsive">
+                  <table class="table table-hover table-striped">
+                    <tr>
+                      <th>#</th>
+                      <th>Nama</th>
+                      <th>Jenis Kelamin</th>
+                      <th>Otoritas</th>
+                    </tr>
+                  @foreach ($data['employee'] as $key => $value)
+                    <tr>
+                      <td>{{ $value->kode_pegawai }}</td>
+                      <td>{{ $value->nama_pegawai }}</td>
+                      <td>{{ $value->jenis_kelamin_pegawai }}</td>
+                      <td>{{ $value->nama_otoritas }}</td>
+                    </tr>
+                  @endforeach
+                  </table>
+                </div>                
               </div>
               <div class="row mrg-t-20">
                 <div class="col-md-12">
@@ -122,7 +124,7 @@
                 </div>
                 <div class="row">
                   <div class="col-md-3">
-                    <label style="margin: 15px 5px;">Otoritas</label>
+                    <label style="margin: 10px 5px 10px 0px;">Otoritas</label>
                   </div>
                   <div class="col-md-9">
                     <select name="" class="select-lengko-default block">

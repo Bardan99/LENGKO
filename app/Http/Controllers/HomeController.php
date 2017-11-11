@@ -24,7 +24,7 @@ class HomeController extends Controller {
 
      public function index() {
        if (view()->exists('home')) {
-         $menus = DB::table('hidangan')->skip(0)->take(9)->get();
+         $menus = DB::table('menu')->skip(0)->take(9)->get();
          return view('home', ['menus' => $menus]);
        }
        return abort(404);
@@ -47,5 +47,24 @@ class HomeController extends Controller {
         return view($param, ['data' => $data]);
       }
       return abort(404);
+    }
+
+    public function ajax_handler(Request $request) {
+        if ($request->isMethod('post')) {
+            return response()->json(['data' => 'x']);
+        }
+        elseif ($request->isMethod('get')) {
+            $data['field-bahan-baku'] = '<div class="row padd-lr-15"><div class="col-md-offset-2 col-md-6">';
+            $data['field-bahan-baku'] .= '<input type="text" id="material-name-" name="" class="input-lengko-default block" placeholder="Nama Bahan Baku" /></div>';
+            $data['field-bahan-baku'] .= '<div class="col-md-4"><div class="row"><div class="col-md-2 col-xs-12 col-sm-12 padd-lr-15">';
+            $data['field-bahan-baku'] .= '<button type="button" class="btn-lengko btn-lengko-default block" onclick="add_val(\'material-list-\', \'material-name-\');" style="height:42px; padding: 10px 5px 10px 5px; font-size: 13pt;">';
+            $data['field-bahan-baku'] .= '<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>&nbsp;</button>';
+            $data['field-bahan-baku'] .= '</div><div class="col-md-10 col-xs-12 col-sm-12 padd-lr-15">';
+            $data['field-bahan-baku'] .= '<select id="material-list-" name="" class="select-lengko-default block" onchange="add_val(\'material-list-\', \'material-name-\');">';
+            $data['field-bahan-baku'] .=  '</select>';
+            $data['field-bahan-baku'] .=  '</div></div></div></div>';
+            return response()->json(['data' => $data]);
+        }
+
     }
 }

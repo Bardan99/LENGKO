@@ -265,6 +265,11 @@ hr.content {
   margin-bottom: 30px;
 }
 
+.mrg-lr-5 {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
 .padd-lr-0 {
   padding-left: 0px;
   padding-right: 0px;
@@ -273,6 +278,11 @@ hr.content {
 .padd-lr-10 {
   padding-left: 10px;
   padding-right: 10px;
+}
+
+.padd-lr-15 {
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .padd-lr-20 {
@@ -306,6 +316,10 @@ hr.content {
 .padd-tb-200 {
   padding-top: 200px;
   padding-bottom: 200px;
+}
+
+.font-size-18 {
+  font-size: 18px;
 }
 
 #navbar {
@@ -362,7 +376,7 @@ hr.content {
   color:  #34495e;
   background-color: #f6f6f6;
   padding: 10px;
-
+  width: 80px;
   margin-bottom: 5px;
   border: 0px;
   border-radius: 0px 10px 0px 0px;
@@ -373,6 +387,27 @@ hr.content {
   padding:8px;
   outline: none;
 }
+
+.input-lengko-default:disabled{
+  color: #f6f6f6;
+  background-color: #1b232a;
+}
+
+.textarea-lengko-default {
+  color:  #34495e;
+  background-color: #f6f6f6;
+  padding: 10px;
+  margin-bottom: 5px;
+  border: 0px;
+  border-radius: 0px 10px 0px 0px;
+}
+
+.textarea-lengko-default:focus{
+  border: 2px solid #34495e;
+  padding: 8px;
+  outline: none;
+}
+
 
 .select-lengko-default {
   padding: 10px;
@@ -521,6 +556,15 @@ hr.content {
   height: 130px;
 }
 
+.scrollable {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.scrollable-md {
+  height: 200px;
+}
+
 ::-moz-selection {
   color: #f6f6f6;
   background-color: #34495e;
@@ -530,7 +574,6 @@ hr.content {
   color: #f6f6f6;
   background-color: #34495e;
 }
-
 
 /* Main Menu */
 

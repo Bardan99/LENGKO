@@ -11,6 +11,9 @@
 |
 */
 
+Route::get('/ajax/object/field/menu/bahan-baku', 'HomeController@ajax_handler');
+//Route::post('/ajax/object/field/menu/bahan-baku', 'HomeController@ajax_handler');
+
 Route::group(['middleware' => 'auth'], function() {
 
 });

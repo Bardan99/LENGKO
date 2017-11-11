@@ -48,12 +48,14 @@
     <div class="row padd-tb-40 padd-lr-10">
       <div class="col-md-4 mrg-tb-20">
         <div class="footer-brand">
-          <h3>LENGKO</h3>
+          <h2>LENGKO</h2>
         </div>
-        <br /> Jl. Sendirian Aja No. 99, Kav. Kapan Kawin, Bandung, Jawa Barat
-        <br />
-        <br /> Telepon: +(62)222 0000 2017
-        <br /> Fax: +(62)222 1111 2017
+        <div class="font-size-18">
+          <br /> Jl. Sendirian Aja No. 99, Kav. Kawin, Bandung, Jawa Barat
+          <br />
+          <br /> Telepon: +(62)222 0000 2017
+          <br /> Fax: +(62)222 1111 2017
+        </div>
       </div>
       <div class="col-md-8 mrg-tb-20">
         <iframe width="100%" height="450px" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAhKEZJfkMoTMHj-X3y0pH5dvhihShocPs&q=Bandung" allowfullscreen>

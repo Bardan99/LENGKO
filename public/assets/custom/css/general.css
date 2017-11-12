@@ -303,6 +303,11 @@ hr.content {
   padding-bottom: 0px;
 }
 
+.padd-tb-10 {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
 .padd-tb-20 {
   padding-top: 20px;
   padding-bottom: 20px;
@@ -725,14 +730,17 @@ hr.content {
 
 .device-available {
   background-color: #27ae60;
+  color: #ffffff;
 }
 
 .device-unavailable {
   background-color: #e74c3c;
+  color: #ffffff;
 }
 
 .device-disabled {
   background-color: #7f8c8d;
+  color: #ffffff;
 }
 /* End of Custom device */
 

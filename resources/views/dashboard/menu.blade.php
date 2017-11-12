@@ -55,7 +55,7 @@
                     <div class="col-md-6 text-center"><b>Deskripsi</b></div>
                   </div>
                 @foreach ($data['menu'] as $key => $value)
-                  <div class="row mrg-b-20">
+                  <div class="row mrg-b-10 padd-tb-10">
                     <div class="col-md-6">
 
                       <div class="row">
@@ -71,7 +71,30 @@
                             <div class="col-md-12">{{ $data['menu_obj']->num_to_rp($value->harga_menu) }}</div>
                           </div>
                           <div class="row">
-                            <div class="col-md-12">Tersedia/Tidak Tersedia</div>
+                            <div class="col-md-12">
+                              <div class="well well-sm">
+                              @php ($res = false)
+                              @php ($i = 0)
+                              @foreach ($data[$key]['menu-status'] as $key2 => $value2)
+                                @php ($i++)
+                                @if ($value2->jumlah_bahan_baku > 0)
+                                  @php ($res = true)
+                                @else
+                                  @php ($res = false)
+                                  @break
+                                @endif
+                              @endforeach
+                              @if ($i == count($data[$key]['menu-status']))
+                                @if ($res)
+                                  {!! '<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Tersedia ' !!}
+                                @else
+                                  {!! '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Tidak Tersedia ' !!}
+                                @endif
+                              @else
+                                {!! '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Tidak Tersedia ' !!}
+                              @endif
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>

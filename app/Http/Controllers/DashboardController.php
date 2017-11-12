@@ -43,6 +43,14 @@ class DashboardController extends Controller {
           $data['menu'] = DB::table('menu')
             ->orderBy('nama_menu', 'ASC')
             ->skip(0)->take(3)->get();
+          foreach ($data['menu'] as $key => $value) {
+            $data[$key]['menu-status'] = DB::table('menu')
+            ->select('bahan_baku.nama_bahan_baku', 'bahan_baku.jumlah_bahan_baku')
+            ->join('bahan_baku_detil', 'bahan_baku_detil.kode_menu', '=', 'menu.kode_menu')
+            ->join('bahan_baku', 'bahan_baku.kode_bahan_baku', '=', 'bahan_baku_detil.kode_bahan_baku')
+            ->where('menu.kode_menu', '=', $value->kode_menu)
+            ->get();
+          }
           $data['material'] = DB::table('bahan_baku')
             ->orderBy('nama_bahan_baku', 'ASC')
             ->get();
@@ -56,7 +64,7 @@ class DashboardController extends Controller {
                 ->orderBy('nama_bahan_baku', 'ASC')
                 ->get();
             }
-          }                
+          }
           $data['priority'] = DB::table('prioritas')
             ->orderBy('nama_prioritas', 'ASC')
             ->get();

@@ -152,14 +152,14 @@ $(document).ready(function() {
 
   /* End of Select2 settings */
 
+  var inc = 1;
 
   $('#btn-material-list-request').click(function() {
-    var i = 1;
-    var data = '';
+    inc += 1;
     $.ajax({
       type: "GET",
-      url: "/ajax/object/field/menu/bahan-baku",
-      data: {},
+      url: "/ajax/object/list-bahan-baku/",
+      data: {inc: inc},
       success: function(result) {
         add_element('material-list-request', result.data['field-bahan-baku']);
       }

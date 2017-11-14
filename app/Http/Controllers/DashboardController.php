@@ -45,7 +45,7 @@ class DashboardController extends Controller {
             ->skip(0)->take(3)->get();
           foreach ($data['menu'] as $key => $value) {
             $data[$key]['menu-status'] = DB::table('menu')
-            ->select('bahan_baku.nama_bahan_baku', 'bahan_baku.jumlah_bahan_baku')
+            ->select('bahan_baku.nama_bahan_baku', 'bahan_baku.stok_bahan_baku')
             ->join('bahan_baku_detil', 'bahan_baku_detil.kode_menu', '=', 'menu.kode_menu')
             ->join('bahan_baku', 'bahan_baku.kode_bahan_baku', '=', 'bahan_baku_detil.kode_bahan_baku')
             ->where('menu.kode_menu', '=', $value->kode_menu)
@@ -68,6 +68,84 @@ class DashboardController extends Controller {
           $data['priority'] = DB::table('prioritas')
             ->orderBy('nama_prioritas', 'ASC')
             ->get();
+          $data['menu_obj'] = new MethodController();
+        break;
+        case 'order':
+          $data['order'] = DB::table('pesanan')
+            ->select('pesanan.*', 'perangkat.nama_perangkat')
+            ->join('perangkat', 'pesanan.kode_perangkat', '=', 'perangkat.kode_perangkat')
+            ->orderBy('tanggal_pesanan', 'ASC')
+            ->orderBy('waktu_pesanan', 'ASC')
+            ->where('pesanan.status_pesanan', '=', 'P')
+            ->skip(0)->take(7)->get();
+          $data['order-detail'] = DB::table('pesanan')
+            ->select('pesanan_detil.*', 'menu.*')
+            ->join('pesanan_detil', 'pesanan.kode_pesanan', '=', 'pesanan_detil.kode_pesanan')
+            ->join('menu', 'pesanan_detil.kode_menu', '=', 'menu.kode_menu')
+            ->orderBy('tanggal_pesanan', 'ASC')
+            ->orderBy('waktu_pesanan', 'ASC')
+            ->where('pesanan.status_pesanan', '=', 'P')
+            ->skip(0)->take(20)->get();
+          $data['order-detail-food'] = DB::table('pesanan')
+            ->select('pesanan_detil.*', 'menu.*')
+            ->join('pesanan_detil', 'pesanan.kode_pesanan', '=', 'pesanan_detil.kode_pesanan')
+            ->join('menu', 'pesanan_detil.kode_menu', '=', 'menu.kode_menu')
+            ->where('menu.jenis_menu', '=', 'F')
+            ->get();
+          $data['order-detail-drink'] = DB::table('pesanan')
+            ->select('pesanan_detil.*', 'menu.*')
+            ->join('pesanan_detil', 'pesanan.kode_pesanan', '=', 'pesanan_detil.kode_pesanan')
+            ->join('menu', 'pesanan_detil.kode_menu', '=', 'menu.kode_menu')
+            ->where('menu.jenis_menu', '=', 'D')
+            ->get();
+          $data['order-confirmation'] = DB::table('pesanan')
+            ->select('pesanan.*', 'perangkat.nama_perangkat')
+            ->join('perangkat', 'pesanan.kode_perangkat', '=', 'perangkat.kode_perangkat')
+            ->orderBy('tanggal_pesanan', 'ASC')
+            ->orderBy('waktu_pesanan', 'ASC')
+            ->where('pesanan.status_pesanan', '=', 'C')
+            ->skip(0)->take(2)->get();
+          foreach ($data['order-confirmation'] as $key => $value) {
+            $data[$key]['order-confirmation-detail'] = DB::table('pesanan')
+              ->select('pesanan_detil.*', 'menu.*')
+              ->join('pesanan_detil', 'pesanan.kode_pesanan', '=', 'pesanan_detil.kode_pesanan')
+              ->join('menu', 'pesanan_detil.kode_menu', '=', 'menu.kode_menu')
+              ->where('pesanan.kode_pesanan', '=', $data['order-confirmation'][$key]->kode_pesanan)
+              ->get();
+          }
+          $data['menu_obj'] = new MethodController();
+        break;
+        case 'transaction':
+          $data['transaction'] = DB::table('pesanan')
+            ->select('pesanan.*', 'perangkat.nama_perangkat')
+            ->join('perangkat', 'pesanan.kode_perangkat', '=', 'perangkat.kode_perangkat')
+            ->orderBy('tanggal_pesanan', 'ASC')
+            ->orderBy('waktu_pesanan', 'ASC')
+            ->where('pesanan.status_pesanan', '=', 'T')
+            ->skip(0)->take(1)->get();
+          foreach ($data['transaction'] as $key => $value) {
+            $data[$key]['transaction-detail'] = DB::table('pesanan')
+              ->select('pesanan_detil.*', 'menu.*')
+              ->join('pesanan_detil', 'pesanan.kode_pesanan', '=', 'pesanan_detil.kode_pesanan')
+              ->join('menu', 'pesanan_detil.kode_menu', '=', 'menu.kode_menu')
+              ->where('pesanan.kode_pesanan', '=', $data['transaction'][$key]->kode_pesanan)
+              ->get();
+          }
+          $data['transaction-history'] = DB::table('pesanan')
+            ->select('pesanan.*', 'perangkat.nama_perangkat')
+            ->join('perangkat', 'pesanan.kode_perangkat', '=', 'perangkat.kode_perangkat')
+            ->orderBy('tanggal_pesanan', 'ASC')
+            ->orderBy('waktu_pesanan', 'ASC')
+            ->where('pesanan.status_pesanan', '=', 'D')
+            ->skip(0)->take(2)->get();
+          foreach ($data['transaction-history'] as $key => $value) {
+            $data[$key]['transaction-history-detail'] = DB::table('pesanan')
+              ->select('pesanan_detil.*', 'menu.*')
+              ->join('pesanan_detil', 'pesanan.kode_pesanan', '=', 'pesanan_detil.kode_pesanan')
+              ->join('menu', 'pesanan_detil.kode_menu', '=', 'menu.kode_menu')
+              ->where('pesanan.kode_pesanan', '=', $data['transaction-history'][$key]->kode_pesanan)
+              ->get();
+          }
           $data['menu_obj'] = new MethodController();
         break;
         default:

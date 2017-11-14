@@ -16,7 +16,7 @@
     @foreach ($pages as $key => $value)
     <li class="text-left @if('/' . $page == $value->kode_halaman) {{ 'active' }} @endif">
       <span class="glyphicon {{ $value->ikon_halaman }}" aria-hidden="true"></span>&nbsp;
-      <a class="navbar-link" href="/dashboard{{ $value->kode_halaman }}">
+      <a class="" href="/dashboard{{ $value->kode_halaman }}">
         {{ $value->nama_halaman }}
       </a>
     </li>

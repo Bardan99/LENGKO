@@ -56,28 +56,11 @@
     elseif ($request->isMethod('get')) {
       if ($param) {
         switch ($param) {
-          case 'list-bahan-baku':
-            $obj_material = new MaterialController();
-            $data = $obj_material->get('material');
-            $inc = 0;
-            if ($request->has('inc')) {
-              $inc = $request->input('inc');
-            }
-            $data['field-bahan-baku'] = '<div class="row padd-lr-15"><div class="col-md-offset-2 col-md-6">';
-            $data['field-bahan-baku'] .= '<input type="text" id="material-name-' . $inc . '" name="" class="input-lengko-default block" placeholder="Nama Bahan Baku" /></div>';
-            $data['field-bahan-baku'] .= '<div class="col-md-4"><div class="row"><div class="col-md-2 col-xs-12 col-sm-12 padd-lr-15">';
-            $data['field-bahan-baku'] .= '<button type="button" class="btn-lengko btn-lengko-default block" onclick="add_val(\'material-list-' . $inc . '\', \'material-name-' . $inc . '\');" style="height:42px; padding: 10px 5px 10px 5px; font-size: 13pt;">';
-            $data['field-bahan-baku'] .= '<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>&nbsp;</button>';
-            $data['field-bahan-baku'] .= '</div><div class="col-md-10 col-xs-12 col-sm-12 padd-lr-15">';
-            $data['field-bahan-baku'] .= '<select id="material-list-' . $inc . '" name="" class="select-lengko-default block" onchange="add_val(\'material-list-' . $inc . '\', \'material-name-' . $inc . '\');">';
-            foreach ($data['material'] as $key => $value) {
-              $data['field-bahan-baku'] .= '<option value="' . $value->kode_bahan_baku . '">' . $value->nama_bahan_baku  . '</option>';
-            }
-            $data['field-bahan-baku'] .=  '</select>';
-            $data['field-bahan-baku'] .=  '</div></div></div></div>';
-
+          case 'bahan-baku':
+            $data['material'] = DB::table('bahan_baku')
+              ->orderBy('nama_bahan_baku', 'ASC')
+              ->get();
           break;
-
           default:
           break;
         }

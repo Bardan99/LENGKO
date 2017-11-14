@@ -16,7 +16,7 @@
               @if (count($data['menu']) > 0)
 
               <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-4">
                   <nav aria-label="Page navigation" class="mrg-lr-5">
                     <ul class="pagination pagination-md mrg-tb-0">
                       <li>
@@ -36,7 +36,7 @@
                   </nav>
 
                 </div>
-                <div class="col-md-offset-6 col-md-4">
+                <div class="col-md-offset-4 col-md-4">
                   <div class="input-group">
                     <input type="text" name="" class="form-control" placeholder="Cari Menu" />
                     <span class="input-group-btn">
@@ -77,7 +77,7 @@
                               @php ($i = 0)
                               @foreach ($data[$key]['menu-status'] as $key2 => $value2)
                                 @php ($i++)
-                                @if ($value2->jumlah_bahan_baku > 0)
+                                @if ($value2->stok_bahan_baku > 0)
                                   @php ($res = true)
                                 @else
                                   @php ($res = false)
@@ -100,7 +100,7 @@
                       </div>
 
                     </div>
-                    <div class="col-md-6">{{ substr($value->deskripsi_menu, 0, 300) . '..' }}</div>
+                    <div class="col-md-6">{{ substr($value->deskripsi_menu, 0, 300) . '' }}</div>
                   </div>
                 @endforeach
                 </div>
@@ -196,9 +196,9 @@
                           <div class="row">
                             @foreach ($data['material'] as $key => $value)
                               <div class="col-md-6">
-                                <input type="number" name="" id="needed-material-{{ $key }}" min="1" max="{{ $value->jumlah_bahan_baku }}" step="1" class="input-lengko-default" placeholder="0.0" onchange="chg_val('needed-material-{{ $key }}', 'available-material-{{ $key }}', {{ $value->jumlah_bahan_baku }});" @if ($value->jumlah_bahan_baku == 0) {{ 'disabled="disabled" disabled' }} @endif />
+                                <input type="number" name="" id="needed-material-{{ $key }}" min="0" max="{{ $value->stok_bahan_baku }}" step="1" class="input-lengko-default" placeholder="0.0" onchange="chg_val('needed-material-{{ $key }}', 'available-material-{{ $key }}', {{ $value->stok_bahan_baku }});" @if ($value->stok_bahan_baku == 0) {{ 'disabled="disabled" disabled' }} @endif />
                                 /
-                                <input type="number" name="" id="available-material-{{ $key }}" min="1" max="{{ $value->jumlah_bahan_baku }}" step="1" class="input-lengko-default" placeholder="{{ $value->jumlah_bahan_baku }}" value="{{ $value->jumlah_bahan_baku }}" disabled="disabled" disabled />
+                                <input type="number" name="" id="available-material-{{ $key }}" min="0" max="{{ $value->stok_bahan_baku }}" step="1" class="input-lengko-default" placeholder="{{ $value->stok_bahan_baku }}" value="{{ $value->stok_bahan_baku }}" disabled="disabled" disabled />
                                 (<small>{{ $value->satuan_bahan_baku }}</small>)
                                 {{ $value->nama_bahan_baku }}
                               </div>

@@ -1,13 +1,3 @@
-/* local db */
-
-var menu_detail = document.getElementById('menu-detail');
-var menu_title = document.getElementById('menu-title');
-var menu_description = document.getElementById('menu-description');
-var menu_make = document.getElementById('menu-make');
-var menu_history = document.getElementById('menu-history');
-var menu_price = document.getElementById('menu-price');
-var menu_detail = document.getElementById('menu-detail');
-var btn_close = document.getElementsByClassName("close")[0];
 
 function go_to(url) {
   if (url) {
@@ -43,42 +33,6 @@ function seq_search(data, id) {
   return res;
 }
 
-function num_to_rp(num) {
-  if (num) {
-    return 'Rp' + num;
-  }
-}
-
-function get_menu(tmp) {
-  var result = false;
-  if (!tmp) {
-    var url = get_url();
-    if (get_acnhor(url)) {
-      tmp = alert(get_acnhor(url));
-    }
-  }
-  var menu = seq_search(menus, tmp);
-  if (menu) {
-    if (menu_detail) {
-      menu_title.innerHTML = menu.nama;
-      menu_description.innerHTML = menu.deskripsi;
-      menu_make.innerHTML = menu.cara;
-      menu_history.innerHTML = menu.sejarah;
-      menu_description.innerHTML = menu.deskripsi;
-      menu_price.innerHTML = num_to_rp(menu.harga);
-      menu_detail.style.display = "block";
-    }
-  }
-  return result;
-}
-
-// When the user clicks on <span> (x), close the modal
-if (btn_close) {
-  btn_close.onclick = function() {
-    menu_detail.style.display = "none";
-  };
-}
-
 function chg_val(src, dst, max) { //src & dst = id
   var obj1 = document.getElementById(src);
   var obj2 = document.getElementById(dst);
@@ -86,7 +40,22 @@ function chg_val(src, dst, max) { //src & dst = id
     if (obj1.value >= max) {
       obj1.value = max;
     }
+    if (obj1.value < 0) {
+      obj1.value = 0;
+    }
     obj2.value = max - obj1.value;
+
+  }
+}
+
+function cash_back(src, dst, max) { //src & dst = id
+  var obj1 = document.getElementById(src);
+  var obj2 = document.getElementById(dst);
+  if (obj1 && obj2) {    
+    if (obj1.value < max) {
+      obj1.value = max;
+    }
+    obj2.value = obj1.value - max;
   }
 }
 
@@ -104,13 +73,6 @@ function add_element(target, data) { //currently unused
     $('#' + target).append(data);
   }
 }
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target == menu_detail) {
-    menu_detail.style.display = "none";
-  }
-};
 
 $(document).ready(function() {
 
@@ -158,10 +120,22 @@ $(document).ready(function() {
     inc += 1;
     $.ajax({
       type: "GET",
-      url: "/ajax/object/list-bahan-baku/",
+      url: "/ajax/object/bahan-baku/",
       data: {inc: inc},
       success: function(result) {
-        add_element('material-list-request', result.data['field-bahan-baku']);
+        var field = '<div class="row padd-lr-15"><div class="col-md-offset-2 col-md-6">';
+        field += '<input type="text" id="material-name-' + inc + '" name="" class="input-lengko-default block" placeholder="Nama Bahan Baku" /></div>';
+        field += '<div class="col-md-4"><div class="row"><div class="col-md-2 col-xs-12 col-sm-12 padd-lr-15">';
+        field += '<button type="button" class="btn-lengko btn-lengko-default block" onclick="add_val(\'material-list-' + inc + '\', \'material-name-' + inc + '\');" style="height:42px; padding: 10px 5px 10px 5px; font-size: 13pt;">';
+        field += '<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>&nbsp;</button>';
+        field += '</div><div class="col-md-10 col-xs-12 col-sm-12 padd-lr-15">';
+        field += '<select id="material-list-' + inc + '" name="" class="select-lengko-default block" onchange="add_val(\'material-list-' + inc + '\', \'material-name-' + inc + '\');">';
+        for (j = 0; j < result.data.material.length; j++) {
+          field += '<option value="' + result.data.material[j].kode_bahan_baku + '">' + result.data.material[j].nama_bahan_baku + '</option>';
+        }
+        field +=  '</select>';
+        field +=  '</div></div></div></div>';
+        add_element('material-list-request', field);
       }
     });
 

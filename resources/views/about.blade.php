@@ -3,13 +3,6 @@
 @section('title', 'LENGKO - Boy Band')
 
 @section('content')
-  <div class="row mrg-b-30">
-    <div class="col-md-12 text-center">
-      <quote class="msmincho">
-        火 の 意志
-      </quote>
-    </div>
-  </div>
 
   <div id="members" class="row mrg-b-30">
     <div class="col-md-12">
@@ -24,10 +17,10 @@
           <div class="row">
             <div class="col-md-offset-2 col-md-8 text-center">
               <quote class="playfair">
-                I'm thankful to all of those who said '<strong>no</strong>' to me.
-                <br /> It's because of them i did it myself.
-                <br />
-                <small>Wayne Walter Dyer (2002)</small>
+                Saya memang miskin dan bodoh;<br />
+                Tetapi saya tidak berencana untuk<br />
+                miskin dan bodoh selamanya.<br />
+                <small>Raka S.W (2017)</small>
               </quote>
             </div>
           </div>
@@ -41,7 +34,7 @@
         <div class="col-md-4 col-sm-4">
           <h2 class="menu-title text-left">
               Raka Muhamad Pratama<br />
-              <small>Back-end Programmer</small>
+              <small>Front-end Designer</small>
             </h2>
           <quote class="playfair">
             Kenyataan ada di depan
@@ -53,7 +46,7 @@
         <div class="col-md-4 col-sm-4 text-right">
           <h2 class="menu-title text-right">
               Binsar Bernandus Silalahi<br />
-              <small>Front-end Programmer</small>
+              <small>Front-end Designer</small>
             </h2>
           <quote class="playfair">
             All is well

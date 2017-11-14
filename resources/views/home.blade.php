@@ -33,7 +33,7 @@
       <div class="col-md-4 col-sm-6 col-xs-12">
         <div class="main-menu menu-orange" onclick="go_to('order');">
           <div class="menu-title">
-            <a href="/order/">Pemesanan</a>
+            <a href="/order/">Pesanan</a>
             &nbsp; <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>
           </div>
           <div class="menu-description">

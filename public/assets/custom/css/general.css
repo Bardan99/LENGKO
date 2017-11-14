@@ -23,17 +23,6 @@ a:hover, a:active, a:focus {
   color: #1c1b1b;
 }
 
-a.navbar-link {
-  color: #3d3d3d;
-}
-
-a.navbar-link:hover,
-a.navbar-link:active,
-a.navbar-link:focus{
-  text-decoration: none;
-  border-bottom: 3px solid #3d3d3d;
-}
-
 h1.brand-text {
   margin: 15px 0px 15px 0px;
   text-align: center;
@@ -51,7 +40,7 @@ h4.brand-description {
 }
 
 hr.dashed {
-  border: 2px dashed #d9d9d9;
+  border: 2px dashed #2c3e50;
 }
 
 #list-navbar {
@@ -63,6 +52,11 @@ hr.dashed {
   margin: 20px 0px 20px 0px;
   font-size: 13pt;
   color: #626565;
+  border-bottom: 3px solid transparent;
+}
+
+#list-navbar > li > a {
+  text-decoration: none;
 }
 
 #list-navbar > li.active > a {
@@ -74,6 +68,13 @@ hr.dashed {
 #list-navbar > li.active {
   color: #000000;
 }
+
+#list-navbar > li > a:hover,
+#list-navbar > li > a:active,
+#list-navbar > li > a:focus{
+  border-bottom: 3px solid #3d3d3d;
+}
+
 
 #select-navbar {
   display: none;
@@ -126,6 +127,15 @@ hr.dashed {
 
 .list-group > a.active > p {
   color: #ffffff;
+}
+
+.list-group > div > a.active,
+.list-group > div > a.active:hover,
+.list-group > div > a.active:focus,
+.list-group > div > a.active:active {
+  background-color: #2c3e50;
+  color: #ffffff;
+  border-color: #2c3e50;
 }
 
 .pagination > li > a {
@@ -323,6 +333,10 @@ hr.content {
   padding-bottom: 200px;
 }
 
+.radius-5 {
+  border-radius: 5px;
+}
+
 .font-size-18 {
   font-size: 18px;
 }
@@ -340,7 +354,7 @@ hr.content {
 #footer-quote {
   background-color: #34495e;
   color: #fbfbfb;
-  padding: 50px 0px 50px 0px;
+  padding: 50px 10px 50px 10px;
 }
 
 #footer-copyright {
@@ -503,8 +517,7 @@ hr.content {
 }
 
 .btn-lengko {
-  margin-top: 2px;
-  margin-bottom: 2px;
+  margin: 4px;
   padding: 10px;
   border: 0px;
   border-radius: 3px;
@@ -536,6 +549,28 @@ hr.content {
   background-color: #e74c3c;
 }
 
+.btn-lengko-warning {
+  color: #f6f6f6;
+  background-color: #f39c12;
+}
+
+.btn-lengko-warning:hover,
+.btn-lengko-warning:active,
+.btn-lengko-warning:focus {
+  background-color: #f1c40f;
+}
+
+.btn-lengko-success {
+  color: #f6f6f6;
+  background-color: #27ae60;
+}
+
+.btn-lengko-success:hover,
+.btn-lengko-success:active,
+.btn-lengko-success:focus {
+  background-color: #2ecc71;
+}
+
 .container-file-lengko {
   position: relative;
   overflow: hidden;
@@ -562,13 +597,35 @@ hr.content {
   height: 130px;
 }
 
+.overlay {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: .5s ease;
+  opacity: 0.3;
+}
+
+.overlay:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  opacity: 1;
+}
+
 .scrollable {
   overflow-y: auto;
-  overflow-x: hidden;
 }
 
 .scrollable-md {
   height: 200px;
+}
+
+.scrollable-lg {
+  height: 400px;
+}
+
+.scrollable-xl {
+  height: 600px;
 }
 
 ::-moz-selection {
@@ -807,12 +864,18 @@ hr.content {
 /* end of custom swal */
 
 /* form row column */
-
 form > .row {
   margin: 5px 0px 5px 0px;
 }
-
 /* end of form row column */
+
+/* */
+.border-btm {
+  border-bottom: 2px solid #242624;
+  padding: 0px 0px 5px 0px;
+}
+
+/* */
 
 /*
   https://stackoverflow.com/questions/19695784/how-can-i-make-bootstrap-columns-all-the-same-height

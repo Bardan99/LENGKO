@@ -22,7 +22,4 @@ Route::get('/dashboard/', 'DashboardController@index');
 Route::get('/dashboard/{param}/', 'DashboardController@view');
 
 Route::get('/', 'HomeController@index');
-Route::get('/menu/', 'MenuController@view');
-Route::get('/about/', 'AboutController@view');
-Route::get('/login/', 'LoginController@view');
 Route::get('/{param}/', 'HomeController@view');

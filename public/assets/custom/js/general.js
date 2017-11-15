@@ -86,7 +86,7 @@ $(document).ready(function() {
   /* Type it settings */
   if ($('#brand-description').length > 0) {
     $('#brand-description').typeIt({
-      startDelay: 300,
+      startDelay: 1000,
       speed: 80,
       deleteSpeed: 50,
       cursor: true,

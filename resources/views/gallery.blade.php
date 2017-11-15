@@ -6,7 +6,7 @@
 
   <div class="row mrg-b-30">
     <div class="col-md-push-1 col-md-10 slider-for">
-      @foreach ($data as $key => $value)
+      @foreach ($data['gallery'] as $key => $value)
         <div class="slider-description">
           <div class="row">
             <div class="col-md-5">
@@ -16,7 +16,7 @@
             </div>
             <div class="col-md-7">
               <h3>{{ $value->title }}</h3>
-              <p>{{ $value->deskripsi }}</p>
+              <p>{{ $value->desc }}</p>
             </div>
           </div>
         </div>
@@ -29,7 +29,7 @@
     <div class="col-md-push-1 col-md-10 col-sm-12 col-xs-12">
       <div class="slider-nav">
 
-        @foreach ($data as $key => $value)
+        @foreach ($data['gallery'] as $key => $value)
         <div class="slider-item">
           <a href="#!">
             <img src="/files/images/gallery/{{ $value->path }}" alt="" width="250px" height="250px">

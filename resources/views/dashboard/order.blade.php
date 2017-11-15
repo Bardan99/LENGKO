@@ -57,19 +57,19 @@
                     <th>Konfirmasi</th>
                   </tr>
                 @foreach ($data['order-confirmation'] as $key1 => $value1)
-                  <tr>
+                  <tr onclick="show_obj('order-confirmation-{{ $key1 }}');" class="cursor-pointer">
                     <td>#{{ $value1->kode_pesanan }}</td>
                     <td>{{ $value1->tanggal_pesanan }} {{ $value1->waktu_pesanan }}</td>
                     <td>{{ $value1->pembeli_pesanan }}</td>
                     <td>{{ $value1->nama_perangkat }}</td>
-                    <td width="80px">
-                      <button type="button" class="btn-lengko btn-lengko-warning block">
+                    <td>
+                      <button type="button" class="btn-lengko btn-lengko-warning" width="80px">
                         <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
                       </button>
                     </td>
                   </tr>
                   @if (count($data[$key1]['order-confirmation-detail']) > 0)
-                  <tr>
+                  <tr id="order-confirmation-{{ $key1 }}" style="display:none; visibility: none;">
                     <td></td>
                     <td colspan="5">
                       <div class="table-responsive">

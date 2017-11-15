@@ -179,14 +179,14 @@
                     <th>Perangkat</th>
                   </tr>
                 @foreach ($data['transaction-history'] as $key1 => $value1)
-                  <tr>
+                  <tr onclick="show_obj('transaction-history-{{ $key1 }}');" class="cursor-pointer">
                     <td>#{{ $value1->kode_pesanan }}</td>
                     <td>{{ $value1->tanggal_pesanan }} {{ $value1->waktu_pesanan }}</td>
                     <td>{{ $value1->pembeli_pesanan }}</td>
                     <td>{{ $value1->nama_perangkat }}</td>
                   </tr>
                   @if (count($data[$key1]['transaction-history-detail']) > 0)
-                  <tr>
+                  <tr id="transaction-history-{{ $key1 }}" style="display:none; visibility: none;">
                     <td></td>
                     <td colspan="5">
                       <div class="table-responsive">

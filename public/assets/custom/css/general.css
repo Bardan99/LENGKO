@@ -589,6 +589,10 @@ hr.content {
   width: 100%;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .sticky {
   position: absolute;
   bottom: 0;
@@ -612,8 +616,26 @@ hr.content {
   opacity: 1;
 }
 
+fieldset.title {
+  border-top: 1px solid #aaa;
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+  display: block;
+  text-align: center;
+  padding: 5px 10vw;
+}
+
+fieldset.title legend {
+  padding: 5px 12px;
+  margin: 0px;
+  font-size: 12pt;
+  border: none;
+}
+
 .scrollable {
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .scrollable-md {
@@ -637,6 +659,8 @@ hr.content {
   color: #f6f6f6;
   background-color: #34495e;
 }
+
+/* end of custom scrollbar */
 
 /* Main Menu */
 

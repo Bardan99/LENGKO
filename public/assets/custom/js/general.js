@@ -51,7 +51,7 @@ function chg_val(src, dst, max) { //src & dst = id
 function cash_back(src, dst, max) { //src & dst = id
   var obj1 = document.getElementById(src);
   var obj2 = document.getElementById(dst);
-  if (obj1 && obj2) {    
+  if (obj1 && obj2) {
     if (obj1.value < max) {
       obj1.value = max;
     }
@@ -71,6 +71,13 @@ function add_element(target, data) { //currently unused
   var obj1 = document.getElementById(target);
   if (obj1 && data) {
     $('#' + target).append(data);
+  }
+}
+
+function show_obj(id) {
+  var obj = document.getElementById(id);
+  if (obj) {
+    $('#' + id).toggle('slow');
   }
 }
 
@@ -140,6 +147,21 @@ $(document).ready(function() {
     });
 
   });
+
+  if ($('.datepicker').length > 0) {
+    $('.datepicker').datepicker({
+      language: 'id-ID',
+      format: 'dd/mm/yyyy',
+      startDate: new Date(2017, 0, 1),
+      endDate: new Date(2020, 0, 1),
+      days: ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'],
+      daysShort: ['Ming','Sen','Sel','Rab','Kam','Jum','Sab'],
+      daysMin: ['Min','Sen','Sel','Rab','Kam','Jum','Sab'],
+      weekStart: 1,
+      months: ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'],
+      monthsShort: ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des']
+    });
+  }
 
   $('.slider-for').slick({
      slidesToScroll: 1,

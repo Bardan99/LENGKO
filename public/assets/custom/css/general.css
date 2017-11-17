@@ -3,12 +3,13 @@
 html {
   position: relative;
   min-height: 100%;
+  min-width: 400px;
 }
 
 body {
   font-family: "Roboto", "Ubuntu", "Arial", "Verdana";
   font-size: 12pt;
-  height:100%;
+  height: 100%;
 }
 
 footer {
@@ -229,8 +230,8 @@ hr.content {
 
 .obj-center { /* recently unused */
   margin: auto;
-  width: 50%;
   padding: 5px;
+  margin: 5px;
   margin-left: auto;
   margin-right: auto;
   display: block;
@@ -300,6 +301,10 @@ hr.content {
   padding-right: 20px;
 }
 
+.padd-t-100 {
+  padding-top: 100px;
+}
+
 .padd-b-20 {
   padding-bottom: 20px;
 }
@@ -331,6 +336,10 @@ hr.content {
 .padd-tb-200 {
   padding-top: 200px;
   padding-bottom: 200px;
+}
+
+.min-height-80 {
+  min-height: 80vh;
 }
 
 .radius-5 {
@@ -571,6 +580,31 @@ hr.content {
   background-color: #2ecc71;
 }
 
+.btn-lengko-circle {
+  border-radius: 100%;
+  border: 1px solid #34495e;
+  background-color: #f6f6f6;
+  color: #34495e;
+  width: 35px;
+  height: 35px;
+  font-size: 10pt;
+  padding: 4px;
+  margin: 5px;
+}
+
+.btn-lengko-circle:hover,
+.btn-lengko-circle:active,
+.btn-lengko-circle:focus {
+  border-radius: 100%;
+  border: 1px solid #f6f6f6;
+  background-color: #34495e;
+  color: #f6f6f6;
+  width: 35px;
+  height: 35px;
+  font-size: 10pt;
+  padding: 4px;
+}
+
 .container-file-lengko {
   position: relative;
   overflow: hidden;
@@ -774,24 +808,6 @@ fieldset.title legend {
 }
 
 /* End of Main Menu */
-
-/* Shopping cart */
-
-#shopping-cart {
-  position: fixed;
-  bottom: -2px;
-  right: -2px;
-  background-color: #f39c12;
-  border: 2px solid #000000;
-  color: #f6f6f6;
-  width: 400px;
-  height: 50px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  border-radius: 10px 0px 0px 0px;
-}
-
-/* End of Shopping cart */
 
 /* Custom device */
 .device {

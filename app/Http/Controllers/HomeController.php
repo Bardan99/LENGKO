@@ -24,13 +24,15 @@
 
    public function index() {
      if (view()->exists('home')) {
-       return view('home');
+       $data['page'] = '';
+       return view('home', ['data' => $data]);
      }
      return abort(404);
    }
 
   public function view($param) {
     if (view()->exists($param)) {
+      $data['page'] = $param;
       switch ($param) {
         case 'gallery':
           $data['gallery'] =
@@ -79,6 +81,44 @@
         break;
         case 'menu':
           $data['menu'] = DB::table('menu')->skip(0)->take(9)->get();
+          $data['menu_obj'] = new MethodController();
+        case 'order':
+          $data['order-detail'] = DB::table('pesanan')
+            ->select('pesanan_detil.*', 'menu.*')
+            ->join('pesanan_detil', 'pesanan.kode_pesanan', '=', 'pesanan_detil.kode_pesanan')
+            ->join('menu', 'pesanan_detil.kode_menu', '=', 'menu.kode_menu')
+            ->orderBy('tanggal_pesanan', 'ASC')
+            ->orderBy('waktu_pesanan', 'ASC')
+            ->where('pesanan.status_pesanan', '=', 'C')
+            //->where('pesanan.kode_perangkat', '=', $kode)
+            ->get();
+          $data['order-processed'] = DB::table('pesanan')
+            ->select('pesanan.*', 'perangkat.nama_perangkat')
+            ->join('perangkat', 'pesanan.kode_perangkat', '=', 'perangkat.kode_perangkat')
+            ->orderBy('tanggal_pesanan', 'ASC')
+            ->orderBy('waktu_pesanan', 'ASC')
+            ->where('pesanan.status_pesanan', '=', 'P')
+            //->where('pesanan.kode_perangkat', '=', $kode)
+            ->get();
+          foreach ($data['order-processed'] as $key => $value) {
+            $data[$key]['order-processed-detail'] = DB::table('pesanan')
+              ->select('pesanan_detil.*', 'menu.*')
+              ->join('pesanan_detil', 'pesanan.kode_pesanan', '=', 'pesanan_detil.kode_pesanan')
+              ->join('menu', 'pesanan_detil.kode_menu', '=', 'menu.kode_menu')
+              ->where('pesanan.kode_pesanan', '=', $data['order-processed'][$key]->kode_pesanan)
+              ->get();
+          }
+          $data['menu_obj'] = new MethodController();
+        break;
+        case 'reviews':
+          $data['review'] = DB::table('kuisioner')
+            ->orderBy('nama_kuisioner', 'ASC')
+            ->get();
+          $data['customer-reviews'] = DB::table('kuisioner_perangkat')
+            ->where('status_kuisioner_perangkat', '=', TRUE)
+            ->orderBy('tanggal_kuisioner_perangkat', 'DSC')
+            ->orderBy('waktu_kuisioner_perangkat', 'DSC')
+            ->skip(0)->take(3)->get();
           $data['menu_obj'] = new MethodController();
         break;
         default:

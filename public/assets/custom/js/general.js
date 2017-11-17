@@ -33,29 +33,44 @@ function seq_search(data, id) {
   return res;
 }
 
-function chg_val(src, dst, max) { //src & dst = id
+function chg_val(src, dst, max, add) { //src & dst = id
   var obj1 = document.getElementById(src);
   var obj2 = document.getElementById(dst);
   if (obj1 && obj2) {
     if (obj1.value >= max) {
-      obj1.value = max;
+      obj1.value = add + '' + max;
     }
     if (obj1.value < 0) {
       obj1.value = 0;
     }
-    obj2.value = max - obj1.value;
+    obj2.value = add + '' +  (max - obj1.value);
 
   }
 }
 
-function cash_back(src, dst, max) { //src & dst = id
+function multiply_val(src, dst, by, add) {
+  var obj1 = document.getElementById(src);
+  var obj2 = document.getElementById(dst);
+  if (obj1 && obj2) {
+    obj2.value = add + '' + (obj1.value * by);
+  }
+}
+
+function set_point(src, val) {
+  var obj1 = document.getElementById(src);
+  if (obj1) {
+   obj1.value = val;
+  }
+}
+
+function cash_back(src, dst, max, add) { //src & dst = id
   var obj1 = document.getElementById(src);
   var obj2 = document.getElementById(dst);
   if (obj1 && obj2) {
     if (obj1.value < max) {
-      obj1.value = max;
+      obj1.value = add + '' + (max);
     }
-    obj2.value = obj1.value - max;
+    obj2.value = add + '' + (obj1.value - max);
   }
 }
 
@@ -184,6 +199,14 @@ $(document).ready(function() {
      focusOnSelect: true
   });
 
+
+  if ($('.barrating').length > 0) {
+    $('.barrating').barrating({
+      theme: 'fontawesome-stars',
+      initialRating: 5,
+      showValues: false,
+    });
+  }
 
   /* check offset width
   var docWidth = document.documentElement.offsetWidth;

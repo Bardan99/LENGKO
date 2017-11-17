@@ -37,7 +37,7 @@ $(document).ready(function() {
           'rgba(0, 0, 0, 0.4)',
           'rgba(210, 84, 0, 0.4)',
           'rgba(39, 173, 96, 0.4)',
-          'rgba(231, 76, 60, 0.39)',
+          'rgba(231, 76, 60, 0.4)',
           'rgba(127, 141, 142, 0.4)',
           'rgba(41, 128, 185, 0.4)'
         ]
@@ -114,6 +114,63 @@ $(document).ready(function() {
       type: 'line',
       data: data_transaction,
       options: options_transaction
+    });
+  }
+
+  if ($('#customer-review').length > 0) {
+    var customer_review = $('#customer-review');
+    var data_customer_review = {
+      labels: ["Restoran", "Pegawai", "Pelayanan", "Fasilitas", "Biaya"],
+      datasets: [
+          {
+            label: "Minimum",
+            backgroundColor: "rgba(255,99,132,0.2)",
+            borderColor: "rgba(255,99,132,1)",
+            pointBackgroundColor: "rgba(255,99,132,1)",
+            pointBorderColor: "#fff",
+            pointHoverBackgroundColor: "#fff",
+            pointHoverBorderColor: "rgba(255,99,132,1)",
+            data: [3.5, 4.2, 3.3, 4.2, 3]
+          },
+          {
+            label: "Maksimum",
+            backgroundColor: "rgba(21, 133, 36, 0.2)",
+            borderColor: "rgba(65, 204, 104, 1)",
+            pointBackgroundColor: "rgba(49, 200, 78, 1)",
+            pointBorderColor: "#fff",
+            pointHoverBackgroundColor: "#fff",
+            pointHoverBorderColor: "rgba(68, 215, 109, 1)",
+            data: [4.5, 4.7, 4.3, 4.6, 5]
+          },
+          {
+            label: "Rata-Rata",
+            backgroundColor: "rgba(221, 159, 21, 0.2)",
+            borderColor: "rgba(214, 154, 39, 1)",
+            pointBackgroundColor: "rgba(205, 139, 62, 1)",
+            pointBorderColor: "#fff",
+            pointHoverBackgroundColor: "#fff",
+            pointHoverBorderColor: "rgba(204, 172, 116, 1)",
+            data: [4.2, 4.3, 4.1, 4, 4.6]
+          }
+      ]
+    };
+    var options_customer_review = {
+      scale: {
+          reverse: false,
+          ticks: {
+              beginAtZero: false,
+              showLabelBackdrop: false,
+              backdropColor: "rgba(255, 255, 255, 0)"
+          }
+      },
+      legend: {
+        position: 'left'
+      }
+    };
+    var chart_customer_review = new Chart(customer_review, {
+      type: 'radar',
+      data: data_customer_review,
+      options: options_customer_review
     });
   }
 

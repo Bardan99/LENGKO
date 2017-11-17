@@ -78,13 +78,3 @@
     </div>
   </div>
 @endsection
-
-@section('shopping-cart')
-  <div id="shopping-cart" class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12">
-      <div class="pull-right" style="margin: 5px;">
-        0 Pesanan <i class="large material-icons" style="vertical-align:middle;" aria-hidden="true">shopping_cart</i>
-      </div>
-    </div>
-  </div>
-@endsection

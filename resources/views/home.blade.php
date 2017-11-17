@@ -5,7 +5,7 @@
 @section('content')
   <div class="container">
 
-    <div class="row mrg-b-20">
+    <div class="row mrg-b-30">
       <div class="col-md-push-2 col-md-8">
         <h4 id="brand-description" class="brand-description">
           Selamat datang di LENGKO Resto's

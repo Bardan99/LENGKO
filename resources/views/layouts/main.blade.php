@@ -7,23 +7,87 @@
   <link rel="stylesheet" href="/assets/slick/slick.css" />
   <link rel="stylesheet" href="/assets/slick/slick-theme.css" />
   <link rel="stylesheet" href="/assets/custom/css/general.css" />
+  <link rel="stylesheet" href="/assets/custom/css/rewrite.css" />
+  <link rel="stylesheet" href="/assets/fontawesome/css/font-awesome.css">
+  <link rel="stylesheet" href="/assets/jqueryrating/themes/fontawesome-stars.css">
   <link rel="icon" type="image/x-icon" href="/files/images/lengko-favicon.png" />
   <title>@yield('title')</title>
 </head>
 
 <body>
-  <div class="container-fluid">
 
-    <div class="row mrg-t-20">
-      <div class="col-md-push-4 col-md-4">
+  <?php
+    $menu = array(
+      (object) array('title' => 'Beranda', 'link' => '/', 'icon' => 'home'),
+      (object) array('title' => 'Menu', 'link' => '/menu', 'icon' => 'menu-hamburger'),
+      (object) array('title' => 'Pesanan', 'link' => '/order', 'icon' => 'tags'),
+      (object) array('title' => 'Bantuan', 'link' => '#!', 'icon' => 'user'),
+      (object) array('title' => 'Galeri', 'link' => '/gallery', 'icon' => 'picture'),
+      (object) array('title' => 'Apa Kata Mereka', 'link' => '/reviews', 'icon' => 'search'),
+      (object) array('title' => 'Tentang Kami', 'link' => '/about', 'icon' => 'sunglasses')
+    );
+  ?>
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
         <a href="/">
-          <img class="img-center" src="/files/images/logo.png" alt="LENGKO" width="180px" height="80px" />
+          <img class="navbar-brand" src="/files/images/lengko-logo-white.png" alt="LENGKO" width="180px" height="80px" />
         </a>
-        <hr class="dashed" />
+      </div>
+
+      <div class="collapse navbar-collapse" id="main-navbar">
+        <ul class="nav navbar-nav navbar-right">
+          @foreach ($menu as $key => $value)
+            @if ($value->link == '/' . $data['page'] && $value->link != '/order')
+            <li @if ($value->link == '#!') {!! 'onclick="call_waiter(\'DEVCODE\');"'!!} @endif class="@if ($value->link == '/'. $data['page']) {{ 'active'}} @endif">
+              <a href="{{$value->link}}">
+                <span class="glyphicon glyphicon-{{$value->icon}}" aria-hidden="true"></span>
+                {{ $value->title }}
+              </a>
+            </li>
+            @endif
+          @endforeach
+          <li>
+            <a href="/order">
+              <i class="large material-icons" style="vertical-align:middle;" aria-hidden="true">shopping_cart</i>
+              Pesanan
+            </a>
+          </li>
+          @if ($data['page'] != '')
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+              Navigasi <span class="caret" aria-hidden="true"></span>
+            </a>
+            <ul class="dropdown-menu">
+              @foreach ($menu as $key => $value)
+                @if ($value->link != '/' . $data['page'] && $value->link != '/order')
+                <li @if ($value->link == '#!') {!! 'onclick="call_waiter(\'DEVCODE\');"'!!} @endif class="@if ($value->link == '/'. $data['page']) {{ 'active'}} @endif">
+                  <a href="{{$value->link}}">
+                    <span class="glyphicon glyphicon-{{$value->icon}}" aria-hidden="true"></span>
+                    {{ $value->title }}
+                  </a>
+                </li>
+                @endif
+              @endforeach
+            </ul>
+          </li>
+          @endif
+        </ul>
       </div>
     </div>
+  </nav>
 
-    <div class="row mrg-b-20">
+
+  <div class="container-fluid padd-t-100">
+
+    <div class="row mrg-b-20 min-height-80">
       <div class="col-md-12">
         @yield('content')
       </div>
@@ -47,6 +111,9 @@
   <script type="text/javascript" src="/assets/slick/slick.js"></script>
   <script type="text/javascript" src="/assets/typeit/typeit.js"></script>
   <script type="text/javascript" src="/assets/bootstrap/js/bootstrap.js"></script>
+  <script type="text/javascript" src="/assets/chartjs/chart-2.7.1.js"></script>
+  <script type="text/javascript" src="/assets/custom/js/chart-data.js"></script>
+  <script type="text/javascript" src="/assets/jqueryrating/jquery.barrating.min.js"></script>
 </body>
 
 </html>

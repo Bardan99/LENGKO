@@ -1,6 +1,6 @@
 
   <a href="/" title="LENGKO">
-    <img class="img-center" src="/files/images/logo.png" alt="" width="140px" height="70px" />
+    <img class="img-center" src="/files/images/lengko-logo.png" alt="" width="140px" height="70px" />
   </a>
   <hr class="dashed" />
 

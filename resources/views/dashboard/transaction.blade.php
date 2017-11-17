@@ -93,13 +93,13 @@
                               <tr>
                                 <td colspan="3" class="text-right"><label>Tunai</label></td>
                                 <td width="170px">
-                                  <input type="number" id="transaction-cash" name="" min="{{$value1->harga_pesanan}}" step="5000" class="input-lengko-default block" placeholder="0" value="{{ $value1->harga_pesanan }}" onchange="cash_back('transaction-cash', 'transaction-cash-back', {{ $value1->harga_pesanan }});" />
+                                  <input type="number" id="transaction-cash" name="" min="{{$value1->harga_pesanan}}" step="5000" class="input-lengko-default block" placeholder="0" value="{{ $value1->harga_pesanan }}" onchange="cash_back('transaction-cash', 'transaction-cash-back', {{ $value1->harga_pesanan }}, 'Rp');" />
                                 </td>
                               </tr>
                               <tr>
                                 <td colspan="3" class="text-right"><label>Kembali</label></td>
                                 <td>
-                                  <input type="number" id="transaction-cash-back" name="" class="input-lengko-default block" value="0" disabled="disabled" disabled />
+                                  <input type="text" id="transaction-cash-back" name="" class="input-lengko-default block" value="0" disabled="disabled" disabled />
                                 </td>
                               </tr>
                               </table>

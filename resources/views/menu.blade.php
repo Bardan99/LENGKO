@@ -6,7 +6,7 @@
 
   <div class="container-fluid">
 
-    <div class="row mrg-btm-30">
+    <div class="row mrg-b-30">
       @foreach ($data['menu'] as $key => $value)
         <div class="col-md-4 col-sm-6">
           <div class="menu">
@@ -21,7 +21,7 @@
 
     </div>
 
-    <div class="row mrg-btm-30">
+    <div class="row">
       <div class="col-sm-12 col-md-push-4 col-md-4">
         <nav aria-label="Page navigation" class="text-center">
           <ul class="pagination pagination-lg">

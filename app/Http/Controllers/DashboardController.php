@@ -185,6 +185,17 @@ class DashboardController extends Controller {
             ->orderBy('urutan_jenis_laporan', 'ASC')
             ->get();
         break;
+        case 'review':
+        $data['review'] = DB::table('kuisioner')
+          ->orderBy('tanggal_kuisioner', 'ASC')
+          ->orderBy('waktu_kuisioner', 'ASC')
+          ->skip(0)->take(5)->get();
+        foreach ($data['review'] as $key => $value) {
+          $data[$key]['review-detail'] = DB::table('kuisioner_detil')
+            ->where('kuisioner_detil.kode_kuisioner', '=', $data['review'][$key]->kode_kuisioner)
+            ->get();
+        }
+        break;
         default:
           $data['unknown'] = null;
         break;

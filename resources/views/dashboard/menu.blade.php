@@ -196,7 +196,7 @@
                           <div class="row">
                             @foreach ($data['material'] as $key => $value)
                               <div class="col-md-6">
-                                <input type="number" name="" id="needed-material-{{ $key }}" min="0" max="{{ $value->stok_bahan_baku }}" step="1" class="input-lengko-default" placeholder="0.0" onchange="chg_val('needed-material-{{ $key }}', 'available-material-{{ $key }}', {{ $value->stok_bahan_baku }});" @if ($value->stok_bahan_baku == 0) {{ 'disabled="disabled" disabled' }} @endif />
+                                <input type="number" name="" id="needed-material-{{ $key }}" min="0" max="{{ $value->stok_bahan_baku }}" step="1" class="input-lengko-default" placeholder="0.0" onchange="chg_val('needed-material-{{ $key }}', 'available-material-{{ $key }}', {{ $value->stok_bahan_baku }}, '');" @if ($value->stok_bahan_baku == 0) {{ 'disabled="disabled" disabled' }} @endif />
                                 /
                                 <input type="number" name="" id="available-material-{{ $key }}" min="0" max="{{ $value->stok_bahan_baku }}" step="1" class="input-lengko-default" placeholder="{{ $value->stok_bahan_baku }}" value="{{ $value->stok_bahan_baku }}" disabled="disabled" disabled />
                                 (<small>{{ $value->satuan_bahan_baku }}</small>)

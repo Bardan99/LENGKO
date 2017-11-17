@@ -1,7 +1,7 @@
 function call_waiter(device) {
   swal({
     title: "Butuh bantuan?",
-    text: "Jangan sungkan, kami siap membantu anda (^_^)/",
+    text: "Jangan sungkan, kami siap membantu (^_^)/",
     icon: "info",
     buttons: {
       cancel: {
@@ -25,8 +25,8 @@ function call_waiter(device) {
     switch (value) {
       case true:
       swal({
-        title: "Berhasil",
-        text: "Kami akan segera membantu anda, tunggu kami di situ; awas jangan salting ya!",
+        title: "Panggilan Berhasil Dilakukan",
+        text: "Tunggu kami, kami segera kesana; awas jangan salting ya!",
         icon: "success",
         timer: 30000
       });

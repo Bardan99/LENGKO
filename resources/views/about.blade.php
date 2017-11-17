@@ -20,7 +20,7 @@
                 Saya memang miskin dan bodoh;<br />
                 Tetapi saya tidak berencana untuk<br />
                 miskin dan bodoh selamanya.<br />
-                <small>Raka S.W (2017)</small>
+                <small>(2017)</small>
               </quote>
             </div>
           </div>

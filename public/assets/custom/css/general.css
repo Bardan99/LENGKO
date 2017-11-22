@@ -379,6 +379,7 @@ hr.content {
   padding: 25px;
   margin-top: 80px;
   margin-bottom: 80px;
+  border-radius: 5px;
 }
 
 .form-section > input[type=text],
@@ -396,8 +397,9 @@ hr.content {
 .form-section > input[type=text]:focus,
 .form-section > input[type=email]:focus,
 .form-section > input[type=password]:focus {
-  border: 3px solid #34495e;
+  border: 2px solid #34495e;
   outline: none;
+  padding: 8px;
 }
 
 .input-lengko-default {

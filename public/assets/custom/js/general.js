@@ -178,27 +178,28 @@ $(document).ready(function() {
     });
   }
 
-  $('.slider-for').slick({
-     slidesToScroll: 1,
-     variableWidth: false,
-     arrows: false,
-     fade: true,
-     asNavFor: '.slider-nav',
-     autoplay: true,
-     autoplaySpeed: 3000,
-     centerMode: true,
-     centerPadding: '60px',
-  });
+  if ($('.slider-for').length > 0 && $('.slider-nav').length > 0) {
+    $('.slider-for').slick({
+       slidesToScroll: 1,
+       variableWidth: false,
+       arrows: false,
+       fade: true,
+       asNavFor: '.slider-nav',
+       autoplay: true,
+       autoplaySpeed: 3000,
+       centerMode: true,
+       centerPadding: '60px',
+    });
 
-  $('.slider-nav').slick({
-     slidesToShow: 4,
-     slidesToScroll: 1,
-     asNavFor: '.slider-for',
-     dots: true,
-     centerMode: true,
-     focusOnSelect: true
-  });
-
+    $('.slider-nav').slick({
+       slidesToShow: 4,
+       slidesToScroll: 1,
+       asNavFor: '.slider-for',
+       dots: true,
+       centerMode: true,
+       focusOnSelect: true
+    });
+  }
 
   if ($('.barrating').length > 0) {
     $('.barrating').barrating({

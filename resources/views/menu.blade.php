@@ -13,7 +13,7 @@
             <img src="/files/images/menus/@if($value->gambar_menu){{$value->gambar_menu}}@else{{'not-available.png'}}@endif" alt="{{ $value->nama_menu }}" width="100%" height="150px" />
             <h2 class="menu-title">{{ $value->nama_menu }}</h2>
             {{ $data['menu_obj']->num_to_rp($value->harga_menu) }}
-            <a href="/" class="pull-right"><i class="material-icons">add_shopping_cart</i></a>
+            <a href="{{ url('/') }}" class="pull-right"><i class="material-icons">add_shopping_cart</i></a>
             <br />
           </div>
         </div>

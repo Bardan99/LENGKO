@@ -4,8 +4,6 @@
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.css" />
-  <link rel="stylesheet" href="/assets/slick/slick.css" />
-  <link rel="stylesheet" href="/assets/slick/slick-theme.css" />
   <link rel="stylesheet" href="/assets/select2/css/select2.css" />
   <link rel="stylesheet" href="/assets/datepicker/dist/datepicker.css" />
   <link rel="stylesheet" href="/assets/custom/css/general.css" />
@@ -34,14 +32,15 @@
     </div>
   </div>
 
-  <script type="text/javascript" src="/assets/jquery/jquery.js"></script>
-  <script type="text/javascript" src="/assets/custom/js/general.js"></script>
-  <script type="text/javascript" src="/assets/slick/slick.js"></script>
-  <script type="text/javascript" src="/assets/bootstrap/js/bootstrap.js"></script>
-  <script type="text/javascript" src="/assets/select2/js/select2.js"></script>
-  <script type="text/javascript" src="/assets/datepicker/dist/datepicker.js"></script>
-  <script type="text/javascript" src="/assets/chartjs/chart-2.7.1.js"></script>
-  <script type="text/javascript" src="/assets/custom/js/chart-data.js"></script>
+  <script type="text/javascript" data-cfasync="false" src="/assets/jquery/jquery.js"></script>
+  <script type="text/javascript" data-cfasync="false" src="/assets/sweetalert/sweetalert.js"></script>
+  <script type="text/javascript" data-cfasync="false" src="/assets/bootstrap/js/bootstrap.js"></script>
+  <script type="text/javascript" data-cfasync="false" src="/assets/select2/js/select2.js"></script>
+  <script type="text/javascript" data-cfasync="false" src="/assets/datepicker/dist/datepicker.js"></script>
+  <script type="text/javascript" data-cfasync="false" src="/assets/chartjs/chart-2.7.1.js"></script>
+  <script type="text/javascript" data-cfasync="false" src="/assets/custom/js/chart-data.js"></script>
+  <script type="text/javascript" data-cfasync="false" src="/assets/custom/js/general.js"></script>
+  <script type="text/javascript" data-cfasync="false" src="/assets/custom/js/dashboard.js"></script>
 </body>
 
 </html>

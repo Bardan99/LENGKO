@@ -11,7 +11,7 @@
           <div class="row">
             <div class="col-md-5">
               <a href="#!">
-                <img src="/files/images/gallery/{{ $value->path }}" class="img-center" alt="" width="100%" height="100%">
+                <img src="{{ url('/files/images/gallery/') . '/' . $value->path }}" class="img-center" alt="" width="100%" height="100%">
               </a>
             </div>
             <div class="col-md-7">
@@ -32,7 +32,7 @@
         @foreach ($data['gallery'] as $key => $value)
         <div class="slider-item">
           <a href="#!">
-            <img src="/files/images/gallery/{{ $value->path }}" alt="" width="250px" height="250px">
+            <img src="{{ url('/files/images/gallery/') . '/' . $value->path }}" alt="" width="250px" height="250px">
           </a>
         </div>
         @endforeach

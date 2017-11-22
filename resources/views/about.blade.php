@@ -9,7 +9,7 @@
 
       <div class="row mrg-b-30">
         <div class="col-md-12">
-          <img src="/files/images/members/rakasw.png" class="img-circle img-center" alt="Raka Suryaardi Widjaja" width="90px" height="100px" />
+          <img src="{{ url('/files/images/members/rakasw.png') }}" class="img-circle img-center" alt="Raka Suryaardi Widjaja" width="90px" height="100px" />
           <h2 class="menu-title text-center">
               Raka Suryaardi Widjaja<br />
               <small>All in One</small>
@@ -29,7 +29,7 @@
 
       <div class="row mrg-b-30">
         <div class="col-md-2 col-sm-2 text-left">
-          <img src="/files/images/members/rakamp.png" class="img-circle img-center" alt="Raka Muhamad Pratama" width="90px" height="100px" />
+          <img src="{{ url('/files/images/members/rakamp.png') }}" class="img-circle img-center" alt="Raka Muhamad Pratama" width="90px" height="100px" />
         </div>
         <div class="col-md-4 col-sm-4">
           <h2 class="menu-title text-left">
@@ -55,7 +55,7 @@
           </quote>
         </div>
         <div class="col-md-2 col-sm-2">
-          <img src="/files/images/members/binsar.png" class="img-circle img-center" alt="Binsar Bernandus Silalahi" width="90px" height="100px" />
+          <img src="{{ url('/files/images/members/binsar.png') }}" class="img-circle img-center" alt="Binsar Bernandus Silalahi" width="90px" height="100px" />
         </div>
       </div>
 
@@ -72,11 +72,11 @@
           </quote>
         </div>
         <div class="col-md-2 col-sm-2">
-          <img src="/files/images/members/azmi.png" class="img-circle img-center" alt="Azmi Yudista" width="90px" height="100px" />
+          <img src="{{ url('/files/images/members/azmi.png') }}" class="img-circle img-center" alt="Azmi Yudista" width="90px" height="100px" />
         </div>
 
         <div class="col-md-2 col-sm-2 text-left">
-          <img src="/files/images/members/zaki.png" class="img-circle img-center" alt="Binsar Bernandus Silalahi" width="90px" height="100px" />
+          <img src="{{ url('/files/images/members/zaki.png') }}" class="img-circle img-center" alt="Binsar Bernandus Silalahi" width="90px" height="100px" />
         </div>
         <div class="col-md-4 col-sm-40">
           <h2 class="menu-title text-left">

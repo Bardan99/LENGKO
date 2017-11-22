@@ -72,7 +72,7 @@
                 <button type="submit" class="btn-lengko btn-lengko-danger btn-lengko-circle pull-left" onclick="go_to('menu');">
                   <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                 </button>
-                <a href="/menu/">"Kamu mau tambah lagi gk?" (<i>ciee perhatian nihh..</i>)</a>
+                <a href="{{ url('/menu/') }}">"Kamu mau tambah lagi gk?" (<i>ciee perhatian nihh..</i>)</a>
               </div>
             </div>
           </div>

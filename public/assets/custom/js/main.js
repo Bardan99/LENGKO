@@ -25,8 +25,8 @@ function call_waiter(device) {
     switch (value) {
       case true:
       swal({
-        title: "Panggilan Berhasil Dilakukan",
-        text: "Tunggu kami, kami segera kesana; awas jangan salting ya!",
+        title: "Segera ke sana!",
+        text: "Lagi gak ada siapa-siapa ya sayang? OTW!",
         icon: "success",
         timer: 30000
       });

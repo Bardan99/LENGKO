@@ -21,7 +21,7 @@
       <div class="col-md-4 col-sm-6 col-xs-12">
         <div class="main-menu menu-red" onclick="go_to('menu');">
           <div class="menu-title">
-            <a href="/menu/">Menu</a>
+            <a href="{{ url('/menu') }}">Menu</a>
             &nbsp; <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
           </div>
           <div class="menu-description">
@@ -33,7 +33,7 @@
       <div class="col-md-4 col-sm-6 col-xs-12">
         <div class="main-menu menu-orange" onclick="go_to('order');">
           <div class="menu-title">
-            <a href="/order/">Pesanan</a>
+            <a href="{{ url('/order') }}">Pesanan</a>
             &nbsp; <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>
           </div>
           <div class="menu-description">
@@ -57,7 +57,7 @@
       <div class="col-md-4 col-sm-6 col-xs-12">
         <div class="main-menu menu-blue" onclick="go_to('gallery');">
           <div class="menu-title">
-            <a href="/gallery/">Galeri</a>
+            <a href="{{ url('/gallery') }}">Galeri</a>
             &nbsp; <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
           </div>
           <div class="menu-description">
@@ -71,7 +71,7 @@
       <div class="col-md-4 col-sm-6 col-xs-12">
         <div class="main-menu menu-green" onclick="go_to('reviews');">
           <div class="menu-title">
-            <a href="/reviews/">Apa Kata Mereka?</a>
+            <a href="{{ url('/reviews') }}">Apa Kata Mereka?</a>
             &nbsp; <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
           </div>
           <div class="menu-description">
@@ -83,7 +83,7 @@
       <div class="col-md-4 col-sm-6 col-xs-12">
         <div class="main-menu menu-black" onclick="go_to('about');">
           <div class="menu-title">
-            <a href="/about/">Tentang Kami?</a>
+            <a href="{{ url('/about') }}">Tentang Kami?</a>
             &nbsp; <span class="glyphicon glyphicon-sunglasses" aria-hidden="true"></span>
           </div>
           <div class="menu-description">

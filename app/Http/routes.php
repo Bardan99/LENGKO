@@ -14,12 +14,13 @@
 Route::get('/ajax/object/{param}', 'HomeController@ajax_handler');
 //Route::post('/ajax/object/field/menu/bahan-baku', 'HomeController@ajax_handler');
 
-Route::group(['middleware' => 'auth'], function() {
+//Route::group(['middleware' => 'auth'], function() {
 
-});
+//});
 
 Route::get('/dashboard/', 'DashboardController@index');
 Route::get('/dashboard/{param}/', 'DashboardController@view');
+Route::post('/dashboard/update/{section}/{param}/', 'DashboardController@update');
 
 Route::get('/', 'HomeController@index');
 Route::get('/{param}/', 'HomeController@view');

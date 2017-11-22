@@ -20,7 +20,7 @@
     $menu = array(
       (object) array('title' => 'Beranda', 'link' => '/', 'icon' => 'home'),
       (object) array('title' => 'Menu', 'link' => '/menu', 'icon' => 'menu-hamburger'),
-      (object) array('title' => 'Pesanan', 'link' => '/order', 'icon' => 'tags'),
+      (object) array('title' => 'Pesanan', 'link' => '/order', 'icon' => 'shopping-cart'),
       (object) array('title' => 'Bantuan', 'link' => '#!', 'icon' => 'user'),
       (object) array('title' => 'Galeri', 'link' => '/gallery', 'icon' => 'picture'),
       (object) array('title' => 'Apa Kata Mereka', 'link' => '/reviews', 'icon' => 'search'),
@@ -37,7 +37,7 @@
           <span class="icon-bar"></span>
         </button>
         <a href="/">
-          <img class="navbar-brand" src="/files/images/lengko-logo-white.png" alt="LENGKO" width="180px" height="80px" />
+          <img class="navbar-brand" src="{{ url('/files/images/lengko-logo-white.png') }}" alt="LENGKO" width="180px" height="80px" />
         </a>
       </div>
 
@@ -53,9 +53,9 @@
             </li>
             @endif
           @endforeach
-          <li>
-            <a href="/order">
-              <i class="large material-icons" style="vertical-align:middle;" aria-hidden="true">shopping_cart</i>
+          <li class="@if ($data['page'] == 'order') {{ 'active'}} @endif">
+            <a href="{{ url('order') }}">
+              <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
               Pesanan
             </a>
           </li>
@@ -69,7 +69,7 @@
               @foreach ($menu as $key => $value)
                 @if ($value->link != '/' . $data['page'] && $value->link != '/order')
                 <li @if ($value->link == '#!') {!! 'onclick="call_waiter(\'DEVCODE\');"'!!} @endif class="@if ($value->link == '/'. $data['page']) {{ 'active'}} @endif">
-                  <a href="{{$value->link}}">
+                  <a href="{{ url($value->link) }}">
                     <span class="glyphicon glyphicon-{{$value->icon}}" aria-hidden="true"></span>
                     {{ $value->title }}
                   </a>
@@ -104,16 +104,16 @@
 
   </div>
 
-  <script type="text/javascript" src="/assets/jquery/jquery.js"></script>
-  <script type="text/javascript" src="/assets/custom/js/general.js"></script>
-  <script type="text/javascript" src="/assets/custom/js/alert.js"></script>
-  <script type="text/javascript" src="/assets/sweetalert/sweetalert.js"></script>
-  <script type="text/javascript" src="/assets/slick/slick.js"></script>
-  <script type="text/javascript" src="/assets/typeit/typeit.js"></script>
-  <script type="text/javascript" src="/assets/bootstrap/js/bootstrap.js"></script>
-  <script type="text/javascript" src="/assets/chartjs/chart-2.7.1.js"></script>
-  <script type="text/javascript" src="/assets/custom/js/chart-data.js"></script>
-  <script type="text/javascript" src="/assets/jqueryrating/jquery.barrating.min.js"></script>
+  <script type="text/javascript" data-cfasync="false" src="/assets/jquery/jquery.js"></script>
+  <script type="text/javascript" data-cfasync="false" src="/assets/sweetalert/sweetalert.js"></script>
+  <script type="text/javascript" data-cfasync="false" src="/assets/slick/slick.js"></script>
+  <script type="text/javascript" data-cfasync="false" src="/assets/typeit/typeit.js"></script>
+  <script type="text/javascript" data-cfasync="false" src="/assets/bootstrap/js/bootstrap.js"></script>
+  <script type="text/javascript" data-cfasync="false" src="/assets/jqueryrating/jquery.barrating.min.js"></script>
+  <script type="text/javascript" data-cfasync="false" src="/assets/chartjs/chart-2.7.1.js"></script>
+  <script type="text/javascript" data-cfasync="false" src="/assets/custom/js/chart-data.js"></script>
+  <script type="text/javascript" data-cfasync="false" src="/assets/custom/js/general.js"></script>
+  <script type="text/javascript" data-cfasync="false" src="/assets/custom/js/main.js"></script>
 </body>
 
 </html>

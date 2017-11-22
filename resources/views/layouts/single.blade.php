@@ -31,10 +31,10 @@
 
   </div>
 
-  <script type="text/javascript" src="/assets/jquery/jquery.js"></script>
-  <script type="text/javascript" src="/assets/custom/js/general.js"></script>
-  <script type="text/javascript" src="/assets/slick/slick.js"></script>
-  <script type="text/javascript" src="/assets/bootstrap/js/bootstrap.js"></script>
+  <script type="text/javascript" data-cfasync="false" src="/assets/jquery/jquery.js"></script>
+  <script type="text/javascript" data-cfasync="false" src="/assets/slick/slick.js"></script>
+  <script type="text/javascript" data-cfasync="false" src="/assets/bootstrap/js/bootstrap.js"></script>
+  <script type="text/javascript" data-cfasync="false" src="/assets/custom/js/general.js"></script>
 </body>
 
 </html>

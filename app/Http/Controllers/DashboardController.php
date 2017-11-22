@@ -8,6 +8,10 @@ use App\Http\Requests;
 
 class DashboardController extends Controller {
 
+  public function __construct() {
+    //$this->middleware('auth');
+  }
+
   public function index() {
     if (view()->exists('dashboard.home')) {
       //$menus = DB::table('hidangan')->skip(0)->take(9)->get();
@@ -204,4 +208,27 @@ class DashboardController extends Controller {
     }
     return abort(404);
   }
+
+  public function update(Request $request, $section, $param) {
+    if ($request->isMethod('post')) {
+      if ($section && $param) {
+        switch ($section) {
+          case 'profile':
+          $this->validate($request, [
+            'employee-name'     => 'required|email|exists:users,email,role,admin',
+            'employee-password' => 'required|min:6|max:15|confirmed',
+            'employee-gender'   => 'required'
+          ]);
+            //DB::table('pegawai')
+              //->where('kode_pegawai', '=', $param)
+              //->update([]);
+          break;
+          default:break;
+        }
+      }
+      return view('dashboard', ['result' => 'ok']);
+    }
+    //elseif ($request->isMethod('get')) {  //}
+  }
+
 }

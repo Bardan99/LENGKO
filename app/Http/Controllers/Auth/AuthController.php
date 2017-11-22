@@ -27,8 +27,8 @@ class AuthController extends Controller {
      *
      * @var string
      */
-    protected $username = 'kode_perangkat';
-    protected $redirectTo = '/about/';
+    protected $username = 'kode_pegawai';
+    protected $redirectTo = '/dashboard';
     protected $redirectAfterLogout = '/';
 
     /**
@@ -36,8 +36,7 @@ class AuthController extends Controller {
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
     }
 
@@ -47,11 +46,10 @@ class AuthController extends Controller {
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
-    {
+    protected function validator(array $data) {
         return Validator::make($data, [
-            'kode_perangkat' => 'required|max:15|unique:users',
-            'kata_sandi_perangkat' => 'required|min:6|max:150|confirmed',
+            'kode_pegawai' => 'required|max:15|unique:users',
+            'kata_sandi_pegawai' => 'required|min:6|max:150|confirmed',
         ]);
     }
 
@@ -61,16 +59,15 @@ class AuthController extends Controller {
      * @param  array  $data
      * @return User
      */
-    protected function create(array $data)
-    {
+    protected function create(array $data) {
         return User::create([
-            'kode_perangkat' => $data['kode_perangkat'],
-            'kata_sandi_perangkat' => bcrypt($data['kata_sandi_perangkat']),
+            'kode_pegawai' => $data['kode_pegawai'],
+            'kata_sandi_pegawai' => bcrypt($data['kata_sandi_pegawai']),
         ]);
     }
 
-    public function authenticated($request, $user)
-    {
-    	return redirect('/');
+    public function authenticated($request, $user) {
+    	return redirect('/dashboard');
     }
+
 }

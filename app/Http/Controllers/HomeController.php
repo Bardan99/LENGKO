@@ -115,6 +115,7 @@
             ->orderBy('nama_kuisioner', 'ASC')
             ->get();
           $data['customer-reviews'] = DB::table('kuisioner_perangkat')
+            ->join('kuisioner_detil', 'kuisioner_detil.kode_kuisioner_perangkat', '=', 'kuisioner_perangkat.kode_kuisioner_perangkat')
             ->where('status_kuisioner_perangkat', '=', TRUE)
             ->orderBy('tanggal_kuisioner_perangkat', 'DSC')
             ->orderBy('waktu_kuisioner_perangkat', 'DSC')

@@ -24,8 +24,19 @@
               <div class="col-md-12">
                 <h3>{{$value->pembeli_kuisioner_perangkat}}</h3>
                 <p>{{$value->pesan_kuisioner_perangkat}}</p>
-                {{$value->tanggal_kuisioner_perangkat}}
-                {{$value->waktu_kuisioner_perangkat}}
+                <div class="row">
+                  <div class="col-md-8">
+                    {{$value->tanggal_kuisioner_perangkat}}
+                    {{$value->waktu_kuisioner_perangkat}}
+                  </div>
+                  <div class="col-md-4">
+                    <select id="customer-reviews-{{$key}}" class="barrating">
+                      @for ($i = 1; $i <= 5; $i++)
+                        <option value="{{$i}}" @if ($i == $value->poin_kuisioner_detil) {{'selected'}} @endif>{{$i}}</option>
+                      @endfor
+                    </select>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

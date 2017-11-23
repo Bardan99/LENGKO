@@ -5,7 +5,7 @@
 @section('content')
 
   <div class="container">
-
+    @if (count($data['order-processed']) > 0)
     <div class="row">
       <div class="col-md-12">
 
@@ -157,7 +157,21 @@
 
       </div>
     </div>
-
+    @else
+      <div class="row">
+        <div class="col-md-12 col-xs-12 text-center" style="font-size: 24pt;">
+          <h1>Loh, kok belum pesan?</h1>
+          <br />
+          <a href="{{url('/menu/')}}"><img src="{{ url('/files/images/lengko-favicon.png') }}" alt="LENGKO" width="180px" height="120px" /></a>
+          <br />
+          <br />
+          <a href="{{ url('/menu/') }}">
+            Ayo jangan malu-malu;<br />
+            Biasanya juga malu-maluin.<br />
+          </a>
+        </div>
+      </div>
+    @endif
   </div> <!-- end container -->
 
 @endsection

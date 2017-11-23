@@ -1,30 +1,45 @@
 $(document).ready(function() {
   /* Chart settings */
   if ($('#device-statistic').length > 0) {
-    var device_statistic = $('#device-statistic');
-    var data_device_statistic = {
-      datasets: [{
-        data: [2, 2, 2],
-        labels: ['Available', 'Unavailable', 'Disabled'],
-        backgroundColor: [
-          'rgba(39, 173, 96, 0.4)',
-          'rgba(231, 76, 60, 0.4)',
-          'rgba(127, 141, 142, 0.4)',
-        ]
-      }],
 
-      labels: [ //tooltip
-        'Tidak sedang digunakan',
-        'Sedang digunakan',
-        'Tidak diketahui'
-      ]
-    };
-    var options_device_statistic = {};
-    var chart_device_statistic = new Chart(device_statistic, {
-      type: 'doughnut',
-      data: data_device_statistic,
-      options: options_device_statistic
+    $.ajax({
+      type: "GET",
+      url: "/dashboard/retrieve/device/",
+      cache: false,
+      success: function(result) {
+        var data = [];
+        var label = [];
+        var color = [];
+        for (i = 0; i < result.length; i++) {
+          data[i] = result[i].res;
+          if (result[i].stat === 0) {
+            label[i] = 'Tidak Tersedia';
+            color[i] = 'rgba(231, 76, 60, 0.4)';
+          }
+          else {
+            label[i] = 'Tersedia';
+            color[i] = 'rgba(39, 173, 96, 0.4)';
+          }
+        }
+        var device_statistic = $('#device-statistic');
+        var data_device_statistic = {
+          datasets: [{
+            data: data,
+            labels: label,
+            backgroundColor: color
+          }],
+
+          labels: label
+        };
+        var options_device_statistic = {};
+        var chart_device_statistic = new Chart(device_statistic, {
+          type: 'doughnut',
+          data: data_device_statistic,
+          options: options_device_statistic
+        });
+      }
     });
+
   }
 
   if ($('#employee-statistic').length > 0) {

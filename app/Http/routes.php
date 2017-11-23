@@ -11,6 +11,17 @@
 |
 */
 
+Route::post('/dashboard/create/device', 'DeviceController@create');
+
+Route::get('/dashboard/retrieve/{param}/', 'DashboardController@retrieve');
+Route::put('/dashboard/update/{param}/', 'DashboardController@update');
+Route::delete('/dashboard/delete/{param}/{id}', 'DashboardController@delete');
+
+Route::get('/dashboard/update/{param}/', function() {
+  return redirect('dashboard');
+});
+
+
 Route::get('/ajax/object/{param}', 'HomeController@ajax_handler');
 //Route::post('/ajax/object/field/menu/bahan-baku', 'HomeController@ajax_handler');
 
@@ -20,7 +31,7 @@ Route::get('/ajax/object/{param}', 'HomeController@ajax_handler');
 
 Route::get('/dashboard/', 'DashboardController@index');
 Route::get('/dashboard/{param}/', 'DashboardController@view');
-Route::post('/dashboard/update/{section}/{param}/', 'DashboardController@update');
+
 
 Route::get('/', 'HomeController@index');
 Route::get('/{param}/', 'HomeController@view');

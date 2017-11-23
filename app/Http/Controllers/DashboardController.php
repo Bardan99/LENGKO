@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests;
+use App\Pegawai;
+use App\Perangkat;
+use Hash;
 
 class DashboardController extends Controller {
 
@@ -14,10 +17,12 @@ class DashboardController extends Controller {
 
   public function index() {
     if (view()->exists('dashboard.home')) {
-      //$menus = DB::table('hidangan')->skip(0)->take(9)->get();
       $navbar = new NavBarController;
       $pages = $navbar->get_navbar('root');
-      return view('dashboard.home', ['pages' => $pages, 'page' => '']);
+      $data['employee'] = Pegawai::where('kode_pegawai', 'root')
+                          ->join('otoritas', 'otoritas.kode_otoritas', '=', 'pegawai.kode_otoritas')
+                          ->first();
+      return view('dashboard.home', ['data' => $data, 'pages' => $pages, 'page' => '']);
     }
     return abort(404);
   }
@@ -30,8 +35,20 @@ class DashboardController extends Controller {
         case 'device':
           $data['device'] = DB::table('perangkat')
             ->orderBy('nama_perangkat', 'ASC')
-            ->select('*', DB::raw('IF (status_perangkat = 1, "available", IF (status_perangkat = 0, "unavailable", "disabled")) AS status_text'))
+            ->select('*',
+              DB::raw(
+                'IF (status_perangkat = "1", "available", IF (status_perangkat = "0", "unavailable", "disabled")) AS status_text,
+                IF (status_perangkat = "1", "Tersedia", IF (status_perangkat = "0", "Tidak Tersedia", "Tidak Diketahui")) AS status_text_human'
+                ))
             ->get();
+          $data['status'] = (object) array(
+            (object) array(
+              'status' => 1,
+              'text'   => 'Tersedia'),
+            (object) array(
+              'status' => 0,
+              'text'   => 'Tidak Tersedia')
+          );
         break;
         case 'employee':
           $data['employee'] = DB::table('pegawai')
@@ -209,26 +226,94 @@ class DashboardController extends Controller {
     return abort(404);
   }
 
-  public function update(Request $request, $section, $param) {
-    if ($request->isMethod('post')) {
-      if ($section && $param) {
-        switch ($section) {
-          case 'profile':
+  public function update(Request $request, $param) {
+    switch ($param) {
+      case 'profile':
+        $id = $request->get('employee-id');
+        $employee = Pegawai::findOrFail($id);
+        if ($employee) {
           $this->validate($request, [
-            'employee-name'     => 'required|email|exists:users,email,role,admin',
-            'employee-password' => 'required|min:6|max:15|confirmed',
-            'employee-gender'   => 'required'
+            'employee-name' => 'required|min:4',
+            'employee-password' => 'required|min:6',
+            'employee-gender' => 'required'
           ]);
-            //DB::table('pegawai')
-              //->where('kode_pegawai', '=', $param)
-              //->update([]);
-          break;
-          default:break;
+
+          $try = Pegawai::find($id)->update([
+            'nama_pegawai' => $request->get('employee-name'),
+            'kata_sandi_pegawai' => Hash::make($request->get('employee-password')),
+            'jenis_kelamin_pegawai' => $request->get('employee-gender')
+          ]);
         }
-      }
-      return view('dashboard', ['result' => 'ok']);
+        return redirect('/dashboard');
+      break;
+      case 'device':
+        $id = $request->get('device-id');
+        $device = Perangkat::findOrFail($id);
+        if ($device) {
+          $pw = $request->get('device-change-password');
+          if (strlen($pw) > 0) {
+            $this->validate($request, [
+              'device-change-name' => 'required|min:4',
+              'device-change-password' => 'required|min:6',
+              'device-change-chair' => 'required|min:1',
+              'device-change-status' => 'required'
+            ]);
+          }
+          else {
+            $this->validate($request, [
+              'device-change-name' => 'required|min:4',
+              'device-change-chair' => 'required|min:1',
+              'device-change-status' => 'required'
+            ]);
+          }
+          $try = Perangkat::find($id)->update([
+            'nama_perangkat' => $request->get('device-change-name'),
+            'kata_sandi_perangkat' => Hash::make($request->get('device-change-password')),
+            'jumlah_kursi_perangkat' => $request->get('device-change-chair'),
+            'status_perangkat' => $request->get('device-change-status')
+          ]);
+        }
+        return redirect('/dashboard/device');
+      break;
+      default:break;
     }
-    //elseif ($request->isMethod('get')) {  //}
+  }
+
+  public function create(Request $request) {
+
+  }
+
+  public function retrieve($param) {
+    switch ($param) {
+      case 'device':
+        $devices = DB::table('perangkat')
+                  ->select(DB::raw('status_perangkat AS stat, COUNT(status_perangkat) AS res'))
+                  ->groupBy('status_perangkat')
+                  ->orderBy('status_perangkat', 'DESC')
+                  ->get();
+        return $devices;
+      break;
+      case '':
+
+      break;
+      default:break;
+    }
+  }
+
+  public function delete(Request $request, $param, $id) {
+    switch ($param) {
+      case 'device':
+        $device = Perangkat::find($id);
+        if ($device) {
+          Perangkat::destroy($id);
+        }
+        return redirect('/dashboard/device');
+      break;
+      case '':
+
+      break;
+      default:break;
+    }
   }
 
 }

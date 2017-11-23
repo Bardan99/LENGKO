@@ -96,6 +96,13 @@ function show_obj(id) {
   }
 }
 
+function hide_obj(id) {
+  var obj = document.getElementById(id);
+  if (obj) {
+    $('#' + id).hide('slow');
+  }
+}
+
 $(document).ready(function() {
 
   /* Type it settings */

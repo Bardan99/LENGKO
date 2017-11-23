@@ -46,7 +46,7 @@
                     </tr>
                   @endforeach
                   </table>
-                </div>                
+                </div>
               </div>
               <div class="row mrg-t-20">
                 <div class="col-md-12">
@@ -117,7 +117,7 @@
                   </div>
                   <div class="col-md-9">
                     <div class="radio-lengko-default">
-                      <input type="radio" name="gender" id="gender-male" value="L" /><label for="gender-male">Laki-Laki</label>
+                      <input type="radio" name="gender" id="gender-male" value="L" checked="checked" /><label for="gender-male">Laki-Laki</label>
                       <input type="radio" name="gender" id="gender-female" value="P" /><label for="gender-female">Perempuan</label>
                     </div>
                   </div>

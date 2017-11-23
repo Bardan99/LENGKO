@@ -2,36 +2,21 @@ function call_waiter(device) {
   swal({
     title: "Butuh bantuan?",
     text: "Jangan sungkan, kami siap membantu (^_^)/",
-    icon: "info",
-    buttons: {
-      cancel: {
-        text: "Tidak",
-        value: false,
-        visible: true,
-        closeModal: true
-      },
-      confirm: {
-        text: "Iya",
-        value: true,
-        visible: true,
-        closeModal: true
-      }
-    },
-    closeOnClickOutside: false,
-    closeOnEsc: false,
-
-  })
-  .then((value) => {
-    switch (value) {
-      case true:
+    type: "question",
+    timer: 10000,
+    showCancelButton: true,
+    confirmButtonText: 'Iya',
+    confirmButtonColor: '#2c3e50',
+    cancelButtonText: 'Tidak'
+  }).then(function(result) {
+    if (result.value) {
       swal({
-        title: "Segera ke sana!",
-        text: "Lagi gak ada siapa-siapa ya sayang? OTW!",
-        icon: "success",
-        timer: 30000
+        title: 'Segera ke sana!',
+        text: 'Kalau disamperin jangan salting ya >_<',
+        type: 'success',
+        timer: 3000
       });
-      break;
-      default:
+    // result.dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
     }
   });
 }

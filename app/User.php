@@ -3,9 +3,9 @@
 namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Pegawai;
 
-class User extends Authenticatable
-{
+class User extends Authenticatable {
     protected $table = "perangkat";
     protected $primaryKey = "kode_perangkat";
     public $incrementing = false;

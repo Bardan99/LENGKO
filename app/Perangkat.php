@@ -2,28 +2,14 @@
 
 namespace App;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 
-class Perangkat extends Authenticatable {
-    protected $table = "perangkat";
-    protected $primaryKey = "kode_perangkat";
-    public $incrementing = false;
-    public $timestamps = false;
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'kode_perangkat', 'kata_sandi_perangkat',
-    ];
+class Perangkat extends Model {
+  protected $table = "perangkat";
+  protected $primaryKey = "kode_perangkat";
+  public $incrementing = false;//declare pk bukan integer
+  public $timestamps = false;
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+  protected $guarded = [];
+
 }

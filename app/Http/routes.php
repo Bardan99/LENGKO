@@ -12,6 +12,7 @@
 */
 
 Route::post('/dashboard/create/device', 'DeviceController@create');
+Route::post('/dashboard/search/device', 'DeviceController@search');
 
 Route::get('/dashboard/retrieve/{param}/', 'DashboardController@retrieve');
 Route::put('/dashboard/update/{param}/', 'DashboardController@update');

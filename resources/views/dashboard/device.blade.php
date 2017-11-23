@@ -7,6 +7,8 @@
   <div id="device-section" class="row mrg-b-20">
     <div class="col-md-12">
 
+      <input type="hidden" name="search_token" value="{{ csrf_token() }}">
+
       <div class="row">
         <div class="col-md-12">
 
@@ -17,18 +19,22 @@
 
               <div class="row">
                 <div class="col-md-offset-8 col-md-4">
-                  <div class="input-group">
-                    <input type="text" name="" class="form-control" placeholder="Cari Perangkat" />
-                    <span class="input-group-btn">
-                      <button class="btn btn-default" type="button">
-                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                      </button>
-                    </span>
-                  </div>
+                  <form name="search-device" action="" method="post">
+                    <div class="input-group">
+                      <input type="text" name="device-search-query" class="form-control" placeholder="Cari Perangkat" />
+                      <input type="hidden" name="device-search-method" value="post">
+                      <input type="hidden" name="device-search-token" value="{{ csrf_token() }}">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">
+                          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                        </button>
+                      </span>
+                    </div>
+                  </form>
                 </div>
               </div>
 
-              <div class="row mrg-t-20">
+              <div id="device-card-section" class="row mrg-t-20">
               @foreach ($data['device'] as $key => $value)
                 <form id="device-card-change-{{$value->kode_perangkat}}" action="{{ url('dashboard/update/device') }}" method="POST" hidden="hidden">
                   <div class="col-md-3 col-sm-6 col-xs-12">

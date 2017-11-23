@@ -39,5 +39,38 @@ class DeviceController extends Controller {
     }
   }
 
+  public function search(Request $request) {
+    if ($request->ajax()) {
+      $data = $request->all();
+      $validator = Validator::make($data, [
+        'device-search-query' => 'required|min:1',
+      ]);
+
+      if ($validator->fails()) {
+        return response()->json(['status' => 500, 'text' => 'Jangan lupa diisi ya kata kunci nya!']);
+      }
+
+      $devices = DB::table('perangkat')
+        ->where('kode_perangkat', 'LIKE', '%' . $data['device-search-query'] . '%')
+        ->orwhere('nama_perangkat', 'LIKE', '%' . $data['device-search-query'] . '%')
+        ->orwhere('jumlah_kursi_perangkat', 'LIKE', '%' . $data['device-search-query'] . '%')
+        ->orderBy('nama_perangkat', 'ASC')
+        ->select('*',
+          DB::raw(
+            'IF (status_perangkat = "1", "available", IF (status_perangkat = "0", "unavailable", "disabled")) AS status_text,
+            IF (status_perangkat = "1", "Tersedia", IF (status_perangkat = "0", "Tidak Tersedia", "Tidak Diketahui")) AS status_text_human'
+            ))
+        ->get();
+
+      if ($devices) {
+        return response()->json([
+            'status' => 200,
+            'text' => 'Pencarian selesai dilakukan',
+            'content' => $devices
+          ]);
+      }
+
+    }
+  }
 
 }

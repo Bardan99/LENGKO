@@ -5,7 +5,7 @@
 @section('content')
 
   <div class="container-fluid">
-
+    @if (count($data['menu']) > 0)
     <div class="row mrg-b-30">
       @foreach ($data['menu'] as $key => $value)
         <div class="col-md-4 col-sm-6">
@@ -18,7 +18,6 @@
           </div>
         </div>
       @endforeach
-
     </div>
 
     <div class="row">
@@ -44,7 +43,21 @@
         </nav>
       </div>
     </div>
-
+  @else
+    <div class="row mrg-b-30">
+      <div class="col-md-12 col-xs-12 text-center" style="font-size: 24pt;">
+        <h1>Oops, sepertinya terjadi sesuatu</h1>
+        <br />
+        <a href="{{url('/about/')}}"><img src="{{ url('/files/images/dino-walking.png') }}" alt="LENGKO" width="180px" height="120px" /></a>
+        <br />
+        <br />
+        <a href="{{ url('/about/') }}">
+          Dinosaurus jahat sudah memakan semuanya! <br />
+          Kami butuh bantuan kamu untuk menghentikannya
+        </a>
+      </div>
+    </div>
+  @endif
   </div>
 
 @endsection

@@ -35,6 +35,9 @@ class DeviceController extends Controller {
         ]);
         return response()->json(['status' => 200,'text' => 'Yey, berhasil menambahkan perangkat.']);
       }
+      else {
+        return response()->json(['status' => 400,'text' => 'Perangkat sudah tersedia, gagal menambahkan perangkat.']);
+      }
 
     }
   }
@@ -71,6 +74,16 @@ class DeviceController extends Controller {
       }
 
     }
+  }
+
+
+  public function retrieve() {
+    $devices = DB::table('perangkat')
+              ->select(DB::raw('status_perangkat AS stat, COUNT(status_perangkat) AS res'))
+              ->groupBy('status_perangkat')
+              ->orderBy('status_perangkat', 'DESC')
+              ->get();
+    return $devices;
   }
 
 }

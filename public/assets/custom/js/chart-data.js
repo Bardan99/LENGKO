@@ -43,40 +43,49 @@ $(document).ready(function() {
   }
 
   if ($('#employee-statistic').length > 0) {
-    var employee_statistic = $('#employee-statistic');
-    var data_employee_statistic = {
-      datasets: [{
-        data: [2, 2, 2, 2, 2, 2],
-        labels: ['Administrator', 'Gudang', 'Kasir', 'Koki', 'Pelayan', 'Pelayanan Pelanggan'], //nanti ambil dari db
-        backgroundColor: [
-          'rgba(0, 0, 0, 0.4)',
-          'rgba(210, 84, 0, 0.4)',
-          'rgba(39, 173, 96, 0.4)',
-          'rgba(231, 76, 60, 0.4)',
-          'rgba(127, 141, 142, 0.4)',
-          'rgba(41, 128, 185, 0.4)'
-        ]
-      }],
-      labels: [ //tooltip
-        'Administrator',
-        'Gudang',
-        'Kasir',
-        'Koki',
-        'Pelayan',
-        'Pelayanan Pelanggan'
-      ]
-    };
-    var options_employee_statistic = {
-      legend: {
-        position: 'right'
-      }
-    };
+    $.ajax({
+      type: "GET",
+      url: "/dashboard/retrieve/employee/",
+      cache: false,
+      success: function(result) {
+        var data = [];
+        var label = [];
+        for (i = 0; i < result.length; i++) {
+          data[i] = result[i].res;
+          label[i] = result[i].title;
+        }
 
-    var chart_employee_statistic = new Chart(employee_statistic, {
-      type: 'pie',
-      data: data_employee_statistic,
-      options: options_employee_statistic
+        var employee_statistic = $('#employee-statistic');
+        var data_employee_statistic = {
+          datasets: [{
+            data: data,
+            labels: label,
+            backgroundColor: [
+              'rgba(0, 0, 0, 0.4)',
+              'rgba(210, 84, 0, 0.4)',
+              'rgba(39, 173, 96, 0.4)',
+              'rgba(231, 76, 60, 0.4)',
+              'rgba(127, 141, 142, 0.4)',
+              'rgba(41, 128, 185, 0.4)'
+            ]
+          }],
+          labels: label
+        };
+        var options_employee_statistic = {
+          legend: {
+            position: 'right'
+          }
+        };
+
+        var chart_employee_statistic = new Chart(employee_statistic, {
+          type: 'pie',
+          data: data_employee_statistic,
+          options: options_employee_statistic
+        });
+
+      }
     });
+
   }
 
   if ($('#report-income-yearly').length > 0) {

@@ -19,7 +19,7 @@ class DashboardController extends Controller {
     if (view()->exists('dashboard.home')) {
       $navbar = new NavBarController;
       $pages = $navbar->get_navbar('root');
-      $data['employee'] = Pegawai::where('kode_pegawai', 'root')
+      $data['employee'] = Pegawai::where('kode_pegawai', 'toor')
                           ->join('otoritas', 'otoritas.kode_otoritas', '=', 'pegawai.kode_otoritas')
                           ->first();
       return view('dashboard.home', ['data' => $data, 'pages' => $pages, 'page' => '']);
@@ -40,7 +40,7 @@ class DashboardController extends Controller {
                 'IF (status_perangkat = "1", "available", IF (status_perangkat = "0", "unavailable", "disabled")) AS status_text,
                 IF (status_perangkat = "1", "Tersedia", IF (status_perangkat = "0", "Tidak Tersedia", "Tidak Diketahui")) AS status_text_human'
                 ))
-            ->get();
+            ->skip(0)->take(8)->get();
           $data['status'] = (object) array(
             (object) array(
               'status' => 1,
@@ -54,8 +54,9 @@ class DashboardController extends Controller {
           $data['employee'] = DB::table('pegawai')
             ->join('otoritas','otoritas.kode_otoritas', '=', 'pegawai.kode_otoritas')
             ->select('*', DB::raw('IF (jenis_kelamin_pegawai = "L", "Laki-Laki", IF (jenis_kelamin_pegawai = "P", "Perempuan", "-")) AS jenis_kelamin_pegawai'))
+            ->where('pegawai.kode_pegawai', '!=', 'toor') //yg login gk boleh hapus datanya sendiri
             ->orderBy('nama_pegawai', 'ASC')
-            ->get();
+            ->skip(0)->take(5)->get();
           $data['authority'] = DB::table('otoritas')
             ->orderBy('nama_otoritas', 'ASC')
             ->get();
@@ -258,6 +259,12 @@ class DashboardController extends Controller {
               'device-change-chair' => 'required|min:1',
               'device-change-status' => 'required'
             ]);
+            $try = Perangkat::find($id)->update([
+              'nama_perangkat' => $request->get('device-change-name'),
+              'kata_sandi_perangkat' => Hash::make($request->get('device-change-password')),
+              'jumlah_kursi_perangkat' => $request->get('device-change-chair'),
+              'status_perangkat' => $request->get('device-change-status')
+            ]);
           }
           else {
             $this->validate($request, [
@@ -265,15 +272,50 @@ class DashboardController extends Controller {
               'device-change-chair' => 'required|min:1',
               'device-change-status' => 'required'
             ]);
+            $try = Perangkat::find($id)->update([
+              'nama_perangkat' => $request->get('device-change-name'),
+              'jumlah_kursi_perangkat' => $request->get('device-change-chair'),
+              'status_perangkat' => $request->get('device-change-status')
+            ]);
           }
-          $try = Perangkat::find($id)->update([
-            'nama_perangkat' => $request->get('device-change-name'),
-            'kata_sandi_perangkat' => Hash::make($request->get('device-change-password')),
-            'jumlah_kursi_perangkat' => $request->get('device-change-chair'),
-            'status_perangkat' => $request->get('device-change-status')
-          ]);
+
         }
         return redirect('/dashboard/device');
+      break;
+      case 'employee':
+        $id = $request->get('employee-id');
+        $employee = Pegawai::findOrFail($id);
+        if ($employee) {
+          $pw = $request->get('employee-change-password');
+          if (strlen($pw) > 0) {
+            $this->validate($request, [
+              'employee-change-name' => 'required|min:4',
+              'employee-change-gender' => 'required|min:1',
+              'employee-change-password' => 'required|min:6',
+              'employee-change-authority' => 'required|min:1'
+            ]);
+            $try = Pegawai::find($id)->update([
+              'nama_pegawai' => $request->get('employee-change-name'),
+              'kata_sandi_pegawai' => Hash::make($request->get('employee-change-password')),
+              'jenis_kelamin_pegawai' => $request->get('employee-change-gender'),
+              'kode_otoritas' => $request->get('employee-change-authority')
+            ]);
+          }
+          else {
+            $this->validate($request, [
+              'employee-change-name' => 'required|min:4',
+              'employee-change-gender' => 'required|min:1',
+              'employee-change-authority' => 'required|min:1'
+            ]);
+            $try = Pegawai::find($id)->update([
+              'nama_pegawai' => $request->get('employee-change-name'),
+              'jenis_kelamin_pegawai' => $request->get('employee-change-gender'),
+              'kode_otoritas' => $request->get('employee-change-authority')
+            ]);
+          }
+
+        }
+        return redirect('/dashboard/employee');
       break;
       default:break;
     }
@@ -281,23 +323,6 @@ class DashboardController extends Controller {
 
   public function create(Request $request) {
 
-  }
-
-  public function retrieve($param) {
-    switch ($param) {
-      case 'device':
-        $devices = DB::table('perangkat')
-                  ->select(DB::raw('status_perangkat AS stat, COUNT(status_perangkat) AS res'))
-                  ->groupBy('status_perangkat')
-                  ->orderBy('status_perangkat', 'DESC')
-                  ->get();
-        return $devices;
-      break;
-      case '':
-
-      break;
-      default:break;
-    }
   }
 
   public function delete(Request $request, $param, $id) {
@@ -309,8 +334,12 @@ class DashboardController extends Controller {
         }
         return redirect('/dashboard/device');
       break;
-      case '':
-
+      case 'employee':
+        $employee = Pegawai::find($id)->delete();
+        if ($employee) {
+          Pegawai::destroy($id);
+        }
+        return redirect('/dashboard/employee');
       break;
       default:break;
     }

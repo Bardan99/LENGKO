@@ -93,7 +93,7 @@
       </div>
     </div>
     <div class="row mrg-b-10">
-      <div class="col-md-offset-2 col-md-8">
+      <div class="col-md-6">
         <button type="submit" class="btn-lengko btn-lengko-default block">
           <span class="glyphicon glyphicon-send" aria-hidden="true"></span> Kirim
         </button>

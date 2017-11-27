@@ -52,7 +52,7 @@
         <br />
         <br />
         <a href="{{ url('/about/') }}">
-          Dinosaurus jahat sudah memakan semuanya! <br />
+          Dinosaurus jahat sudah memakan semua menunya! <br />
           Kami butuh bantuan kamu untuk menghentikannya
         </a>
       </div>

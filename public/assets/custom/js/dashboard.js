@@ -1,3 +1,80 @@
+function accept_material(id) {
+  swal({
+    title: "Setujui pengajuan?",
+    html: $("input[name=material-request-detail-subject]").val(),
+    type: "question",
+    timer: 10000,
+    showCancelButton: true,
+    confirmButtonText: 'Iya',
+    confirmButtonColor: '#2c3e50',
+    cancelButtonText: 'Tidak'
+  }).then(function(result) {
+    if (result.value) {
+      var max = $('input[name=material-request-detail-max-' + id +']').val();
+      var data = [];
+      for (i = 0; i < max; i++) {
+        if ($('input[name="material-request-detail-check-' + id + '-' + i + '"]').val() == 1) {
+          data = data.concat({
+            'material-request-detail-name' : $('input[name=material-request-detail-name-' + id + '-' + i + ']').val(),
+            'material-request-detail-count' : $('input[name=material-request-detail-count-' + id + '-' + i + ']').val(),
+            'material-request-detail-unit' : $('input[name=material-request-detail-unit-' + id + '-' + i + ']').val(),
+            'material-request-detail-date' : $('input[name=material-request-detail-date-' + id + '-' + i + ']').val()
+          });
+        }
+      }
+      console.log(data);
+      $.ajax({
+        type: "POST",
+        url: "/dashboard/create/employee",
+        data: data,
+        dataType: 'JSON',
+        cache: false,
+        success: function(result) {
+
+          if (result.status == 500) {
+            swal({
+              title: "Oops terjadi kesalahan",
+              html: result.text,
+              type: "warning",
+              timer: 10000,
+              showCancelButton: false,
+              confirmButtonText: 'Ok',
+              confirmButtonColor: '#2c3e50',
+            });
+          }
+          else if (result.status == 400) {
+            swal({
+              title: "Oops terjadi kesalahan",
+              html: result.text,
+              type: "error",
+              timer: 10000,
+              showCancelButton: false,
+              confirmButtonText: 'Ok',
+              confirmButtonColor: '#2c3e50',
+            });
+          }
+          else {
+            swal({
+              title: "Berhasil menambah pegawai",
+              text: result.text,
+              type: "success",
+              timer: 30000
+            }).then(function(result) {
+              if (result.value) {
+                window.location = '/dashboard/employee/';
+              }
+            });
+          }
+        },
+        error: function(result){
+
+        }
+      });
+
+    }
+  });
+}
+
 $(document).ready(function() {
 
   /* device */
@@ -401,6 +478,7 @@ $(document).ready(function() {
     });
   }
 
+  /* material */
 
   /*
     swal({

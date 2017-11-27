@@ -68,6 +68,7 @@ class DashboardController extends Controller {
           $data['material-request'] = DB::table('pengadaan_bahan_baku')
             ->join('prioritas', 'prioritas.kode_prioritas', '=', 'pengadaan_bahan_baku.kode_prioritas')
             ->orderBy('tanggal_pengadaan_bahan_baku', 'DSC')
+            ->where('status_pengadaan_bahan_baku', '=', 0)
             ->get();
           if ($data['material-request']) {
             foreach ($data['material-request'] as $key => $value) {

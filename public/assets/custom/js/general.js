@@ -143,7 +143,7 @@ $(document).ready(function() {
 
   /* End of Select2 settings */
 
-  var inc = 1;
+  var inc = 0;
 
   $('#btn-material-list-request').click(function() {
     inc += 1;
@@ -153,18 +153,19 @@ $(document).ready(function() {
       data: {inc: inc},
       success: function(result) {
         var field = '<div class="row padd-lr-15"><div class="col-md-offset-2 col-md-6">';
-        field += '<input type="text" id="material-name-' + inc + '" name="" class="input-lengko-default block" placeholder="Nama Bahan Baku" /></div>';
+        field += '<input type="text" id="material-request-create-item-' + inc + '" name="material-request-create-item-' + inc + '" class="input-lengko-default block" placeholder="Nama Bahan Baku" /></div>';
         field += '<div class="col-md-4"><div class="row"><div class="col-md-2 col-xs-12 col-sm-12 padd-lr-15">';
-        field += '<button type="button" class="btn-lengko btn-lengko-default block" onclick="add_val(\'material-list-' + inc + '\', \'material-name-' + inc + '\');" style="height:42px; padding: 10px 5px 10px 5px; font-size: 13pt;">';
+        field += '<button type="button" class="btn-lengko btn-lengko-default block" onclick="add_val(\'material-list-' + inc + '\', \'material-request-create-item-' + inc + '\');" style="height:42px; padding: 10px 5px 10px 5px; font-size: 13pt;">';
         field += '<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>&nbsp;</button>';
         field += '</div><div class="col-md-10 col-xs-12 col-sm-12 padd-lr-15">';
-        field += '<select id="material-list-' + inc + '" name="" class="select-lengko-default block" onchange="add_val(\'material-list-' + inc + '\', \'material-name-' + inc + '\');">';
+        field += '<select id="material-list-' + inc + '" name="" class="select-lengko-default block" onchange="add_val(\'material-list-' + inc + '\', \'material-request-create-item-' + inc + '\');">';
         for (j = 0; j < result.data.material.length; j++) {
           field += '<option value="' + result.data.material[j].kode_bahan_baku + '">' + result.data.material[j].nama_bahan_baku + '</option>';
         }
         field +=  '</select>';
         field +=  '</div></div></div></div>';
         add_element('material-list-request', field);
+        $('input[name=material-request-create-max]').val(inc);
       }
     });
 
@@ -173,7 +174,7 @@ $(document).ready(function() {
   if ($('.datepicker').length > 0) {
     $('.datepicker').datepicker({
       language: 'id-ID',
-      format: 'dd/mm/yyyy',
+      format: 'yyyy-mm-dd',
       startDate: new Date(2017, 0, 1),
       endDate: new Date(2020, 0, 1),
       days: ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'],

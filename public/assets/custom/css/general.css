@@ -527,6 +527,72 @@ hr.content {
   transform: scale(1);
 }
 
+
+.checkbox-lengko-default {
+  padding: 5px;
+  margin: 10px 0px 10px 0px;
+  border: 0px;
+}
+
+.checkbox-lengko-default > [type="checkbox"]:checked,
+.checkbox-lengko-default > [type="checkbox"]:not(:checked) {
+  /* align original radio button to the left */
+  position: absolute;
+  left: -9999px;
+}
+.checkbox-lengko-default > [type="checkbox"]:checked + label,
+.checkbox-lengko-default > [type="checkbox"]:not(:checked) + label {
+  position: relative;
+  padding-left: 28px;
+  cursor: pointer;
+  line-height: 20px;
+  display: inline-block;
+  color: #34495e;
+}
+
+.checkbox-lengko-default > [type="checkbox"]:checked + label:before,
+.checkbox-lengko-default > [type="checkbox"]:not(:checked) + label:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #34495e;
+  border-radius: 1px;
+  background: #f6f6f6;
+
+}
+
+.checkbox-lengko-default > [type="checkbox"]:checked + label:after,
+.checkbox-lengko-default > [type="checkbox"]:not(:checked) + label:after {
+  content: '';
+  width: 12px;
+  height: 12px;
+  background: #34495e;
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  border-radius: 100%;
+  /* animasi */
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+
+}
+
+.checkbox-lengko-default > [type="checkbox"]:not(:checked) + label:after {
+  opacity: 0;
+  /* animasi */
+  -webkit-transform: scale(0);
+  transform: scale(0);
+}
+
+.checkbox-lengko-default > [type="checkbox"]:checked + label:after {
+  opacity: 1;
+  -webkit-transform: scale(1);
+  transform: scale(1);
+}
+
 .btn-lengko {
   margin: 4px;
   padding: 10px;

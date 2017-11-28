@@ -230,7 +230,9 @@
                       <tr id="material-request-{{ $key1 }}" style="display:none; visibility: none;">
                         <td></td>
                         <td colspan="5">
-                          <form name="material-request-detil-add" action="{{url('/')}}" method="post">
+                          <form name="material-request-detil-add" action="{{url('/dashboard/create/material')}}" method="post">
+                            <input type="hidden" name="material-request-detail-method" value="post">
+                            <input type="hidden" name="material-request-detail-token" value="{{ csrf_token() }}">
                             <div class="table-responsive">
                               <table class="table table-hover">
                               <tr>
@@ -242,21 +244,11 @@
                                 @foreach ($data[$key1]['material-request-detail'] as $key2 => $value2)
                                   <tr>
                                     <td>
-                                      <div class="row">
-                                        <div class="col-md-1">
-                                            <div class="checkbox-lengko-default">
-                                              <input type="checkbox" id="material-request-detail-check-{{ $value2->kode_pengadaan_bahan_baku . '-' . $key2 }}" name="material-request-detail-check-{{ $value2->kode_pengadaan_bahan_baku . '-' . $key2 }}" value="1" checked="checked" onclick="$('input[name=material-request-detail-check-{{ $value2->kode_pengadaan_bahan_baku . '-' . $key2 }}]').val('0');" />
-                                              <label for="material-request-detail-check-{{ $value2->kode_pengadaan_bahan_baku . '-' . $key2 }}">&nbsp;</label>
-                                            </div>
-                                          </div>
-                                          <div class="col-md-11">
-                                            <input type="text" name="material-request-detail-name-{{ $value2->kode_pengadaan_bahan_baku . '-' . $key2  }}" class="input-lengko-default block" placeholder="Nama" value="{{ $value2->nama_bahan_baku }}" />
-                                          </div>
-                                        </div>
-                                      </div>
+                                      <input type="hidden" name="material-request-detail-{{ $value2->kode_pengadaan_bahan_baku . '-' . $key2  }}" value="{{$value2->kode_pengadaan_bahan_baku_detil}}">
+                                      <input type="text" name="material-request-detail-name-{{ $value2->kode_pengadaan_bahan_baku . '-' . $key2  }}" class="input-lengko-default block" placeholder="Nama" value="{{ $value2->nama_bahan_baku }}" />
                                     </td>
                                     <td width="120px">
-                                      <input type="number" min="0" name="material-request-detail-count-{{ $value2->kode_pengadaan_bahan_baku . '-' . $key2  }}" class="input-lengko-default block" placeholder="Jumlah" value="{{ $value2->jumlah_bahan_baku }}" />
+                                      <input type="number" min="0" name="material-request-detail-count-{{ $value2->kode_pengadaan_bahan_baku . '-' . $key2 }}" class="input-lengko-default block" placeholder="Jumlah" value="{{ $value2->jumlah_bahan_baku }}" />
                                     </td>
                                     <td width="180px">
                                       <input type="text" name="material-request-detail-unit-{{ $value2->kode_pengadaan_bahan_baku . '-' . $key2  }}" class="input-lengko-default block" placeholder="Satuan terkecil" value="{{ $value2->satuan_bahan_baku }}" />
@@ -269,16 +261,19 @@
                               </table>
                             </div>
                             <div class="row">
+                              <div class="col-md-12">
+                                *Bahan baku dengan jumlah = 0 dianggap tidak disetujui.
+                              </div>
+                            </div>
+                            <div class="row">
                               <div class="col-md-6">
-                                <input type="hidden" name="_method" value="post">
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <input type="hidden" name="material-request-detail-max-{{ $value2->kode_pengadaan_bahan_baku }}" value="{{count($data[$key1]['material-request-detail'])}}">
+                                <input type="hidden" name="material-request-detail-max" value="{{count($data[$key1]['material-request-detail'])}}">
                                 <input type="hidden" name="material-request-detail-subject" value="{{ $value->subjek_pengadaan_bahan_baku }}" />
-                                <input type="hidden" name="material-request-detail-id-{{ $value2->kode_pengadaan_bahan_baku }}" value="{{ $value2->kode_pengadaan_bahan_baku_detil }}" />
-                                <button type="button" class="btn-lengko btn-lengko-danger block" onclick="accept_material({{ $value2->kode_pengadaan_bahan_baku }});">Tolak</button>
+                                <input type="hidden" name="material-request-detail-id" value="{{ $value2->kode_pengadaan_bahan_baku }}" />
+                                <button type="button" class="btn-lengko btn-lengko-danger block" onclick="decline_material({{ $value2->kode_pengadaan_bahan_baku }});">Tolak</button>
                               </div>
                               <div class="col-md-6">
-                                <button type="button" class="btn-lengko btn-lengko-success block" onclick="accept_material({{ $value2->kode_pengadaan_bahan_baku }});">Terima</button>
+                                <button type="submit" class="btn-lengko btn-lengko-success block">Terima</button>
                               </div>
                             </div>
                           </form>

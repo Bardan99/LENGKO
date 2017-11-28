@@ -1,79 +1,89 @@
-function accept_material(id) {
-  swal({
-    title: "Setujui pengajuan?",
-    html: $("input[name=material-request-detail-subject]").val(),
-    type: "question",
-    timer: 10000,
-    showCancelButton: true,
-    confirmButtonText: 'Iya',
-    confirmButtonColor: '#2c3e50',
-    cancelButtonText: 'Tidak'
-  }).then(function(result) {
-    if (result.value) {
-      var max = $('input[name=material-request-detail-max-' + id +']').val();
-      var data = [];
-      for (i = 0; i < max; i++) {
-        if ($('input[name="material-request-detail-check-' + id + '-' + i + '"]').val() == 1) {
-          data = data.concat({
+$('form[name=material-request-detil-add]').on('submit', function(e) {
+  e.preventDefault();
+  var id = $('input[name=material-request-detail-id]').val();
+  var max = $('input[name=material-request-detail-max]').val();
+  if (max > 0) {
+    swal({
+      title: "Setujui pengajuan?",
+      html: $("input[name=material-request-detail-subject]").val(),
+      type: "question",
+      timer: 10000,
+      showCancelButton: true,
+      confirmButtonText: 'Iya',
+      confirmButtonColor: '#2c3e50',
+      cancelButtonText: 'Tidak'
+    }).then(function(result) {
+      if (result.value) {
+        var data = [];
+        for (i = 0; i < max; i++) {
+          data = data.concat ({
+            'material-request-detail' : $('input[name=material-request-detail-' + id + '-' + i + ']').val(),
             'material-request-detail-name' : $('input[name=material-request-detail-name-' + id + '-' + i + ']').val(),
             'material-request-detail-count' : $('input[name=material-request-detail-count-' + id + '-' + i + ']').val(),
             'material-request-detail-unit' : $('input[name=material-request-detail-unit-' + id + '-' + i + ']').val(),
             'material-request-detail-date' : $('input[name=material-request-detail-date-' + id + '-' + i + ']').val()
           });
         }
+
+        data = {
+          '_id' : id,
+          '_data' : data,
+          '_method' : $('input[name="material-request-detail-method"]').val(),
+          '_token' : $('input[name="material-request-detail-token"]').val()
+        };
+        console.log(data);
+        $.ajax({
+          type: "POST",
+          url: "/dashboard/create/material",
+          data: data,
+          cache: false,
+          success: function(result) {
+            console.log(result);
+            if (result.status == 200) {
+              swal({
+                title: "Berhasil menambah bahan baku",
+                text: result.text,
+                type: "success",
+                timer: 30000
+              }).then(function(result) {
+                if (result.value) {
+                  window.location = '/dashboard/material/';
+                }
+              });
+            }
+            else {
+              swal({
+                title: "Oops terjadi kesalahan",
+                html: result.text,
+                type: "warning",
+                timer: 10000,
+                showCancelButton: false,
+                confirmButtonText: 'Ok',
+                confirmButtonColor: '#2c3e50',
+              });
+            }
+          },
+          error: function(result){
+
+          }
+        });
+
       }
-      console.log(data);
-      $.ajax({
-        type: "POST",
-        url: "/dashboard/create/employee",
-        data: data,
-        dataType: 'JSON',
-        cache: false,
-        success: function(result) {
 
-          if (result.status == 500) {
-            swal({
-              title: "Oops terjadi kesalahan",
-              html: result.text,
-              type: "warning",
-              timer: 10000,
-              showCancelButton: false,
-              confirmButtonText: 'Ok',
-              confirmButtonColor: '#2c3e50',
-            });
-          }
-          else if (result.status == 400) {
-            swal({
-              title: "Oops terjadi kesalahan",
-              html: result.text,
-              type: "error",
-              timer: 10000,
-              showCancelButton: false,
-              confirmButtonText: 'Ok',
-              confirmButtonColor: '#2c3e50',
-            });
-          }
-          else {
-            swal({
-              title: "Berhasil menambah pegawai",
-              text: result.text,
-              type: "success",
-              timer: 30000
-            }).then(function(result) {
-              if (result.value) {
-                window.location = '/dashboard/employee/';
-              }
-            });
-          }
-        },
-        error: function(result){
-
-        }
-      });
-
-    }
-  });
-}
+    });
+  }
+  else {
+    swal({
+      title: "Oops terjadi kesalahan",
+      html: "Silahkan pilih bahan baku untuk diproses.",
+      type: "warning",
+      timer: 10000,
+      showCancelButton: false,
+      confirmButtonText: 'Ok',
+      confirmButtonColor: '#2c3e50',
+    });
+  }//end if > 0
+});
 
 $(document).ready(function() {
 

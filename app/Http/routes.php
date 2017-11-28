@@ -19,7 +19,8 @@ Route::post('/dashboard/create/employee', 'EmployeeController@create');
 Route::post('/dashboard/search/employee', 'EmployeeController@search');
 Route::get('/dashboard/retrieve/employee', 'EmployeeController@retrieve');
 
-Route::post('/dashboard/create/request', 'PengadaanController@create');
+Route::post('/dashboard/create/request', 'PengadaanController@createrequest');
+Route::post('/dashboard/create/material', 'PengadaanController@acceptrequest');
 
 Route::get('/dashboard/retrieve/{param}/', 'DashboardController@retrieve');
 Route::put('/dashboard/update/{param}/', 'DashboardController@update');

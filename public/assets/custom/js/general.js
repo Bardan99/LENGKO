@@ -103,6 +103,15 @@ function hide_obj(id) {
   }
 }
 
+function truggle(selector) {
+  if ($('input[name=' + selector + ']').val() == 1) {
+    $('input[name=' + selector + ']').val(0);
+  }
+  else {
+    $('input[name=' + selector + ']').val(1);
+  }
+}
+
 $(document).ready(function() {
 
   /* Type it settings */

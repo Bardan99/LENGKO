@@ -276,6 +276,12 @@ hr.content {
   margin-bottom: 30px;
 }
 
+
+.mrg-lr-0 {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
 .mrg-lr-5 {
   margin-left: 5px;
   margin-right: 5px;
@@ -331,6 +337,11 @@ hr.content {
 .padd-tb-40 {
   padding-top: 40px;
   padding-bottom: 40px;
+}
+
+.padd-tb-180 {
+  padding-top: 180px;
+  padding-bottom: 180px;
 }
 
 .padd-tb-200 {

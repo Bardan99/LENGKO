@@ -149,4 +149,72 @@ class PengadaanController extends Controller {
     return redirect('/dashboard/material');
   }
 
+  public function declinerequest(Request $request) {
+    $data = $request->all();
+    $req = Pengadaan::find($data['_id']);
+    if ($req) {
+      $validator = Validator::make($data, [
+        '_id' => 'required|min:1'
+      ]);
+
+      if ($validator->fails()) {
+        return response()->json(['status' => 500, 'text' => 'Terjadi kesalahan']);
+      }
+      else {
+        $try = Pengadaan::find($data['_id'])->update([
+          'status_pengadaan_bahan_baku' => -1
+        ]);
+        return response()->json(['status' => 200,'text' => '']);
+      }//end case validator
+    }
+    else {
+      return response()->json(['status' => 400,'text' => 'Kode pengajuan bahan baku tidak diketahui']);
+    }
+    return redirect('/dashboard/material');
+  }
+
+
+  /* currently unused
+  public function searchrequest(Request $request) {
+    if ($request->ajax()) {
+      $data = $request->all();
+      $validator = Validator::make($data, [
+        'search-material-request-query' => 'required|min:1',
+      ]);
+
+      if ($validator->fails()) {
+        return response()->json(['status' => 500, 'text' => 'Jangan lupa diisi ya kata kunci nya!']);
+      }
+
+      $req = DB::table('pengadaan_bahan_baku')
+        ->where('status_pengadaan_bahan_baku', 0)
+        ->where(function($qry) use($data) {
+         $qry->orwhere('kode_pengadaan_bahan_baku', 'LIKE', '%' . $data['search-material-request-query'] . '%')
+             ->orwhere('subjek_pengadaan_bahan_baku', 'LIKE', '%' . $data['search-material-request-query'] . '%')
+             ->orwhere('catatan_pengadaan_bahan_baku', 'LIKE', '%' . $data['search-material-request-query'] . '%');
+        })
+        ->join('prioritas', 'prioritas.kode_prioritas', '=', 'pengadaan_bahan_baku.kode_prioritas')
+        ->orderBy('tanggal_pengadaan_bahan_baku', 'DSC')
+        ->get();
+
+        foreach ($req as $key => $value) {
+          $reqdet[] = DB::table('pengadaan_bahan_baku_detil')
+            ->where('kode_pengadaan_bahan_baku', '=', $value->{'kode_pengadaan_bahan_baku'})
+            ->orderBy('nama_bahan_baku', 'ASC')
+            ->get();
+        }
+
+      if ($req) {
+        return response()->json([
+            'status' => 200,
+            'text' => 'Pencarian selesai dilakukan',
+            'request' => $req,
+            'details' => $reqdet
+          ]);
+      }
+
+    }
+  }
+  */
+
 }

@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests;
+use App\BahanBaku;
 use App\Pegawai;
 use App\Perangkat;
+use App\Menu;
+use App\MenuDetil;
 use Hash;
 
 class DashboardController extends Controller {
@@ -74,6 +77,7 @@ class DashboardController extends Controller {
             foreach ($data['material-request'] as $key => $value) {
               $data[$key]['material-request-detail'] = DB::table('pengadaan_bahan_baku_detil')
                 ->orderBy('nama_bahan_baku', 'ASC')
+                ->where('kode_pengadaan_bahan_baku', '=', $value->{'kode_pengadaan_bahan_baku'})
                 ->get();
             }
           }
@@ -86,6 +90,7 @@ class DashboardController extends Controller {
             foreach ($data['material-request-user'] as $key => $value) {
               $data[$key]['material-request-user-detail'] = DB::table('pengadaan_bahan_baku_detil')
                 ->orderBy('nama_bahan_baku', 'ASC')
+                ->where('kode_pengadaan_bahan_baku', '=', $value->{'kode_pengadaan_bahan_baku'})
                 ->get();
             }
           }
@@ -99,30 +104,25 @@ class DashboardController extends Controller {
             ->orderBy('nama_menu', 'ASC')
             ->skip(0)->take(3)->get();
           foreach ($data['menu'] as $key => $value) {
+            $data[$key]['menu-material'] = DB::table('menu')
+            ->select('menu_detil.*')
+            ->join('menu_detil', 'menu_detil.kode_menu', '=', 'menu.kode_menu')
+            ->where('menu.kode_menu', '=', $value->kode_menu)
+            ->get();
+          }
+
+          foreach ($data['menu'] as $key => $value) {
             $data[$key]['menu-status'] = DB::table('menu')
             ->select('bahan_baku.nama_bahan_baku', 'bahan_baku.stok_bahan_baku')
-            ->join('bahan_baku_detil', 'bahan_baku_detil.kode_menu', '=', 'menu.kode_menu')
-            ->join('bahan_baku', 'bahan_baku.kode_bahan_baku', '=', 'bahan_baku_detil.kode_bahan_baku')
+            ->join('menu_detil', 'menu_detil.kode_menu', '=', 'menu.kode_menu')
+            ->join('bahan_baku', 'bahan_baku.kode_bahan_baku', '=', 'menu_detil.kode_bahan_baku')
             ->where('menu.kode_menu', '=', $value->kode_menu)
             ->get();
           }
           $data['material'] = DB::table('bahan_baku')
             ->orderBy('nama_bahan_baku', 'ASC')
             ->get();
-          $data['material-request'] = DB::table('pengadaan_bahan_baku')
-            ->join('prioritas', 'prioritas.kode_prioritas', '=', 'pengadaan_bahan_baku.kode_prioritas')
-            ->orderBy('tanggal_pengadaan_bahan_baku', 'DSC')
-            ->get();
-          if ($data['material-request']) {
-            foreach ($data['material-request'] as $key => $value) {
-              $data[$key]['material-request-detail'] = DB::table('pengadaan_bahan_baku_detil')
-                ->orderBy('nama_bahan_baku', 'ASC')
-                ->get();
-            }
-          }
-          $data['priority'] = DB::table('prioritas')
-            ->orderBy('nama_prioritas', 'ASC')
-            ->get();
+
           $data['menu_obj'] = new MethodController();
         break;
         case 'order':
@@ -234,17 +234,27 @@ class DashboardController extends Controller {
         $id = $request->get('employee-id');
         $employee = Pegawai::findOrFail($id);
         if ($employee) {
-          $this->validate($request, [
+          $rules = [
             'employee-name' => 'required|min:4',
             'employee-password' => 'required|min:6',
             'employee-gender' => 'required'
-          ]);
+          ];
 
-          $try = Pegawai::find($id)->update([
+          $data = [
             'nama_pegawai' => $request->get('employee-name'),
             'kata_sandi_pegawai' => Hash::make($request->get('employee-password')),
-            'jenis_kelamin_pegawai' => $request->get('employee-gender')
-          ]);
+            'jenis_kelamin_pegawai' => $request->get('employee-gender'),
+          ];
+
+          $file = $request->file('employee-photo');
+          if ($file) {
+            $fileName   = strtolower(str_replace(" ", "-", $data['nama_pegawai'])) . '.' . $file->getClientOriginalExtension();
+            $request->file('employee-photo')->move("files/images/employee", $fileName);
+            $data['gambar_pegawai'] = $fileName;
+            //$rules['employee-photo'] = 'image|max:2048';
+          }
+          $this->validate($request, $rules);
+          $try = Pegawai::find($id)->update($data);
         }
         return redirect('/dashboard');
       break;
@@ -318,29 +328,111 @@ class DashboardController extends Controller {
         }
         return redirect('/dashboard/employee');
       break;
+      case 'material':
+        $id = $request->get('material-id');
+        $material = BahanBaku::findOrFail($id);
+        if ($material) {
+          $this->validate($request, [
+            'material-change-name' => 'required|min:3',
+            'material-change-stock' => 'required|min:1',
+            'material-change-unit' => 'required|min:1',
+            'material-change-date' => 'required'
+          ]);
+          $try = BahanBaku::find($id)->update([
+            'nama_bahan_baku' => $request->get('material-change-name'),
+            'stok_bahan_baku' => $request->get('material-change-stock'),
+            'satuan_bahan_baku' => $request->get('material-change-unit'),
+            'tanggal_kadaluarsa_bahan_baku' => $request->get('material-change-date')
+          ]);
+        }
+        return redirect('/dashboard/material');
+      break;
+      case 'menu':
+        $id = $request->get('menu-change-id');
+        $menu = Menu::findOrFail($id);
+        if ($menu) {
+          $rules = [
+            'menu-change-name' => 'required|min:4',
+            'menu-change-price' => 'required|min:1',
+            'menu-change-description' => 'required',
+            'menu-change-type' => 'required'
+          ];
+
+          $data = [
+            'nama_menu' => $request->get('menu-change-name'),
+            'harga_menu' => $request->get('menu-change-price'),
+            'deskripsi_menu' => $request->get('menu-change-description'),
+            'jenis_menu' => $request->get('menu-change-type')
+          ];
+
+          $file = $request->file('menu-change-thumbnail');
+          if ($file) {
+            $fileName   = strtolower(str_replace(" ", "-", $data['nama_menu'])) . '.' . $file->getClientOriginalExtension();
+            $request->file('menu-change-thumbnail')->move("files/images/menus", $fileName);
+            $data['gambar_menu'] = $fileName;
+            $rules['menu-change-thumbnail'] = 'required';
+          }
+          $this->validate($request, $rules);
+          $try = Menu::find($id)->update($data);
+
+          $available = false;
+
+          for ($i = 0 ;$i < $request->get('menu-material-max'); $i++) {
+            if ($request->get('menu-material-change-count-' . $i) > 0) {
+              $detil[] = array(
+                'kode_menu' => $id,
+                'kode_bahan_baku' => $request->get('menu-material-change-id-' . $i),
+                'jumlah_bahan_baku_detil' => $request->get('menu-material-change-count-' . $i)
+              );
+              $available = true;
+            }
+          }
+
+          if ($available) {
+            $try = MenuDetil::where(['kode_menu' => $id])->delete();
+            $try = MenuDetil::insert($detil);
+          }
+
+        }
+        return redirect('/dashboard/menu');
+      break;
       default:break;
     }
-  }
-
-  public function create(Request $request) {
-
   }
 
   public function delete(Request $request, $param, $id) {
     switch ($param) {
       case 'device':
-        $device = Perangkat::find($id);
-        if ($device) {
+        $handler = Perangkat::find($id);
+        if ($handler) {
           Perangkat::destroy($id);
         }
         return redirect('/dashboard/device');
       break;
       case 'employee':
-        $employee = Pegawai::find($id)->delete();
-        if ($employee) {
+        $handler = Pegawai::find($id)->delete();
+        if ($handler) {
           Pegawai::destroy($id);
         }
         return redirect('/dashboard/employee');
+      break;
+      case 'material':
+        $handler = BahanBaku::find($id)->delete();
+        if ($handler) {
+          BahanBaku::destroy($id);
+        }
+        return redirect('/dashboard/material');
+      break;
+      case 'menu':
+        $handler = Menu::find($id)->delete();
+        if ($handler) {
+          $try = Menu::destroy($id);
+          return response()->json(['status' => 200, 'text' => 'Jangan lupa diisi ya kata kunci nya!']);
+        }
+        else {
+          return response()->json(['status' => 400, 'text' => 'Menu tidak ditemukan.']);
+        }
+
       break;
       default:break;
     }

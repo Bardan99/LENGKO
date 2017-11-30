@@ -23,12 +23,12 @@
                 </div>
               @endif
 
-              <form class="" action="{{ url('/dashboard/update/profile/') }}" method="post">
+              <form class="" action="{{ url('/dashboard/update/profile/') }}" method="post" enctype="multipart/form-data">
                 <div class="row">
                   <div class="col-md-3">
-                    <div class="container-file-lengko hov-unblur block">
-                      <img class="img-circle img-center" src="{{ url('/files/images/employee/default.png') }}" alt="" width="140px" height="140px" />
-                      <input type="file" title="Ubah foto profil" />
+                    <div class="container-file-lengko block">
+                      <img id="preview-profile" class="img-circle img-center" src="{{ url('/files/images/employee/') . '/' }}@if (file_exists(public_path('/files/images/employee/') . '/' . $data['employee']->gambar_pegawai)){{$data['employee']->gambar_pegawai}}@else{{'default.png'}}@endif" alt="" width="140px" height="140px" />
+                      <input name="employee-photo" type="file" title="Ubah foto profil" onchange="reload_image(this, '#preview-profile');" />
                       <input type="hidden" name="employee-id" value="{{ $data['employee']->kode_pegawai }}">
                       <input type="hidden" name="_method" value="put">
                       <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -48,7 +48,7 @@
                     <div class="row mrg-b-10">
                       <div class="col-md-4">Kata Sandi</div>
                       <div class="col-md-8">
-                        <input type="password" id="employee-password" name="employee-password" class="input-lengko-default block" placeholder="Kata Sandi" value="" />
+                        <input type="password" id="employee-password" name="employee-password" class="input-lengko-default block" placeholder="*****" value="" />
                       </div>
                     </div>
                     <div class="row mrg-b-10">

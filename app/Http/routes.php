@@ -20,7 +20,16 @@ Route::post('/dashboard/search/employee', 'EmployeeController@search');
 Route::get('/dashboard/retrieve/employee', 'EmployeeController@retrieve');
 
 Route::post('/dashboard/create/request', 'PengadaanController@createrequest');
-Route::post('/dashboard/create/material', 'PengadaanController@acceptrequest');
+Route::post('/dashboard/search/materialrequest', 'PengadaanController@searchrequest');
+
+Route::post('/dashboard/create/materialrequest', 'PengadaanController@acceptrequest');
+Route::post('/dashboard/decline/material', 'PengadaanController@declinerequest');
+
+Route::post('/dashboard/create/material', 'MaterialController@create');
+Route::post('/dashboard/search/material', 'MaterialController@search');
+
+Route::post('/dashboard/create/menu', 'MenuController@create');
+Route::post('/dashboard/search/materialmenu', 'MenuController@searchmaterial');
 
 Route::get('/dashboard/retrieve/{param}/', 'DashboardController@retrieve');
 Route::put('/dashboard/update/{param}/', 'DashboardController@update');

@@ -102,30 +102,7 @@
                   @endforeach
                   </table>
                 </div>
-              </div>
-              <div class="row mrg-t-20">
-                <div class="col-md-12">
-                  <nav aria-label="Page navigation" class="text-center">
-                    <ul class="pagination pagination-lg mrg-tb-0">
-                      <li>
-                        <a href="#" aria-label="Previous">
-                          <span aria-hidden="true">&laquo;</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#" aria-label="Next">
-                          <span aria-hidden="true">&raquo;</span>
-                        </a>
-                      </li>
-                    </ul>
-                  </nav>
-                </div>
-              </div>
+              </div>              
               @else
                 <div class="row">
                   <div class="col-md-12">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests;
+use App\BahanBaku;
 use Hash;
 use Validator;
 
@@ -23,6 +24,61 @@ class MaterialController extends Controller {
       }
     }
     return $data;
+  }
+
+  public function search(Request $request) {
+    if ($request->ajax()) {
+      $data = $request->all();
+      $validator = Validator::make($data, [
+        'material-search-query' => 'required|min:1',
+      ]);
+
+      if ($validator->fails()) {
+        return response()->json(['status' => 500, 'text' => 'Jangan lupa diisi ya kata kunci nya!']);
+      }
+
+      $materials = DB::table('bahan_baku')
+        ->where('kode_bahan_baku', 'LIKE', '%' . $data['material-search-query'] . '%')
+        ->orwhere('nama_bahan_baku', 'LIKE', '%' . $data['material-search-query'] . '%')
+        ->orwhere('stok_bahan_baku', 'LIKE', '%' . $data['material-search-query'] . '%')
+        ->orwhere('satuan_bahan_baku', 'LIKE', '%' . $data['material-search-query'] . '%')
+        ->orwhere('tanggal_kadaluarsa_bahan_baku', 'LIKE', '%' . $data['material-search-query'] . '%')
+        ->orderBy('nama_bahan_baku', 'ASC')
+        ->get();
+      if ($materials) {
+        return response()->json([
+            'status' => 200,
+            'text' => 'Pencarian selesai dilakukan',
+            'content' => $materials
+          ]);
+      }
+
+    }
+  }
+
+  public function create(Request $request) {
+    if ($request->ajax()) {
+      $data = $request->all();
+      $validator = Validator::make($data, [
+        'material-create-name' => 'required|min:3',
+        'material-create-stock' => 'required|min:1',
+        'material-create-unit' => 'required|min:1',
+        'material-create-date' => 'required'
+      ]);
+
+      if ($validator->fails()) {
+        return response()->json(['status' => 500, 'text' => 'Perhatikan bahwa semua kolom harus diisi']);
+      }
+
+      $try = BahanBaku::create([
+        'nama_bahan_baku' => $data['material-create-name'],
+        'stok_bahan_baku' => $data['material-create-stock'],
+        'satuan_bahan_baku' => $data['material-create-unit'],
+        'tanggal_kadaluarsa_bahan_baku' => $data['material-create-date']
+      ]);
+      return response()->json(['status' => 200,'text' => 'Yey, berhasil menambahkan bahan baku.']);
+
+    }
   }
 
 }

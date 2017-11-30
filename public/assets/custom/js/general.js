@@ -1,4 +1,3 @@
-
 function go_to(url) {
   if (url) {
     window.location = '/' + url;
@@ -111,6 +110,18 @@ function truggle(selector) {
     $('input[name=' + selector + ']').val(1);
   }
 }
+
+/* custome preview image for dynamic purposes */
+function reload_image(input, target) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      $(target).attr('src', e.target.result);
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
 
 $(document).ready(function() {
 

@@ -101,6 +101,7 @@ class MenuController extends Controller {
   public function search(Request $request) {
     if ($request->ajax()) {
       $data = $request->all();
+      $keyword = '%' . $data['menu-search-query'] . '%';
       $validator = Validator::make($data, [
         'menu-search-query' => 'required|min:1',
       ]);
@@ -109,23 +110,41 @@ class MenuController extends Controller {
         return response()->json(['status' => 500, 'text' => 'Jangan lupa diisi ya kata kunci nya!']);
       }
 
-      $menus = DB::table('menu')
-        ->join('otoritas','otoritas.kode_otoritas', '=', 'menu.kode_otoritas')
-        ->select('*', DB::raw('IF (jenis_kelamin_menu = "L", "Laki-Laki", IF (jenis_kelamin_menu = "P", "Perempuan", "-")) AS jenis_kelamin_menu'))
-        ->where('kode_menu', 'LIKE', '%' . $data['menu-search-query'] . '%')
-        ->orwhere('nama_menu', 'LIKE', '%' . $data['menu-search-query'] . '%')
-        ->where('menu.kode_menu', '!=', 'toor') //yg login gk boleh hapus datanya sendiri
+      $result['menu'] = DB::table('menu')
+        ->where('kode_menu', 'LIKE', $keyword)
+        ->orwhere('nama_menu', 'LIKE', $keyword)
+        ->orwhere('harga_menu', 'LIKE', $keyword)
+        ->orwhere('deskripsi_menu', 'LIKE', $keyword)
         ->orderBy('nama_menu', 'ASC')
         ->get();
-      $authority = DB::table('otoritas')
-        ->orderBy('nama_otoritas', 'ASC')
+
+      foreach ($result['menu'] as $key => $value) {
+        $result[$key]['menu-material'] = DB::table('menu')
+        ->select('menu_detil.*')
+        ->join('menu_detil', 'menu_detil.kode_menu', '=', 'menu.kode_menu')
+        ->where('menu.kode_menu', '=', $value->kode_menu)
         ->get();
-      if ($menus) {
+      }
+
+      foreach ($result['menu'] as $key => $value) {
+        $result[$key]['menu-status'] = DB::table('menu')
+        ->select('bahan_baku.nama_bahan_baku', 'bahan_baku.stok_bahan_baku')
+        ->join('menu_detil', 'menu_detil.kode_menu', '=', 'menu.kode_menu')
+        ->join('bahan_baku', 'bahan_baku.kode_bahan_baku', '=', 'menu_detil.kode_bahan_baku')
+        ->where('menu.kode_menu', '=', $value->kode_menu)
+        ->get();
+      }
+
+      $material = DB::table('bahan_baku')
+        ->orderBy('nama_bahan_baku', 'ASC')
+        ->get();
+
+      if ($result) {
         return response()->json([
             'status' => 200,
             'text' => 'Pencarian selesai dilakukan',
-            'content' => $menus,
-            'authority' => $authority
+            'content' => $result,
+            'material' => $material
           ]);
       }
 

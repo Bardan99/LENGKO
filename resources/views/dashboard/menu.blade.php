@@ -26,19 +26,22 @@
 
               <div class="row padd-lr-20">
                 <div class="col-md-offset-8 col-md-4">
-                  <div class="input-group">
-                    <input type="text" name="" class="form-control" placeholder="Cari Menu" />
-                    <span class="input-group-btn">
-                      <button class="btn btn-default" type="button">
-                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                      </button>
-                    </span>
-                  </div>
+                  <form name="menu-search" class="form-horizontal" action="{{ url('/dashboard/search/menu/') }}" method="post">
+                    <div class="input-group">
+                      <input type="hidden" name="menu-search-token" value="{{ csrf_token() }}">
+                      <input type="text" name="menu-search-query" class="form-control" placeholder="Cari Menu" />
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">
+                          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                        </button>
+                      </span>
+                    </div>
+                  </form>
                 </div>
               </div>
 
               <div class="row mrg-t-20 padd-lr-20">
-                <div class="box-menu">
+                <div id="menu-card-section" class="box-menu">
                   @foreach ($data['menu'] as $keymenu => $value)
                     <form name="menu-update" class="form-horizontal" action="{{ url('/dashboard/update/menu/') }}" method="post" enctype="multipart/form-data">
                       <input type="hidden" name="_method" value="put">
@@ -57,7 +60,7 @@
                             <div class="col-md-7">
                               <div class="row">
                                 <div class="col-md-3">
-                                  <div class="text-left padd-tb-10">[{{ $value->kode_menu }}]</div>
+                                  <div class="text-left padd-tb-10">[<b>{{ $value->kode_menu }}</b>]</div>
                                 </div>
                                 <div class="col-md-9">
                                   <input type="text" name="menu-change-name" class="input-lengko-default block" placeholder="Nama Menu" value="{{ $value->nama_menu }}" />

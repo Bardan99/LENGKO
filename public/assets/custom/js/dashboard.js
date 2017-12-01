@@ -870,15 +870,180 @@ $(document).ready(function() {
     });
   }
 
-  /*
-    swal({
-      title: "Oops terjadi kesalahan",
-      html: "",
-      type: "warning",
-      timer: 10000,
-      showCancelButton: false,
-      confirmButtonText: 'Iya',
-      confirmButtonColor: '#2c3e50',
+  if ($('input[name=menu-search-query]').length > 0) {
+    $('input[name=menu-search-query]').on('change', function(e) {
+      e.preventDefault();
+
+      var data = {
+        'menu-search-query' : $("input[name=menu-search-query]").val(),
+        '_method' : "post",
+        '_token' : $("input[name=menu-search-token]").val()
+      };
+
+      $.ajax({
+        type: "POST",
+        url: "/dashboard/search/menu",
+        data: data,
+        cache: false,
+        success: function(result) {
+          if (result.status == 500) {
+            swal({
+              title: "Oops terjadi kesalahan",
+              html: result.text,
+              type: "warning",
+              timer: 10000,
+              showCancelButton: false,
+              confirmButtonText: 'Ok',
+              confirmButtonColor: '#2c3e50',
+            });
+          }
+          else if (result.status == 400) {
+            swal({
+              title: "Oops terjadi kesalahan",
+              html: result.text,
+              type: "error",
+              timer: 10000,
+              showCancelButton: false,
+              confirmButtonText: 'Ok',
+              confirmButtonColor: '#2c3e50',
+            });
+          }
+          else {
+            var res = '';
+            if (result.content.menu.length > 0) {
+
+              var token = $('input[name=search_token]').val();
+              for (i = 0; i < result.content.menu.length; i++) {
+                res += '<form name="menu-update" class="form-horizontal" action="/dashboard/update/menu" method="post" enctype="multipart/form-data">';
+                res += '<input type="hidden" name="_method" value="put">';
+                res += '<input type="hidden" name="menu-change-id" value="'+ result.content.menu[i].kode_menu + '">';
+                res += '<input type="hidden" name="_token" value="' + token + '">';
+                res += '<div class="row mrg-b-10 padd-tb-10">';
+                res += '<div class="col-md-6"><div class="row"><div class="col-md-5">';
+                res += '<div class="container-file-lengko block">';
+                res += '<img id="preview-image-' + i + '" src="/files/images/menus/';
+                if (result.content.menu[i].gambar_menu) {
+                  res += result.content.menu[i].gambar_menu;
+                }
+                else {
+                  res += 'not-available.png';
+                }
+
+                res += '" alt="' + result.content.menu[i].nama_menu + '" width="200px" height="150px" style="border-radius:5px;" />';
+                res += '<input id="choose-image-' + i + '" name="menu-change-thumbnail" type="file" title="Ubah gambar menu" onchange="reload_image(this, \'#preview-image-\'' + i + ');" />';
+                res += '</div><small><div class="text-center">';
+                if (result.content.menu[i].jenis_menu == "F") {
+                  res += 'Makanan';
+                }
+                else if (result.content.menu[i].jenis_menu == "D") {
+                  res += 'Minuman';
+                }
+                res += '</div></small>';
+                res += '</div><div class="col-md-7"><div class="row"><div class="col-md-3">';
+                res += '<div class="text-left padd-tb-10">[<b>' + result.content.menu[i].kode_menu + '</b>]</div>';
+                res += '</div><div class="col-md-9">';
+                res += '<input type="text" name="menu-change-name" class="input-lengko-default block" placeholder="Nama Menu" value="' + result.content.menu[i].nama_menu + '" />';
+                res += '</div></div><div class="row"><div class="col-md-7">';
+                res += '<select name="menu-change-type" class="select-lengko-default block">';
+                res += '<option value="F"';
+                if (result.content.menu[i].jenis_menu == "F") {
+                  res += ' selected="selected"';
+                }
+                res += '>Makanan</option> <option value="D"';
+                if (result.content.menu[i].jenis_menu == "D") {
+                  res += ' selected="selected"';
+                }
+                res += '>Minuman</option></select></div><div class="col-md-5"><input type="number" name="menu-change-price" class="input-lengko-default block" placeholder="Harga Menu" value="' + result.content.menu[i].harga_menu + '" />';
+                res += '</div></div><div class="row padd-tb-10"><div class="col-md-12">';
+                res += '<div class="well well-sm">';
+                var tmp = false; var inc = 0;
+                for (j = 0; j < result.content.menu[i].length; j++ ) {
+                  inc++;
+                  if (result.content[j].menu_status.stok_bahan_baku > 0) {
+                    tmp = true;
+                  }
+                  else {
+                    tmp = false;
+                    break;
+                  }
+                }
+                if (inc === result.content[j].menu-status.length) {
+                  if (tmp) {
+                    res += '<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Tersedia ';
+                  }
+                  else {
+                    res += '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Tidak Tersedia ';
+                  }
+                }
+                else {
+                  res += '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Tidak Tersedia ';
+                }
+
+                res += '</div></div></div></div></div></div>';
+                res += '<div class="col-md-6"><div class="row">';
+                res += '<div class="col-md-12">';
+                res += '<textarea name="menu-change-description" class="textarea-lengko-default block" rows="5" placeholder="Deskripsi Menu">' + result.content.menu[i].deskripsi_menu + '</textarea>';
+                res += '</div></div><div class="row">';
+                res += '<div class="col-md-6">';
+                res += '<button class="btn-lengko btn-lengko-default pull-left" type="button" onclick="show_obj(\'material-card-change-' + result.content.menu[i].kode_menu +'\');">';
+                res += 'Bahan Baku <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>';
+                res += '</button></div><div class="col-md-6">';
+                res += '<button class="btn-lengko btn-lengko-default pull-right" type="submit">';
+                res += '<span class="glyphicon glyphicon-save" aria-hidden="true"></span>';
+                res += '</button><button class="btn-lengko btn-lengko-default pull-right" type="button" onclick="delete_menu(\'' + result.content.menu[i].kode_menu + '\');">';
+                res += '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>';
+                res += '</button></div></div></div></div>';
+
+                res += '<div id="material-card-change-' + result.content.menu[i].kode_menu + '" class="row" hidden="hidden">';
+                res += '<div class="col-md-12"><div class="scrollable scrollable-md"><div class="row">';
+
+                for (j = 0; j < result.material.length; j++) {
+                  res += '<div class="col-md-6">';
+                  res += '<input type="hidden" name="menu-material-change-id-{{$key}}" value="{{$value->kode_bahan_baku}}" />';
+                  var count = 0;
+                  for (k = 0; k < result.content[i]['menu-material'].length; k++) {
+                    if (result.content[i]['menu-material'].kode_bahan_baku == result.content.menu[i].kode_bahan_baku) {
+                      count = result.content[i]['menu-material'].jumlah_bahan_baku_detil;
+                    }
+                  }
+                  if (count > 0) {
+                    res += '<input type="number" name="menu-material-change-count-' + j + '" min="0" class="input-lengko-default" placeholder="0.0" value="' + count + '" />';
+                    res += '(<small>' + result.material[j].satuan_bahan_baku + '</small>)';
+                    res += result.material[j].nama_bahan_baku;
+                  }
+                  else {
+                    res += '<input type="number" name="menu-material-change-count-' + j + '" min="0" class="input-lengko-default" placeholder="0.0" />';
+                    res += '(<small>' + result.material[j].satuan_bahan_baku + '</small>)';
+                    res += '<b>' + result.material[j].nama_bahan_baku + '</b>';
+                  }
+                  res += '</div>';
+                }
+                res += '<input type="hidden" name="menu-material-max" value="' + result.material.length + '" />';
+                res += '</div></div>';
+                res += 'Bahan baku tidak tersedia? Silahkan ajukan <a href="/dashboard/material">Permohonan Pengadaan Bahan Baku</a>.';
+                res += '</div></div></form><hr />';
+
+              }//end loop
+            }
+            else {
+              res = '<div class="padd-lr-15">Menu tidak ditemukan</div>';
+            }
+            $('#menu-card-section').html(res);
+            swal({
+              title: "Berhasil melakukan pencarian",
+              html: result.text,
+              type: "success",
+              timer: 30000
+            });
+          }
+        },
+        error: function(result){
+
+        }
+      });
+
     });
-    */
+  }
+
+
 });

@@ -29,6 +29,7 @@ Route::post('/dashboard/create/material', 'MaterialController@create');
 Route::post('/dashboard/search/material', 'MaterialController@search');
 
 Route::post('/dashboard/create/menu', 'MenuController@create');
+Route::post('/dashboard/search/menu', 'MenuController@search');
 Route::post('/dashboard/search/materialmenu', 'MenuController@searchmaterial');
 
 Route::get('/dashboard/retrieve/{param}/', 'DashboardController@retrieve');

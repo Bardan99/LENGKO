@@ -5,8 +5,14 @@
 @section('content')
 
   <div class="container-fluid">
+    <input type="hidden" name="search_token" value="{{ csrf_token() }}">
     @if (count($data['menu']) > 0)
     <div class="row mrg-b-30">
+      <div class="col-md-offset-2 col-md-8">
+        <input type="text" name="menu-search-query" class="input-lengko-default block" placeholder="Cari menu.." />
+      </div>
+    </div>
+    <div id="menu-card-section" class="row">
       @foreach ($data['menu'] as $key => $value)
         <div class="col-md-4 col-sm-6">
           <div class="menu">

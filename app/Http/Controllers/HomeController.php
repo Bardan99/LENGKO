@@ -5,6 +5,7 @@
   use App\Http\Requests;
   use Illuminate\Support\Facades\DB;
   use Illuminate\Http\Request;
+  use Validator;
 
   class HomeController extends Controller {
   /**
@@ -80,7 +81,9 @@
           );
         break;
         case 'menu':
-          $data['menu'] = DB::table('menu')->skip(0)->take(9)->get();
+          $data['menu'] = DB::table('menu')
+          ->orderBy('nama_menu', 'ASC')
+          ->skip(0)->take(9)->get();
           $data['menu_obj'] = new MethodController();
         case 'order':
           $data['order-detail'] = DB::table('pesanan')
@@ -148,6 +151,36 @@
         }
       }
       return response()->json(['data' => $data]);
+    }
+  }
+
+  public function searchmenu(Request $request) {
+    if ($request->ajax()) {
+      $data = $request->all();
+      $keyword = '%' . $data['menu-search-query'] . '%';
+
+      if ($data['menu-search-query'] === "" || $data['menu-search-query'] === " ") {
+        $result = DB::table('menu')
+          ->orderBy('nama_menu', 'ASC')
+          ->skip(0)->take(9)->get();
+      }
+      else {
+        $result = DB::table('menu')
+          ->where('kode_menu', 'LIKE', $keyword)
+          ->orwhere('nama_menu', 'LIKE', $keyword)
+          ->orwhere('harga_menu', 'LIKE', $keyword)
+          ->orwhere('deskripsi_menu', 'LIKE', $keyword)
+          ->get();
+      }
+
+      if ($result) {
+        return response()->json([
+            'status' => 200,
+            'text' => 'Pencarian selesai dilakukan',
+            'content' => $result,
+          ]);
+      }
+
     }
   }
 

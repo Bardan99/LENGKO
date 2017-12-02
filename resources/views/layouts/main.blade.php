@@ -114,6 +114,7 @@
   <script type="text/javascript" data-cfasync="false" src="/assets/chartjs/chart-2.7.1.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/custom/js/chart-data.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/custom/js/general.js"></script>
+  <script type="text/javascript" data-cfasync="false" src="/assets/custom/js/customer.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/custom/js/main.js"></script>
 </body>
 

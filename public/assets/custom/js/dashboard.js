@@ -1045,5 +1045,105 @@ $(document).ready(function() {
     });
   }
 
+  /* order */
+
+  if ($('input[name=order-search-query]').length > 0) {
+    $('input[name=order-search-query]').on('change', function(e) {
+      e.preventDefault();
+
+      var data = {
+        'order-search-query' : $("input[name=order-search-query]").val(),
+        '_method' : "post",
+        '_token' : $("input[name=search_token]").val()
+      };
+
+      $.ajax({
+        type: "POST",
+        url: "/dashboard/search/order",
+        data: data,
+        cache: false,
+        success: function(result) {
+          if (result.status == 500) {
+            swal({
+              title: "Oops terjadi kesalahan",
+              html: result.text,
+              type: "warning",
+              timer: 10000,
+              showCancelButton: false,
+              confirmButtonText: 'Ok',
+              confirmButtonColor: '#2c3e50',
+            });
+          }
+          else if (result.status == 400) {
+            swal({
+              title: "Oops terjadi kesalahan",
+              html: result.text,
+              type: "error",
+              timer: 10000,
+              showCancelButton: false,
+              confirmButtonText: 'Ok',
+              confirmButtonColor: '#2c3e50',
+            });
+          }
+          else {
+            var res = '';
+            if (result.content['order-confirmation'].length > 0) {
+              var token = $('input[name=search_token]').val();
+              res += '<table class="table"><tr>';
+              res += '<th>Transaksi</th><th>Waktu</th>';
+              res += '<th>Pembeli</th><th>Perangkat</th>';
+              res += '<th>Konfirmasi</th></tr>';
+              for (i = 0; i < result.content['order-confirmation'].length; i++) {
+                res += '<tr onclick="show_obj(\'order-confirmation-' + i + '\');" class="cursor-pointer">';
+                res += '<td>#' + result.content['order-confirmation'][i].kode_pesanan + '</td>';
+                res += '<td>' + result.content['order-confirmation'][i].tanggal_pesanan + ' ' + result.content['order-confirmation'][i].waktu_pesanan + '</td>';
+                res += '<td>' + result.content['order-confirmation'][i].pembeli_pesanan + '</td>';
+                res += '<td>' + result.content['order-confirmation'][i].nama_perangkat + '</td><td>';
+                res += '<form name="" action="/dashboard/confirm/order" method="post">';
+                res += '<input type="hidden" name="_token" value="' + token + '">';
+                res += '<input type="hidden" name="order-confirm-id" value="' + result.content['order-confirmation'][i].kode_pesanan + '" />';
+                res += '<button type="submit" class="btn-lengko btn-lengko-warning" width="80px">';
+                res += '<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>';
+                res += '</button></form></td></tr>';
+                if (result.content[i]['order-confirmation-detail'].length > 0) {
+                  res += '<tr id="order-confirmation-' + i + '" style="display:none; visibility: none;">';
+                  res += '<td></td>';
+                  res += '<td colspan="5">';
+                  res += '<div class="table-responsive">';
+                  res += '<table class="table table-hover table-striped">';
+                  res += '<tr><th>Menu</th><th>Harga</th><th>Jumlah</th><th>Sub-Total</th></tr>';
+                  for (j = 0; j < result.content[i]['order-confirmation-detail'].length; j++) {
+                    res += '<tr><td>' + result.content[i]['order-confirmation-detail'][j].nama_menu + '</td>';
+                    res += '<td>' + result.content[i]['order-confirmation-detail'][j].harga_menu + '</td>';
+                    res += '<td>' + result.content[i]['order-confirmation-detail'][j].jumlah_pesanan_detil + '</td>';
+                    res += '<td>' + result.content[i]['order-confirmation-detail'][j].harga_menu * result.content[i]['order-confirmation-detail'][j].jumlah_pesanan_detil + '</td>';
+                    res += '</tr>';
+                  }
+                  res += '<tr><td colspan="3" class="text-right"><label>Total</label></td>';
+                  res += '<td>Rp' + result.content['order-confirmation'][i].harga_pesanan + '</td>';
+                  res += '</tr></table></div></td></tr></table>';
+                }
+              }//end loop
+            }
+            else {
+              res = '<div class="padd-lr-15">Pesanan tidak ditemukan</div>';
+            }
+            $('#order-card-section').html(res);
+            swal({
+              title: "Berhasil melakukan pencarian",
+              html: result.text,
+              type: "success",
+              timer: 30000
+            });
+          }
+        },
+        error: function(result){
+
+        }
+      });
+
+    });
+  }
+
 
 });

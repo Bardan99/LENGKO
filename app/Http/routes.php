@@ -32,6 +32,9 @@ Route::post('/dashboard/create/menu', 'MenuController@create');
 Route::post('/dashboard/search/menu', 'MenuController@search');
 Route::post('/dashboard/search/materialmenu', 'MenuController@searchmaterial');
 
+Route::post('/dashboard/confirm/order', 'OrderController@confirm');
+Route::post('/dashboard/search/order', 'OrderController@search');
+
 Route::get('/dashboard/retrieve/{param}/', 'DashboardController@retrieve');
 Route::put('/dashboard/update/{param}/', 'DashboardController@update');
 Route::delete('/dashboard/delete/{param}/{id}', 'DashboardController@delete');
@@ -42,11 +45,6 @@ Route::get('/dashboard/update/{param}/', function() {
 
 
 Route::get('/ajax/object/{param}', 'HomeController@ajax_handler');
-//Route::post('/ajax/object/field/menu/bahan-baku', 'HomeController@ajax_handler');
-
-//Route::group(['middleware' => 'auth'], function() {
-
-//});
 
 Route::get('/dashboard/', 'DashboardController@index');
 Route::get('/dashboard/{param}/', 'DashboardController@view');
@@ -54,3 +52,5 @@ Route::get('/dashboard/{param}/', 'DashboardController@view');
 
 Route::get('/', 'HomeController@index');
 Route::get('/{param}/', 'HomeController@view');
+
+Route::post('/customer/search/menu', 'HomeController@searchmenu');

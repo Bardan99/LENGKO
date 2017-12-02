@@ -132,7 +132,7 @@ class DashboardController extends Controller {
             ->orderBy('tanggal_pesanan', 'ASC')
             ->orderBy('waktu_pesanan', 'ASC')
             ->where('pesanan.status_pesanan', '=', 'P')
-            ->skip(0)->take(7)->get();
+            ->get();
           $data['order-detail'] = DB::table('pesanan')
             ->select('pesanan_detil.*', 'menu.*')
             ->join('pesanan_detil', 'pesanan.kode_pesanan', '=', 'pesanan_detil.kode_pesanan')
@@ -140,7 +140,7 @@ class DashboardController extends Controller {
             ->orderBy('tanggal_pesanan', 'ASC')
             ->orderBy('waktu_pesanan', 'ASC')
             ->where('pesanan.status_pesanan', '=', 'P')
-            ->skip(0)->take(20)->get();
+            ->get();
           $data['order-detail-food'] = DB::table('pesanan')
             ->select('pesanan_detil.*', 'menu.*')
             ->join('pesanan_detil', 'pesanan.kode_pesanan', '=', 'pesanan_detil.kode_pesanan')
@@ -153,6 +153,7 @@ class DashboardController extends Controller {
             ->join('menu', 'pesanan_detil.kode_menu', '=', 'menu.kode_menu')
             ->where('menu.jenis_menu', '=', 'D')
             ->get();
+
           $data['order-confirmation'] = DB::table('pesanan')
             ->select('pesanan.*', 'perangkat.nama_perangkat')
             ->join('perangkat', 'pesanan.kode_perangkat', '=', 'perangkat.kode_perangkat')

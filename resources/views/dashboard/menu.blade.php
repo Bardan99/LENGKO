@@ -41,7 +41,7 @@
               </div>
 
               <div class="row mrg-t-20 padd-lr-20">
-                <div id="menu-card-section" class="box-menu">
+                <div id="menu-card-section" class="box-menu scrollable scrollable-xl">
                   @foreach ($data['menu'] as $keymenu => $value)
                     <form name="menu-update" class="form-horizontal" action="{{ url('/dashboard/update/menu/') }}" method="post" enctype="multipart/form-data">
                       <input type="hidden" name="_method" value="put">

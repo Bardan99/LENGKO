@@ -141,18 +141,24 @@ class DashboardController extends Controller {
             ->orderBy('waktu_pesanan', 'ASC')
             ->where('pesanan.status_pesanan', '=', 'P')
             ->get();
-          $data['order-detail-food'] = DB::table('pesanan')
-            ->select('pesanan_detil.*', 'menu.*')
-            ->join('pesanan_detil', 'pesanan.kode_pesanan', '=', 'pesanan_detil.kode_pesanan')
-            ->join('menu', 'pesanan_detil.kode_menu', '=', 'menu.kode_menu')
-            ->where('menu.jenis_menu', '=', 'F')
-            ->get();
-          $data['order-detail-drink'] = DB::table('pesanan')
-            ->select('pesanan_detil.*', 'menu.*')
-            ->join('pesanan_detil', 'pesanan.kode_pesanan', '=', 'pesanan_detil.kode_pesanan')
-            ->join('menu', 'pesanan_detil.kode_menu', '=', 'menu.kode_menu')
-            ->where('menu.jenis_menu', '=', 'D')
-            ->get();
+
+          foreach ($data['order'] as $key => $value) {
+            $data[$key]['order-detail-food'] = DB::table('pesanan')
+              ->select('pesanan_detil.*', 'menu.*')
+              ->join('pesanan_detil', 'pesanan.kode_pesanan', '=', 'pesanan_detil.kode_pesanan')
+              ->join('menu', 'pesanan_detil.kode_menu', '=', 'menu.kode_menu')
+              ->where('menu.jenis_menu', '=', 'F')
+              ->where('pesanan.kode_pesanan', '=', $value->kode_pesanan)
+              ->get();
+
+            $data[$key]['order-detail-drink'] = DB::table('pesanan')
+              ->select('pesanan_detil.*', 'menu.*')
+              ->join('pesanan_detil', 'pesanan.kode_pesanan', '=', 'pesanan_detil.kode_pesanan')
+              ->join('menu', 'pesanan_detil.kode_menu', '=', 'menu.kode_menu')
+              ->where('menu.jenis_menu', '=', 'D')
+              ->where('pesanan.kode_pesanan', '=', $value->kode_pesanan)
+              ->get();
+          }
 
           $data['order-confirmation'] = DB::table('pesanan')
             ->select('pesanan.*', 'perangkat.nama_perangkat')

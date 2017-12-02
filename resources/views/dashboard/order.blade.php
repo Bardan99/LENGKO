@@ -193,7 +193,7 @@
                         </div>
                         <div class="row">
                           <div class="col-md-12">
-                            @foreach ($data['order-detail-food'] as $key2 => $value2)
+                            @foreach ($data[$key]['order-detail-food'] as $key2 => $value2)
                               @if ($value2->kode_pesanan == $value2->kode_pesanan)
                                 <div class="row">
                                   <div class="col-md-10">
@@ -225,7 +225,7 @@
                         </div>
                         <div class="row">
                           <div class="col-md-12">
-                            @foreach ($data['order-detail-drink'] as $key3 => $value3)
+                            @foreach ($data[$key]['order-detail-drink'] as $key3 => $value3)
                               @if ($value3->kode_pesanan == $value3->kode_pesanan)
                                 <div class="row">
                                   <div class="col-md-10">

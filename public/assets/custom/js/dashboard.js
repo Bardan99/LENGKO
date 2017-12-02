@@ -957,9 +957,10 @@ $(document).ready(function() {
                 res += '</div></div><div class="row padd-tb-10"><div class="col-md-12">';
                 res += '<div class="well well-sm">';
                 var tmp = false; var inc = 0;
-                for (j = 0; j < result.content.menu[i].length; j++ ) {
+
+                for (j = 0; j < result.content[i]['menu-status'].length; j++ ) {
                   inc++;
-                  if (result.content[j].menu_status.stok_bahan_baku > 0) {
+                  if (result.content[i]['menu-status'][j].stok_bahan_baku > 0) {
                     tmp = true;
                   }
                   else {
@@ -967,7 +968,8 @@ $(document).ready(function() {
                     break;
                   }
                 }
-                if (inc === result.content[j].menu-status.length) {
+
+                if (inc === result.content[i]['menu-status'].length) {
                   if (tmp) {
                     res += '<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Tersedia ';
                   }
@@ -1001,20 +1003,22 @@ $(document).ready(function() {
                   res += '<div class="col-md-6">';
                   res += '<input type="hidden" name="menu-material-change-id-{{$key}}" value="{{$value->kode_bahan_baku}}" />';
                   var count = 0;
+
                   for (k = 0; k < result.content[i]['menu-material'].length; k++) {
-                    if (result.content[i]['menu-material'].kode_bahan_baku == result.content.menu[i].kode_bahan_baku) {
-                      count = result.content[i]['menu-material'].jumlah_bahan_baku_detil;
+                    if (result.content[i]['menu-material'][k].kode_bahan_baku == result.material[j].kode_bahan_baku) {
+                      count = result.content[i]['menu-material'][k].jumlah_bahan_baku_detil;
                     }
                   }
+
                   if (count > 0) {
                     res += '<input type="number" name="menu-material-change-count-' + j + '" min="0" class="input-lengko-default" placeholder="0.0" value="' + count + '" />';
-                    res += '(<small>' + result.material[j].satuan_bahan_baku + '</small>)';
-                    res += result.material[j].nama_bahan_baku;
+                    res += '(<small>' + result.material[j].satuan_bahan_baku + '</small>) ';
+                    res += '<b>' + result.material[j].nama_bahan_baku + '</b>';
                   }
                   else {
                     res += '<input type="number" name="menu-material-change-count-' + j + '" min="0" class="input-lengko-default" placeholder="0.0" />';
-                    res += '(<small>' + result.material[j].satuan_bahan_baku + '</small>)';
-                    res += '<b>' + result.material[j].nama_bahan_baku + '</b>';
+                    res += '(<small>' + result.material[j].satuan_bahan_baku + '</small>) ';
+                    res += result.material[j].nama_bahan_baku;
                   }
                   res += '</div>';
                 }

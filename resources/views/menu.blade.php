@@ -8,8 +8,15 @@
     <input type="hidden" name="search_token" value="{{ csrf_token() }}">
     @if (count($data['menu']) > 0)
     <div class="row mrg-b-30">
-      <div class="col-md-offset-2 col-md-8">
-        <input type="text" name="menu-search-query" class="input-lengko-default block" placeholder="Cari menu.." />
+      <div class="col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8 col-xs-12">
+        <div class="input-group">
+          <input type="text" name="menu-search-query" class="form-control input-lengko-default block" placeholder="Cari menu.." />
+          <span class="input-group-btn">
+            <button type="button" name="menu-search-button" class="btn btn-default pull-right">
+              <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            </button>
+          </span>
+        </div>
       </div>
     </div>
     <div id="menu-card-section" class="row">

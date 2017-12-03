@@ -10,6 +10,9 @@ use App\Pegawai;
 use App\Perangkat;
 use App\Menu;
 use App\MenuDetil;
+use App\Review;
+use App\ReviewDevice;
+use App\ReviewDetil;
 use Hash;
 
 class DashboardController extends Controller {
@@ -66,7 +69,8 @@ class DashboardController extends Controller {
         break;
         case 'material':
           $data['material'] = DB::table('bahan_baku')
-            ->orderBy('nama_bahan_baku', 'ASC')
+            ->orderBy('tanggal_kadaluarsa_bahan_baku', 'ASC')
+            ->skip(0)->take(5)
             ->get();
           $data['material-request'] = DB::table('pengadaan_bahan_baku')
             ->join('prioritas', 'prioritas.kode_prioritas', '=', 'pengadaan_bahan_baku.kode_prioritas')
@@ -140,6 +144,7 @@ class DashboardController extends Controller {
             ->orderBy('tanggal_pesanan', 'ASC')
             ->orderBy('waktu_pesanan', 'ASC')
             ->where('pesanan.status_pesanan', '=', 'P')
+            ->where('pesanan_detil.status_pesanan_detil', '=', 'P')
             ->get();
 
           foreach ($data['order'] as $key => $value) {
@@ -184,7 +189,7 @@ class DashboardController extends Controller {
             ->orderBy('tanggal_pesanan', 'ASC')
             ->orderBy('waktu_pesanan', 'ASC')
             ->where('pesanan.status_pesanan', '=', 'T')
-            ->skip(0)->take(1)->get();
+            ->get();
           foreach ($data['transaction'] as $key => $value) {
             $data[$key]['transaction-detail'] = DB::table('pesanan')
               ->select('pesanan_detil.*', 'menu.*')
@@ -199,7 +204,7 @@ class DashboardController extends Controller {
             ->orderBy('tanggal_pesanan', 'ASC')
             ->orderBy('waktu_pesanan', 'ASC')
             ->where('pesanan.status_pesanan', '=', 'D')
-            ->skip(0)->take(2)->get();
+            ->skip(0)->take(5)->get();
           foreach ($data['transaction-history'] as $key => $value) {
             $data[$key]['transaction-history-detail'] = DB::table('pesanan')
               ->select('pesanan_detil.*', 'menu.*')
@@ -216,15 +221,29 @@ class DashboardController extends Controller {
             ->get();
         break;
         case 'review':
-        $data['review'] = DB::table('kuisioner')
-          ->orderBy('tanggal_kuisioner', 'ASC')
-          ->orderBy('waktu_kuisioner', 'ASC')
-          ->skip(0)->take(5)->get();
-        foreach ($data['review'] as $key => $value) {
-          $data[$key]['review-detail'] = DB::table('kuisioner_detil')
-            ->where('kuisioner_detil.kode_kuisioner', '=', $data['review'][$key]->kode_kuisioner)
+          $data['review'] = DB::table('kuisioner')
+            ->orderBy('tanggal_kuisioner', 'ASC')
+            ->orderBy('waktu_kuisioner', 'ASC')
             ->get();
-        }
+
+          $data['review-device'] = DB::table('kuisioner_perangkat')
+            ->orderBy('tanggal_kuisioner_perangkat', 'ASC')
+            ->orderBy('waktu_kuisioner_perangkat', 'ASC')
+            ->skip(0)->take(5)->get();
+
+          foreach ($data['review-device'] as $key => $value) {
+            $data[$key]['review-detail'] = DB::table('kuisioner_detil')
+              ->join('kuisioner', 'kuisioner.kode_kuisioner', '=', 'kuisioner_detil.kode_kuisioner')
+              ->where('kuisioner_detil.kode_kuisioner_perangkat', '=', $value->kode_kuisioner_perangkat)
+              ->get();
+          }
+
+          $data['review-status'] = DB::table('kuisioner')
+            ->orderBy('tanggal_kuisioner', 'ASC')
+            ->orderBy('waktu_kuisioner', 'ASC')
+            ->where('status_kuisioner', '=', '1')
+            ->get();
+
         break;
         default:
           $data['unknown'] = null;
@@ -258,7 +277,7 @@ class DashboardController extends Controller {
             $fileName   = strtolower(str_replace(" ", "-", $data['nama_pegawai'])) . '.' . $file->getClientOriginalExtension();
             $request->file('employee-photo')->move("files/images/employee", $fileName);
             $data['gambar_pegawai'] = $fileName;
-            //$rules['employee-photo'] = 'image|max:2048';
+            //$rules['employee-photo'] = 'mimes:jpeg,png|required|image|max:2048';
           }
           $this->validate($request, $rules);
           $try = Pegawai::find($id)->update($data);
@@ -403,6 +422,34 @@ class DashboardController extends Controller {
         }
         return redirect('/dashboard/menu');
       break;
+      case 'review':
+        $id = $request->get('_id');
+        $handler = Review::find($id);
+        if ($handler) {
+          $status = 1;
+          if ($handler->status_kuisioner == 1) {
+            $status = 0;
+          }
+          $try = Review::find($id)->update([
+            'status_kuisioner' => $status,
+          ]);
+        }
+        return redirect('/dashboard/review');
+      break;
+      case 'reviewdevice':
+        $id = $request->get('_id');
+        $handler = ReviewDevice::find($id);
+        if ($handler) {
+          $status = 1;
+          if ($handler->status_kuisioner_perangkat == 1) {
+            $status = 0;
+          }
+          $try = ReviewDevice::find($id)->update([
+            'status_kuisioner_perangkat' => $status,
+          ]);
+        }
+        return redirect('/dashboard/review');
+      break;
       default:break;
     }
   }
@@ -431,15 +478,34 @@ class DashboardController extends Controller {
         return redirect('/dashboard/material');
       break;
       case 'menu':
-        $handler = Menu::find($id)->delete();
+        $handler = Menu::find($id);
         if ($handler) {
           $try = Menu::destroy($id);
-          return response()->json(['status' => 200, 'text' => 'Jangan lupa diisi ya kata kunci nya!']);
+          return response()->json(['status' => 200, 'text' => 'Berhasil menghapus menu']);
         }
         else {
           return response()->json(['status' => 400, 'text' => 'Menu tidak ditemukan.']);
         }
-
+      break;
+      case 'review':
+        $handler = Review::find($id);
+        if ($handler) {
+          $try = Review::destroy($id);
+          return response()->json(['status' => 200, 'text' => 'Berhasil menghapus kuisioner']);
+        }
+        else {
+          return response()->json(['status' => 400, 'text' => 'Kuisioner tidak ditemukan.']);
+        }
+      break;
+      case 'reviewdevice':
+        $handler = ReviewDevice::find($id);
+        if ($handler) {
+          $try = ReviewDevice::destroy($id);
+          return response()->json(['status' => 200, 'text' => 'Berhasil menghapus hasil kuisioner']);
+        }
+        else {
+          return response()->json(['status' => 400, 'text' => 'Hasil kuisioner tidak ditemukan.']);
+        }
       break;
       default:break;
     }

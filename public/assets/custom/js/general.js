@@ -214,7 +214,7 @@ $(document).ready(function() {
        fade: true,
        asNavFor: '.slider-nav',
        autoplay: true,
-       autoplaySpeed: 3000,
+       autoplaySpeed: 10000,
        centerMode: true,
        centerPadding: '60px',
     });
@@ -232,11 +232,17 @@ $(document).ready(function() {
   if ($('.barrating').length > 0) {
     $('.barrating').barrating({
       theme: 'fontawesome-stars',
-      initialRating: 5,
-      showValues: false,
+      showValues: false
     });
   }
 
+  if ($('.barrating-readonly').length > 0) {
+    $('.barrating-readonly').barrating({
+      theme: 'fontawesome-stars',
+      showValues: false,
+      readonly: true
+    });
+  }
   /* check offset width
   var docWidth = document.documentElement.offsetWidth;
 

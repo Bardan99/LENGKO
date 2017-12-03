@@ -40,7 +40,7 @@ $(document).ready(function() {
       }
     });
 
-  }
+  }//endif
 
   if ($('#employee-statistic').length > 0) {
     $.ajax({
@@ -142,61 +142,113 @@ $(document).ready(function() {
   }
 
   if ($('#customer-review').length > 0) {
-    var customer_review = $('#customer-review');
-    var data_customer_review = {
-      labels: ["Restoran", "Pegawai", "Pelayanan", "Fasilitas", "Biaya"],
-      datasets: [
-          {
-            label: "Minimum",
-            backgroundColor: "rgba(255,99,132,0.2)",
-            borderColor: "rgba(255,99,132,1)",
-            pointBackgroundColor: "rgba(255,99,132,1)",
-            pointBorderColor: "#fff",
-            pointHoverBackgroundColor: "#fff",
-            pointHoverBorderColor: "rgba(255,99,132,1)",
-            data: [3.5, 4.2, 3.3, 4.2, 3]
+    $.ajax({
+      type: "GET",
+      url: "/dashboard/retrieve/review/",
+      cache: false,
+      success: function(result) {
+
+        var point = {'min' : [], 'max' : [], 'avg' : []};
+        var labels = ['Tidak Tersedia'];
+        if (result.min.length > 0 && result.max.length > 0 && result.avg.length > 0) {
+          for (i = 0; i < result.labels.length; i++) {
+            labels[i] = result.labels[i].judul_kuisioner;
+            if (labels[i] == result.min[i].judul_kuisioner) {
+              if (result.min[i].status_kuisioner == 1) {
+                point.min[i] = Number(result.min[i].poin_kuisioner);
+              }
+              else {
+                point.min[i] = 0;
+              }
+            }
+            else {
+              point.min[i] = 0;
+            }
+
+            if (labels[i] == result.max[i].judul_kuisioner) {
+              if (result.max[i].status_kuisioner == 1) {
+                point.max[i] = Number(result.max[i].poin_kuisioner);
+              }
+              else {
+                point.max[i] = 0;
+              }
+            }
+            else {
+              point.max[i] = 0;
+            }
+
+            if (labels[i] == result.avg[i].judul_kuisioner) {
+              if (result.min[i].status_kuisioner == 1) {
+                point.avg[i] = Number(result.avg[i].poin_kuisioner);
+              }
+              else {
+                point.avg[i] = 0;
+              }
+            }
+            else {
+              point.avg[i] = 0;
+            }
+          }//endfor
+        }
+
+        var customer_review = $('#customer-review');
+        var data_customer_review = {
+          labels: labels,
+          datasets: [
+              {
+                label: "Minimum",
+                backgroundColor: "rgba(255,99,132,0.2)",
+                borderColor: "rgba(255,99,132,1)",
+                pointBackgroundColor: "rgba(255,99,132,1)",
+                pointBorderColor: "#fff",
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "rgba(255,99,132,1)",
+                data: point.min
+              },
+              {
+                label: "Maksimum",
+                backgroundColor: "rgba(21, 133, 36, 0.2)",
+                borderColor: "rgba(65, 204, 104, 1)",
+                pointBackgroundColor: "rgba(49, 200, 78, 1)",
+                pointBorderColor: "#fff",
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "rgba(68, 215, 109, 1)",
+                data: point.max
+              },
+              {
+                label: "Rata-Rata",
+                backgroundColor: "rgba(221, 159, 21, 0.2)",
+                borderColor: "rgba(214, 154, 39, 1)",
+                pointBackgroundColor: "rgba(205, 139, 62, 1)",
+                pointBorderColor: "#fff",
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "rgba(204, 172, 116, 1)",
+                data: point.avg
+              }
+          ]
+        };
+        var options_customer_review = {
+          scale: {
+              reverse: false,
+              ticks: {
+                  beginAtZero: false,
+                  showLabelBackdrop: false,
+                  backdropColor: "rgba(255, 255, 255, 0)"
+              }
           },
-          {
-            label: "Maksimum",
-            backgroundColor: "rgba(21, 133, 36, 0.2)",
-            borderColor: "rgba(65, 204, 104, 1)",
-            pointBackgroundColor: "rgba(49, 200, 78, 1)",
-            pointBorderColor: "#fff",
-            pointHoverBackgroundColor: "#fff",
-            pointHoverBorderColor: "rgba(68, 215, 109, 1)",
-            data: [4.5, 4.7, 4.3, 4.6, 5]
-          },
-          {
-            label: "Rata-Rata",
-            backgroundColor: "rgba(221, 159, 21, 0.2)",
-            borderColor: "rgba(214, 154, 39, 1)",
-            pointBackgroundColor: "rgba(205, 139, 62, 1)",
-            pointBorderColor: "#fff",
-            pointHoverBackgroundColor: "#fff",
-            pointHoverBorderColor: "rgba(204, 172, 116, 1)",
-            data: [4.2, 4.3, 4.1, 4, 4.6]
+          legend: {
+            position: 'left'
           }
-      ]
-    };
-    var options_customer_review = {
-      scale: {
-          reverse: false,
-          ticks: {
-              beginAtZero: false,
-              showLabelBackdrop: false,
-              backdropColor: "rgba(255, 255, 255, 0)"
-          }
-      },
-      legend: {
-        position: 'left'
+        };
+        var chart_customer_review = new Chart(customer_review, {
+          type: 'radar',
+          data: data_customer_review,
+          options: options_customer_review
+        });
       }
-    };
-    var chart_customer_review = new Chart(customer_review, {
-      type: 'radar',
-      data: data_customer_review,
-      options: options_customer_review
     });
-  }
+
+  }//endif
 
   /* End of Chart settings */
 });

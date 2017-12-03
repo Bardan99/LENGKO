@@ -35,13 +35,22 @@ Route::post('/dashboard/search/materialmenu', 'MenuController@searchmaterial');
 Route::post('/dashboard/confirm/order', 'OrderController@confirm');
 Route::post('/dashboard/search/order', 'OrderController@search');
 
-Route::get('/dashboard/retrieve/{param}/', 'DashboardController@retrieve');
+Route::get('/dashboard/update/order/{id}', 'OrderController@marked');
+Route::get('/dashboard/update/ordermenu/{id}', 'OrderController@checked');
+Route::get('/dashboard/update/transaction/{id}/{cash}', 'TransactionController@marked');
+Route::post('/dashboard/search/transaction', 'TransactionController@search');
+Route::post('/dashboard/search/transactionhistory', 'TransactionController@searchhistory');
+
+Route::post('/dashboard/create/review', 'ReviewController@create');
+Route::get('/dashboard/retrieve/review', 'ReviewController@retrieve');
+Route::post('/dashboard/search/review', 'ReviewController@search');
+
 Route::put('/dashboard/update/{param}/', 'DashboardController@update');
 Route::delete('/dashboard/delete/{param}/{id}', 'DashboardController@delete');
 
-Route::get('/dashboard/update/{param}/', function() {
-  return redirect('dashboard');
-});
+//Route::get('/dashboard/update/{param}/', function() {
+  //return redirect('dashboard');
+//});
 
 
 Route::get('/ajax/object/{param}', 'HomeController@ajax_handler');

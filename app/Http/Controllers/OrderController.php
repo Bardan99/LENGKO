@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests;
 use App\Pesanan;
+use App\PesananDetil;
 use Hash;
 use Validator;
 
@@ -23,6 +24,36 @@ class OrderController extends Controller {
     return redirect('/dashboard/order');
   }
 
+  public function marked(Request $request, $id) {
+    $handler = Pesanan::findOrFail($id);
+    if ($handler) {
+      $try = Pesanan::find($id)->update([
+        'status_pesanan' => 'T'
+      ]);
+      $try = PesananDetil::where(['kode_pesanan' => $id])->update([
+        'status_pesanan_detil' => 'D'
+      ]);
+      return response()->json(['status' => 200, 'text' => 'Pelayan sekarang seharusnya sudah bisa mengantar pesanan']);
+    }
+    else {
+      return response()->json(['status' => 400, 'text' => 'Pesanan tidak ditemukan']);
+    }
+  }
+
+  public function checked(Request $request, $id) {
+    $handler = PesananDetil::findOrFail($id);
+    if ($handler) {
+      $try = PesananDetil::find($id)->update([
+        'status_pesanan_detil' => 'D'
+      ]);
+      return response()->json(['status' => 200, 'text' => 'Pelayan sekarang seharusnya sudah bisa mengantar pesanan']);
+    }
+    else {
+      return response()->json(['status' => 400, 'text' => 'Pesanan tidak ditemukan']);
+    }
+  }
+
+  /* dumping
   public function searchmaterial(Request $request) {
     if ($request->ajax()) {
       $data = $request->all();
@@ -52,6 +83,7 @@ class OrderController extends Controller {
 
     }
   }
+  */
 
   public function search(Request $request) {
     if ($request->ajax()) {

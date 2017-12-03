@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="/assets/select2/css/select2.css" />
   <link rel="stylesheet" href="/assets/datepicker/dist/datepicker.css" />
   <link rel="stylesheet" href="/assets/custom/css/general.css" />
+  <link rel="stylesheet" href="/assets/fontawesome/css/font-awesome.css">
+  <link rel="stylesheet" href="/assets/jqueryrating/themes/fontawesome-stars.css">
   <link rel="icon" type="image/x-icon" href="/files/images/lengko-favicon.png" />
   <title>@yield('title')</title>
 </head>
@@ -38,6 +40,7 @@
   <script type="text/javascript" data-cfasync="false" src="/assets/bootstrap/js/bootstrap.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/select2/js/select2.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/datepicker/dist/datepicker.js"></script>
+  <script type="text/javascript" data-cfasync="false" src="/assets/jqueryrating/jquery.barrating.min.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/chartjs/chart-2.7.1.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/custom/js/chart-data.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/custom/js/general.js"></script>

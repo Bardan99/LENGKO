@@ -123,9 +123,10 @@
 
                 <div class="row">
                   <div class="col-md-3">
+
                     <div class="list-group">
                       <li class="list-group-item"><label>Antrian Perangkat</label></li>
-                      <div class="scrollable scrollable-md">
+                      <div class="scrollable @if (count($data['order']) > 5) {{'scrollable-md'}} @endif">
                       @foreach ($data['order'] as $key => $value)
                         <a href="#" class="list-group-item @if ($key == 0) {{ 'active' }} @endif">
                           #{{ $value->kode_pesanan }}
@@ -137,7 +138,7 @@
 
                     <div class="list-group">
                       <li class="list-group-item"><label>Antrian Menu</label></li>
-                      <div class="scrollable scrollable-lg">
+                      <div class="scrollable @if (count($data['order']) > 7) {{'scrollable-lg'}} @endif">
                       @foreach ($data['order-detail'] as $key => $value)
                         <a href="#" class="list-group-item @if ($key == 0) {{ 'active' }} @endif">
                           {{ $value->nama_menu }}
@@ -146,109 +147,112 @@
                       @endforeach
                       </div>
                     </div>
+
                   </div>
 
                   <div class="col-md-9"> <!-- panel kanan -->
-
                     @foreach ($data['order'] as $key => $value)
-                    <div class="row">
-                      <div class="col-md-12">
-                        <h3 class="text-center">
-                          #{{ $value->kode_pesanan }}
+                    <div class="@if ($key > 0) {{'overlay'}} @endif">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <h3 class="text-center">
+                            #{{ $value->kode_pesanan }}
+                            ({{ $value->nama_perangkat }})
+                          </h3>
+                          <hr />
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-4">
+                          <label>Transaksi:</label> #{{ $value->kode_pesanan }}
                           ({{ $value->nama_perangkat }})
-                        </h3>
-                        <hr />
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-md-4">
-                        <label>Transaksi:</label> #{{ $value->kode_pesanan }}
-                        ({{ $value->nama_perangkat }})
-                        <br />
-                        <label>Pembeli:</label> {{ $value->pembeli_pesanan }}
-                        <br />
-                        <label>Waktu:</label> {{ $value->tanggal_pesanan }}
-                        {{ $value->waktu_pesanan }}
-                      </div>
-                      <div class="col-md-5">
-                        <label>Catatan:</label>
-                        <br />
-                        {{ $value->catatan_pesanan }}
-                      </div>
-                      <div class="col-md-3">
-                        <label>Tandai selesai semua</label>
-                        <button type="button" class="btn-lengko btn-lengko-success block" title="Tandai sudah selesai semua">
-                          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                        </button>
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="row">
-                          <div class="col-md-offset-4 col-md-4">
-                            <h3 class="text-center border-btm">Makanan</h3>
-                          </div>
+                          <br />
+                          <label>Pembeli:</label> {{ $value->pembeli_pesanan }}
+                          <br />
+                          <label>Waktu:</label> {{ $value->tanggal_pesanan }}
+                          {{ $value->waktu_pesanan }}
                         </div>
-                        <div class="row">
-                          <div class="col-md-12">
-                            @foreach ($data[$key]['order-detail-food'] as $key2 => $value2)
-                              @if ($value2->kode_pesanan == $value2->kode_pesanan)
-                                <div class="row">
-                                  <div class="col-md-10">
-                                    {{ $value2->nama_menu }} ({{ $value2->jumlah_pesanan_detil }})
-                                  </div>
-                                  <div class="col-md-2">
-                                    @if ($value2->status_pesanan_detil == 'P')
-                                      <button type="button" class="btn-lengko btn-lengko-success block" style="font-size: 10px;">
-                                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                                      </button>
-                                    @elseif ($value2->status_pesanan_detil == 'D')
-                                      <button type="button" class="btn-lengko btn-lengko-warning block" style="font-size: 10px;">
-                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                      </button>
-                                    @endif
-                                  </div>
-                                </div>
-                              @endif
-                            @endforeach
-                          </div>
+                        <div class="col-md-5">
+                          <label>Catatan:</label>
+                          <br />
+                          {{ $value->catatan_pesanan }}
+                        </div>
+                        <div class="col-md-3">
+                          <label>Tandai selesai semua</label>
+                          <button type="button" class="btn-lengko btn-lengko-success block" onclick="done_order({{$value->kode_pesanan}});" title="Tandai sudah selesai semua">
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                          </button>
                         </div>
                       </div>
 
-                      <div class="col-md-6">
-                        <div class="row">
-                          <div class="col-md-offset-4 col-md-4">
-                            <h3 class="text-center border-btm">Minuman</h3>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="row">
+                            <div class="col-md-offset-4 col-md-4">
+                              <h3 class="text-center border-btm">Makanan</h3>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12">
+                              @foreach ($data[$key]['order-detail-food'] as $key2 => $value2)
+                                @if ($value2->kode_pesanan == $value2->kode_pesanan)
+                                  <div class="row">
+                                    <div class="col-md-10">
+                                      {{ $value2->nama_menu }} ({{ $value2->jumlah_pesanan_detil }})
+                                    </div>
+                                    <div class="col-md-2">
+                                      @if ($value2->status_pesanan_detil == 'P')
+                                        <button type="button" class="btn-lengko btn-lengko-success block" onclick="done_menu({{$value2->kode_pesanan_detil}})" style="font-size: 10px;">
+                                          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                        </button>
+                                      @elseif ($value2->status_pesanan_detil == 'D')
+                                        <button type="button" class="btn-lengko btn-lengko-warning block" style="font-size: 10px;">
+                                          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                        </button>
+                                      @endif
+                                    </div>
+                                  </div>
+                                @endif
+                              @endforeach
+                            </div>
                           </div>
                         </div>
-                        <div class="row">
-                          <div class="col-md-12">
-                            @foreach ($data[$key]['order-detail-drink'] as $key3 => $value3)
-                              @if ($value3->kode_pesanan == $value3->kode_pesanan)
-                                <div class="row">
-                                  <div class="col-md-10">
-                                    {{ $value3->nama_menu }} ({{ $value3->jumlah_pesanan_detil }})
+
+                        <div class="col-md-6">
+                          <div class="row">
+                            <div class="col-md-offset-4 col-md-4">
+                              <h3 class="text-center border-btm">Minuman</h3>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12">
+                              @foreach ($data[$key]['order-detail-drink'] as $key3 => $value3)
+                                @if ($value3->kode_pesanan == $value3->kode_pesanan)
+                                  <div class="row">
+                                    <div class="col-md-10">
+                                      {{ $value3->nama_menu }} ({{ $value3->jumlah_pesanan_detil }})
+                                    </div>
+                                    <div class="col-md-2">
+                                      @if ($value3->status_pesanan_detil == 'P')
+                                        <button type="button" class="btn-lengko btn-lengko-success block" style="font-size: 10px;">
+                                          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                        </button>
+                                      @elseif ($value3->status_pesanan_detil == 'D')
+                                        <button type="button" class="btn-lengko btn-lengko-warning block" style="font-size: 10px;">
+                                          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                        </button>
+                                      @endif
+                                    </div>
                                   </div>
-                                  <div class="col-md-2">
-                                    @if ($value3->status_pesanan_detil == 'P')
-                                      <button type="button" class="btn-lengko btn-lengko-success block" style="font-size: 10px;">
-                                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                                      </button>
-                                    @elseif ($value3->status_pesanan_detil == 'D')
-                                      <button type="button" class="btn-lengko btn-lengko-warning block" style="font-size: 10px;">
-                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                      </button>
-                                    @endif
-                                  </div>
-                                </div>
-                              @endif
-                            @endforeach
+                                @endif
+                              @endforeach
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
+
+                    </div><!--overlay -->
                     @endforeach
 
                   </div> <!--end column panel kanan -->

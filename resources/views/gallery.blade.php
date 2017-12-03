@@ -9,12 +9,12 @@
       @foreach ($data['gallery'] as $key => $value)
         <div class="slider-description">
           <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-6">
               <a href="#!">
                 <img src="{{ url('/files/images/gallery/') . '/' . $value->path }}" class="img-center" alt="" width="100%" height="100%">
               </a>
             </div>
-            <div class="col-md-7">
+            <div class="col-md-6">
               <h3>{{ $value->title }}</h3>
               <p>{{ $value->desc }}</p>
             </div>

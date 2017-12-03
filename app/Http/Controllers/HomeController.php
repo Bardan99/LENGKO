@@ -39,14 +39,19 @@
           $data['gallery'] =
           (object) array(
               (object) array(
+                'path' => 'gallery11-our-beloved-campus.jpg',
+                'title' => 'Our beloved campus',
+                'desc' => 'Quality is our tradition, it\'s a must! Sebetulnya saya bingung mau tulis apa di bagian ini, tapi daripada tulis Lorem Ipsum mending ini, kan? Toh kamu sekarang lagi baca tulisan ini >_<'
+              ),
+              (object) array(
                 'path' => 'gallery1-mujigae-food-court.jpg',
                 'title' => 'Food Court',
                 'desc' => 'LENGKO adalah restoran yang bisa dengan mudah ditemukan di sudut kota-kota di Indonesia, bahkan di food-court sekalipun. Dengan dekorasi ruangan yang penuh warna dan kekinian, serta ruangan yang bersih dan nyaman membuat cita rasa kuliner khas Indonesia menjadi lebih berasa. Restoran ini sangat cocok untuk seluruh kalangan, muda-tua.'
               ),
               (object) array(
-                'path' => 'gallery2-mujigae-restaurant.jpg',
-                'title' => 'Mall Resto',
-                'desc' => 'LENGKO juga memiliki cabang di beberapa mall di Indonesia. Diantaranya terdapat di kota Bandung, Jakarta, dan Depok. Kamu bukan anak muda zaman now kalau belum pernah coba makan di sini.'
+                'path' => 'gallery12-what.jpg',
+                'title' => 'Mr. Soegoto favourite place',
+                'desc' => 'Tempat favorit Mr. Soegoto untuk parkir mobil. Sebetulnya kenapa Mr. Soegoto senang sekali menyimpan mobilnya di situ, ini masih menjadi sebuah misteri! Tidak tahu kenapa, hanya ingin menambahkan gambar ini saja; sepertinya kami jatuh cinta!'
               ),
               (object) array(
                 'path' => 'gallery3-mujigae-restaurant-ciwalk.jpg',
@@ -54,24 +59,19 @@
                 'desc' => 'Selain terdapat di mall, LENGKO mempunyai restoran tersendiri (khusus) yang bisa ditemukan dengan mudah, hari gini gak bisa pakai G-Maps? Anak muda jaman now akan lebih mudah untuk menemukan restoran ini saat sedang jalan-jalan. Salah satu keunggulan yang terdapat di restoran khusus LENGKO adalah lengkapnya menu yang tersedia jika dibandingkan dengan tempat lainnya.'
               ),
               (object) array(
-                'path' => 'gallery4-app-tablets.jpg',
-                'title' => 'Easy Access',
-                'desc' => 'LENGKO memberi kemudahan pengunjung dalam memilih pesanan makanan mereka. Tidak perlu bersusah payah untuk memanggil atau menunggu pelayan, kalian cukup memesan makanan dan minuman yang kalian inginkan melalui perangkat yang sudah kami sediakan.'
-              ),
-              (object) array(
-                'path' => 'gallery5-comfortable-seat.jpg',
-                'title' => 'Comfortable Seat',
-                'desc' => 'Tempat duduk dan meja sangat kekinian dan nyaman bagi pengunjung. Tempat yang berwarna warni lengkap dengan berbagai macam fasilitas yang bisa memanjakan kamu hinga klepek-klepek.'
+                'path' => 'gallery9-refreshing-after-meeting.jpg',
+                'title' => 'After Scrum Meeting',
+                'desc' => 'Kami, sang pujangga setelah melakukan scrum meeting di Teras Cihampelas. Niatnya sih mau ke Mujigae, cuma pada bandel gk bawa duit; btw Azmi yang fotoin!'
               ),
               (object) array(
                 'path' => 'gallery6-app-tabs.jpg',
                 'title' => 'Get in Touch',
-                'desc' => 'Kalian bisa  memilih makanan dan minuman langsung melalui perangkat yang sudah tersedia, bingung dengan cara pemakaiannya? Jangan khawatir, panggil pelayan kami melalui perangkat tersebut dengan 1-click.'
+                'desc' => 'Kalian bisa memilih makanan dan minuman langsung melalui perangkat yang sudah tersedia, bingung dengan cara pemakaiannya? Jangan khawatir, panggil pelayan kami melalui perangkat tersebut dengan 1-click.'
               ),
               (object) array(
-                'path' => 'gallery7-free-hot-pan.jpg',
-                'title' => 'Serve Yourself',
-                'desc' => 'Kamu berdidikasi tinggi ingin menyiapkan segala bumbu-bumbu khusus untuk hidangan yang sudah kamu pesan? Kami dengan senang hati akan membantu untuk menyiapkan peralatan dan perlengkapan yang kamu butuhkan sesuai dengan hidangan yang telah dipesan.'
+                'path' => 'gallery10-our-beloved-team.jpg',
+                'title' => 'Our beloved team',
+                'desc' => 'Ini kami, sang penantang yang gagah berani! Btw senyummu mempesona zaki, Copy of Raka(1) jangan ngumpet aja nanti diculik :3'
               ),
               (object) array(
                 'path' => 'gallery8-fee-selfie.jpg',
@@ -115,14 +115,29 @@
         break;
         case 'reviews':
           $data['review'] = DB::table('kuisioner')
-            ->orderBy('nama_kuisioner', 'ASC')
+            ->orderBy('judul_kuisioner', 'ASC')
+            ->where('status_kuisioner', '=', "1")
             ->get();
+
           $data['customer-reviews'] = DB::table('kuisioner_perangkat')
-            ->join('kuisioner_detil', 'kuisioner_detil.kode_kuisioner_perangkat', '=', 'kuisioner_perangkat.kode_kuisioner_perangkat')
-            ->where('status_kuisioner_perangkat', '=', TRUE)
             ->orderBy('tanggal_kuisioner_perangkat', 'DSC')
             ->orderBy('waktu_kuisioner_perangkat', 'DSC')
-            ->skip(0)->take(3)->get();
+            ->where('status_kuisioner_perangkat', '=', "1")
+            ->skip(0)->take(2)->get();
+
+          foreach ($data['customer-reviews'] as $key => $value) {
+            $data[$key]['review-detail'] = DB::table('kuisioner_detil')
+              ->join('kuisioner', 'kuisioner.kode_kuisioner', '=', 'kuisioner_detil.kode_kuisioner')
+              ->where('kuisioner_detil.kode_kuisioner_perangkat', '=', $value->kode_kuisioner_perangkat)
+              ->get();
+          }
+
+          $data['review-status'] = DB::table('kuisioner')
+            ->orderBy('tanggal_kuisioner', 'ASC')
+            ->orderBy('waktu_kuisioner', 'ASC')
+            ->where('status_kuisioner', '=', '1')
+            ->get();
+            
           $data['menu_obj'] = new MethodController();
         break;
         default:

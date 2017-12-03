@@ -276,18 +276,16 @@
 
           <div class="row">
             <div class="col-md-offset-8 col-md-4">
-              <form name="search-material" action="" method="post">
-                <div class="input-group">
-                  <input type="text" name="material-search-query" class="form-control" placeholder="Cari Bahan Baku" />
-                  <input type="hidden" name="material-search-method" value="post">
-                  <input type="hidden" name="material-search-token" value="{{ csrf_token() }}">
-                  <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">
-                      <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                    </button>
-                  </span>
-                </div>
-              </form>
+              <div class="input-group">
+                <input type="text" name="material-search-query" class="form-control" placeholder="Cari Bahan Baku" />
+                <input type="hidden" name="material-search-method" value="post">
+                <input type="hidden" name="material-search-token" value="{{ csrf_token() }}">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" name="material-search-button" type="button">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                  </button>
+                </span>
+              </div>
             </div>
           </div>
 

@@ -12,7 +12,7 @@
           <img src="{{ url('/files/images/members/rakasw.png') }}" class="img-circle img-center" alt="Raka Suryaardi Widjaja" width="90px" height="100px" />
           <h2 class="menu-title text-center">
               Raka Suryaardi Widjaja<br />
-              <small>All in One</small>
+              <small>All in One Driver Pack</small>
             </h2>
           <div class="row">
             <div class="col-md-offset-2 col-md-8 text-center">

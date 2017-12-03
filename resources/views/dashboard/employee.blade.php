@@ -17,18 +17,16 @@
 
               <div class="row">
                 <div class="col-md-offset-8 col-md-4">
-                  <form name="search-employee" action="" method="post">
-                    <div class="input-group">
-                      <input type="text" name="employee-search-query" class="form-control" placeholder="Cari Pegawai" />
-                      <input type="hidden" name="employee-search-method" value="post">
-                      <input type="hidden" name="employee-search-token" value="{{ csrf_token() }}">
-                      <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">
-                          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                        </button>
-                      </span>
-                    </div>
-                  </form>
+                  <div class="input-group">
+                    <input type="text" name="employee-search-query" class="form-control" placeholder="Cari Pegawai" />
+                    <input type="hidden" name="employee-search-method" value="post">
+                    <input type="hidden" name="employee-search-token" value="{{ csrf_token() }}">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" name="employee-search-button" type="button">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                      </button>
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -102,7 +100,7 @@
                   @endforeach
                   </table>
                 </div>
-              </div>              
+              </div>
               @else
                 <div class="row">
                   <div class="col-md-12">

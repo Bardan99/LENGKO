@@ -8,42 +8,60 @@
 
     <div class="row mrg-b-10">
       <div class="col-md-12">
-        <h2 class="text-center">Ini kata mereka</h2>
+        <h2 class="text-center">~Ini kata mereka</h2>
       </div>
     </div>
-
+    @if (count($data['review-status']) > 0)
     <div class="row">
       <div class="col-md-6">
         <canvas id="customer-review" width="400px" height="300px"></canvas>
       </div>
       <div class="col-md-6">
-
-        @foreach ($data['customer-reviews'] as $key => $value)
-          <div class="slider-description">
+        @if (count($data['customer-reviews']))
+          @foreach ($data['customer-reviews'] as $key => $value)
             <div class="row">
               <div class="col-md-12">
                 <h3>{{$value->pembeli_kuisioner_perangkat}}</h3>
                 <p>{{$value->pesan_kuisioner_perangkat}}</p>
                 <div class="row">
-                  <div class="col-md-8">
+                  <div class="col-md-12 text-right">
                     {{$value->tanggal_kuisioner_perangkat}}
                     {{$value->waktu_kuisioner_perangkat}}
                   </div>
-                  <div class="col-md-4">
-                    <select id="customer-reviews-{{$key}}" class="barrating">
+                </div>
+                <div class="row">
+                  @foreach ($data[$key]['review-detail'] as $key2 => $value2)
+                  <div class="col-md-3">
+                    {{ $value2->judul_kuisioner }}
+                  </div>
+                  <div class="col-md-3">
+                    <select class="barrating-readonly">
+                      <option value=""></option>
                       @for ($i = 1; $i <= 5; $i++)
-                        <option value="{{$i}}" @if ($i == $value->poin_kuisioner_detil) {{'selected'}} @endif>{{$i}}</option>
+                        <option value="{{$i}}" @if ($i == $value2->poin_kuisioner_detil) {{'selected'}} @endif>{{$i}}</option>
                       @endfor
                     </select>
                   </div>
+                  @endforeach
                 </div>
               </div>
             </div>
-          </div>
-        @endforeach
-
+            <hr />
+          @endforeach
+        @else
+          Belum ada kuisioner, giliran kamu untuk mengisinya.
+        @endif
       </div>
     </div>
+    @else
+      <div class="row">
+        <div class="col-md-offset-2 col-md-8">
+          <div class="alert alert-warning">
+            Kuisioner tidak tersedia untuk ditampilkan.
+          </div>
+        </div>
+      </div>
+    @endif
 
     <div class="row mrg-b-20">
       <div class="col-md-12">
@@ -75,28 +93,26 @@
         @foreach ($data['review'] as $key => $value)
         <div class="row mrg-b-10">
           <div class="col-md-8">
-            [<b>{{ $value->nama_kuisioner }}</b>]
+            [<b>{{ $value->judul_kuisioner }}</b>]
             {{ $value->isi_kuisioner }}
           </div>
           <div class="col-md-4">
-            <select id="customer-rating-{{$key}}" class="barrating">
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
+            <select id="customer-rating-{{$value->kode_kuisioner}}" class="barrating">
+              @for ($i = 1; $i <= 5; $i++)
+                <option value="{{$i}}" @if ($i == 5) {{'selected'}} @endif>{{$i}}</option>
+              @endfor
             </select>
           </div>
         </div>
         @endforeach
 
-      </div>
-    </div>
-    <div class="row mrg-b-10">
-      <div class="col-md-6">
-        <button type="submit" class="btn-lengko btn-lengko-default block">
-          <span class="glyphicon glyphicon-send" aria-hidden="true"></span> Kirim
-        </button>
+        <div class="row">
+          <div class="col-md-12">
+            <button type="submit" class="btn-lengko btn-lengko-default block">
+              <span class="glyphicon glyphicon-send" aria-hidden="true"></span> Kirim
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 

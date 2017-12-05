@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 
-@section('title', 'LENGKO - Dasbor')
+@section('title', 'LENGKO - Beranda')
 
 @section('content')
 
@@ -8,8 +8,43 @@
     <div class="col-md-12">
 
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
+          <div class="panel panel-default panel-custom">
+            <div class="panel-heading">Informasi</div>
+            <div class="panel-body">
 
+              <div class="row">
+                <div class="col-md-6">
+
+                  <div class="list-group-item"><label>Pemberitahuan</label></div>
+                  <div class="list-group scrollable scrollable-md">
+                    <li class="list-group-item active">x</li>
+                    @for ($i=0; $i < 5; $i++)
+                      <li class="list-group-item">x</li>
+                    @endfor
+                  </div>
+
+                </div>
+                <div class="col-md-6">
+
+                  <div class="list-group-item"><label>Aktivitas</label></div>
+                  <div class="list-group scrollable scrollable-md">
+                    <li class="list-group-item active">x</li>
+                    @for ($i=0; $i < 5; $i++)
+                      <li class="list-group-item">x</li>
+                    @endfor
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-8">
           <div class="panel panel-default panel-custom">
             <div class="panel-heading">Profil</div>
             <div class="panel-body">
@@ -70,11 +105,8 @@
               </form>
             </div>
           </div>
+        </div>
 
-        </div>
-        <div class="col-md-4">
-          <!-- future reserved -->
-        </div>
       </div>
 
     </div>

@@ -52,7 +52,94 @@ function decline_material(id) {
       });//end ajax
     }//endif
   });//endswal
-}
+}//end
+
+
+function confirm_material(id) {
+  //var id = $('input[name=material-request-detail-id]').val();
+  var max = $('input[name=material-request-detail-max-' + id + ']').val();
+  if (max > 0) {
+    swal({
+      title: "Setujui pengajuan?",
+      type: "question",
+      timer: 10000,
+      showCancelButton: true,
+      confirmButtonText: 'Iya',
+      confirmButtonColor: '#2c3e50',
+      cancelButtonText: 'Tidak'
+    }).then(function(result) {
+      if (result.value) {
+        var data = [];
+        for (i = 0; i < max; i++) {
+          data = data.concat ({
+            'material-request-detail-id' : $('input[name=material-request-detail-id-' + id + '-' + i + ']').val(),
+            'material-request-detail-name' : $('input[name=material-request-detail-name-' + id + '-' + i + ']').val(),
+            'material-request-detail-count' : $('input[name=material-request-detail-count-' + id + '-' + i + ']').val(),
+            'material-request-detail-unit' : $('input[name=material-request-detail-unit-' + id + '-' + i + ']').val(),
+            'material-request-detail-date' : $('input[name=material-request-detail-date-' + id + '-' + i + ']').val()
+          });
+        }
+
+        data = {
+          '_id' : id,
+          '_data' : data,
+          '_method' : "post",
+          '_token' : $('input[name="material-request-detail-token"]').val()
+        };
+
+        $.ajax({
+          type: "POST",
+          url: "/dashboard/create/materialrequest",
+          data: data,
+          cache: false,
+          success: function(result) {
+            console.log(result);
+            if (result.status == 200) {
+              swal({
+                title: "Berhasil menambah bahan baku",
+                text: result.text,
+                type: "success",
+                timer: 30000
+              }).then(function(result) {
+                if (result.value) {
+                  window.location = '/dashboard/material/';
+                }
+              });
+            }
+            else {
+              swal({
+                title: "Oops terjadi kesalahan",
+                html: result.text,
+                type: "warning",
+                timer: 10000,
+                showCancelButton: false,
+                confirmButtonText: 'Ok',
+                confirmButtonColor: '#2c3e50',
+              });
+            }
+          },
+          error: function(result){
+
+          }
+        });
+
+      }
+
+    });
+  }
+  else {
+    swal({
+      title: "Oops terjadi kesalahan",
+      html: "Silahkan pilih bahan baku untuk diproses.",
+      type: "warning",
+      timer: 10000,
+      showCancelButton: false,
+      confirmButtonText: 'Ok',
+      confirmButtonColor: '#2c3e50',
+    });
+  }//end if > 0
+}//end
+
 
 function delete_menu(id) {
   swal({
@@ -900,6 +987,69 @@ function search_menu(data) {
   });
 }//end
 
+function search_material_menu(data) {
+  $.ajax({
+    type: "POST",
+    url: "/dashboard/search/materialmenu",
+    data: data,
+    cache: false,
+    success: function(result) {
+      if (result.status == 500) {
+        swal({
+          title: "Oops terjadi kesalahan",
+          html: result.text,
+          type: "warning",
+          timer: 10000,
+          showCancelButton: false,
+          confirmButtonText: 'Ok',
+          confirmButtonColor: '#2c3e50',
+        });
+      }
+      else if (result.status == 400) {
+        swal({
+          title: "Oops terjadi kesalahan",
+          html: result.text,
+          type: "error",
+          timer: 10000,
+          showCancelButton: false,
+          confirmButtonText: 'Ok',
+          confirmButtonColor: '#2c3e50',
+        });
+      }
+      else {
+        var res = '';
+        if (result.content) {
+          console.log(result.content);
+          var token = $('input[name=search_token]').val();
+          for (i = 0; i < result.content.length; i++) {
+            res += '<div class="col-md-6">';
+              res += '<input type="hidden" name="menu-material-create-id-' + i + '" value="' + result.content[i].kode_bahan_baku + '" />';
+              res += '<input type="number" name="menu-material-create-count-' + i + '" min="0" max="' + result.content[i].stok_bahan_baku + '" class="input-lengko-default" placeholder="0.0" />';
+              res += ' (<small>' + result.content[i].satuan_bahan_baku + '</small>) ';
+              res += result.content[i].nama_bahan_baku;
+            res += '</div>';
+          }
+
+          res += '<input type="hidden" name="menu-material-max" value="' + result.content.length + '" />';
+        }
+        else {
+          res = '<div class="padd-lr-15">Bahan baku tidak ditemukan</div>';
+        }
+        $('#material-card-section').html(res);
+        swal({
+          title: "Berhasil melakukan pencarian",
+          html: result.text,
+          type: "success",
+          timer: 30000
+        });
+      }
+    },
+    error: function(result){
+
+    }
+  });
+}//end
+
 function search_transaction(data) {
   $.ajax({
     type: "POST",
@@ -1395,94 +1545,6 @@ $(document).ready(function() {
 
 
   /* material */
-  if ($('form[name=material-request-detil-add]').length > 0) {
-    $('form[name=material-request-detil-add]').on('submit',  function(e) {
-      e.preventDefault();
-      var id = $('input[name=material-request-detail-id]').val();
-      var max = $('input[name=material-request-detail-max]').val();
-      if (max > 0) {
-        swal({
-          title: "Setujui pengajuan?",
-          type: "question",
-          timer: 10000,
-          showCancelButton: true,
-          confirmButtonText: 'Iya',
-          confirmButtonColor: '#2c3e50',
-          cancelButtonText: 'Tidak'
-        }).then(function(result) {
-          if (result.value) {
-            var data = [];
-            for (i = 0; i < max; i++) {
-              data = data.concat ({
-                'material-request-detail' : $('input[name=material-request-detail-' + id + '-' + i + ']').val(),
-                'material-request-detail-name' : $('input[name=material-request-detail-name-' + id + '-' + i + ']').val(),
-                'material-request-detail-count' : $('input[name=material-request-detail-count-' + id + '-' + i + ']').val(),
-                'material-request-detail-unit' : $('input[name=material-request-detail-unit-' + id + '-' + i + ']').val(),
-                'material-request-detail-date' : $('input[name=material-request-detail-date-' + id + '-' + i + ']').val()
-              });
-            }
-
-            data = {
-              '_id' : id,
-              '_data' : data,
-              '_method' : $('input[name="material-request-detail-method"]').val(),
-              '_token' : $('input[name="material-request-detail-token"]').val()
-            };
-
-            $.ajax({
-              type: "POST",
-              url: "/dashboard/create/materialrequest",
-              data: data,
-              cache: false,
-              success: function(result) {
-
-                if (result.status == 200) {
-                  swal({
-                    title: "Berhasil menambah bahan baku",
-                    text: result.text,
-                    type: "success",
-                    timer: 30000
-                  }).then(function(result) {
-                    if (result.value) {
-                      window.location = '/dashboard/material/';
-                    }
-                  });
-                }
-                else {
-                  swal({
-                    title: "Oops terjadi kesalahan",
-                    html: result.text,
-                    type: "warning",
-                    timer: 10000,
-                    showCancelButton: false,
-                    confirmButtonText: 'Ok',
-                    confirmButtonColor: '#2c3e50',
-                  });
-                }
-              },
-              error: function(result){
-
-              }
-            });
-
-          }
-
-        });
-      }
-      else {
-        swal({
-          title: "Oops terjadi kesalahan",
-          html: "Silahkan pilih bahan baku untuk diproses.",
-          type: "warning",
-          timer: 10000,
-          showCancelButton: false,
-          confirmButtonText: 'Ok',
-          confirmButtonColor: '#2c3e50',
-        });
-      }//end if > 0
-    });
-  }
-
   if ($('input[name=material-search-query]').length > 0) {
     $('input[name=material-search-query]').on('change', function(e) {
       e.preventDefault();
@@ -1596,65 +1658,20 @@ $(document).ready(function() {
         '_method' : "post",
         '_token' : $("input[name=material-menu-search-token]").val()
       };
+      search_material_menu(data);
+    });
+  }
 
-      $.ajax({
-        type: "POST",
-        url: "/dashboard/search/materialmenu",
-        data: data,
-        cache: false,
-        success: function(result) {
-          if (result.status == 500) {
-            swal({
-              title: "Oops terjadi kesalahan",
-              html: result.text,
-              type: "warning",
-              timer: 10000,
-              showCancelButton: false,
-              confirmButtonText: 'Ok',
-              confirmButtonColor: '#2c3e50',
-            });
-          }
-          else if (result.status == 400) {
-            swal({
-              title: "Oops terjadi kesalahan",
-              html: result.text,
-              type: "error",
-              timer: 10000,
-              showCancelButton: false,
-              confirmButtonText: 'Ok',
-              confirmButtonColor: '#2c3e50',
-            });
-          }
-          else {
-            var res = '';
-            if (result.content) {
-              console.log(result.content);
-              var token = $('input[name=search_token]').val();
-              for (i = 0; i < result.content.length; i++) {
-                res += '<div class="col-md-6">';
-                  res += '<input type="hidden" name="menu-material-create-id-' + i + '" value="' + result.content[i].kode_bahan_baku + '" />';
-                  res += '<input type="number" name="menu-material-create-count-' + i + '" min="0" max="' + result.content[i].stok_bahan_baku + '" class="input-lengko-default" placeholder="0.0" />';
-                  res += '(<small>' + result.content[i].satuan_bahan_baku + '</small>) ';
-                  res += result.content[i].nama_bahan_baku;
-                res += '</div>';
-              }
+  if ($('button[name=search-material-menu-button]').length > 0) {
+    $('button[name=search-material-menu-button]').on('click', function(e) {
+      e.preventDefault();
 
-              res += '<input type="hidden" name="menu-material-max" value="' + result.content.length + '" />';
-            }
-            $('#material-card-section').html(res);
-            swal({
-              title: "Berhasil melakukan pencarian",
-              html: result.text,
-              type: "success",
-              timer: 30000
-            });
-          }
-        },
-        error: function(result){
-
-        }
-      });
-
+      var data = {
+        'material-search-query' : $("input[name=search-material-menu-query]").val(),
+        '_method' : "post",
+        '_token' : $("input[name=material-menu-search-token]").val()
+      };
+      search_material_menu(data);
     });
   }
 

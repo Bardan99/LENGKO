@@ -195,7 +195,7 @@ $(document).ready(function() {
     $('.datepicker').datepicker({
       language: 'id-ID',
       format: 'yyyy-mm-dd',
-      startDate: new Date(2017, 0, 1),
+      startDate: new Date(2014, 0, 1),
       endDate: new Date(2020, 0, 1),
       days: ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'],
       daysShort: ['Ming','Sen','Sel','Rab','Kam','Jum','Sab'],

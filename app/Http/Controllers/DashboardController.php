@@ -74,8 +74,9 @@ class DashboardController extends Controller {
             ->get();
           $data['material-request'] = DB::table('pengadaan_bahan_baku')
             ->join('prioritas', 'prioritas.kode_prioritas', '=', 'pengadaan_bahan_baku.kode_prioritas')
-            ->orderBy('tanggal_pengadaan_bahan_baku', 'DSC')
-            ->where('status_pengadaan_bahan_baku', '=', 0)
+            ->orderBy('pengadaan_bahan_baku.kode_prioritas', 'ASC')
+            ->orderBy('pengadaan_bahan_baku.tanggal_pengadaan_bahan_baku', 'DSC')
+            ->where('pengadaan_bahan_baku.status_pengadaan_bahan_baku', '=', 0)
             ->get();
           if ($data['material-request']) {
             foreach ($data['material-request'] as $key => $value) {
@@ -87,8 +88,10 @@ class DashboardController extends Controller {
           }
           $data['material-request-user'] = DB::table('pengadaan_bahan_baku')
             ->join('prioritas', 'prioritas.kode_prioritas', '=', 'pengadaan_bahan_baku.kode_prioritas')
-            ->orderBy('tanggal_pengadaan_bahan_baku', 'DSC')
             //->where('pengadaan_bahan_baku.kode_pegawai', '=', '')
+            ->orderBy('pengadaan_bahan_baku.kode_prioritas', 'ASC')
+            ->orderBy('pengadaan_bahan_baku.tanggal_pengadaan_bahan_baku', 'DSC')
+            ->where('pengadaan_bahan_baku.status_pengadaan_bahan_baku', '=', 0)
             ->get();
           if ($data['material-request-user']) {
             foreach ($data['material-request-user'] as $key => $value) {

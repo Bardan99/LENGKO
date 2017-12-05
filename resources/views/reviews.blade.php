@@ -46,7 +46,6 @@
                 </div>
               </div>
             </div>
-            <hr />
           @endforeach
         @else
           Belum ada kuisioner, giliran kamu untuk mengisinya.

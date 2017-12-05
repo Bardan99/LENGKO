@@ -41,7 +41,7 @@
               (object) array(
                 'path' => 'gallery11-our-beloved-campus.jpg',
                 'title' => 'Our beloved campus',
-                'desc' => 'Quality is our tradition, it\'s a must! Sebetulnya saya bingung mau tulis apa di bagian ini, tapi daripada tulis Lorem Ipsum mending ini, kan? Toh kamu sekarang lagi baca tulisan ini >_<'
+                'desc' => 'Quality is our tradition, it\'s a must! Sebetulnya kami bingung mau tulis apa di bagian ini, tapi ya sudahlah. Semoga kampus kami tidak pelit koneksi internet, internet cepet buat apa? pak sekarang zamannya Cloud! Orang-orang udah pergi ke venus kami masih di bumi aja pak :('
               ),
               (object) array(
                 'path' => 'gallery1-mujigae-food-court.jpg',
@@ -61,7 +61,7 @@
               (object) array(
                 'path' => 'gallery9-refreshing-after-meeting.jpg',
                 'title' => 'After Scrum Meeting',
-                'desc' => 'Kami, sang pujangga setelah melakukan scrum meeting di Teras Cihampelas. Niatnya sih mau ke Mujigae, cuma pada bandel gk bawa duit; btw Azmi yang fotoin!'
+                'desc' => 'Kami, sang pujangga, setelah melakukan scrum meeting di Teras Cihampelas. Niatnya sih mau ke Mujigae, cuma pada bandel gk bawa duit; Zak sendalmu mana? btw Azmi yang fotoin!'
               ),
               (object) array(
                 'path' => 'gallery6-app-tabs.jpg',
@@ -71,7 +71,7 @@
               (object) array(
                 'path' => 'gallery10-our-beloved-team.jpg',
                 'title' => 'Our beloved team',
-                'desc' => 'Ini kami, sang penantang yang gagah berani! Btw senyummu mempesona zaki, Copy of Raka(1) jangan ngumpet aja nanti diculik :3'
+                'desc' => 'Ini kami, sang penantang yang gagah berani! Btw senyummu mempesona zak; copy of Raka(1) jangan ngumpet aja nanti diculik :3'
               ),
               (object) array(
                 'path' => 'gallery8-fee-selfie.jpg',
@@ -137,7 +137,7 @@
             ->orderBy('waktu_kuisioner', 'ASC')
             ->where('status_kuisioner', '=', '1')
             ->get();
-            
+
           $data['menu_obj'] = new MethodController();
         break;
         default:

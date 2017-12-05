@@ -249,7 +249,7 @@
                             <div class="input-group">
                               <input type="text" name="search-material-menu-query" class="form-control" placeholder="Cari Bahan Baku" />
                               <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
+                                <button class="btn btn-default" name="search-material-menu-button" type="button">
                                   <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                                 </button>
                               </span>

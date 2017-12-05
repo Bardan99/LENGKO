@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 
-@section('title', 'LENGKO - Pesanan')
+@section('title', 'LENGKO - Transaksi')
 
 @section('content')
 

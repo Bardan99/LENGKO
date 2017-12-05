@@ -32,13 +32,17 @@ class PengadaanController extends Controller {
   public function createrequest(Request $request) {
 
     $data = $request->all();
-
+    $max = $data['material-request-create-max'] + 1;
     $items['material-request-create-subject'] = 'required|min:4';
     $items['material-request-create-priority'] = 'required|min:1';
-    for ($i = 0; $i < $data['material-request-create-max'] + 1; $i++) {
-      $items['material-request-create-item-' . $i] = 'required|min:1';
+    if ($max > 2) {
+      for ($i = 0; $i < $max; $i++) {
+        $items['material-request-create-item-' . $i] = 'required|min:1';
+      }
     }
-
+    else {
+      $items['material-request-create-item-0'] = 'required|min:1';
+    }
     $this->validate($request, $items);
 
     $try = Pengadaan::create([
@@ -52,9 +56,19 @@ class PengadaanController extends Controller {
     ]);
     $id = $try->kode_pengadaan_bahan_baku;
 
-    for ($i = 0; $i < $data['material-request-create-max'] + 1; $i++) {
+    if ($max > 2) {
+      for ($i = 0; $i < $max; $i++) {
+        $detils[] = array(
+          'nama_bahan_baku' => $data['material-request-create-item-' . $i],
+          'jumlah_bahan_baku' => 0,
+          'satuan_bahan_baku' => '',
+          'kode_pengadaan_bahan_baku' => $id,
+        );
+      }
+    }
+    else {
       $detils[] = array(
-        'nama_bahan_baku' => $data['material-request-create-item-' . $i],
+        'nama_bahan_baku' => $data['material-request-create-item-0'],
         'jumlah_bahan_baku' => 0,
         'satuan_bahan_baku' => '',
         'kode_pengadaan_bahan_baku' => $id,
@@ -72,7 +86,7 @@ class PengadaanController extends Controller {
     if ($req) {
       $invalid = 0;
       foreach ($data['_data'] as $key => $value) {
-        if ($data['_data'][$key]['material-request-detail-count'] > 0) {
+        if ($data['_data'][$key]['material-request-detail-count'] > 0) { //jumlah di isi > 0
           $items['material-request-detail-name-' . $data['_id'] . '-' . $key] = 'required|min:3';
           $items['material-request-detail-count-' . $data['_id'] . '-' . $key] = 'required|min:1';
           $items['material-request-detail-unit-' . $data['_id'] . '-' . $key] = 'required|min:1';
@@ -98,55 +112,52 @@ class PengadaanController extends Controller {
           return response()->json(['status' => 500, 'text' => 'Perhatikan bahwa semua kolom harus diisi']);
         }
         else {
-          $try = Pengadaan::find($data['_id'])->update([
-            'status_pengadaan_bahan_baku' => 1
-          ]);
+          $tmp = 0;
+          foreach ($data['_data'] as $key => $value) {
+            if ($data['_data'][$key]['material-request-detail-count'] > 0) {
+              $materials[] = array(
+                'nama_bahan_baku' => $data['_data'][$key]['material-request-detail-name'],
+                'stok_bahan_baku' => $data['_data'][$key]['material-request-detail-count'],
+                'satuan_bahan_baku' => $data['_data'][$key]['material-request-detail-unit'],
+                'tanggal_kadaluarsa_bahan_baku' => $data['_data'][$key]['material-request-detail-date']
+              );
 
+              $include[$tmp] = $data['_data'][$key]['material-request-detail-id'];
+              $tmp++;
+              $materialdetails[] = array(
+                'nama_bahan_baku' => $data['_data'][$key]['material-request-detail-name'],
+                'jumlah_bahan_baku' => $data['_data'][$key]['material-request-detail-count'],
+                'satuan_bahan_baku' => $data['_data'][$key]['material-request-detail-unit'],
+                'kode_pengadaan_bahan_baku' => $data['_id']
+              );
+            }
+          }
+
+          $try = BahanBaku::insert($materials);
           if ($try) {
-            $tmp = 0;
-            foreach ($data['_data'] as $key => $value) {
-              if ($data['_data'][$key]['material-request-detail-count'] > 0) {
-                $materials[] = array(
-                  'nama_bahan_baku' => $data['_data'][$key]['material-request-detail-name'],
-                  'stok_bahan_baku' => $data['_data'][$key]['material-request-detail-count'],
-                  'satuan_bahan_baku' => $data['_data'][$key]['material-request-detail-unit'],
-                  'tanggal_kadaluarsa_bahan_baku' => $data['_data'][$key]['material-request-detail-date']
-                );
+              Pengadaan::find($data['_id'])->update([
+                'status_pengadaan_bahan_baku' => 1
+              ]);
 
-                $excludeid[$tmp] = $data['_data'][$key]['material-request-detail'];
-                $tmp++;
-                $materialdetails[] = array(
-                  'nama_bahan_baku' => $data['_data'][$key]['material-request-detail-name'],
-                  'jumlah_bahan_baku' => $data['_data'][$key]['material-request-detail-count'],
-                  'satuan_bahan_baku' => $data['_data'][$key]['material-request-detail-unit'],
-                  'kode_pengadaan_bahan_baku' => $data['_id']
-                );
+              $all = DB::table('pengadaan_bahan_baku_detil')
+                    ->where('kode_pengadaan_bahan_baku', $data['_id'])
+                    ->whereIn('kode_pengadaan_bahan_baku_detil', $include)
+                    ->get();
+
+              foreach ($all as $key => $value) {
+                PengadaanDetil::find($value->kode_pengadaan_bahan_baku_detil)
+                ->update($materialdetails[$key]);
               }
-            }
 
-            $all = DB::table('pengadaan_bahan_baku_detil')
-                  ->where('kode_pengadaan_bahan_baku', $data['_id'])
-                  ->whereNotIn('kode_pengadaan_bahan_baku_detil', $excludeid)
-                  ->get();
-
-            foreach ($all as $key => $value) {
-              PengadaanDetil::find($value->kode_pengadaan_bahan_baku_detil)->update($materialdetails[$key]);
-            }
-
-            $try = BahanBaku::insert($materials);
-            if ($try) {
-                return response()->json(['status' => 200,'text' => 'Berhasil menambahkan data bahan baku.']);
-            }
+              return response()->json(['status' => 200,'text' => 'Berhasil menambahkan data bahan baku.']);
           }
         }//end case validator
 
       }
-
     }
     else {
       return response()->json(['status' => 400,'text' => 'Kode pengajuan bahan baku tidak diketahui']);
     }
-    return redirect('/dashboard/material');
   }
 
   public function declinerequest(Request $request) {

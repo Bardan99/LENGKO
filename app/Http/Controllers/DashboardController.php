@@ -219,9 +219,7 @@ class DashboardController extends Controller {
           $data['menu_obj'] = new MethodController();
         break;
         case 'report':
-          $data['report-type'] = DB::table('jenis_laporan')
-            ->orderBy('urutan_jenis_laporan', 'ASC')
-            ->get();
+          $data['unknown'] = null;
         break;
         case 'review':
           $data['review'] = DB::table('kuisioner')

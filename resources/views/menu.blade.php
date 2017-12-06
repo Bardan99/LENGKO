@@ -21,13 +21,45 @@
     </div>
     <div id="menu-card-section" class="row">
       @foreach ($data['menu'] as $key => $value)
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-4 col-sm-6" onclick="show_obj('menu-{{$value->kode_menu}}');">
           <div class="menu">
             <img src="/files/images/menus/@if($value->gambar_menu){{$value->gambar_menu}}@else{{'not-available.png'}}@endif" alt="{{ $value->nama_menu }}" width="100%" height="150px" />
             <h2 class="menu-title">{{ $value->nama_menu }}</h2>
             {{ $data['menu_obj']->num_to_rp($value->harga_menu) }}
-            <a href="{{ url('/') }}" class="pull-right"><i class="material-icons">add_shopping_cart</i></a>
+            <a href="#!" class="pull-right"><i class="material-icons">add_shopping_cart</i></a>
             <br />
+          </div>
+        </div>
+
+        <div id="menu-{{$value->kode_menu}}" class="menu-overlay">
+          <div class="row menu-overlay-content">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-offset-11 col-md-1" style="font-size:20pt;">
+                  <span class="glyphicon glyphicon-remove pull-right cursor-pointer" aria-hidden="true" onclick="hide_obj('menu-{{$value->kode_menu}}');"></span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <img src="/files/images/menus/@if($value->gambar_menu){{$value->gambar_menu}}@else{{'not-available.png'}}@endif" alt="{{ $value->nama_menu }}" width="200px" height="200px" />
+                </div>
+                <div class="col-md-9">
+                  <h2 class="menu-title">{{ $value->nama_menu }}</h2>
+                  <p>
+                    {{$value->deskripsi_menu}}
+                  </p>
+                  {{ $data['menu_obj']->num_to_rp($value->harga_menu) }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-offset-10 col-md-2">
+                  <div class="input-group">
+                    <input type="number" class="form-control input-lengko-default" placeholder="Jumlah" value="1" min="1" step="1">
+                    <div class="input-group-addon" style="background-color: #2c3e50; color: #ecf0f1"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       @endforeach

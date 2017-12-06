@@ -98,6 +98,14 @@
                   </div>
                 </div>
               </div>
+              @else
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="alert alert-warning">
+                      Belum ada Transaksi baru, relax and be happy!
+                    </div>
+                  </div>
+                </div>
               @endif
 
             </div>
@@ -185,6 +193,14 @@
                 @endforeach
                 </table>
               </div>
+              @else
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="alert alert-warning">
+                      Belum ada Catatan Transaksi, relax and be happy!
+                    </div>
+                  </div>
+                </div>
               @endif
 
             </div>

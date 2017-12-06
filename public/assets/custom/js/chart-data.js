@@ -88,58 +88,38 @@ $(document).ready(function() {
 
   }
 
-  if ($('#report-income-yearly').length > 0) {
-    var report_income_yearly = $('#report-income-yearly');
-    var data_report_income_yearly = {
-      datasets: [{
-        label: 'Statistik Pendapatan Tahun 2017',
-        data: [
-          135000000, 164832000, 128555000, 148555000,
-          135000000, 148555000, 135000000, 135624000,
-          148555000, 128555000, 100352000, 0
-        ],
-        backgroundColor: 'rgba(44, 62, 80, 0.6)',
-      }],
-      labels: [
-        'Jan', 'Feb', 'Mar', 'Apr',
-        'Mei', 'Jun', 'Jul', 'Agust',
-        'Sept', 'Okt', 'Nov', 'Des'
-      ]
-    };
-    var options_report_income_yearly = {};
-    var chart_report_income_yearly = new Chart(report_income_yearly, {
-      type: 'bar',
-      data: data_report_income_yearly,
-      options: options_report_income_yearly
-    });
-  }
-
 
   if ($('#report-transaction').length > 0) {
-    var report_transaction = $('#report-transaction');
-    var data_transaction = {
-      datasets: [{
-        label: 'Statistik Transaksi',
-        data: [
-          4, 3, 4, 2,
-          5, 6, 3, 4,
-          1, 5, 3, 0
-        ],
-        backgroundColor: 'rgba(39, 173, 96, 0.6)',
-      }],
-      labels: [
-        'Jan', 'Feb', 'Mar', 'Apr',
-        'Mei', 'Jun', 'Jul', 'Agust',
-        'Sept', 'Okt', 'Nov', 'Des'
-      ]
-    };
-    var options_transaction = {};
-    var chart_transaction = new Chart(report_transaction, {
-      type: 'line',
-      data: data_transaction,
-      options: options_transaction
+    $.ajax({
+      type: "GET",
+      url: "/dashboard/retrieve/income/",
+      cache: false,
+      success: function(result) {
+        var data = [];
+        var label = [];
+        for (i = 0; i < result.length; i++) {
+          data[i] = result[i].pendapatan;
+          label[i] = result[i].tanggal;
+        }
+        var report_transaction = $('#report-transaction');
+        var data_transaction = {
+          datasets: [{
+            label: 'Statistik Pendapatan (Rp)',
+            data: data,
+            backgroundColor: 'rgba(44, 62, 80, 0.6)',
+          }],
+          labels: label
+        };
+        var options_transaction = {};
+        var chart_transaction = new Chart(report_transaction, {
+          type: 'line',
+          data: data_transaction,
+          options: options_transaction
+        });
+
+      }
     });
-  }
+  }//ENDIF
 
   if ($('#customer-review').length > 0) {
     $.ajax({

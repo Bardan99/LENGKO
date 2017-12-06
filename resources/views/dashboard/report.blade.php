@@ -6,41 +6,23 @@
 
   <div class="row mrg-b-20">
     <div class="col-md-12">
-
+      <input type="hidden" name="search_token" value="{{ csrf_token() }}">
       <div class="row">
         <div class="col-md-12">
           <div class="panel panel-default panel-custom">
-            <div class="panel-heading">Statistik Pendapatan</div>
+            <div class="panel-heading">Laporan Pendapatan</div>
             <div class="panel-body">
-              <div class="row">
-                <div class="col-md-10">
-                  <canvas id="report-income-yearly" width="400" height="130"></canvas>
-                </div>
-                <div class="col-md-2">
-                  <label>Statistik</label>
-                  <br />Min: Rp100.352.000
-                  <br />Max: Rp164.832.000
-                  <br />Avg: Rp135.223.432
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+              <div class="row padd-lr-10">
+                <div class="col-md-4 padd-tb-10">
 
-      <div class="row">
-        <div class="col-md-12">
-          <div class="panel panel-default panel-custom">
-            <div class="panel-heading">Laporan Transaksi Penjualan</div>
-            <div class="panel-body">
-              <div class="row">
-                <div class="col-md-4">
                   <div class="row">
                     <div class="col-md-12">
-                      <select name="" class="select-lengko-default block">
-                        @foreach ($data['report-type'] as $key => $value)
-                          <option value="{{ $value->kode_jenis_laporan }}">{{ $value->nama_jenis_laporan }}</option>
-                        @endforeach
+                      <label>Laporan Pendapatan</label>
+                      <select name="report-type" class="select-lengko-default block">
+                        <option value="daily">Harian ({{date('Y-m-d')}})</option>
+                        <option value="weekly">Mingguan ({{date('Y-m-d', strtotime('-7 days')) . ' s.d. ' . date('Y-m-d')}})</option>
+                        <option value="monthly">Bulanan ({{date('Y-m-d', strtotime('-30 days')) . ' s.d. ' . date('Y-m-d')}})</option>
+                        <option value="yearly">Tahunan ({{date('Y-m-d', strtotime('-365 days')) . ' s.d. ' . date('Y-m-d')}})</option>
                       </select>
                       <fieldset class="title">
                           <legend>atau</legend>
@@ -49,18 +31,24 @@
                   </div>
                   <div class="row mrg-b-10">
                     <div class="col-md-6">
-                      <input type="text" name="" class="input-lengko-default block datepicker" placeholder="Tanggal Awal" />
+                      <input type="text" name="report-date-start" class="input-lengko-default block datepicker" placeholder="Tanggal Awal" />
                     </div>
                     <div class="col-md-6">
-                      <input type="text" name="" class="input-lengko-default block datepicker" placeholder="Tanggal Akhir" />
+                      <input type="text" name="report-date-end" class="input-lengko-default block datepicker" placeholder="Tanggal Akhir" />
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-md-6">
-                      <button type="button" class="btn-lengko btn-lengko-warning block">Cetak</button>
+                      <button type="button" name="report-print-button" class="btn-lengko btn-lengko-warning block">
+                        <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
+                        Cetak
+                      </button>
                     </div>
                     <div class="col-md-6">
-                      <button type="button" class="btn-lengko btn-lengko-default block">Lihat</button>
+                      <button type="button" name="report-search-button" class="btn-lengko btn-lengko-default block">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                        Lihat
+                      </button>
                     </div>
                   </div>
 
@@ -69,10 +57,9 @@
                   <canvas id="report-transaction" width="400" height="160"></canvas>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <!-- future reserved -->
-                </div>
+
+              <div class="row mrg-t-20">
+                <div id="report-card-section" class="col-md-12"></div>
               </div>
 
             </div>

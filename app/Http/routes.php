@@ -41,6 +41,9 @@ Route::get('/dashboard/update/transaction/{id}/{cash}', 'TransactionController@m
 Route::post('/dashboard/search/transaction', 'TransactionController@search');
 Route::post('/dashboard/search/transactionhistory', 'TransactionController@searchhistory');
 
+Route::get('/dashboard/retrieve/income', 'ReportController@income');
+Route::post('/dashboard/retrieve/report', 'ReportController@report');
+
 Route::post('/dashboard/create/review', 'ReviewController@create');
 Route::get('/dashboard/retrieve/review', 'ReviewController@retrieve');
 Route::post('/dashboard/search/review', 'ReviewController@search');

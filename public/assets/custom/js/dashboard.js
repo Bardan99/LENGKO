@@ -1333,6 +1333,59 @@ function search_review(data) {
   });
 }//end
 
+
+function report_lookup(data) {
+  swal({
+    title: "Lihat laporan pendapatan?",
+    type: "question",
+    timer: 10000,
+    showCancelButton: true,
+    confirmButtonText: 'Iya',
+    confirmButtonColor: '#2c3e50',
+    cancelButtonText: 'Tidak'
+  }).then(function(result) {
+    if (result.value) {
+      $.ajax({
+        type: "POST",
+        url: "/dashboard/retrieve/report",
+        data: data,
+        cache: false,
+        success: function(result) {
+          console.log(result);
+          if (result.status == 200) {
+            var res = '';
+            if (result.content) {
+              
+            }
+            else {
+              res = '<div class="row"><div class="col-md-12">';
+              res += '<div class="alert alert-warning padd-lr-15">';
+              res += 'Data tidak ditemukan';
+              res += '</div></div></div>';
+            }
+            $('#report-card-section').html(res);
+          }
+          else {
+            swal({
+              title: "Oops terjadi kesalahan",
+              html: result.content,
+              type: "warning",
+              timer: 10000,
+              showCancelButton: false,
+              confirmButtonText: 'Ok',
+              confirmButtonColor: '#2c3e50',
+            });
+          }
+        },
+        error: function(result){
+
+        }
+      });
+    }
+  });
+}//end
+
+
 $(document).ready(function() {
 
   /* device */
@@ -1870,6 +1923,21 @@ $(document).ready(function() {
         '_token' : $("input[name=search_token]").val()
       };
       search_review(data);
+    });
+  }
+
+  /* report */
+  if ($('button[name=report-search-button]').length > 0) {
+    $('button[name=report-search-button]').on('click', function(e) {
+      e.preventDefault();
+      var data = {
+        '_type' : $("select[name=report-type").val(),
+        '_start' : $("input[name=report-date-start").val(),
+        '_end' : $("input[name=report-date-end").val(),
+        '_method' : "post",
+        '_token' : $("input[name=search_token]").val()
+      };
+      report_lookup(data);
     });
   }
 

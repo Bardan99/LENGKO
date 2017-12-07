@@ -16,7 +16,7 @@
   <div class="container-fluid">
 
     <div class="row">
-      <div id="content" class="col-md-12">
+      <div id="content" class="col-md-12 min-height-80">
         @yield('content')
       </div>
     </div>

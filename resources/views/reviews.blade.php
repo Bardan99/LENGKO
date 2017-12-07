@@ -36,7 +36,6 @@
                   </div>
                   <div class="col-md-3">
                     <select class="barrating-readonly">
-                      <option value=""></option>
                       @for ($i = 1; $i <= 5; $i++)
                         <option value="{{$i}}" @if ($i == $value2->poin_kuisioner_detil) {{'selected'}} @endif>{{$i}}</option>
                       @endfor
@@ -96,6 +95,7 @@
             {{ $value->isi_kuisioner }}
           </div>
           <div class="col-md-4">
+            <option value=""></option>
             <select id="customer-rating-{{$value->kode_kuisioner}}" class="barrating">
               @for ($i = 1; $i <= 5; $i++)
                 <option value="{{$i}}" @if ($i == 5) {{'selected'}} @endif>{{$i}}</option>

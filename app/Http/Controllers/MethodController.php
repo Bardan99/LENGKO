@@ -42,4 +42,17 @@ class MethodController extends BaseController {
     return $res;
   }
 
+  public function msg($type) { //notification
+    $msg = '';
+    switch ($type) {
+      case 'value':
+        $msg = '';
+      break;
+      default:
+        $msg = '';
+      break;
+    }
+    return $msg;
+  }
+
 }

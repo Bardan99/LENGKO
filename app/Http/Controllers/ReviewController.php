@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests;
 use App\Review;
 use Hash;
+use Auth;
 use Validator;
 
 class ReviewController extends Controller {
@@ -27,7 +28,7 @@ class ReviewController extends Controller {
         'tanggal_kuisioner' => date('Y-m-d'),
         'waktu_kuisioner' => date('H:m:s'),
         'status_kuisioner' => '1',
-        'kode_pegawai' => 'toor', //tmp
+        'kode_pegawai' => Auth::user()->kode_pegawai, //tmp
       ];
 
       $this->validate($request, $rules);

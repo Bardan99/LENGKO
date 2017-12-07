@@ -13,19 +13,20 @@ use App\MenuDetil;
 use App\Review;
 use App\ReviewDevice;
 use App\ReviewDetil;
+use Auth;
 use Hash;
 
 class DashboardController extends Controller {
 
   public function __construct() {
-    //$this->middleware('auth');
+      //$this->middleware('auth'); //only used if implement to all method on this class
   }
 
   public function index() {
     if (view()->exists('dashboard.home')) {
       $navbar = new NavBarController;
-      $pages = $navbar->get_navbar('root');
-      $data['employee'] = Pegawai::where('kode_pegawai', 'toor')
+      $pages = $navbar->get_navbar(Auth::user()->kode_otoritas);
+      $data['employee'] = Pegawai::where('kode_pegawai', Auth::user()->kode_pegawai)
                           ->join('otoritas', 'otoritas.kode_otoritas', '=', 'pegawai.kode_otoritas')
                           ->first();
       return view('dashboard.home', ['data' => $data, 'pages' => $pages, 'page' => '']);
@@ -36,7 +37,7 @@ class DashboardController extends Controller {
   public function view($param) {
     if (view()->exists('dashboard.' . $param)) {
       $navbar = new NavBarController;
-      $pages = $navbar->get_navbar('root');
+      $pages = $navbar->get_navbar(Auth::user()->kode_otoritas);
       switch ($param) {
         case 'device':
           $data['device'] = DB::table('perangkat')
@@ -60,7 +61,7 @@ class DashboardController extends Controller {
           $data['employee'] = DB::table('pegawai')
             ->join('otoritas','otoritas.kode_otoritas', '=', 'pegawai.kode_otoritas')
             ->select('*', DB::raw('IF (jenis_kelamin_pegawai = "L", "Laki-Laki", IF (jenis_kelamin_pegawai = "P", "Perempuan", "-")) AS jenis_kelamin_pegawai'))
-            ->where('pegawai.kode_pegawai', '!=', 'toor') //yg login gk boleh hapus datanya sendiri
+            ->where('pegawai.kode_pegawai', '!=', Auth::user()->kode_pegawai) //yg login gk boleh hapus datanya sendiri
             ->orderBy('nama_pegawai', 'ASC')
             ->skip(0)->take(5)->get();
           $data['authority'] = DB::table('otoritas')
@@ -263,7 +264,7 @@ class DashboardController extends Controller {
         if ($employee) {
           $rules = [
             'employee-name' => 'required|min:4',
-            'employee-password' => 'required|min:6',
+            'employee-password' => 'required|min:4',
             'employee-gender' => 'required'
           ];
 
@@ -329,7 +330,7 @@ class DashboardController extends Controller {
             $this->validate($request, [
               'employee-change-name' => 'required|min:4',
               'employee-change-gender' => 'required|min:1',
-              'employee-change-password' => 'required|min:6',
+              'employee-change-password' => 'required|min:4',
               'employee-change-authority' => 'required|min:1'
             ]);
             $try = Pegawai::find($id)->update([

@@ -1351,11 +1351,26 @@ function report_lookup(data) {
         data: data,
         cache: false,
         success: function(result) {
-          console.log(result);
           if (result.status == 200) {
             var res = '';
             if (result.content) {
-              
+              var total = 0;
+              res += '<div class="table-responsive">';
+              res += '<table class="table table-hover table-striped">';
+              res += '<tr><th class="text-center">Tanggal</th>';
+              res += '<th class="text-center">Pendapatan</th></tr>';
+              for (i = 0; i < result.content.length; i++) {
+                res += '<tr><td class="text-center">' + result.content[i].tanggal + '</td>';
+                res += '<td class="text-center">Rp' + result.content[i].pendapatan + '</td></tr>';
+                total += Number(result.content[i].pendapatan);
+              }
+              res += '<tr><td class="text-right" style="font-weight:bold;">Total</td><td class="text-center">Rp' + total + '</td></tr>';
+              res += '</table></div>';
+
+              res += '<div class="row"><div class="col-md-offset-9 col-md-3">';
+              res += '<button type="button" name="report-print-button" class="btn-lengko btn-lengko-warning block">';
+              res += '<span class="glyphicon glyphicon-print" aria-hidden="true"></span>';
+              res += ' Cetak</button></div></div>';
             }
             else {
               res = '<div class="row"><div class="col-md-12">';

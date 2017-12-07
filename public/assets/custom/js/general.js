@@ -232,6 +232,7 @@ $(document).ready(function() {
   if ($('.barrating').length > 0) {
     $('.barrating').barrating({
       theme: 'fontawesome-stars',
+      allowEmpty: true,
       showValues: false
     });
   }

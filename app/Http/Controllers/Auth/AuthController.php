@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
-use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use App\User;
+use Validator;
 
 class AuthController extends Controller {
     /*
@@ -29,7 +29,7 @@ class AuthController extends Controller {
      */
     protected $username = 'kode_pegawai';
     protected $redirectTo = '/dashboard';
-    protected $redirectAfterLogout = '/';
+    protected $redirectAfterLogout = '/'; //not working coz custom provider
 
     /**
      * Create a new authentication controller instance.
@@ -48,8 +48,8 @@ class AuthController extends Controller {
      */
     protected function validator(array $data) {
         return Validator::make($data, [
-            'kode_pegawai' => 'required|max:15|unique:users',
-            'kata_sandi_pegawai' => 'required|min:6|max:150|confirmed',
+            'kode_pegawai' => 'required|min:4|max:10|unique:users',
+            'kata_sandi_pegawai' => 'required|min:4|max:15|confirmed',
         ]);
     }
 
@@ -69,5 +69,4 @@ class AuthController extends Controller {
     public function authenticated($request, $user) {
     	return redirect('/dashboard');
     }
-
 }

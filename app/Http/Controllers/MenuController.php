@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests;
 use App\Menu;
 use App\MenuDetil;
+use Auth;
 use Hash;
 use Validator;
 
@@ -33,7 +34,7 @@ class MenuController extends Controller {
         'harga_menu' => $data['menu-create-price'],
         'jenis_menu' => $data['menu-create-type'],
         'deskripsi_menu' => $data['menu-create-description'],
-        'kode_pegawai' => 'toor' //sementara tmp
+        'kode_pegawai' => Auth::user()->kode_pegawai //sementara tmp
       ];
 
       if ($file) {

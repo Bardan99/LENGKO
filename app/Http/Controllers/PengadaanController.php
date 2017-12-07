@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Pengadaan;
 use App\PengadaanDetil;
 use App\BahanBaku;
+use Auth;
 use Hash;
 use Validator;
 
@@ -51,7 +52,7 @@ class PengadaanController extends Controller {
       'waktu_pengadaan_bahan_baku' => date('H:m:s'),
       'catatan_pengadaan_bahan_baku' => $data['material-request-create-addition'],
       'status_pengadaan_bahan_baku' => 0,
-      'kode_pegawai' => 'toor',//sementara
+      'kode_pegawai' => Auth::user()->kode_pegawai,//sementara
       'kode_prioritas' => $data['material-request-create-priority']
     ]);
     $id = $try->kode_pengadaan_bahan_baku;

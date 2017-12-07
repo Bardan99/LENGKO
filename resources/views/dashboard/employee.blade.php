@@ -9,7 +9,15 @@
       <input type="hidden" name="search_token" value="{{ csrf_token() }}">
       <div class="row">
         <div class="col-md-12">
-
+          @if (count($errors) > 0)
+            <div class="alert alert-danger">
+              <ul>
+                @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+                @endforeach
+              </ul>
+            </div>
+          @endif
           <div class="panel panel-default panel-custom">
             <div class="panel-heading">Manajemen Pegawai</div>
             <div class="panel-body">

@@ -9,23 +9,23 @@
         <form method="POST" action="{{ url('/login') }}">
           <div class="form-section mrg-b-20">
             <a href="/">
-              <img class="img-center" src="/files/images/lengko-logo.png" alt="" width="150px" height="70px" />
+              <img class="img-center" src="{{ url('/files/images/lengko-logo.png') }}" alt="" width="150px" height="70px" />
             </a>
             {{ csrf_field() }}
           </div>
-          <div class="form-section{{ $errors->has('kode_pegawai') ? ' has-error' : '' }}">
-            <input type="text" id="kode_pegawai" name="kode_pegawai" placeholder="Kode Pegawai" value="{{ old('email') }}">
+          <div class="form-section {{ $errors->has('kode_pegawai') ? ' has-error' : '' }}">
+            <input type="text" name="kode_pegawai" placeholder="Kode Pegawai" value="{{ old('email') }}">
             @if ($errors->has('kode_pegawai'))
               <span class="help-block">
                 <strong>{{ $errors->first('kode_pegawai') }}</strong>
               </span>
             @endif
           </div>
-          <div class="form-section{{ $errors->has('kata_sandi_pegawai') ? ' has-error' : '' }}">
-            <input type="password" id="kata_sandi_pegawai" name="kata_sandi_pegawai" placeholder="Kata Sandi Pegawai">
-            @if ($errors->has('kata_sandi_pegawai'))
+          <div class="form-section {{ $errors->has('password') ? ' has-error' : '' }}">
+            <input type="password" name="password" placeholder="Kata Sandi Pegawai">
+            @if ($errors->has('password'))
               <span class="help-block">
-                <strong>{{ $errors->first('kata_sandi_pegawai') }}</strong>
+                <strong>{{ $errors->first('password') }}</strong>
               </span>
             @endif
           </div>

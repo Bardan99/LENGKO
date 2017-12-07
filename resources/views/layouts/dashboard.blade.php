@@ -20,7 +20,7 @@
       <div id="navbar" class="col-md-2 mrg-b-20 padd-tb-20">
         @include('layouts.navbar')
       </div>
-      <div id="content" class="col-md-10">
+      <div id="content" class="col-md-10 min-height-80">
         @yield('content')
       </div>
     </div>

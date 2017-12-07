@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests;
 use App\Pegawai;
 use Hash;
+use Auth;
 use Validator;
 
 class EmployeeController extends Controller {
@@ -17,7 +18,7 @@ class EmployeeController extends Controller {
       $validator = Validator::make($data, [
         'employee-create-id' => 'required|min:4',
         'employee-create-name' => 'required|min:4',
-        'employee-create-password' => 'required|min:6',
+        'employee-create-password' => 'required|min:4',
         'employee-create-gender' => 'required|min:1',
         'employee-create-authority' => 'required'
       ]);
@@ -55,14 +56,18 @@ class EmployeeController extends Controller {
         return response()->json(['status' => 500, 'text' => 'Jangan lupa diisi ya kata kunci nya!']);
       }
 
+      $keyword = '%' . $data['employee-search-query'] . '%';
       $employees = DB::table('pegawai')
         ->join('otoritas','otoritas.kode_otoritas', '=', 'pegawai.kode_otoritas')
         ->select('*', DB::raw('IF (jenis_kelamin_pegawai = "L", "Laki-Laki", IF (jenis_kelamin_pegawai = "P", "Perempuan", "-")) AS jenis_kelamin_pegawai'))
-        ->where('kode_pegawai', 'LIKE', '%' . $data['employee-search-query'] . '%')
-        ->orwhere('nama_pegawai', 'LIKE', '%' . $data['employee-search-query'] . '%')
-        ->where('pegawai.kode_pegawai', '!=', 'toor') //yg login gk boleh hapus datanya sendiri
+        ->where('pegawai.kode_pegawai', '!=', Auth::user()->kode_pegawai) //yg login gk boleh hapus datanya sendiri
+        ->where(function ($qry) use ($keyword) {
+          $qry ->where('kode_pegawai', 'LIKE', $keyword)
+          ->orwhere('nama_pegawai', 'LIKE', $keyword);
+        })
         ->orderBy('nama_pegawai', 'ASC')
         ->get();
+
       $authority = DB::table('otoritas')
         ->orderBy('nama_otoritas', 'ASC')
         ->get();

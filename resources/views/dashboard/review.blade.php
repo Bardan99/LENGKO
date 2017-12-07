@@ -12,6 +12,8 @@
           <div class="panel panel-default panel-custom">
             <div class="panel-heading">Manajemen Hasil Kuisioner</div>
             <div class="panel-body">
+              @if (count($data['review-device']) > 0)
+
               <div class="row">
                 <div class="col-md-offset-8 col-md-4">
                   <div class="input-group padd-tb-10">
@@ -28,7 +30,6 @@
               <div class="row">
                 <div class="col-md-12">
 
-                  @if (count($data['review-device']) > 0)
                   <div id="review-card-section" class="table-responsive">
                     <table class="table">
                       <tr>
@@ -98,12 +99,17 @@
                     @endforeach
                     </table>
                   </div>
-                  @else
-                    Belum ada kuisioner customer.
-                  @endif
-                </div>
 
+                </div>
               </div>
+              @else
+                <div class="row">
+                  <div class="col-md-8">
+                    <div class="alert alert-warning">Belum ada kuisioner pelanggan.</div>
+                  </div>
+                </div>
+              @endif
+              
             </div>
           </div>
         </div>

@@ -18,7 +18,7 @@
       </h1>
       <p class="text-center">
         <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
-        <a href="/">Kembali ke halaman utama</a>
+        <a href="{{ url()->previous() }}">Kembali ke halaman sebelumnya</a>
       </p>
     </div>
   </div>

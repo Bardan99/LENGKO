@@ -157,7 +157,9 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         /* Custom */
-        App\Providers\CustomAuthProvider::class,
+        App\Providers\EmployeeAuthProvider::class,
+        App\Providers\DeviceAuthProvider::class,
+
     ],
 
     /*

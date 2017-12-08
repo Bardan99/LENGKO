@@ -6,7 +6,7 @@
   <div class="row mrg-b-30">
     <div class="col-xs-12 col-sm-push-2 col-sm-8 col-md-push-4 col-md-4">
       <div id="form-login">
-        <form method="POST" action="{{ route('auth.login.post') }}">
+        <form method="POST" action="{{ route('device.login.submit') }}">
           <div class="form-section mrg-b-20">
             <a href="/">
               <img class="img-center" src="{{ url('/files/images/lengko-logo.png') }}" alt="" width="150px" height="70px" />

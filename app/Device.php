@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Employee extends Authenticatable {
-    protected $table = "pegawai";
-    protected $primaryKey = "kode_pegawai";
+class Device extends Authenticatable {
+    protected $table = "perangkat";
+    protected $primaryKey = "kode_perangkat";
     public $incrementing = false;
     public $timestamps = false;
     public $remember = false;
@@ -16,7 +16,7 @@ class Employee extends Authenticatable {
      * @var array
      */
     protected $fillable = [
-        'kode_pegawai', 'kata_sandi_pegawai',
+        'kode_perangkat', 'kata_sandi_perangkat',
     ];
 
     /**
@@ -27,6 +27,6 @@ class Employee extends Authenticatable {
     protected $hidden = [];
 
     public function getAuthPassword() {
-      return $this->kata_sandi_pegawai;
+      return $this->kata_sandi_perangkat;
     }
 }

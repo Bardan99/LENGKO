@@ -23,7 +23,6 @@ class Authenticate {
                 return redirect()->guest('/dashboard/login'); //default login
             }
         }
-
         return $next($request);
     }
 }

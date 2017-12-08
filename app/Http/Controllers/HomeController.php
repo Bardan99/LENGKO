@@ -1,20 +1,21 @@
 <?php
 
-  namespace App\Http\Controllers;
+namespace App\Http\Controllers;
 
-  use App\Http\Requests;
-  use Illuminate\Support\Facades\DB;
-  use Illuminate\Http\Request;
-  use Validator;
+use App\Http\Requests;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use Validator;
+use Auth;
 
-  class HomeController extends Controller {
+class HomeController extends Controller {
   /**
    * Create a new controller instance.
    *
    * @return void
    */
   public function __construct() {
-      //$this->middleware('auth'); //only used if implement to all method on this class
+      $this->middleware('device'); //defined on route middleware
   }
 
   /**
@@ -26,7 +27,8 @@
    public function index() {
      if (view()->exists('home')) {
        $data['page'] = '';
-       return view('home', ['data' => $data]);
+       $tmp = Auth::guard('device')->user();
+       return view('home', ['data' => $data, 'tmp' => $tmp]);
      }
      return abort(404);
    }

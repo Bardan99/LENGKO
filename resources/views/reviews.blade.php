@@ -5,19 +5,17 @@
 @section('content')
 
   <div class="container">
-
+    @if (count($data['customer-reviews']) > 0)
     <div class="row mrg-b-10">
       <div class="col-md-12">
         <h2 class="text-center">~Ini kata mereka</h2>
       </div>
     </div>
-    @if (count($data['review-status']) > 0)
     <div class="row">
       <div class="col-md-6">
         <canvas id="customer-review" width="400px" height="300px"></canvas>
       </div>
       <div class="col-md-6">
-        @if (count($data['customer-reviews']))
           @foreach ($data['customer-reviews'] as $key => $value)
             <div class="row">
               <div class="col-md-12">
@@ -46,14 +44,11 @@
               </div>
             </div>
           @endforeach
-        @else
-          Belum ada kuisioner, giliran kamu untuk mengisinya.
-        @endif
       </div>
     </div>
     @else
       <div class="row">
-        <div class="col-md-offset-2 col-md-8">
+        <div class="col-md-8">
           <div class="alert alert-warning">
             Kuisioner tidak tersedia untuk ditampilkan.
           </div>

@@ -19,14 +19,14 @@ use Hash;
 class DashboardController extends Controller {
 
   public function __construct() {
-      //$this->middleware('auth'); //only used if implement to all method on this class
+      $this->middleware('employee'); //defined on route middleware
   }
 
   public function index() {
     if (view()->exists('dashboard.home')) {
       $navbar = new MethodController;
-      $pages = $navbar->get_navbar(Auth::user()->kode_otoritas);
-      $data['employee'] = Pegawai::where('kode_pegawai', Auth::user()->kode_pegawai)
+      $pages = $navbar->get_navbar(Auth::guard('employee')->user()->kode_otoritas);
+      $data['employee'] = Pegawai::where('kode_pegawai', Auth::guard('employee')->user()->kode_pegawai)
                           ->join('otoritas', 'otoritas.kode_otoritas', '=', 'pegawai.kode_otoritas')
                           ->first();
       return view('dashboard.home', ['data' => $data, 'pages' => $pages, 'page' => '/']);
@@ -37,7 +37,7 @@ class DashboardController extends Controller {
   public function view($param) {
     if (view()->exists('dashboard.' . $param)) {
       $navbar = new MethodController;
-      $pages = $navbar->get_navbar(Auth::user()->kode_otoritas);
+      $pages = $navbar->get_navbar(Auth::guard('employee')->user()->kode_otoritas);
       $access = false;
       foreach ($pages as $key => $value) {
         if ($param == $value->kode_halaman) {
@@ -71,7 +71,7 @@ class DashboardController extends Controller {
             $data['employee'] = DB::table('pegawai')
               ->join('otoritas','otoritas.kode_otoritas', '=', 'pegawai.kode_otoritas')
               ->select('*', DB::raw('IF (jenis_kelamin_pegawai = "L", "Laki-Laki", IF (jenis_kelamin_pegawai = "P", "Perempuan", "-")) AS jenis_kelamin_pegawai'))
-              ->where('pegawai.kode_pegawai', '!=', Auth::user()->kode_pegawai) //yg login gk boleh hapus datanya sendiri
+              ->where('pegawai.kode_pegawai', '!=', Auth::guard('employee')->user()->kode_pegawai) //yg login gk boleh hapus datanya sendiri
               ->orderBy('nama_pegawai', 'ASC')
               ->skip(0)->take(5)->get();
             $data['authority'] = DB::table('otoritas')
@@ -260,7 +260,7 @@ class DashboardController extends Controller {
             $data['unknown'] = null;
           break;
         }
-        return view('dashboard.' . $param, ['pages' => $pages, 'page' => $param, 'data' => $data, 'auth' => Auth::user()->kode_otoritas]);
+        return view('dashboard.' . $param, ['pages' => $pages, 'page' => $param, 'data' => $data, 'auth' => Auth::guard('employee')->user()->kode_otoritas]);
       }
     }
     return abort(404);

@@ -71,7 +71,7 @@ class DeviceController extends Controller {
             'status' => 200,
             'text' => 'Pencarian selesai dilakukan',
             'content' => $devices,
-            'auth' => Auth::user()->kode_otoritas
+            'auth' => Auth::guard('employee')->user()->kode_otoritas
           ]);
       }
 

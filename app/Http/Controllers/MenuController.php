@@ -34,7 +34,7 @@ class MenuController extends Controller {
         'harga_menu' => $data['menu-create-price'],
         'jenis_menu' => $data['menu-create-type'],
         'deskripsi_menu' => $data['menu-create-description'],
-        'kode_pegawai' => Auth::user()->kode_pegawai //sementara tmp
+        'kode_pegawai' => Auth::guard('employee')->user()->kode_pegawai //sementara tmp
       ];
 
       if ($file) {
@@ -146,7 +146,7 @@ class MenuController extends Controller {
             'text' => 'Pencarian selesai dilakukan',
             'content' => $result,
             'material' => $material,
-            'auth' => Auth::user()->kode_otoritas
+            'auth' => Auth::guard('employee')->user()->kode_otoritas
           ]);
       }
 

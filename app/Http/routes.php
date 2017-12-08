@@ -12,16 +12,23 @@
 */
 
 /* authentication */
-//Route::auth();
+Route::auth();
+
 // Admin login
-Route::get('/dashboard/login', 'Auth\AuthController@showLoginForm')->name('auth.login.get');
-Route::post('/dashboard/login', 'Auth\AuthController@login')->name('auth.login.post');
+Route::group(['prefix' => 'dashboard'], function() {
+  Route::get('login', 'Auth\EmployeeLoginController@showLoginForm')->name('employee.login');
+  Route::post('login', 'Auth\EmployeeLoginController@login')->name('employee.login.submit');
+});
 
+Route::group(['prefix' => ''], function() {
+  Route::get('login', 'Auth\DeviceLoginController@showLoginForm')->name('device.login');
+  Route::post('login', 'Auth\DeviceLoginController@login')->name('device.login.submit');
+});
 
-Route::group(['middleware' => 'auth'], function() {
-  /* Dashboard */
-
-  Route::get('/dashboard/logout', 'LoginController@logout');
+Route::group(['middleware' => 'employee'], function() {
+  Route::get('/dashboard', 'DashboardController@index');
+  Route::get('/dashboard/logout', 'Auth\EmployeeLoginController@logout');
+  Route::get('/dashboard/{param}/', 'DashboardController@view');
 
   Route::post('/dashboard/create/device', 'DeviceController@create');
   Route::post('/dashboard/search/device', 'DeviceController@search');
@@ -63,15 +70,13 @@ Route::group(['middleware' => 'auth'], function() {
   Route::put('/dashboard/update/{param}/', 'DashboardController@update');
   Route::delete('/dashboard/delete/{param}/{id}', 'DashboardController@delete');
 
-  Route::get('/dashboard/', 'DashboardController@index');
-  Route::get('/dashboard/{param}/', 'DashboardController@view');
-
   Route::get('/ajax/object/{param}', 'HomeController@ajax_handler');
 });
 
-
-  /* Customer */
+Route::group(['middleware' => 'device'], function() {
   Route::get('/', 'HomeController@index');
-  Route::get('/{param}/', 'HomeController@view');
+  Route::get('/logout', 'Auth\DeviceLoginController@logout');
+  Route::get('/{param}', 'HomeController@view');
 
   Route::post('/customer/search/menu', 'HomeController@searchmenu');
+});

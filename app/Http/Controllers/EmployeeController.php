@@ -60,7 +60,7 @@ class EmployeeController extends Controller {
       $employees = DB::table('pegawai')
         ->join('otoritas','otoritas.kode_otoritas', '=', 'pegawai.kode_otoritas')
         ->select('*', DB::raw('IF (jenis_kelamin_pegawai = "L", "Laki-Laki", IF (jenis_kelamin_pegawai = "P", "Perempuan", "-")) AS jenis_kelamin_pegawai'))
-        ->where('pegawai.kode_pegawai', '!=', Auth::user()->kode_pegawai) //yg login gk boleh hapus datanya sendiri
+        ->where('pegawai.kode_pegawai', '!=', Auth::guard('employee')->user()->kode_pegawai) //yg login gk boleh hapus datanya sendiri
         ->where(function ($qry) use ($keyword) {
           $qry ->where('kode_pegawai', 'LIKE', $keyword)
           ->orwhere('nama_pegawai', 'LIKE', $keyword);

@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\User;
+use App\Device;
 use Carbon\Carbon;
 use Illuminate\Auth\GenericUser;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -10,7 +10,7 @@ use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
-class CustomUserProvider implements UserProvider {
+class DeviceUserProvider implements UserProvider {
 
     /**
      * Retrieve a user by their unique identifier.
@@ -20,15 +20,15 @@ class CustomUserProvider implements UserProvider {
      */
     public function retrieveById($identifier) { //direct access to page
         // TODO: Implement retrieveById() method.
-        $qry = User::where('kode_pegawai','=',$identifier);
+        $qry = Device::where('kode_perangkat','=',$identifier);
         if ($qry->count() >0) {
             $user = $qry->select('*')->first();
             $attributes = array(
-                'kode_pegawai' => $user->kode_pegawai,
-                'nama_pegawai' => $user->nama_pegawai,
-                'kata_sandi_pegawai' => $user->kata_sandi_pegawai,
-                'jenis_kelamin_pegawai' => $user->jenis_kelamin_pegawai,
-                'gambar_pegawai' => $user->gambar_pegawai,
+                'kode_perangkat' => $user->kode_perangkat,
+                'nama_perangkat' => $user->nama_perangkat,
+                'kata_sandi_perangkat' => $user->kata_sandi_perangkat,
+                'jenis_kelamin_perangkat' => $user->jenis_kelamin_perangkat,
+                'gambar_perangkat' => $user->gambar_perangkat,
                 'kode_otoritas' => $user->kode_otoritas,
             );
             return $user;
@@ -45,17 +45,17 @@ class CustomUserProvider implements UserProvider {
      */
     public function retrieveByToken($identifier, $token) {
         // TODO: Implement retrieveByToken() method.
-        $qry = User::where('kode_pegawai','=',$identifier)
+        $qry = Device::where('kode_perangkat','=',$identifier)
             ->where('remember_token','=',$token);
 
         if($qry->count() >0) {
             $user = $qry->select('*')->first();
             $attributes = array(
-                'kode_pegawai' => $user->kode_pegawai,
-                'nama_pegawai' => $user->nama_pegawai,
-                'kata_sandi_pegawai' => $user->kata_sandi_pegawai,
-                'jenis_kelamin_pegawai' => $user->jenis_kelamin_pegawai,
-                'gambar_pegawai' => $user->gambar_pegawai,
+                'kode_perangkat' => $user->kode_perangkat,
+                'nama_perangkat' => $user->nama_perangkat,
+                'kata_sandi_perangkat' => $user->kata_sandi_perangkat,
+                'jenis_kelamin_perangkat' => $user->jenis_kelamin_perangkat,
+                'gambar_perangkat' => $user->gambar_perangkat,
                 'kode_otoritas' => $user->kode_otoritas,
             );
             return $user;
@@ -72,7 +72,7 @@ class CustomUserProvider implements UserProvider {
      */
     public function updateRememberToken(Authenticatable $user, $token) {
         // TODO: Implement updateRememberToken() method.
-        
+
         //not yet use remember token
         //$user->setRememberToken($token);
         //$user->save();
@@ -86,7 +86,7 @@ class CustomUserProvider implements UserProvider {
      */
     public function retrieveByCredentials(array $credentials) { //this is currently used
         // TODO: Implement retrieveByCredentials() method.
-        $qry = User::where('kode_pegawai','=',$credentials['kode_pegawai']);
+        $qry = Device::where('kode_perangkat','=',$credentials['kode_perangkat']);
         if($qry->count() > 0) {
             $user = $qry->select('*')->first();
             return $user;
@@ -106,7 +106,7 @@ class CustomUserProvider implements UserProvider {
         // we'll assume if a user was retrieved, it's good
 
         // DIFFERENT THAN ORIGINAL ANSWER
-        if ($user->kode_pegawai == $credentials['kode_pegawai'] && Hash::check($credentials['password'], $user->getAuthPassword())) {
+        if ($user->kode_perangkat == $credentials['kode_perangkat'] && Hash::check($credentials['kata_sandi_perangkat'], $user->getAuthPassword())) {
             $user->save();
             return true;
         }

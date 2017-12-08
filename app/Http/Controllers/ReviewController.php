@@ -28,7 +28,7 @@ class ReviewController extends Controller {
         'tanggal_kuisioner' => date('Y-m-d'),
         'waktu_kuisioner' => date('H:m:s'),
         'status_kuisioner' => '1',
-        'kode_pegawai' => Auth::user()->kode_pegawai, //tmp
+        'kode_pegawai' => Auth::guard('employee')->user()->kode_pegawai, //tmp
       ];
 
       $this->validate($request, $rules);

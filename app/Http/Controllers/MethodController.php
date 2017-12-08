@@ -7,8 +7,20 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesResources;
+use Illuminate\Support\Facades\DB;
 
 class MethodController extends BaseController {
+
+  public function get_navbar($auth) {
+    $navbar = DB::table('halaman')
+      ->join('halaman_detil', 'halaman.kode_halaman', '=', 'halaman_detil.kode_halaman')
+      ->where('halaman_detil.kode_otoritas', '=', $auth)
+      ->where('halaman_detil.status_halaman_detil', '=', TRUE)
+      ->select('halaman.kode_halaman', 'halaman.nama_halaman', 'halaman.ikon_halaman')
+      ->orderby('urutan_halaman', 'asc')
+      ->get();
+    return ($navbar);
+  }
 
   public function num_to_rp($number, $digit = 0) {
     if (isset($number) && isset($digit)) {

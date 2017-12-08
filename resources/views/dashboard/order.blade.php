@@ -6,7 +6,7 @@
 
   <div class="row mrg-b-20">
     <div class="col-md-12">
-
+      @if ($auth == 'root' || $auth == 'waiter')
       <div class="row">
         <div class="col-md-12">
           <input type="hidden" name="search_token" value="{{ csrf_token() }}">
@@ -111,8 +111,8 @@
 
         </div>
       </div>
-
-
+      @endif
+      @if ($auth == 'root' || $auth == 'chef')
       <div class="row">
         <div class="col-md-12">
 
@@ -278,7 +278,7 @@
 
         </div>
       </div> <!-- end -->
-
+      @endif
     </div>
 
   </div>

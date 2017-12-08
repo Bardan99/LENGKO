@@ -145,7 +145,8 @@ class MenuController extends Controller {
             'status' => 200,
             'text' => 'Pencarian selesai dilakukan',
             'content' => $result,
-            'material' => $material
+            'material' => $material,
+            'auth' => Auth::user()->kode_otoritas
           ]);
       }
 

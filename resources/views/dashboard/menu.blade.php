@@ -51,9 +51,10 @@
                             <div class="col-md-5">
                               <div class="container-file-lengko block">
                                 <img id="preview-image-{{$keymenu}}" src="/files/images/menus/@if($value->gambar_menu){{$value->gambar_menu}}@else{{'not-available.png'}}@endif" alt="{{ $value->nama_menu }}" width="200px" height="150px" style="border-radius:5px;" />
-                                <input id="choose-image-{{$keymenu}}" name="menu-change-thumbnail" type="file" title="Ubah gambar menu" onchange="reload_image(this, '#preview-image-{{$keymenu}}');" />
+                                @if ($auth == 'root' || $auth == 'chef')
+                                  <input id="choose-image-{{$keymenu}}" name="menu-change-thumbnail" type="file" title="Ubah gambar menu" onchange="reload_image(this, '#preview-image-{{$keymenu}}');" />
+                                @endif
                               </div>
-                              <small><div class="text-center">{{ $data['menu_obj']->menu_type($value->jenis_menu) }}</div></small>
                             </div>
                             <div class="col-md-7">
                               <div class="row">
@@ -61,18 +62,18 @@
                                   <div class="text-left padd-tb-10">[<b>{{ $value->kode_menu }}</b>]</div>
                                 </div>
                                 <div class="col-md-9">
-                                  <input type="text" name="menu-change-name" class="input-lengko-default block" placeholder="Nama Menu" value="{{ $value->nama_menu }}" />
+                                  <input type="text" name="menu-change-name" class="input-lengko-default block" placeholder="Nama Menu" value="{{ $value->nama_menu }}" @if ($auth != 'root' || $auth != 'chef') {{'readonly'}} @endif/>
                                 </div>
                               </div>
                               <div class="row">
                                 <div class="col-md-7">
-                                  <select name="menu-change-type" class="select-lengko-default block">
+                                  <select name="menu-change-type" class="select-lengko-default block" @if ($auth != 'root' || $auth != 'chef') {{'disabled="disabled"'}} @endif>
                                     <option value="F" @if ($value->jenis_menu == "F") {{ 'selected="selected"' }} @endif>Makanan</option>
                                     <option value="D" @if ($value->jenis_menu == "D") {{ 'selected="selected"' }} @endif>Minuman</option>
                                   </select>
                                 </div>
                                 <div class="col-md-5">
-                                  <input type="number" name="menu-change-price" class="input-lengko-default block" placeholder="Harga Menu" value="{{ $value->harga_menu }}" />
+                                  <input type="number" name="menu-change-price" class="input-lengko-default block" placeholder="Harga Menu" value="{{ $value->harga_menu }}" @if ($auth != 'root' || $auth != 'chef') {{'readonly'}} @endif />
                                 </div>
                               </div>
                               <div class="row padd-tb-10">
@@ -109,9 +110,10 @@
                         <div class="col-md-6">
                           <div class="row">
                             <div class="col-md-12">
-                              <textarea name="menu-change-description" class="textarea-lengko-default block" rows="5" placeholder="Deskripsi Menu">{{ substr($value->deskripsi_menu, 0, 300) . '' }}</textarea>
+                              <textarea name="menu-change-description" class="textarea-lengko-default block" rows="5" placeholder="Deskripsi Menu" @if ($auth != 'root' || $auth != 'chef') {{'readonly'}} @endif>{{ substr($value->deskripsi_menu, 0, 300) . '' }}</textarea>
                             </div>
                           </div>
+                          @if ($auth == 'root' || $auth == 'chef')
                           <div class="row">
                             <div class="col-md-6">
                               <button class="btn-lengko btn-lengko-default pull-left" type="button" onclick="show_obj('material-card-change-{{ $value->kode_menu }}');">
@@ -128,6 +130,7 @@
                               </button>
                             </div>
                           </div>
+                          @endif
                         </div>
                         <!-- end row -->
                       </div>
@@ -179,14 +182,14 @@
 
         </div>
       </div>
-
+      @if ($auth == 'root' || $auth == 'chef')
       <div class="row">
         <div class="col-md-12">
 
           <div class="panel panel-default panel-custom">
             <div class="panel-heading">Tambah Menu</div>
             <div class="panel-body">
-
+              @if (count($data['material']) > 0)
               <form name="menu-add" class="form-horizontal" action="{{ url('/dashboard/create/menu/') }}" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="row">
@@ -256,6 +259,7 @@
                             </div>
                           </div>
                         </div>
+
                       </div>
                     </div>
                     <div class="row">
@@ -287,14 +291,22 @@
                   </div>
                 </div>
               </form>
-
+              @else
+                <div class="row">
+                  <div class="col-md-8">
+                    <div class="alert alert-warning">
+                      Bahan baku tidak tersedia. Tidak dapat menambahkan menu.<br />
+                      Silahkan ajukan <a href="{{url('/dashboard/material')}}">Permohonan Pengadaan Bahan Baku</a>.
+                    </div>
+                  </div>
+                </div>
+              @endif
             </div>
           </div>
 
         </div>
-
       </div>
-
+      @endif
     </div>
 
   </div>

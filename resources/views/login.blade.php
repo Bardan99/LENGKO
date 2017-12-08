@@ -1,6 +1,6 @@
 @extends('layouts.single')
 
-@section('title', 'LENGKO - Login Pegawai')
+@section('title', 'LENGKO - Login Perangkat')
 
 @section('content')
   <div class="row mrg-b-30">
@@ -13,16 +13,16 @@
             </a>
             {{ csrf_field() }}
           </div>
-          <div class="form-section {{ $errors->has('kode_pegawai') ? ' has-error' : '' }}">
-            <input type="text" name="kode_pegawai" placeholder="Kode Pegawai" value="{{ old('email') }}">
-            @if ($errors->has('kode_pegawai'))
+          <div class="form-section {{ $errors->has('kode_perangkat') ? ' has-error' : '' }}">
+            <input type="text" name="kode_perangkat" placeholder="Kode Perangkat" value="{{ old('email') }}">
+            @if ($errors->has('kode_perangkat'))
               <span class="help-block">
-                <strong>{{ $errors->first('kode_pegawai') }}</strong>
+                <strong>{{ $errors->first('kode_perangkat') }}</strong>
               </span>
             @endif
           </div>
           <div class="form-section {{ $errors->has('password') ? ' has-error' : '' }}">
-            <input type="password" name="password" placeholder="Kata Sandi Pegawai">
+            <input type="password" name="password" placeholder="Kata Sandi Perangkat">
             @if ($errors->has('password'))
               <span class="help-block">
                 <strong>{{ $errors->first('password') }}</strong>

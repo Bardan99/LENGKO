@@ -7,9 +7,10 @@
   <div class="row mrg-b-20">
     <div class="col-md-12">
       <input type="hidden" name="search_token" value="{{ csrf_token() }}">
+      @if ($auth == 'root' || $auth == 'chef')
       <div class="row">
         <div class="col-md-12">
-          
+
           <div class="panel panel-default panel-custom">
             <div class="panel-heading">Pengajuan Pengadaan Bahan Baku</div>
             <div class="panel-body">
@@ -109,10 +110,14 @@
                             </button>
                           </div>
                           <div class="col-md-10 col-xs-12 col-sm-12 padd-lr-15">
-                            <select id="material-list-0" name="" class="select-lengko-default block" onchange="add_val('material-list-0', 'material-request-create-item-0');">
-                              @foreach ($data['material'] as $key => $value)
-                                <option value="{{ $value->kode_bahan_baku }}">{{ $value->nama_bahan_baku }}</option>
-                              @endforeach
+                            <select id="material-list-0" name="" class="select2" onchange="add_val('material-list-0', 'material-request-create-item-0');">
+                              @if (count($data['material']) > 0)
+                                @foreach ($data['material'] as $key => $value)
+                                  <option value="{{ $value->kode_bahan_baku }}">{{ $value->nama_bahan_baku }}</option>
+                                @endforeach
+                              @else
+                                <option value="">Tidak tersedia</option>
+                              @endif
                             </select>
                           </div>
                         </div>
@@ -158,7 +163,8 @@
 
         </div>
       </div>
-
+      @endif
+      @if ($auth == 'root' || $auth == 'pantry')
       <div class="row">
         <div class="col-md-12">
 
@@ -410,7 +416,7 @@
 
         </div>
       </div>
-
+      @endif
     </div>
   </div>
 

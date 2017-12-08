@@ -34,6 +34,7 @@
 
               <div id="device-card-section" class="row mrg-t-20">
               @foreach ($data['device'] as $key => $value)
+                @if ($auth == 'root')
                 <form id="device-card-change-{{$value->kode_perangkat}}" action="{{ url('dashboard/update/device') }}" method="POST" hidden="hidden">
                   <div class="col-md-3 col-sm-6 col-xs-12">
                     <div class="device device-{{ $value->status_text }}">
@@ -92,7 +93,7 @@
                     </div>
                   </div>
                 </form>
-
+                @endif
                 <div id="device-card-{{ $value->kode_perangkat }}" class="col-md-3 col-sm-6 col-xs-12">
                   <div class="device device-{{ $value->status_text }}">
                     <div class="device-title row">
@@ -113,6 +114,7 @@
                         <hr />
                       </div>
                     </div>
+                    @if ($auth == 'root')
                     <div class="row">
                       <div class="col-md-6 col-xs-6">
                         <form action="{{ url('dashboard/delete/device') . '/' . $value->kode_perangkat }}" method="POST">
@@ -129,6 +131,7 @@
                         </button>
                       </div>
                     </div>
+                    @endif
                   </div>
                 </div>
               @endforeach
@@ -149,6 +152,7 @@
       </div>
 
       <div class="row">
+        @if ($auth == 'root')
         <div class="col-md-6">
 
           <div class="panel panel-default panel-custom">
@@ -201,6 +205,7 @@
           </div>
 
         </div>
+        @endif
         <div class="col-md-6">
 
           <div class="panel panel-default panel-custom">

@@ -47,6 +47,6 @@ class LoginController extends Controller {
   public function logout() {
     Auth::logout();
     Session::flush();
-    return redirect('/dashboard');
+    return redirect('/dashboard/login');
   }
 }

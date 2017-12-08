@@ -530,39 +530,42 @@ function search_device(data) {
         if (result.content) {
           var token = $('input[name=search_token]').val();
           for (i = 0; i < result.content.length; i++) {
-            res += '<form id="device-card-change-' + result.content[i].kode_perangkat + '" action="/dashboard/update/device" method="POST" hidden="hidden">';
-            res += '<div class="col-md-3 col-sm-6 col-xs-12">';
-            res += '<div class="device device-' + result.content[i].status_text + '">';
-            res += '<div class="device-title row"><div class="col-md-12">';
-            res += '<input type="text" name="device-change-name" class="input-lengko-default block" value="' + result.content[i].nama_perangkat + '" />';
-            res += '</div></div><span>(' + result.content[i].kode_perangkat + ')</span>';
-            res += '<div class="row"><div class="col-md-12">';
-            res += 'Kapasitas: <input type="number" name="device-change-chair" min="1" class="input-lengko-default" value="' + result.content[i].jumlah_kursi_perangkat + '" /> Orang<br />';
-            res += '</div></div>';
-            res += '<div class="row"><div class="col-md-12">Status:';
-            res += '<select name="device-change-status" class="select-lengko-default">';
-            res += '<option value="0">Tidak Tersedia</option>';
-            res += '<option value="1">Tersedia</option>';
-            res += '</select>';
-            res += '</div></div>';
-            res += '<div class="row"><div class="col-md-12">Kata sandi:';
-            res += '<input type="password" name="device-change-password" class="input-lengko-default block" placeholder="(tidak diubah, kosongkan)" />';
-            res += '<hr /></div></div>';
-            res += '<div class="row"><div class="col-md-6 col-xs-6">';
-            res += '<form action="/dashboard/delete/device/' + result.content[i].kode_perangkat + '" method="POST">';
-            res += '<button class="btn-lengko btn-lengko-default pull-left" type="button" onclick="show_obj(\'device-card-' + result.content[i].kode_perangkat + '\'); hide_obj(\'device-card-change-' + result.content[i].kode_perangkat + '\');">';
-            res += '<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>';
-            res += '</button><button class="btn-lengko btn-lengko-default" type="submit">';
-            res += '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>';
-            res += '</button>';
-            res += '<input type="hidden" name="_token" value="' + token + '"><input type="hidden" name="_method" value="DELETE">';
-            res += '</form></div>';
-            res += '<div class="col-md-6 col-xs-6">';
-            res += '<button class="btn-lengko btn-lengko-default pull-right" type="submit">';
-            res += '<span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>';
-            res += '</button>';
-            res += '<input type="hidden" name="device-id" value="' + result.content[i].kode_perangkat + '" />';
-            res += '<input type="hidden" name="_token" value="' + token + '"><input type="hidden" name="_method" value="PUT"></div></div></div></div></form>';
+            if (result.auth == 'root') {
+              res += '<form id="device-card-change-' + result.content[i].kode_perangkat + '" action="/dashboard/update/device" method="POST" hidden="hidden">';
+              res += '<div class="col-md-3 col-sm-6 col-xs-12">';
+              res += '<div class="device device-' + result.content[i].status_text + '">';
+              res += '<div class="device-title row"><div class="col-md-12">';
+              res += '<input type="text" name="device-change-name" class="input-lengko-default block" value="' + result.content[i].nama_perangkat + '" />';
+              res += '</div></div><span>(' + result.content[i].kode_perangkat + ')</span>';
+              res += '<div class="row"><div class="col-md-12">';
+              res += 'Kapasitas: <input type="number" name="device-change-chair" min="1" class="input-lengko-default" value="' + result.content[i].jumlah_kursi_perangkat + '" /> Orang<br />';
+              res += '</div></div>';
+              res += '<div class="row"><div class="col-md-12">Status:';
+              res += '<select name="device-change-status" class="select-lengko-default">';
+              res += '<option value="0">Tidak Tersedia</option>';
+              res += '<option value="1">Tersedia</option>';
+              res += '</select>';
+              res += '</div></div>';
+              res += '<div class="row"><div class="col-md-12">Kata sandi:';
+              res += '<input type="password" name="device-change-password" class="input-lengko-default block" placeholder="(tidak diubah, kosongkan)" />';
+              res += '<hr /></div></div>';
+              res += '<div class="row"><div class="col-md-6 col-xs-6">';
+              res += '<form action="/dashboard/delete/device/' + result.content[i].kode_perangkat + '" method="POST">';
+              res += '<button class="btn-lengko btn-lengko-default pull-left" type="button" onclick="show_obj(\'device-card-' + result.content[i].kode_perangkat + '\'); hide_obj(\'device-card-change-' + result.content[i].kode_perangkat + '\');">';
+              res += '<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>';
+              res += '</button><button class="btn-lengko btn-lengko-default" type="submit">';
+              res += '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>';
+              res += '</button>';
+              res += '<input type="hidden" name="_token" value="' + token + '"><input type="hidden" name="_method" value="DELETE">';
+              res += '</form></div>';
+              res += '<div class="col-md-6 col-xs-6">';
+              res += '<button class="btn-lengko btn-lengko-default pull-right" type="submit">';
+              res += '<span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>';
+              res += '</button>';
+              res += '<input type="hidden" name="device-id" value="' + result.content[i].kode_perangkat + '" />';
+              res += '<input type="hidden" name="_token" value="' + token + '"><input type="hidden" name="_method" value="PUT"></div></div></div></div></form>';
+            }
+
             res += '<div id="device-card-' + result.content[i].kode_perangkat + '" class="col-md-3 col-sm-6 col-xs-12">';
             res += '<div class="device device-' + result.content[i].status_text + '">';
             res += '<div class="device-title row"><div class="col-md-12">';
@@ -573,16 +576,19 @@ function search_device(data) {
             res += '</div></div><div class="row">';
             res += '<div class="col-md-12">Status: ' + result.content[i].status_text_human + '';
             res += '<hr /></div></div>';
-            res += '<div class="row"><div class="col-md-6 col-xs-6">';
-            res += '<form action="/dashboard/delete/device/' + result.content[i].kode_perangkat + '" method="POST">';
-            res += '<button class="btn-lengko btn-lengko-default pull-left" type="submit">';
-            res += '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>';
-            res += '</button><input type="hidden" name="_token" value="' + token + '"><input type="hidden" name="_method" value="DELETE">';
-            res += '</form></div><div class="col-md-6 col-xs-6">';
-            res += '<button class="btn-lengko btn-lengko-default pull-right" type="button" onclick="show_obj(\'device-card-change-' + result.content[i].kode_perangkat + '\'); hide_obj(\'device-card-' + result.content[i].kode_perangkat + '\');">';
-            res += '<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>';
-            res += '</button>';
-            res += '</div></div></div></div>';
+            if (result.auth == 'root') {
+              res += '<div class="row"><div class="col-md-6 col-xs-6">';
+              res += '<form action="/dashboard/delete/device/' + result.content[i].kode_perangkat + '" method="POST">';
+              res += '<button class="btn-lengko btn-lengko-default pull-left" type="submit">';
+              res += '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>';
+              res += '</button><input type="hidden" name="_token" value="' + token + '"><input type="hidden" name="_method" value="DELETE">';
+              res += '</form></div><div class="col-md-6 col-xs-6">';
+              res += '<button class="btn-lengko btn-lengko-default pull-right" type="button" onclick="show_obj(\'device-card-change-' + result.content[i].kode_perangkat + '\'); hide_obj(\'device-card-' + result.content[i].kode_perangkat + '\');">';
+              res += '<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>';
+              res += '</button>';
+              res += '</div></div>';
+            }
+            res += '</div></div>';
           }
         }
         else {
@@ -870,21 +876,24 @@ function search_menu(data) {
             }
 
             res += '" alt="' + result.content.menu[i].nama_menu + '" width="200px" height="150px" style="border-radius:5px;" />';
-            res += '<input id="choose-image-' + i + '" name="menu-change-thumbnail" type="file" title="Ubah gambar menu" onchange="reload_image(this, \'#preview-image-\'' + i + ');" />';
-            res += '</div><small><div class="text-center">';
-            if (result.content.menu[i].jenis_menu == "F") {
-              res += 'Makanan';
+            if (result.auth == 'root' || result.auth == 'chef') {
+              res += '<input id="choose-image-' + i + '" name="menu-change-thumbnail" type="file" title="Ubah gambar menu" onchange="reload_image(this, \'#preview-image-\'' + i + ');" />';
             }
-            else if (result.content.menu[i].jenis_menu == "D") {
-              res += 'Minuman';
-            }
-            res += '</div></small>';
+            res += '</div>';
             res += '</div><div class="col-md-7"><div class="row"><div class="col-md-3">';
             res += '<div class="text-left padd-tb-10">[<b>' + result.content.menu[i].kode_menu + '</b>]</div>';
             res += '</div><div class="col-md-9">';
-            res += '<input type="text" name="menu-change-name" class="input-lengko-default block" placeholder="Nama Menu" value="' + result.content.menu[i].nama_menu + '" />';
+            res += '<input type="text" name="menu-change-name" class="input-lengko-default block" placeholder="Nama Menu" value="' + result.content.menu[i].nama_menu + '"';
+            if (result.auth != 'root' || result.auth != 'chef') {
+              res += ' readonly ';
+            }
+            res += '/>';
             res += '</div></div><div class="row"><div class="col-md-7">';
-            res += '<select name="menu-change-type" class="select-lengko-default block">';
+            res += '<select name="menu-change-type" class="select-lengko-default block"';
+            if (result.auth != 'root' || result.auth != 'chef') {
+              res += ' disabled="disabled" ';
+            }
+            res += '>';
             res += '<option value="F"';
             if (result.content.menu[i].jenis_menu == "F") {
               res += ' selected="selected"';
@@ -893,7 +902,12 @@ function search_menu(data) {
             if (result.content.menu[i].jenis_menu == "D") {
               res += ' selected="selected"';
             }
-            res += '>Minuman</option></select></div><div class="col-md-5"><input type="number" name="menu-change-price" class="input-lengko-default block" placeholder="Harga Menu" value="' + result.content.menu[i].harga_menu + '" />';
+            res += '>Minuman</option></select></div><div class="col-md-5">';
+            res += '<input type="number" name="menu-change-price" class="input-lengko-default block" placeholder="Harga Menu" value="' + result.content.menu[i].harga_menu + '"';
+            if (result.auth != 'root' || result.auth != 'chef') {
+              res += ' readonly ';
+            }
+            res += '/>';
             res += '</div></div><div class="row padd-tb-10"><div class="col-md-12">';
             res += '<div class="well well-sm">';
             var tmp = false; var inc = 0;
@@ -924,18 +938,25 @@ function search_menu(data) {
             res += '</div></div></div></div></div></div>';
             res += '<div class="col-md-6"><div class="row">';
             res += '<div class="col-md-12">';
-            res += '<textarea name="menu-change-description" class="textarea-lengko-default block" rows="5" placeholder="Deskripsi Menu">' + result.content.menu[i].deskripsi_menu + '</textarea>';
-            res += '</div></div><div class="row">';
-            res += '<div class="col-md-6">';
-            res += '<button class="btn-lengko btn-lengko-default pull-left" type="button" onclick="show_obj(\'material-card-change-' + result.content.menu[i].kode_menu +'\');">';
-            res += 'Bahan Baku <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>';
-            res += '</button></div><div class="col-md-6">';
-            res += '<button class="btn-lengko btn-lengko-default pull-right" type="submit">';
-            res += '<span class="glyphicon glyphicon-save" aria-hidden="true"></span>';
-            res += '</button><button class="btn-lengko btn-lengko-default pull-right" type="button" onclick="delete_menu(\'' + result.content.menu[i].kode_menu + '\');">';
-            res += '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>';
-            res += '</button></div></div></div></div>';
+            res += '<textarea name="menu-change-description" class="textarea-lengko-default block" rows="5" placeholder="Deskripsi Menu"';
+            if (result.auth != 'root' || result.auth != 'chef') {
+              res += ' readonly ';
+            }
+            res += '>' + result.content.menu[i].deskripsi_menu + '</textarea>';
+            res += '</div></div>';
+            if (result.auth == 'root' || result.auth == 'chef') {
+              res += '<div class="row"><div class="col-md-6">';
+              res += '<button class="btn-lengko btn-lengko-default pull-left" type="button" onclick="show_obj(\'material-card-change-' + result.content.menu[i].kode_menu +'\');">';
+              res += 'Bahan Baku <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>';
+              res += '</button></div><div class="col-md-6">';
+              res += '<button class="btn-lengko btn-lengko-default pull-right" type="submit">';
+              res += '<span class="glyphicon glyphicon-save" aria-hidden="true"></span>';
+              res += '</button><button class="btn-lengko btn-lengko-default pull-right" type="button" onclick="delete_menu(\'' + result.content.menu[i].kode_menu + '\');">';
+              res += '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>';
+              res += '</button></div></div>';
+            }
 
+            res += '</div></div>';
             res += '<div id="material-card-change-' + result.content.menu[i].kode_menu + '" class="row" hidden="hidden">';
             res += '<div class="col-md-12"><div class="scrollable scrollable-md"><div class="row">';
 
@@ -1599,8 +1620,8 @@ $(document).ready(function() {
     });
   }
 
-  if ($('input[name=employee-search-button]').length > 0) {
-    $('input[name=employee-search-button]').on('click', function(e) {
+  if ($('button[name=employee-search-button]').length > 0) {
+    $('button[name=employee-search-button]').on('click', function(e) {
       e.preventDefault();
       var data = {
         'employee-search-query' : $("input[name=employee-search-query]").val(),
@@ -1749,7 +1770,7 @@ $(document).ready(function() {
       var data = {
         'menu-search-query' : $("input[name=menu-search-query]").val(),
         '_method' : "post",
-        '_token' : $("input[name=menu-search-token]").val()
+        '_token' : $("input[name=menu-search-token]").val(),
       };
       search_menu(data);
     });
@@ -1761,7 +1782,7 @@ $(document).ready(function() {
       var data = {
         'menu-search-query' : $("input[name=menu-search-query]").val(),
         '_method' : "post",
-        '_token' : $("input[name=menu-search-token]").val()
+        '_token' : $("input[name=menu-search-token]").val(),
       };
       search_menu(data);
     });

@@ -122,6 +122,14 @@ function reload_image(input, target) {
   }
 }
 
+function ajax_init() {
+  if ($('.select2').length > 0) {
+    $('.select2').select2({
+      placeholder: '...',
+      width: '100%'
+    });
+  }
+}
 
 $(document).ready(function() {
 
@@ -155,9 +163,10 @@ $(document).ready(function() {
 
 
   /* Select2 settings */
-  if ($('.select2-bahan-baku').length > 0) {
-    $('.select2-bahan-baku').select2({
-      placeholder: 'Nama Bahan Baku',
+  if ($('.select2').length > 0) {
+    $('.select2').select2({
+      placeholder: '...',
+      width: '100%'
     });
   }
 
@@ -178,13 +187,19 @@ $(document).ready(function() {
         field += '<button type="button" class="btn-lengko btn-lengko-default block" onclick="add_val(\'material-list-' + inc + '\', \'material-request-create-item-' + inc + '\');" style="height:42px; padding: 10px 5px 10px 5px; font-size: 13pt;">';
         field += '<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>&nbsp;</button>';
         field += '</div><div class="col-md-10 col-xs-12 col-sm-12 padd-lr-15">';
-        field += '<select id="material-list-' + inc + '" name="" class="select-lengko-default block" onchange="add_val(\'material-list-' + inc + '\', \'material-request-create-item-' + inc + '\');">';
-        for (j = 0; j < result.data.material.length; j++) {
-          field += '<option value="' + result.data.material[j].kode_bahan_baku + '">' + result.data.material[j].nama_bahan_baku + '</option>';
+        field += '<select id="material-list-' + inc + '" name="" class="select2" onchange="add_val(\'material-list-' + inc + '\', \'material-request-create-item-' + inc + '\');">';
+        if (result.data.material.length > 0) {
+          for (j = 0; j < result.data.material.length; j++) {
+            field += '<option value="' + result.data.material[j].kode_bahan_baku + '">' + result.data.material[j].nama_bahan_baku + '</option>';
+          }
+        }
+        else {
+          field += '<option value="">Tidak tersedia</option>';
         }
         field +=  '</select>';
         field +=  '</div></div></div></div>';
         add_element('material-list-request', field);
+        ajax_init();
         $('input[name=material-request-create-max]').val(inc);
       }
     });

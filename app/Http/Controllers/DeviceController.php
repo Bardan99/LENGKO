@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests;
 use App\Perangkat;
 use Hash;
+use Auth;
 use Validator;
 
 class DeviceController extends Controller {
@@ -69,7 +70,8 @@ class DeviceController extends Controller {
         return response()->json([
             'status' => 200,
             'text' => 'Pencarian selesai dilakukan',
-            'content' => $devices
+            'content' => $devices,
+            'auth' => Auth::user()->kode_otoritas
           ]);
       }
 

@@ -4,7 +4,7 @@
 
 @section('content')
   <div class="row padd-tb-180">
-    <div class="col-xs-12 col-sm-push-2 col-sm-8 col-md-push-4 col-md-4">
+    <div class="col-xs-12 col-sm-push-2 col-sm-8 col-md-push-2 col-md-8">
       <a href="/">
         <img class="img-center" src="{{ url ('/files/images/github-fluidicon.png') }}" alt="" width="120px" height="100px" />
       </a>

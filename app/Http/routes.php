@@ -11,8 +11,12 @@
 |
 */
 
-/* Login */
-Route::auth();
+/* authentication */
+//Route::auth();
+// Admin login
+Route::get('/dashboard/login', 'Auth\AuthController@showLoginForm')->name('auth.login.get');
+Route::post('/dashboard/login', 'Auth\AuthController@login')->name('auth.login.post');
+
 
 Route::group(['middleware' => 'auth'], function() {
   /* Dashboard */

@@ -6,7 +6,11 @@
 
   <select id="select-navbar" class="" onchange="location = this.value;">
     @foreach ($pages as $key => $value)
-      <option value="/dashboard{{ $value->kode_halaman }}" @if('/' . $page == $value->kode_halaman) {{ 'selected' }} @endif>
+      @php $path = $value->kode_halaman; @endphp
+      @if ($value->kode_halaman == "home")
+        @php $path = "/"; @endphp
+      @endif
+      <option value="{{ url('/dashboard/'.$path) }}" @if($page == $path) {{ 'selected' }} @endif>
         {{ $value->nama_halaman }}
       </option>
     @endforeach
@@ -14,11 +18,15 @@
 
   <ul id="list-navbar">
     @foreach ($pages as $key => $value)
-    <li class="text-left @if('/' . $page == $value->kode_halaman) {{ 'active' }} @endif">
-      <span class="glyphicon {{ $value->ikon_halaman }}" aria-hidden="true"></span>&nbsp;
-      <a class="" href="/dashboard{{ $value->kode_halaman }}">
-        {{ $value->nama_halaman }}
-      </a>
-    </li>
+      @php $path = $value->kode_halaman; @endphp
+      @if ($value->kode_halaman == "home")
+        @php $path = "/"; @endphp
+      @endif
+      <li class="text-left @if($page == $path) {{ 'active' }} @endif">
+        <span class="glyphicon {{ $value->ikon_halaman }}" aria-hidden="true"></span>&nbsp;
+        <a class="" href="{{ url('/dashboard/'.$path) }}">
+          {{ $value->nama_halaman }}
+        </a>
+      </li>
     @endforeach
   </ul>

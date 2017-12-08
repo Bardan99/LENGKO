@@ -28,10 +28,18 @@ class HomeController extends Controller {
    * @return \Illuminate\Http\Response
    */
 
-   public function index() {
+   public function get_order(Request $request) {
+      $hold = $request->session()->get('order');
+       for ($i = 0; $i < count($hold); $i++) {
+         $order[$i] = Menu::where('kode_menu', '=', $hold[$i]['id'])->get()->first();
+         $order[$i]['jumlah_pesanan_detil'] = $hold[$i]['count'];
+       }
+       return $order;
+   }
+   public function index(Request $request) {
      if (view()->exists('home')) {
        $data['page'] = '';
-       return view('home', ['data' => $data]);
+       return view('home', ['data' => $data, 'order' => $this->get_order($request)]);
      }
      return abort(404);
    }
@@ -39,13 +47,6 @@ class HomeController extends Controller {
   public function view($param, Request $request) {
     if (view()->exists($param)) {
       $data['page'] = $param;
-
-      $hold = $request->session()->get('order');
-      for ($i = 0; $i < count($hold); $i++) {
-        $order[$i] = Menu::where('kode_menu', '=', $hold[$i]['id'])->get()->first();
-        $order[$i]['jumlah_pesanan_detil'] = $hold[$i]['count'];
-      }
-      
       switch ($param) {
         case 'gallery':
           $data['gallery'] =
@@ -156,7 +157,7 @@ class HomeController extends Controller {
           $data['unknown'] = null;
         break;
       }
-      return view($param, ['data' => $data, 'device' => Auth::guard('device')->user(), 'order' => $order]);
+      return view($param, ['data' => $data, 'device' => Auth::guard('device')->user(), 'order' => $this->get_order($request)]);
     }
     return abort(404);
   }
@@ -276,7 +277,7 @@ class HomeController extends Controller {
       $data = $request->all();
       $validator = Validator::make($data, [
         '_id' => 'required',
-        '_count' => 'required',
+        '_count' => 'required|min:1',
       ]);
 
       if ($validator->fails()) {

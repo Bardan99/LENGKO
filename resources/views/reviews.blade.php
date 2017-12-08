@@ -13,10 +13,10 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-xs-12 col-sm-8 col-md-6">
         <canvas id="customer-review" width="400px" height="300px"></canvas>
       </div>
-      <div class="col-md-6">
+      <div class="col-xs-12 col-sm-12 col-md-6">
           @foreach ($data['customer-reviews'] as $key => $value)
             <div class="row">
               <div class="col-md-12">
@@ -30,10 +30,10 @@
                 </div>
                 <div class="row">
                   @foreach ($data[$key]['review-detail'] as $key2 => $value2)
-                  <div class="col-md-3">
+                  <div class="col-xs-6 col-sm-2 col-md-3 col-lg-3">
                     {{ $value2->judul_kuisioner }}
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-xs-6 col-sm-2 col-md-3 col-lg-3">
                     <select class="barrating-readonly">
                       <option value=""></option>
                       @for ($i = 1; $i <= 5; $i++)

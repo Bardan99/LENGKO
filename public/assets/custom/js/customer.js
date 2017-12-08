@@ -67,8 +67,9 @@ function search_menu(data) {
             res += '<div class="row">';
             res += '<div class="col-md-offset-10 col-md-2">';
             res += '<div class="input-group">';
-            res += '<input type="number" class="form-control input-lengko-default" placeholder="Jumlah" value="1" min="1" step="1">';
-            res += '<div class="input-group-addon" style="background-color: #2c3e50; color: #ecf0f1">Tambah <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></div>';
+            res += '<input type="hidden" name="order-add-name-' + result.content[i].kode_menu + '" value="' + result.content[i].nama_menu + '">';
+            res += '<input type="number" name="order-add-count-' + result.content[i].kode_menu + '" class="form-control input-lengko-default" placeholder="Jumlah" value="1" min="1" step="1">';
+            res += '<div class="input-group-addon" style="background-color: #2c3e50; color: #ecf0f1" onclick="add_menu(\'' + result.content[i].kode_menu + '\')">Tambah <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></div>';
             res += '</div></div></div>';
             res += '</div></div></div>';
           }
@@ -147,55 +148,67 @@ function add_menu(menu) {
     '_id' : menu,
     '_count' : count,
   };
+  if (count >= 1) {
+    swal({
+      title: "Tambah pesanan?",
+      html: "Kamu yakin akan menambahkan " + name + "<br /> sebanyak " + count + " porsi? <br />Yakin gak akan kurang nihh?",
+      type: "question",
+      timer: 10000,
+      showCancelButton: true,
+      confirmButtonText: 'Tambahkan',
+      confirmButtonColor: '#2c3e50',
+      cancelButtonText: 'Batalkan'
+    }).then(function(result) {
+      if (result.value) {
+        $.ajax({
+          type: "POST",
+          url: "/customer/add/menu",
+          data: data,
+          cache: false,
+          success: function(result) {
+            if (result.status == 200) {
+              swal({
+                title: "Berhasil menambah menu",
+                text: result.text,
+                type: "success",
+                timer: 30000
+              }).then(function(result) {
+                if (result.value) {
+                  window.location = '/menu';
+                }
+              });
+            }
+            else {
+              swal({
+                title: "Oops terjadi kesalahan",
+                html: result.text,
+                type: "warning",
+                timer: 10000,
+                showCancelButton: false,
+                confirmButtonText: 'Ok',
+                confirmButtonColor: '#2c3e50',
+              });
+            }
+          },
+          error: function(result){
 
-  swal({
-    title: "Tambah pesanan?",
-    html: "Kamu yakin akan menambahkan " + name + "<br /> sebanyak " + count + " porsi? <br />Yakin gak akan kurang nihh?",
-    type: "question",
-    timer: 10000,
-    showCancelButton: true,
-    confirmButtonText: 'Tambahkan',
-    confirmButtonColor: '#2c3e50',
-    cancelButtonText: 'Batalkan'
-  }).then(function(result) {
-    if (result.value) {
-      $.ajax({
-        type: "POST",
-        url: "/customer/add/menu",
-        data: data,
-        cache: false,
-        success: function(result) {
-          if (result.status == 200) {
-            swal({
-              title: "Berhasil menambah menu",
-              text: result.text,
-              type: "success",
-              timer: 30000
-            }).then(function(result) {
-              if (result.value) {
-                window.location = '/menu';
-              }
-            });
           }
-          else {
-            swal({
-              title: "Oops terjadi kesalahan",
-              html: result.text,
-              type: "warning",
-              timer: 10000,
-              showCancelButton: false,
-              confirmButtonText: 'Ok',
-              confirmButtonColor: '#2c3e50',
-            });
-          }
-        },
-        error: function(result){
+        });
 
-        }
-      });
-
-    }
-  });
+      }
+    });
+  }
+  else {
+    swal({
+      title: "Oops terjadi kesalahan",
+      html: "Jangan bandell yaa.. <br />Minimal beli 1, atau borong semua juga boleh!",
+      type: "warning",
+      timer: 10000,
+      showCancelButton: false,
+      confirmButtonText: 'Ok',
+      confirmButtonColor: '#2c3e50',
+    });
+  }
 }//end
 
 $(document).ready(function() {
@@ -208,7 +221,7 @@ $(document).ready(function() {
       var data = {
         'menu-search-query' : $("input[name=menu-search-query]").val(),
         '_method' : "post",
-        '_token' : $("input[name=search_token]").val()
+        '_token' : $("input[name=_token]").val()
       };
 
       search_menu(data);
@@ -221,7 +234,7 @@ $(document).ready(function() {
       var data = {
         'menu-search-query' : $("input[name=menu-search-query]").val(),
         '_method' : "post",
-        '_token' : $("input[name=search_token]").val()
+        '_token' : $("input[name=_token]").val()
       };
 
       search_menu(data);

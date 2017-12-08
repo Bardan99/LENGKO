@@ -57,7 +57,7 @@
           <li class="@if ($data['page'] == 'order') {{ 'active'}} @endif">
             <a href="{{ url('order') }}">
               <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
-              Pesanan
+              {{ count($order) }} Pesanan
             </a>
           </li>
           @if ($data['page'] != '')

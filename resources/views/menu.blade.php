@@ -3,9 +3,9 @@
 @section('title', 'LENGKO - Menu')
 
 @section('content')
-
+  
   <div class="container-fluid">
-    <input type="hidden" name="search_token" value="{{ csrf_token() }}">
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
     @if (count($data['menu']) > 0)
     <div class="row mrg-b-30">
       <div class="col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8 col-xs-12">
@@ -52,10 +52,11 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-offset-10 col-md-2">
+                <div class="col-md-offset-9 col-md-3">
                   <div class="input-group">
-                    <input type="number" class="form-control input-lengko-default" placeholder="Jumlah" value="1" min="1" step="1">
-                    <div class="input-group-addon" style="background-color: #2c3e50; color: #ecf0f1"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></div>
+                    <input type="hidden" name="order-add-name-{{$value->kode_menu}}" value="{{ $value->nama_menu }}">
+                    <input type="number" name="order-add-count-{{$value->kode_menu}}" class="form-control input-lengko-default" placeholder="Jumlah" value="1" min="1" step="1">
+                    <div class="input-group-addon" style="background-color: #2c3e50; color: #ecf0f1" onclick="add_menu('{{$value->kode_menu}}')">Tambah <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></div>
                   </div>
                 </div>
               </div>

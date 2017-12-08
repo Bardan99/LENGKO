@@ -68,7 +68,7 @@ function search_menu(data) {
             res += '<div class="col-md-offset-10 col-md-2">';
             res += '<div class="input-group">';
             res += '<input type="number" class="form-control input-lengko-default" placeholder="Jumlah" value="1" min="1" step="1">';
-            res += '<div class="input-group-addon" style="background-color: #2c3e50; color: #ecf0f1"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></div>';
+            res += '<div class="input-group-addon" style="background-color: #2c3e50; color: #ecf0f1">Tambah <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></div>';
             res += '</div></div></div>';
             res += '</div></div></div>';
           }
@@ -84,6 +84,119 @@ function search_menu(data) {
     }
   });
 }//endfunction
+
+function add_review(data) {
+
+  swal({
+    title: "Tambah kuisioner?",
+    html: "",
+    type: "question",
+    timer: 10000,
+    showCancelButton: true,
+    confirmButtonText: 'Iya',
+    confirmButtonColor: '#2c3e50',
+    cancelButtonText: 'Tidak'
+  }).then(function(result) {
+    if (result.value) {
+
+      $.ajax({
+        type: "POST",
+        url: "/customer/create/review",
+        data: data,
+        cache: false,
+        success: function(result) {
+          console.log(result);
+          if (result.status == 200) {
+            swal({
+              title: "Berhasil menambah kuisioner",
+              text: result.text,
+              type: "success",
+              timer: 30000
+            }).then(function(result) {
+              if (result.value) {
+                window.location = '/reviews';
+              }
+            });
+          }
+          else {
+            swal({
+              title: "Oops terjadi kesalahan",
+              html: result.text,
+              type: "warning",
+              timer: 10000,
+              showCancelButton: false,
+              confirmButtonText: 'Ok',
+              confirmButtonColor: '#2c3e50',
+            });
+          }
+        },
+        error: function(result){
+
+        }
+      });
+
+    }
+  });
+}//end
+
+function add_menu(menu) {
+  var name = $('input[name=order-add-name-' + menu + ']').val();
+  var count = $('input[name=order-add-count-' + menu + ']').val();
+  var data = {
+    '_token' : $('input[name=_token]').val(),
+    '_id' : menu,
+    '_count' : count,
+  };
+
+  swal({
+    title: "Tambah pesanan?",
+    html: "Kamu yakin akan menambahkan " + name + "<br /> sebanyak " + count + " porsi? <br />Yakin gak akan kurang nihh?",
+    type: "question",
+    timer: 10000,
+    showCancelButton: true,
+    confirmButtonText: 'Tambahkan',
+    confirmButtonColor: '#2c3e50',
+    cancelButtonText: 'Batalkan'
+  }).then(function(result) {
+    if (result.value) {
+      $.ajax({
+        type: "POST",
+        url: "/customer/add/menu",
+        data: data,
+        cache: false,
+        success: function(result) {
+          if (result.status == 200) {
+            swal({
+              title: "Berhasil menambah menu",
+              text: result.text,
+              type: "success",
+              timer: 30000
+            }).then(function(result) {
+              if (result.value) {
+                window.location = '/menu';
+              }
+            });
+          }
+          else {
+            swal({
+              title: "Oops terjadi kesalahan",
+              html: result.text,
+              type: "warning",
+              timer: 10000,
+              showCancelButton: false,
+              confirmButtonText: 'Ok',
+              confirmButtonColor: '#2c3e50',
+            });
+          }
+        },
+        error: function(result){
+
+        }
+      });
+
+    }
+  });
+}//end
 
 $(document).ready(function() {
 
@@ -112,6 +225,30 @@ $(document).ready(function() {
       };
 
       search_menu(data);
+    });
+  }
+
+  /* reviews */
+
+  if ($('button[name=review-create-btn]').length > 0) {
+    $('button[name=review-create-btn]').on('click', function(e) {
+      e.preventDefault();
+      var id = [];
+      var ratting = [];
+      for (i = 0; i < $("input[name=_rattings]").val(); i++) {
+        id[i] = $("input[name=review-create-rating-id-" + i + "]").val();
+        ratting[i] = $("select[name=review-create-rating-" + i + "]").val();
+      }
+      var data = {
+        '_name' : $("input[name=review-create-name]").val(),
+        '_msg' : $("textarea[name=review-create-message]").val(),
+        '_id' : id,
+        '_ratting' : ratting,
+        '_method' : "post",
+        '_token' : $("input[name=_token]").val()
+      };
+
+      add_review(data);
     });
   }
 });

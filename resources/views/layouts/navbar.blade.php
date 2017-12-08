@@ -1,5 +1,5 @@
 
-  <a href="/" title="LENGKO">
+  <a href="{{ url ('/dashboard') }}" title="LENGKO">
     <img class="img-center" src="{{ url('/files/images/lengko-logo.png') }}" alt="" width="140px" height="70px" />
   </a>
   <hr class="dashed" />

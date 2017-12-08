@@ -93,7 +93,6 @@ function confirm_material(id) {
           data: data,
           cache: false,
           success: function(result) {
-            console.log(result);
             if (result.status == 200) {
               swal({
                 title: "Berhasil menambah bahan baku",
@@ -223,7 +222,6 @@ function done_order(id) {
         data: data,
         cache: false,
         success: function(result) {
-          console.log(result);
           if (result.status == 200) {
             swal({
               title: "Berhasil mengubah status pesanan.",
@@ -283,7 +281,6 @@ function done_menu(id) {
         data: data,
         cache: false,
         success: function(result) {
-          console.log(result);
           if (result.status == 200) {
             swal({
               title: "Berhasil mengubah status pesanan menu.",
@@ -344,7 +341,6 @@ function done_transaction(id) {
         data: data,
         cache: false,
         success: function(result) {
-          console.log(result);
           if (result.status == 200) {
             swal({
               title: "Berhasil melakukan pembayaran",
@@ -1040,7 +1036,6 @@ function search_material_menu(data) {
       else {
         var res = '';
         if (result.content) {
-          console.log(result.content);
           var token = $('input[name=search_token]').val();
           for (i = 0; i < result.content.length; i++) {
             res += '<div class="col-md-6">';
@@ -1283,7 +1278,6 @@ function search_review(data) {
       else {
         var res = '';
         if (result.content) {
-          console.log(result.content);
           var token = $('input[name=search_token]').val();
           res += '<table class="table"><tr><th width="150px">#</th>';
           res += '<th>Kritik & Saran</th><th width="200px">Waktu</th>';

@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Validator;
 use Auth;
+use App\Review;
+use App\ReviewDevice;
+use App\ReviewDetil;
+use App\Menu;
 
 class HomeController extends Controller {
   /**
@@ -27,15 +31,21 @@ class HomeController extends Controller {
    public function index() {
      if (view()->exists('home')) {
        $data['page'] = '';
-       $tmp = Auth::guard('device')->user();
-       return view('home', ['data' => $data, 'tmp' => $tmp]);
+       return view('home', ['data' => $data]);
      }
      return abort(404);
    }
 
-  public function view($param) {
+  public function view($param, Request $request) {
     if (view()->exists($param)) {
       $data['page'] = $param;
+
+      $hold = $request->session()->get('order');
+      for ($i = 0; $i < count($hold); $i++) {
+        $order[$i] = Menu::where('kode_menu', '=', $hold[$i]['id'])->get()->first();
+        $order[$i]['jumlah_pesanan_detil'] = $hold[$i]['count'];
+      }
+      
       switch ($param) {
         case 'gallery':
           $data['gallery'] =
@@ -146,7 +156,7 @@ class HomeController extends Controller {
           $data['unknown'] = null;
         break;
       }
-      return view($param, ['data' => $data]);
+      return view($param, ['data' => $data, 'device' => Auth::guard('device')->user(), 'order' => $order]);
     }
     return abort(404);
   }
@@ -199,6 +209,93 @@ class HomeController extends Controller {
       }
 
     }
+  }
+
+  public function createreview(Request $request) {
+    if ($request->ajax()) {
+      $data = $request->all();
+      $validator = Validator::make($data, [
+        '_name' => 'required',
+        '_msg' => 'required',
+      ]);
+
+      if ($validator->fails()) {
+        return response()
+          ->json([
+            'status' => 500,
+            'text' => 'Waduh, kolom nama, kritik, dan sarannya diisi ya ;)'
+        ]);
+      }
+
+      $valid = false;
+      for ($i = 0; $i < count($data['_id']); $i++) {
+        if (Review::find($data['_id'][$i])) {
+          $valid = true;
+        }
+      }
+
+      if ($valid) {
+        $input = [
+          'pembeli_kuisioner_perangkat' => $data['_name'],
+          'pesan_kuisioner_perangkat' => $data['_msg'],
+          'tanggal_kuisioner_perangkat' => date('Y-m-d'),
+          'waktu_kuisioner_perangkat' => date('H:m:s'),
+          'status_kuisioner_perangkat' => '1',
+          'kode_perangkat' => Auth::guard('device')->user()->kode_perangkat,
+        ];
+        $try = ReviewDevice::create($input);
+        $id = $try->kode_kuisioner_perangkat;
+
+        if ($try) {
+          for ($i = 0; $i < count($data['_id']); $i++) {
+            $detil[] = array(
+              'poin_kuisioner_detil' => $data['_ratting'][$i],
+              'kode_kuisioner_perangkat' => $id,
+              'kode_kuisioner' => $data['_id'][$i],
+            );
+          }
+          $try = ReviewDetil::insert($detil);
+        }
+        return response()->json([
+            'status' => 200,
+            'text' => 'Berhasil menambahkan kuisioner',
+          ]);
+      }
+      else {
+        return response()->json([
+            'status' => 500,
+            'text' => 'Gagal menambahkan kuisioner',
+          ]);
+      }
+    }//endif
+  }
+
+
+  public function addmenu(Request $request) {
+    if ($request->ajax()) {
+      $data = $request->all();
+      $validator = Validator::make($data, [
+        '_id' => 'required',
+        '_count' => 'required',
+      ]);
+
+      if ($validator->fails()) {
+        return response()
+          ->json([
+            'status' => 500,
+            'text' => 'Oops, ayo habis ngapain ayoo :o'
+        ]);
+      }
+      else {
+        $order['id'] = $data['_id'];
+        $order['count'] = $data['_count'];
+        $request->session()->push('order', $order);
+        return response()->json([
+            'status' => 200,
+            'text' => 'Berhasil menambahkan pesanan',
+          ]);
+      }
+    }//endif
   }
 
 }

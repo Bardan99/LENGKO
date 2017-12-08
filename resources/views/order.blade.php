@@ -5,7 +5,8 @@
 @section('content')
 
   <div class="container">
-    @if (count($data['order-processed']) > 0)
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    @if (count($order) > 0)
     <div class="row">
       <div class="col-md-12">
 
@@ -23,8 +24,8 @@
             <h3 class="mrg-b-10">Total</h3>
           </div>
         </div>
+        @foreach ($order as $key => $value)
 
-        @foreach ($data['order-detail'] as $key => $value)
         <div class="row">
           <div class="col-md-5 col-xs-3">
             <div class="row">
@@ -98,65 +99,7 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-md-12">
-
-        <div class="table-responsive">
-          <table class="table">
-            <tr>
-              <th># ({{ $data['order-processed'][0]->nama_perangkat }})</th>
-              <th>Catatan</th>
-              <th>Waktu</th>
-            </tr>
-          @foreach ($data['order-processed'] as $key1 => $value1)
-            <tr onclick="show_obj('review-{{ $key1 }}');" class="cursor-pointer">
-              <td>#{{ $value1->kode_pesanan }} ({{ $value1->pembeli_pesanan }})</td>
-              <td>{{ $value1->catatan_pesanan }}</td>
-              <td>{{ $value1->tanggal_pesanan }} {{ $value1->waktu_pesanan }}</td>
-            </tr>
-            @if (count($data[$key1]['order-processed-detail']) > 0)
-            <tr id="review-{{ $key1 }}" style="display:none; visibility: none;">
-              <td></td>
-              <td colspan="5">
-                <div class="table-responsive">
-                  <table class="table table-hover table-striped">
-                  <tr>
-                    <th>Menu</th>
-                    <th>Harga</th>
-                    <th>Jumlah</th>
-                    <th>Sub-Total</th>
-                  </tr>
-                  @foreach ($data[$key1]['order-processed-detail'] as $key2 => $value2)
-                    <tr>
-                      <td>{{ $value2->nama_menu }}</td>
-                      <td>{{ $value2->harga_menu }}</td>
-                      <td>{{ $value2->jumlah_pesanan_detil }}</td>
-                      <td>{{ $data['menu_obj']->num_to_rp($value2->harga_menu * $value2->jumlah_pesanan_detil) }}</td>
-                    </tr>
-                  @endforeach
-                  <tr>
-                    <th colspan="3" class="text-right">Total</th>
-                    <td>{{ $value1->harga_pesanan }}</td>
-                  </tr>
-                  </table>
-                </div>
-              </td>
-            </tr>
-            @endif
-          @endforeach
-          </table>
-        </div>
-
-        <div class="row mrg-b-20">
-          <div class="col-md-12 padd-lr-10 padd-tb-10">
-            <button type="submit" class="btn-lengko btn-lengko-success pull-right">
-              <span class="glyphicon glyphicon-usd" aria-hidden="true"></span> Bayar
-            </button>
-          </div>
-        </div>
-
-      </div>
-    </div>
+    <!-- cuted here -->
     @else
       <div class="row">
         <div class="col-md-12 col-xs-12 text-center" style="font-size: 24pt;">

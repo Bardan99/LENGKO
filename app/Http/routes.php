@@ -25,51 +25,55 @@ Route::group(['prefix' => ''], function() {
   Route::post('login', 'Auth\DeviceLoginController@login')->name('device.login.submit');
 });
 
+//multi-view both employee and device; this is dangerous (for topsecret dataa)
+Route::get('/dashboard/retrieve/review', 'ReviewController@retrieve');
+
 Route::group(['middleware' => 'employee'], function() {
-  Route::get('/dashboard', 'DashboardController@index');
-  Route::get('/dashboard/logout', 'Auth\EmployeeLoginController@logout');
-  Route::get('/dashboard/{param}/', 'DashboardController@view');
 
-  Route::post('/dashboard/create/device', 'DeviceController@create');
-  Route::post('/dashboard/search/device', 'DeviceController@search');
-  Route::get('/dashboard/retrieve/device', 'DeviceController@retrieve');
+  Route::group(['prefix' => 'dashboard'], function() {
+    Route::get('/', 'DashboardController@index');
+    Route::get('/logout', 'Auth\EmployeeLoginController@logout');
+    Route::get('/{param}', 'DashboardController@view');
 
-  Route::post('/dashboard/create/employee', 'EmployeeController@create');
-  Route::post('/dashboard/search/employee', 'EmployeeController@search');
-  Route::get('/dashboard/retrieve/employee', 'EmployeeController@retrieve');
+    Route::post('/create/device', 'DeviceController@create');
+    Route::post('/search/device', 'DeviceController@search');
+    Route::get('/retrieve/device', 'DeviceController@retrieve');
 
-  Route::post('/dashboard/create/request', 'PengadaanController@createrequest');
-  Route::post('/dashboard/search/materialrequest', 'PengadaanController@searchrequest');
+    Route::post('/create/employee', 'EmployeeController@create');
+    Route::post('/search/employee', 'EmployeeController@search');
+    Route::get('/retrieve/employee', 'EmployeeController@retrieve');
 
-  Route::post('/dashboard/create/materialrequest', 'PengadaanController@acceptrequest');
-  Route::post('/dashboard/decline/material', 'PengadaanController@declinerequest');
+    Route::post('/create/request', 'PengadaanController@createrequest');
+    Route::post('/search/materialrequest', 'PengadaanController@searchrequest');
 
-  Route::post('/dashboard/create/material', 'MaterialController@create');
-  Route::post('/dashboard/search/material', 'MaterialController@search');
+    Route::post('/create/materialrequest', 'PengadaanController@acceptrequest');
+    Route::post('/decline/material', 'PengadaanController@declinerequest');
 
-  Route::post('/dashboard/create/menu', 'MenuController@create');
-  Route::post('/dashboard/search/menu', 'MenuController@search');
-  Route::post('/dashboard/search/materialmenu', 'MenuController@searchmaterial');
+    Route::post('/create/material', 'MaterialController@create');
+    Route::post('/search/material', 'MaterialController@search');
 
-  Route::post('/dashboard/confirm/order', 'OrderController@confirm');
-  Route::post('/dashboard/search/order', 'OrderController@search');
+    Route::post('/create/menu', 'MenuController@create');
+    Route::post('/search/menu', 'MenuController@search');
+    Route::post('/search/materialmenu', 'MenuController@searchmaterial');
 
-  Route::get('/dashboard/update/order/{id}', 'OrderController@marked');
-  Route::get('/dashboard/update/ordermenu/{id}', 'OrderController@checked');
-  Route::get('/dashboard/update/transaction/{id}/{cash}', 'TransactionController@marked');
-  Route::post('/dashboard/search/transaction', 'TransactionController@search');
-  Route::post('/dashboard/search/transactionhistory', 'TransactionController@searchhistory');
+    Route::post('/confirm/order', 'OrderController@confirm');
+    Route::post('/search/order', 'OrderController@search');
 
-  Route::get('/dashboard/retrieve/income', 'ReportController@income');
-  Route::post('/dashboard/retrieve/report', 'ReportController@report');
+    Route::get('/update/order/{id}', 'OrderController@marked');
+    Route::get('/update/ordermenu/{id}', 'OrderController@checked');
+    Route::get('/update/transaction/{id}/{cash}', 'TransactionController@marked');
+    Route::post('/search/transaction', 'TransactionController@search');
+    Route::post('/search/transactionhistory', 'TransactionController@searchhistory');
 
-  Route::post('/dashboard/create/review', 'ReviewController@create');
-  Route::get('/dashboard/retrieve/review', 'ReviewController@retrieve');
-  Route::post('/dashboard/search/review', 'ReviewController@search');
+    Route::get('/retrieve/income', 'ReportController@income');
+    Route::post('/retrieve/report', 'ReportController@report');
 
-  Route::put('/dashboard/update/{param}/', 'DashboardController@update');
-  Route::delete('/dashboard/delete/{param}/{id}', 'DashboardController@delete');
+    Route::post('/create/review', 'ReviewController@create');
+    Route::post('/search/review', 'ReviewController@search');
 
+    Route::put('/update/{param}/', 'DashboardController@update');
+    Route::delete('/delete/{param}/{id}', 'DashboardController@delete');
+  });
   Route::get('/ajax/object/{param}', 'HomeController@ajax_handler');
 });
 
@@ -77,6 +81,7 @@ Route::group(['middleware' => 'device'], function() {
   Route::get('/', 'HomeController@index');
   Route::get('/logout', 'Auth\DeviceLoginController@logout');
   Route::get('/{param}', 'HomeController@view');
-
   Route::post('/customer/search/menu', 'HomeController@searchmenu');
+  Route::post('/customer/create/review', 'HomeController@createreview');
+  Route::post('/customer/add/menu', 'HomeController@addmenu');
 });

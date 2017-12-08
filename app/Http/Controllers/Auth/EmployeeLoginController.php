@@ -44,8 +44,9 @@ class EmployeeLoginController extends Controller {
     return redirect()->back()->withInput($request->all());
   }
 
-  public function logout() {
+  public function logout(Request $request) {
     Auth::guard('employee')->logout();
+    $request->session()->flush();
     return redirect('/dashboard/login');
   }
 

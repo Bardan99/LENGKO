@@ -5,6 +5,7 @@
 @section('content')
 
   <div class="container">
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
     @if (count($data['customer-reviews']) > 0)
     <div class="row mrg-b-10">
       <div class="col-md-12">
@@ -34,6 +35,7 @@
                   </div>
                   <div class="col-md-3">
                     <select class="barrating-readonly">
+                      <option value=""></option>
                       @for ($i = 1; $i <= 5; $i++)
                         <option value="{{$i}}" @if ($i == $value2->poin_kuisioner_detil) {{'selected'}} @endif>{{$i}}</option>
                       @endfor
@@ -69,20 +71,20 @@
         <div class="row mrg-b-10">
           <div class="col-md-6">
             <label>Nama Pembeli</label>
-            <input type="text" name="" class="input-lengko-default block" placeholder="Nama Pembeli" value="" />
+            <input type="text" name="review-create-name" class="input-lengko-default block" placeholder="Nama Pembeli" value="" />
           </div>
         </div>
 
         <div class="row">
           <div class="col-md-12">
             <label>Kritik & Saran</label>
-            <textarea name="" class="textarea-lengko-default block" rows="5" placeholder="Aku mau jadi lebih baik lagi buat kamu; buat masa depan kita.."></textarea>
+            <textarea name="review-create-message" class="textarea-lengko-default block" rows="5" placeholder="Aku mau jadi lebih baik lagi buat kamu; buat masa depan kita.."></textarea>
           </div>
         </div>
 
       </div>
       <div class="col-md-6">
-
+        <input type="hidden" name="_rattings" value="{{count($data['review'])}}">
         @foreach ($data['review'] as $key => $value)
         <div class="row mrg-b-10">
           <div class="col-md-8">
@@ -90,8 +92,9 @@
             {{ $value->isi_kuisioner }}
           </div>
           <div class="col-md-4">
-            <option value=""></option>
-            <select id="customer-rating-{{$value->kode_kuisioner}}" class="barrating">
+            <input type="hidden" name="review-create-rating-id-{{$key}}" value="{{$value->kode_kuisioner}}">
+            <select id="review-create-rating-{{$value->kode_kuisioner}}" name="review-create-rating-{{$key}}" class="barrating">
+              <option value=""></option>
               @for ($i = 1; $i <= 5; $i++)
                 <option value="{{$i}}" @if ($i == 5) {{'selected'}} @endif>{{$i}}</option>
               @endfor
@@ -102,7 +105,7 @@
 
         <div class="row">
           <div class="col-md-12">
-            <button type="submit" class="btn-lengko btn-lengko-default block">
+            <button type="button" name="review-create-btn" class="btn-lengko btn-lengko-default block">
               <span class="glyphicon glyphicon-send" aria-hidden="true"></span> Kirim
             </button>
           </div>

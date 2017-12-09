@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests;
 use App\Pesanan;
 use App\PesananDetil;
+use App\Perangkat;
 use Hash;
 use Validator;
 
@@ -18,6 +19,10 @@ class TransactionController extends Controller {
       $try = Pesanan::find($id)->update([
         'status_pesanan' => 'D',
         'tunai_pesanan' => $cash
+      ]);
+      $order = Pesanan::where('kode_pesanan', '=', $id)->first();
+      Perangkat::find($order->kode_perangkat)->update([
+        'status_perangkat' => 1
       ]);
       return response()->json(['status' => 200, 'text' => 'Pembayaran berhasil dilakukan']);
     }

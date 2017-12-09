@@ -3,33 +3,66 @@
 @section('title', 'LENGKO - Menu')
 
 @section('content')
-  
+
   <div class="container-fluid">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     @if (count($data['menu']) > 0)
     <div class="row mrg-b-30">
-      <div class="col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8 col-xs-12">
+      <div class="col-md-3 mrg-t-20">
+
+      </div>
+      <div class="col-md-6 mrg-t-20">
         <div class="input-group">
-          <input type="text" name="menu-search-query" class="form-control input-lengko-default block" placeholder="Cari menu.." />
+          <input type="text" name="menu-search-query" class="form-control input-lengko-default block" placeholder="Cari menu.." style="height:45px;" />
           <span class="input-group-btn">
-            <button type="button" name="menu-search-button" class="btn btn-default pull-right">
+            <button type="button" name="menu-search-button" class="btn btn-default pull-right" style="height:45px;">
               <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
             </button>
           </span>
         </div>
       </div>
+      <div class="col-md-3 mrg-t-20">
+        <select name="menu-search-type" class="select-lengko-default block">
+          <option value="A">Semua Menu</option>
+          <option value="F">Makanan</option>
+          <option value="D">Minuman</option>
+        </select>
+      </div>
     </div>
     <div id="menu-card-section" class="row">
-      @foreach ($data['menu'] as $key => $value)
+      @foreach ($data['menu'] as $keymenu => $value)
+
+        @php ($res = false)
+        @php ($i = 0)
+        @foreach ($data[$keymenu]['menu-status'] as $key2 => $value2)
+          @php ($i++)
+          @if ($value2->stok_bahan_baku > 0)
+            @php ($res = true)
+          @else
+            @php ($res = false)
+            @break
+          @endif
+        @endforeach
+        @if ($i == count($data[$keymenu]['menu-status']))
+          @if ($res)
+            @php ($status = 'Tersedia')
+          @else
+            @php ($status = 'Tidak tersedia')
+          @endif
+        @else
+          @php ($status = 'Tidak tersedia')
+        @endif
+
         <div class="col-md-4 col-sm-6" onclick="show_obj('menu-{{$value->kode_menu}}');">
           <div class="menu">
             <img src="/files/images/menus/@if($value->gambar_menu){{$value->gambar_menu}}@else{{'not-available.png'}}@endif" alt="{{ $value->nama_menu }}" width="100%" height="150px" />
-            <h2 class="menu-title">{{ $value->nama_menu }}</h2>
+            <h2 class="menu-title">{{ $value->nama_menu }} <small>({{$status}})</small></h2>
             {{ $data['menu_obj']->num_to_rp($value->harga_menu) }}
             <a href="#!" class="pull-right"><i class="material-icons">add_shopping_cart</i></a>
             <br />
           </div>
         </div>
+
 
         <div id="menu-{{$value->kode_menu}}" class="menu-overlay">
           <div class="row menu-overlay-content">
@@ -44,13 +77,14 @@
                   <img src="/files/images/menus/@if($value->gambar_menu){{$value->gambar_menu}}@else{{'not-available.png'}}@endif" alt="{{ $value->nama_menu }}" width="200px" height="200px" />
                 </div>
                 <div class="col-md-9">
-                  <h2 class="menu-title">{{ $value->nama_menu }}</h2>
+                  <h2 class="menu-title">{{ $value->nama_menu }} <small>({{$status}})</small></h2>
                   <p>
                     {{$value->deskripsi_menu}}
                   </p>
                   {{ $data['menu_obj']->num_to_rp($value->harga_menu) }}
                 </div>
               </div>
+              @if ($status == 'Tersedia')
               <div class="row">
                 <div class="col-md-offset-9 col-md-3">
                   <div class="input-group">
@@ -60,9 +94,11 @@
                   </div>
                 </div>
               </div>
+              @endif
             </div>
           </div>
         </div>
+
       @endforeach
     </div>
 

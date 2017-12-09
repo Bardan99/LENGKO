@@ -53,38 +53,6 @@ class OrderController extends Controller {
     }
   }
 
-  /* dumping
-  public function searchmaterial(Request $request) {
-    if ($request->ajax()) {
-      $data = $request->all();
-      $validator = Validator::make($data, [
-        'material-search-query' => 'required',
-      ]);
-
-      if ($validator->fails()) {
-        return response()->json(['status' => 500, 'text' => 'Jangan lupa diisi ya kata kunci nya!']);
-      }
-
-      $materials = DB::table('bahan_baku')
-        ->where('kode_bahan_baku', 'LIKE', '%' . $data['material-search-query'] . '%')
-        ->orwhere('nama_bahan_baku', 'LIKE', '%' . $data['material-search-query'] . '%')
-        ->orwhere('stok_bahan_baku', 'LIKE', '%' . $data['material-search-query'] . '%')
-        ->orwhere('satuan_bahan_baku', 'LIKE', '%' . $data['material-search-query'] . '%')
-        ->orwhere('tanggal_kadaluarsa_bahan_baku', 'LIKE', '%' . $data['material-search-query'] . '%')
-        ->orderBy('nama_bahan_baku', 'ASC')
-        ->get();
-      if ($materials) {
-        return response()->json([
-            'status' => 200,
-            'text' => 'Pencarian selesai dilakukan',
-            'content' => $materials
-          ]);
-      }
-
-    }
-  }
-  */
-
   public function search(Request $request) {
     if ($request->ajax()) {
       $data = $request->all();

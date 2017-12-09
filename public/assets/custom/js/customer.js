@@ -31,6 +31,25 @@ function search_menu(data) {
         var res = '';
         if (result.content.length > 0) {
           for (i = 0; i < result.content.length; i++) {
+            var status = 'Tidak tersedia';
+            var tmp = false;
+            for (j = 0; j < result.status[i]['menu-status'].length; j++) {
+              i++;
+              if (result.status[i]['menu-status'].stok_bahan_baku > 0) {
+                tmp = true;
+              }
+              else {
+                tmp = false;
+                break;
+              }
+            }
+
+            if (i == result.status[i]['menu-status'].length) {
+              if (tmp) {
+                status = 'Tersedia';
+              }
+            }
+
             res += '<div class="col-md-4 col-sm-6" onclick="show_obj(\'menu-' + result.content[i].kode_menu + '\');">';
             res += '<div class="menu">';
             res += '<img src="/files/images/menus/';
@@ -41,11 +60,12 @@ function search_menu(data) {
               res += 'not-available.png';
             }
             res += '" alt="' + result.content[i].nama_menu + '" width="100%" height="150px" />';
-            res += '<h2 class="menu-title">' + result.content[i].nama_menu + '</h2>';
+            res += '<h2 class="menu-title">' + result.content[i].nama_menu + ' <small>(' + status + ')</small></h2>';
             res += 'Rp' + result.content[i].harga_menu;
             res += '<a href="/" class="pull-right"><i class="material-icons">add_shopping_cart</i></a>';
             res += '<br /></div></div>';
             /* overlay content */
+
             res += '<div id="menu-' + result.content[i].kode_menu + '" class="menu-overlay">';
             res += '<div class="row menu-overlay-content"><div class="col-md-12">';
             res += '<div class="row">  <div class="col-md-offset-11 col-md-1" style="font-size:20pt;">';
@@ -61,17 +81,20 @@ function search_menu(data) {
             }
             res += '" alt="' + result.content[i].nama_menu + '" width="200px" height="200px" />';
             res += '</div><div class="col-md-9">';
-            res += '<h2 class="menu-title">' + result.content[i].nama_menu + '</h2>';
+            res += '<h2 class="menu-title">' + result.content[i].nama_menu + ' <small>(' + status + ')</small></h2>';
             res += '<p>' + result.content[i].deskripsi_menu + '</p>';
             res += 'Rp' + result.content[i].harga_menu + '</div></div>';
-            res += '<div class="row">';
-            res += '<div class="col-md-offset-10 col-md-2">';
-            res += '<div class="input-group">';
-            res += '<input type="hidden" name="order-add-name-' + result.content[i].kode_menu + '" value="' + result.content[i].nama_menu + '">';
-            res += '<input type="number" name="order-add-count-' + result.content[i].kode_menu + '" class="form-control input-lengko-default" placeholder="Jumlah" value="1" min="1" step="1">';
-            res += '<div class="input-group-addon" style="background-color: #2c3e50; color: #ecf0f1" onclick="add_menu(\'' + result.content[i].kode_menu + '\')">Tambah <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></div>';
+            if (status == 'Tersedia') {
+              res += '<div class="row">';
+              res += '<div class="col-md-offset-10 col-md-2">';
+              res += '<div class="input-group">';
+              res += '<input type="hidden" name="order-add-name-' + result.content[i].kode_menu + '" value="' + result.content[i].nama_menu + '">';
+              res += '<input type="number" name="order-add-count-' + result.content[i].kode_menu + '" class="form-control input-lengko-default" placeholder="Jumlah" value="1" min="1" step="1">';
+              res += '<div class="input-group-addon" style="background-color: #2c3e50; color: #ecf0f1" onclick="add_menu(\'' + result.content[i].kode_menu + '\')">Tambah <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></div>';
+              res += '</div></div></div>';
+            }
             res += '</div></div></div>';
-            res += '</div></div></div>';
+
           }
         }
         else {
@@ -211,6 +234,153 @@ function add_menu(menu) {
   }
 }//end
 
+function remove_menu(id, name) {
+  var data = {
+    '_token' : $('input[name=_token]').val(),
+    '_id' : id,
+  };
+
+  swal({
+    title: "Batalkan pesanan?",
+    html: "Kamu yakin akan menghapus pesanan " + name + " dari daftar pesanan?",
+    type: "question",
+    timer: 10000,
+    showCancelButton: true,
+    confirmButtonText: 'Iya',
+    confirmButtonColor: '#2c3e50',
+    cancelButtonText: 'Tidak'
+  }).then(function(result) {
+    if (result.value) {
+      $.ajax({
+        type: "POST",
+        url: "/customer/remove/menu",
+        data: data,
+        cache: false,
+        success: function(result) {
+
+          if (result.status == 200) {
+            swal({
+              title: "Berhasil membatalkan pesanan",
+              text: result.text,
+              type: "success",
+              timer: 30000
+            }).then(function(result) {
+              if (result.value) {
+                window.location = '/order';
+              }
+            });
+          }
+          else {
+            swal({
+              title: "Oops terjadi kesalahan",
+              html: result.text,
+              type: "warning",
+              timer: 10000,
+              showCancelButton: false,
+              confirmButtonText: 'Ok',
+              confirmButtonColor: '#2c3e50',
+            });
+          }
+        },
+        error: function(result){
+
+        }
+      });
+
+    }
+  });
+
+}//end
+
+function change_menu(id, count) {
+  var data = {
+    '_token' : $('input[name=_token]').val(),
+    '_id' : id,
+    '_count' : count,
+  };
+
+  $.ajax({
+    type: "POST",
+    url: "/customer/change/menu",
+    data: data,
+    cache: false,
+    success: function(result) {
+      if (result.status == 200) {
+
+      }
+      else {
+        swal({
+          title: "Oops terjadi kesalahan",
+          html: result.text,
+          type: "warning",
+          timer: 10000,
+          showCancelButton: false,
+          confirmButtonText: 'Ok',
+          confirmButtonColor: '#2c3e50',
+        });
+      }
+    },
+    error: function(result){
+
+    }
+  });
+
+}//end
+
+function create_order(data) {
+
+  swal({
+    title: "Lanjutkan proses pemesanan?",
+    html: "Pesanan yang sudah diproses tidak dapat dibatalkan.",
+    type: "question",
+    timer: 10000,
+    showCancelButton: true,
+    confirmButtonText: 'Iya',
+    confirmButtonColor: '#2c3e50',
+    cancelButtonText: 'Tidak'
+  }).then(function(result) {
+    if (result.value) {
+
+      $.ajax({
+        type: "POST",
+        url: "/customer/create/order",
+        data: data,
+        cache: false,
+        success: function(result) {
+          console.log(result);
+          if (result.status == 200) {
+            swal({
+              title: "Berhasil melakukan pemesanan",
+              text: result.text,
+              type: "success",
+              timer: 30000
+            }).then(function(result) {
+              if (result.value) {
+                window.location = '/order';
+              }
+            });
+          }
+          else {
+            swal({
+              title: "Oops terjadi kesalahan",
+              html: result.text,
+              type: "warning",
+              timer: 10000,
+              showCancelButton: false,
+              confirmButtonText: 'Ok',
+              confirmButtonColor: '#2c3e50',
+            });
+          }
+        },
+        error: function(result){
+
+        }
+      });
+
+    }
+  });
+}//end
+
 $(document).ready(function() {
 
   /* menu */
@@ -262,6 +432,22 @@ $(document).ready(function() {
       };
 
       add_review(data);
+    });
+  }
+
+  /* order */
+
+  if ($('button[name=order-create-button]')) {
+    $('button[name=order-create-button]').on('click', function(e) {
+      e.preventDefault();
+      var data = {
+        '_name' : $("input[name=order-create-name]").val(),
+        '_addition' : $("textarea[name=order-create-addition]").val(),
+        '_method' : "post",
+        '_token' : $("input[name=_token]").val()
+      };
+
+      create_order(data);
     });
   }
 });

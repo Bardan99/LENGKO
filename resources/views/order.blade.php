@@ -30,7 +30,7 @@
           <div class="col-md-5 col-xs-3">
             <div class="row">
               <div class="col-md-12 padd-lr-10 text-left" style="font-size: 16pt;">
-                <button type="submit" class="btn-lengko btn-lengko-danger btn-lengko-circle pull-left">
+                <button type="button" class="btn-lengko btn-lengko-danger btn-lengko-circle pull-left" onclick="remove_menu('{{ $value->kode_menu }}', '{{ $value->nama_menu }}');">
                   <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                 </button>
                 {{ $value->nama_menu }}
@@ -50,7 +50,7 @@
             <div class="row">
               <div class="col-md-12">
                 <div style="padding-top: 2vh; padding-bottom: 2vh;" >
-                  <input type="number" id="order-qty-{{ $value->kode_menu }}" name="" min="1" step="1" class="input-lengko-default" placeholder="Jumlah" value="{{ $value->jumlah_pesanan_detil }}" onchange="multiply_val('order-qty-{{ $value->kode_menu }}', 'order-count-{{ $value->kode_menu }}', {{ $value->harga_menu }}, 'Rp');" />
+                  <input type="number" id="order-qty-{{ $value->kode_menu }}" name="" min="1" step="1" class="input-lengko-default" placeholder="Jumlah" value="{{ $value->jumlah_pesanan_detil }}" onchange="multiply_val('order-qty-{{ $value->kode_menu }}', 'order-count-{{ $value->kode_menu }}', {{ $value->harga_menu }}, 'Rp'); change_menu('{{ $value->kode_menu }}', this.value);" />
                 </div>
               </div>
             </div>
@@ -84,38 +84,55 @@
     <div class="row">
       <div class="col-md-6">
         <label>Nama Pembeli</label>
-        <input type="text" name="" class="input-lengko-default block" placeholder="(Kosongkan jika tidak ingin famous >_<)" value="" />
+        <input type="text" name="order-create-name" class="input-lengko-default block" placeholder="(Kosongkan jika tidak ingin famous >_<)" value="" />
       </div>
       <div class="col-md-6">
         <label>Keterangan Tambahan</label>
-        <textarea name="" class="textarea-lengko-default block" rows="5" placeholder="(Kosongkan jika tidak ada keterangan tambahan pemesanan)"></textarea>
+        <textarea name="order-create-addition" class="textarea-lengko-default block" rows="5" placeholder="(Kosongkan jika tidak ada keterangan tambahan pemesanan)"></textarea>
       </div>
     </div>
     <div class="row mrg-b-20">
       <div class="col-md-12 padd-lr-10 padd-tb-10">
-        <button type="submit" class="btn-lengko btn-lengko-default pull-right">
+        <button type="button" name="order-create-button" class="btn-lengko btn-lengko-default pull-right">
           <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Lanjutkan
         </button>
       </div>
     </div>
+    @else
+      <div class="row">
+        <div class="col-md-12 col-xs-12 text-center" style="font-size: 24pt;">
+          <h1>Lho, kok belum pesan @if (count($data['order-processed']) > 0){{'lagi'}}@endif?</h1>
+          <br />
+          <a href="{{url('/menu/')}}"><img src="{{ url('/files/images/lengko-favicon.png') }}" alt="LENGKO" width="180px" height="120px" /></a>
+          <br />
+          <br />
+          <a href="{{ url('/menu/') }}">
+            Ayo jangan malu-malu;<br />
+            Biasanya juga malu-maluin.<br />
+          </a>
+        </div>
+      </div>
+    @endif
 
     <!-- cuted here -->
     @if (count($data['order-processed']) > 0)
-    <div class="row">
+    <div class="row mrg-t-20">
       <div class="col-md-12">
 
         <div class="table-responsive">
           <table class="table">
             <tr>
               <th># ({{ $data['order-processed'][0]->nama_perangkat }})</th>
-              <th>Catatan</th>
+              <th width="400px">Catatan</th>
               <th>Waktu</th>
+              <th>Status</th>
             </tr>
           @foreach ($data['order-processed'] as $key1 => $value1)
             <tr onclick="show_obj('review-{{ $key1 }}');" class="cursor-pointer">
-              <td>#{{ $value1->kode_pesanan }} ({{ $value1->pembeli_pesanan }})</td>
-              <td>{{ $value1->catatan_pesanan }}</td>
+              <td>#{{ $value1->kode_pesanan }} {{ $value1->pembeli_pesanan }}</td>
+              <td width="400px">{{ $value1->catatan_pesanan }}</td>
               <td>{{ $value1->tanggal_pesanan }} {{ $value1->waktu_pesanan }}</td>
+              <td class="status-{{$value1->status_pesanan}}">{{ $data['menu_obj']->rewrite('status', $value1->status_pesanan) }}</td>
             </tr>
             @if (count($data[$key1]['order-processed-detail']) > 0)
             <tr id="review-{{ $key1 }}" style="display:none; visibility: none;">
@@ -128,18 +145,20 @@
                     <th>Harga</th>
                     <th>Jumlah</th>
                     <th>Sub-Total</th>
+                    <th>Status</th>
                   </tr>
                   @foreach ($data[$key1]['order-processed-detail'] as $key2 => $value2)
                     <tr>
                       <td>{{ $value2->nama_menu }}</td>
-                      <td>{{ $value2->harga_menu }}</td>
+                      <td>{{ $data['menu_obj']->num_to_rp($value2->harga_menu) }}</td>
                       <td>{{ $value2->jumlah_pesanan_detil }}</td>
                       <td>{{ $data['menu_obj']->num_to_rp($value2->harga_menu * $value2->jumlah_pesanan_detil) }}</td>
+                      <td class="status-{{$value2->status_pesanan_detil}}">{{ $data['menu_obj']->rewrite('status', $value2->status_pesanan_detil) }}</td>
                     </tr>
                   @endforeach
                   <tr>
                     <th colspan="3" class="text-right">Total</th>
-                    <td>{{ $value1->harga_pesanan }}</td>
+                    <td colspan="2">{{ $data['menu_obj']->num_to_rp($value1->harga_pesanan) }}</td>
                   </tr>
                   </table>
                 </div>
@@ -150,33 +169,11 @@
           </table>
         </div>
 
-        <div class="row mrg-b-20">
-          <div class="col-md-12 padd-lr-10 padd-tb-10">
-            <button type="submit" class="btn-lengko btn-lengko-success pull-right">
-              <span class="glyphicon glyphicon-usd" aria-hidden="true"></span> Bayar
-            </button>
-          </div>
-        </div>
-
       </div>
       </div>
       @endif
     <!-- here -->
-    @else
-      <div class="row">
-        <div class="col-md-12 col-xs-12 text-center" style="font-size: 24pt;">
-          <h1>Loh, kok belum pesan?</h1>
-          <br />
-          <a href="{{url('/menu/')}}"><img src="{{ url('/files/images/lengko-favicon.png') }}" alt="LENGKO" width="180px" height="120px" /></a>
-          <br />
-          <br />
-          <a href="{{ url('/menu/') }}">
-            Ayo jangan malu-malu;<br />
-            Biasanya juga malu-maluin.<br />
-          </a>
-        </div>
-      </div>
-    @endif
+
   </div> <!-- end container -->
 
 @endsection

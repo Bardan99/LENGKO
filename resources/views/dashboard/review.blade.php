@@ -36,8 +36,8 @@
                         <th width="150px">#</th>
                         <th>Kritik & Saran</th>
                         <th width="200px">Waktu</th>
-                        <th>Status</th>
-                        <th></th>
+                        <th width="50px">Status</th>
+                        <th width="50px"></th>
                       </tr>
                     @foreach ($data['review-device'] as $key1 => $value1)
                       <tr class="cursor-pointer">
@@ -109,7 +109,7 @@
                   </div>
                 </div>
               @endif
-              
+
             </div>
           </div>
         </div>

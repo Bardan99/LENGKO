@@ -39,6 +39,7 @@
               </div>
 
               <div class="row mrg-t-20 padd-lr-20">
+
                 <div id="menu-card-section" class="box-menu scrollable @if (count($data['menu']) > 0) {{'scrollable-lg'}} @endif">
                   @foreach ($data['menu'] as $keymenu => $value)
                     <form name="menu-update" class="form-horizontal" action="{{ url('/dashboard/update/menu/') }}" method="post" enctype="multipart/form-data">
@@ -62,18 +63,18 @@
                                   <div class="text-left padd-tb-10">[<b>{{ $value->kode_menu }}</b>]</div>
                                 </div>
                                 <div class="col-md-9">
-                                  <input type="text" name="menu-change-name" class="input-lengko-default block" placeholder="Nama Menu" value="{{ $value->nama_menu }}" @if ($auth != 'root' || $auth != 'chef') {{'readonly'}} @endif/>
+                                  <input type="text" name="menu-change-name" class="input-lengko-default block" placeholder="Nama Menu" value="{{ $value->nama_menu }}" @if ($auth != 'root' && $auth != 'chef') {{'readonly'}} @endif/>
                                 </div>
                               </div>
                               <div class="row">
                                 <div class="col-md-7">
-                                  <select name="menu-change-type" class="select-lengko-default block" @if ($auth != 'root' || $auth != 'chef') {{'disabled="disabled"'}} @endif>
+                                  <select name="menu-change-type" class="select-lengko-default block" @if ($auth != 'root' && $auth != 'chef') {{'disabled="disabled"'}} @endif>
                                     <option value="F" @if ($value->jenis_menu == "F") {{ 'selected="selected"' }} @endif>Makanan</option>
                                     <option value="D" @if ($value->jenis_menu == "D") {{ 'selected="selected"' }} @endif>Minuman</option>
                                   </select>
                                 </div>
                                 <div class="col-md-5">
-                                  <input type="number" name="menu-change-price" class="input-lengko-default block" placeholder="Harga Menu" value="{{ $value->harga_menu }}" @if ($auth != 'root' || $auth != 'chef') {{'readonly'}} @endif />
+                                  <input type="number" name="menu-change-price" class="input-lengko-default block" placeholder="Harga Menu" value="{{ $value->harga_menu }}" @if ($auth != 'root' && $auth != 'chef') {{'readonly'}} @endif />
                                 </div>
                               </div>
                               <div class="row padd-tb-10">
@@ -110,7 +111,7 @@
                         <div class="col-md-6">
                           <div class="row">
                             <div class="col-md-12">
-                              <textarea name="menu-change-description" class="textarea-lengko-default block" rows="5" placeholder="Deskripsi Menu" @if ($auth != 'root' || $auth != 'chef') {{'readonly'}} @endif>{{ substr($value->deskripsi_menu, 0, 300) . '' }}</textarea>
+                              <textarea name="menu-change-description" class="textarea-lengko-default block" rows="5" placeholder="Deskripsi Menu" @if ($auth != 'root' && $auth != 'chef') {{'readonly'}} @endif>{{ substr($value->deskripsi_menu, 0, 300) . '' }}</textarea>
                             </div>
                           </div>
                           @if ($auth == 'root' || $auth == 'chef')

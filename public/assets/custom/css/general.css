@@ -914,6 +914,30 @@ fieldset.title legend {
 
 /* End of Main Menu */
 
+/* Custom status */
+
+.status-C {
+  background-color: #d35400;
+  color: #f4f6f6;
+}
+
+.status-P {
+  background-color: #2980b9;
+  color: #f4f6f6;
+}
+
+.status-T {
+  background-color: #e74c3c;
+  color: #f4f6f6;
+}
+
+.status-D {
+  background-color: #27ae60;
+  color: #f4f6f6;
+}
+
+/* End of Custom status */
+
 /* Custom device */
 .device {
   color: #ffffff;

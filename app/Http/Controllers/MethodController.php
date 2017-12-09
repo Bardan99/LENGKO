@@ -49,6 +49,23 @@ class MethodController extends BaseController {
       case 'time':
 
       break;
+      case 'status':
+        switch ($param) {
+          case 'C':
+            $res = 'Menunggu konfirmasi';
+          break;
+          case 'P':
+            $res = 'Sedang diproses';
+          break;
+          case 'T':
+            $res = 'Menunggu pembayaran';
+          break;
+          case 'D':
+            $res = 'Selesai diproses';
+          break;
+          default:$res = '-';break;
+        }
+      break;
       default:break;
     }
     return $res;

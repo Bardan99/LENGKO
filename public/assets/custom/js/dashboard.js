@@ -853,7 +853,6 @@ function search_menu(data) {
       else {
         var res = '';
         if (result.content.menu.length > 0) {
-
           var token = $('input[name=search_token]').val();
           for (i = 0; i < result.content.menu.length; i++) {
             res += '<form name="menu-update" class="form-horizontal" action="/dashboard/update/menu" method="post" enctype="multipart/form-data">';
@@ -880,13 +879,13 @@ function search_menu(data) {
             res += '<div class="text-left padd-tb-10">[<b>' + result.content.menu[i].kode_menu + '</b>]</div>';
             res += '</div><div class="col-md-9">';
             res += '<input type="text" name="menu-change-name" class="input-lengko-default block" placeholder="Nama Menu" value="' + result.content.menu[i].nama_menu + '"';
-            if (result.auth != 'root' || result.auth != 'chef') {
+            if (result.auth != 'root' && result.auth != 'chef') {
               res += ' readonly ';
             }
             res += '/>';
             res += '</div></div><div class="row"><div class="col-md-7">';
             res += '<select name="menu-change-type" class="select-lengko-default block"';
-            if (result.auth != 'root' || result.auth != 'chef') {
+            if (result.auth != 'root' && result.auth != 'chef') {
               res += ' disabled="disabled" ';
             }
             res += '>';
@@ -900,7 +899,7 @@ function search_menu(data) {
             }
             res += '>Minuman</option></select></div><div class="col-md-5">';
             res += '<input type="number" name="menu-change-price" class="input-lengko-default block" placeholder="Harga Menu" value="' + result.content.menu[i].harga_menu + '"';
-            if (result.auth != 'root' || result.auth != 'chef') {
+            if (result.auth != 'root' && result.auth != 'chef') {
               res += ' readonly ';
             }
             res += '/>';
@@ -935,7 +934,7 @@ function search_menu(data) {
             res += '<div class="col-md-6"><div class="row">';
             res += '<div class="col-md-12">';
             res += '<textarea name="menu-change-description" class="textarea-lengko-default block" rows="5" placeholder="Deskripsi Menu"';
-            if (result.auth != 'root' || result.auth != 'chef') {
+            if (result.auth != 'root' && result.auth != 'chef') {
               res += ' readonly ';
             }
             res += '>' + result.content.menu[i].deskripsi_menu + '</textarea>';

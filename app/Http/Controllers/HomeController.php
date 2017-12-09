@@ -11,6 +11,10 @@ use App\Review;
 use App\ReviewDevice;
 use App\ReviewDetil;
 use App\Menu;
+use App\Pesanan;
+use App\PesananDetil;
+use App\Perangkat;
+use Session;
 
 class HomeController extends Controller {
   /**
@@ -29,12 +33,15 @@ class HomeController extends Controller {
    */
 
    public function get_order(Request $request) {
+      $order = [];
       $hold = $request->session()->get('order');
-       for ($i = 0; $i < count($hold); $i++) {
-         $order[$i] = Menu::where('kode_menu', '=', $hold[$i]['id'])->get()->first();
-         $order[$i]['jumlah_pesanan_detil'] = $hold[$i]['count'];
-       }
-       return $order;
+      if (count($hold) > 0) {
+        foreach ($hold as $key => $value) {
+          $order[$key] = Menu::where('kode_menu', '=', $hold[$key]['id'])->get()->first();
+          $order[$key]['jumlah_pesanan_detil'] = $hold[$key]['count'];
+        }
+      }
+      return $order;
    }
    public function index(Request $request) {
      if (view()->exists('home')) {
@@ -97,23 +104,34 @@ class HomeController extends Controller {
           $data['menu'] = DB::table('menu')
           ->orderBy('nama_menu', 'ASC')
           ->skip(0)->take(9)->get();
+
+          foreach ($data['menu'] as $key => $value) {
+            $data[$key]['menu-material'] = DB::table('menu')
+            ->select('menu_detil.*')
+            ->join('menu_detil', 'menu_detil.kode_menu', '=', 'menu.kode_menu')
+            ->where('menu.kode_menu', '=', $value->kode_menu)
+            ->get();
+          }
+
+          foreach ($data['menu'] as $key => $value) {
+            $data[$key]['menu-status'] = DB::table('menu')
+            ->select('bahan_baku.nama_bahan_baku', 'bahan_baku.stok_bahan_baku')
+            ->join('menu_detil', 'menu_detil.kode_menu', '=', 'menu.kode_menu')
+            ->join('bahan_baku', 'bahan_baku.kode_bahan_baku', '=', 'menu_detil.kode_bahan_baku')
+            ->where('menu.kode_menu', '=', $value->kode_menu)
+            ->get();
+          }
+
           $data['menu_obj'] = new MethodController();
         case 'order':
-          $data['order-detail'] = DB::table('pesanan')
-            ->select('pesanan_detil.*', 'menu.*')
-            ->join('pesanan_detil', 'pesanan.kode_pesanan', '=', 'pesanan_detil.kode_pesanan')
-            ->join('menu', 'pesanan_detil.kode_menu', '=', 'menu.kode_menu')
-            ->orderBy('tanggal_pesanan', 'ASC')
-            ->orderBy('waktu_pesanan', 'ASC')
-            ->where('pesanan.status_pesanan', '=', 'C')
-            //->where('pesanan.kode_perangkat', '=', $kode)
-            ->get();
           $data['order-processed'] = DB::table('pesanan')
             ->select('pesanan.*', 'perangkat.nama_perangkat')
             ->join('perangkat', 'pesanan.kode_perangkat', '=', 'perangkat.kode_perangkat')
             ->orderBy('tanggal_pesanan', 'ASC')
             ->orderBy('waktu_pesanan', 'ASC')
-            ->where('pesanan.status_pesanan', '=', 'P')
+            ->where('pesanan.status_pesanan', '=', 'C')
+            ->orwhere('pesanan.status_pesanan', '=', 'P')
+            ->orwhere('pesanan.status_pesanan', '=', 'T')
             //->where('pesanan.kode_perangkat', '=', $kode)
             ->get();
           foreach ($data['order-processed'] as $key => $value) {
@@ -157,16 +175,14 @@ class HomeController extends Controller {
           $data['unknown'] = null;
         break;
       }
+
       return view($param, ['data' => $data, 'device' => Auth::guard('device')->user(), 'order' => $this->get_order($request)]);
     }
     return abort(404);
   }
 
   public function ajax_handler($param, Request $request) {
-    if ($request->isMethod('post')) {
-        //return response()->json(['data' => 'x']); not yet
-    }
-    elseif ($request->isMethod('get')) {
+    if ($request->isMethod('get')) {
       if ($param) {
         switch ($param) {
           case 'bahan-baku':
@@ -201,11 +217,30 @@ class HomeController extends Controller {
           ->get();
       }
 
+      foreach ($result as $key => $value) {
+        $tmp[$key]['menu-material'] = DB::table('menu')
+        ->select('menu_detil.*')
+        ->join('menu_detil', 'menu_detil.kode_menu', '=', 'menu.kode_menu')
+        ->where('menu.kode_menu', '=', $value->kode_menu)
+        ->get();
+      }
+
+      foreach ($result as $key => $value) {
+        $tmp[$key]['menu-status'] = DB::table('menu')
+        ->select('bahan_baku.nama_bahan_baku', 'bahan_baku.stok_bahan_baku')
+        ->join('menu_detil', 'menu_detil.kode_menu', '=', 'menu.kode_menu')
+        ->join('bahan_baku', 'bahan_baku.kode_bahan_baku', '=', 'menu_detil.kode_bahan_baku')
+        ->where('menu.kode_menu', '=', $value->kode_menu)
+        ->get();
+      }
+
+
       if ($result) {
         return response()->json([
             'status' => 200,
             'text' => 'Pencarian selesai dilakukan',
             'content' => $result,
+            'status' => $tmp
           ]);
       }
 
@@ -271,6 +306,32 @@ class HomeController extends Controller {
     }//endif
   }
 
+  public function checkorder(Request $request, $id) { //from session
+    $res = false;
+    $order = $request->session()->get('order');
+    if (count($order) > 0) {
+      foreach ($order as $key => $value) {
+        if ($id == $order[$key]['id']) {
+          $res = true;
+          break;
+        }
+      }
+    }
+    return $res;
+  }
+
+  public function getposition(Request $request, $id) { //from session
+    $res = -1;
+    $order = $request->session()->get('order');
+    if (count($order) > 0) {
+      foreach ($order as $key => $value) {
+        if ($id == $order[$key]['id']) {
+          $res = $key;
+        }
+      }
+    }
+    return $res;
+  }
 
   public function addmenu(Request $request) {
     if ($request->ajax()) {
@@ -288,15 +349,167 @@ class HomeController extends Controller {
         ]);
       }
       else {
-        $order['id'] = $data['_id'];
-        $order['count'] = $data['_count'];
-        $request->session()->push('order', $order);
+        if ($this->getposition($request, $data['_id']) >= 0) { //if exists add sum
+          $order = Session::get('order');
+          $order[$this->getposition($request, $data['_id'])]['count'] += $data['_count'];
+          Session::set('order', $order);
+        }
+        else {
+          $order['id'] = $data['_id'];
+          $order['count'] = $data['_count'];
+          $request->session()->push('order', $order);
+        }
         return response()->json([
             'status' => 200,
             'text' => 'Berhasil menambahkan pesanan',
           ]);
       }
     }//endif
+  }
+
+  public function removemenu(Request $request) {
+    if ($request->ajax()) {
+      $data = $request->all();
+      $validator = Validator::make($data, [
+        '_id' => 'required',
+      ]);
+
+      if ($validator->fails() && !$this->checkorder($request, $data['_id'])) {
+        return response()
+          ->json([
+            'status' => 500,
+            'text' => 'Oops, pesanan tidak ditemukan'
+        ]);
+      }
+      else {
+        if ($this->getposition($request, $data['_id']) >= 0) {
+          $order = Session::get('order');
+          unset($order[$this->getposition($request, $data['_id'])]);
+          Session::set('order', $order);
+          return response()->json([
+              'status' => 200,
+              'text' => 'Berhasil menghapus pesanan',
+            ]);
+        }
+        return response()->json([
+            'status' => 500,
+            'text' => 'Pesanan tidak ditemukan',
+          ]);
+      }
+    }//endif
+  }
+
+  public function changemenu(Request $request) {
+    if ($request->ajax()) {
+      $data = $request->all();
+      $validator = Validator::make($data, [
+        '_id' => 'required',
+        '_count' => 'required|min:1',
+      ]);
+
+      if ($validator->fails() && !$this->checkorder($request, $data['_id'])) {
+        return response()
+          ->json([
+            'status' => 500,
+            'text' => 'Oops, pesanan tidak ditemukan'
+        ]);
+      }
+      else {
+        if ($this->getposition($request, $data['_id']) >= 0) {
+          $order = Session::get('order');
+          $order[$this->getposition($request, $data['_id'])]['count'] = $data['_count'];
+          Session::set('order', $order);
+          return response()->json([
+              'status' => 200,
+              'text' => 'Berhasil mengubah jumlah pesanan',
+            ]);
+        }
+        return response()->json([
+            'status' => 500,
+            'text' => 'Pesanan tidak ditemukan',
+          ]);
+      }
+    }//endif
+  }
+
+  public function orderexists(Request $request) {
+    $exists = DB::table('pesanan')
+      ->where('status_pesanan', '!=', 'T') //belum close order
+      ->where('status_pesanan', '!=', 'D') //belum done order
+      ->where('kode_perangkat', '=', Auth::guard('device')->user()->kode_perangkat)
+      ->first();
+    return $exists;
+  }
+
+  public function createorder(Request $request) {
+    if ($request->ajax()) {
+      $data = $request->all();
+
+      if ($this->orderexists($request)) { //check masih ada order aktif atau tidak
+        $currorder = $this->orderexists($request);
+        $current = DB::table('pesanan_detil')
+          ->where('status_pesanan_detil', '!=', 'D') //belum done order
+          ->where('kode_pesanan', '=', $currorder->kode_pesanan)
+          ->get();
+        $order = $request->session()->get('order');
+        $detil = [];
+        foreach ($order as $key => $value) {
+          $detil[] = array (
+            'jumlah_pesanan_detil' => $order[$key]['count'],
+            'status_pesanan_detil' => 'P',
+            'kode_pesanan' => $currorder->kode_pesanan,
+            'kode_menu' => $order[$key]['id']
+          );
+        }
+
+        Perangkat::find(Auth::guard('device')->user()->kode_perangkat)->update([
+          'status_perangkat' => 0
+        ]);
+
+        $try = PesananDetil::insert($detil);
+        if ($try) {
+
+          $request->session()->forget('order');
+          return response()->json(['status' => 200,'text' => 'Mohon ditunggu, pesanan sedang kami proses, GPL lhoo']);
+        }
+        return response()->json(['status' => 500,'text' => 'Oops terjadi sesuatu, silahkan hubungi kami apabila terjadi kendala']);
+      }
+      else {
+        $try = Pesanan::create([
+          'tanggal_pesanan' => date('Y-m-d'),
+          'waktu_pesanan' => date('H:m:s'),
+          'pembeli_pesanan' => $data['_name'],
+          'catatan_pesanan' => $data['_addition'],
+          'harga_pesanan' => 0,
+          'tunai_pesanan' => 0,
+          'status_pesanan' => 'C',
+          'kode_pegawai' => NULL,
+          'kode_perangkat' => Auth::guard('device')->user()->kode_perangkat
+        ]);
+        $id = $try->kode_pesanan;
+
+        $order = $request->session()->get('order');
+        foreach ($order as $key => $value) {
+          $detil[] = array(
+            'jumlah_pesanan_detil' => $order[$key]['count'],
+            'status_pesanan_detil' => 'P',
+            'kode_pesanan' => $id,
+            'kode_menu' => $order[$key]['id']
+          );
+        }
+
+        Perangkat::find(Auth::guard('device')->user()->kode_perangkat)->update([
+          'status_perangkat' => 0
+        ]);
+        
+        $try = PesananDetil::insert($detil);
+        if ($try) {
+          $request->session()->forget('order');
+          return response()->json(['status' => 200,'text' => 'Mohon ditunggu, pesanan sedang kami proses, GPL lhoo']);
+        }
+        return response()->json(['status' => 500,'text' => 'Oops terjadi sesuatu, silahkan hubungi kami apabila terjadi kendala']);
+      }//endif
+    }//end request ajax
   }
 
 }

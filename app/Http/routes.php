@@ -84,4 +84,7 @@ Route::group(['middleware' => 'device'], function() {
   Route::post('/customer/search/menu', 'HomeController@searchmenu');
   Route::post('/customer/create/review', 'HomeController@createreview');
   Route::post('/customer/add/menu', 'HomeController@addmenu');
+  Route::post('/customer/remove/menu', 'HomeController@removemenu');
+  Route::post('/customer/change/menu', 'HomeController@changemenu');
+  Route::post('/customer/create/order', 'HomeController@createorder');
 });

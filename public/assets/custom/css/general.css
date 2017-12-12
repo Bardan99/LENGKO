@@ -413,12 +413,19 @@ hr.content {
   padding: 8px;
 }
 
+.input-group-btn > button {
+  height: 45px;
+  margin-bottom: 5px;
+}
+
 .input-lengko-default {
   color:  #34495e;
   background-color: #f6f6f6;
   padding: 10px;
   width: 80px;
+  margin: 0px;
   margin-bottom: 5px;
+  height: 45px;
   border: 0px;
   border-radius: 0px 10px 0px 0px;
 }
@@ -451,6 +458,8 @@ hr.content {
 
 
 .select-lengko-default {
+  margin: 0px;
+  margin-bottom: 5px;
   padding: 10px;
   height: 45px;
   border: 0px;
@@ -605,7 +614,7 @@ hr.content {
 }
 
 .btn-lengko {
-  margin: 4px;
+  margin: 0px 1px;
   padding: 10px;
   border: 0px;
   border-radius: 3px;
@@ -762,7 +771,6 @@ fieldset.title {
   border-right: none;
   display: block;
   text-align: center;
-  padding: 5px 10vw;
 }
 
 fieldset.title legend {
@@ -770,6 +778,28 @@ fieldset.title legend {
   margin: 0px;
   font-size: 12pt;
   border: none;
+}
+
+fieldset.title {
+  padding: 5px 30vw;
+}
+
+@media (min-width: 736px) { /* col sm  992px*/
+  fieldset.title {
+    padding: 5px 25vw;
+  }
+}
+
+@media (min-width: 736px) { /* col sm  992px*/
+  fieldset.title {
+    padding: 5px 25vw;
+  }
+}
+
+@media (min-width: 992px) { /* col sm  992px*/
+  fieldset.title {
+    padding: 5px 10vw;
+  }
 }
 
 .scrollable {

@@ -28,7 +28,7 @@
                 <div class="col-md-offset-8 col-md-4">
                   <div class="input-group">
                     <input type="hidden" name="menu-search-token" value="{{ csrf_token() }}">
-                    <input type="text" name="menu-search-query" class="form-control" placeholder="Cari Menu" />
+                    <input type="text" name="menu-search-query" class="form-control input-lengko-default" placeholder="Cari Menu" />
                     <span class="input-group-btn">
                       <button class="btn btn-default" name="menu-search-button" type="button">
                         <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -40,7 +40,7 @@
 
               <div class="row mrg-t-20 padd-lr-20">
 
-                <div id="menu-card-section" class="box-menu scrollable @if (count($data['menu']) > 0) {{'scrollable-lg'}} @endif">
+                <div id="menu-card-section" class="box-menu scrollable @if (count($data['menu']) > 2) {{'scrollable-lg'}} @endif">
                   @foreach ($data['menu'] as $keymenu => $value)
                     <form name="menu-update" class="form-horizontal" action="{{ url('/dashboard/update/menu/') }}" method="post" enctype="multipart/form-data">
                       <input type="hidden" name="_method" value="put">
@@ -139,7 +139,7 @@
                       <div id="material-card-change-{{ $value->kode_menu }}" class="row" hidden="hidden">
                         <div class="col-md-12">
 
-                            <div class="scrollable scrollable-md">
+                            <div class="scrollable @if (count($data['material']) > 8) {{'scrollable-md'}} @endif">
                               <div class="row">
 
                               @foreach ($data['material'] as $key => $value)
@@ -185,7 +185,7 @@
       </div>
       @if ($auth == 'root' || $auth == 'chef')
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 col-sm-8">
 
           <div class="panel panel-default panel-custom">
             <div class="panel-heading">Tambah Menu</div>
@@ -251,7 +251,7 @@
                           <div class="col-md-4">
                             <input type="hidden" name="material-menu-search-token" value="{{ csrf_token() }}">
                             <div class="input-group">
-                              <input type="text" name="search-material-menu-query" class="form-control" placeholder="Cari Bahan Baku" />
+                              <input type="text" name="search-material-menu-query" class="form-control input-lengko-default" placeholder="Cari Bahan Baku" />
                               <span class="input-group-btn">
                                 <button class="btn btn-default" name="search-material-menu-button" type="button">
                                   <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -265,7 +265,7 @@
                     </div>
                     <div class="row">
                       <div class="col-md-12">
-                        <div class="scrollable scrollable-md">
+                        <div class="scrollable @if (count($data['material']) > 8) {{'scrollable-md'}} @endif">
                           <div id="material-card-section" class="row">
                             @foreach ($data['material'] as $key => $value)
                               <div class="col-md-6">

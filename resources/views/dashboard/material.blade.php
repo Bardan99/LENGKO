@@ -42,24 +42,20 @@
                         <td>{{ $value->subjek_pengadaan_bahan_baku }}</td>
                         <td>{{ $value->tanggal_pengadaan_bahan_baku . ' ' . $value->waktu_pengadaan_bahan_baku }}</td>
                         <td>{{ $value->nama_prioritas }}</td>
-                        <td width="300px">{{ $value->catatan_pengadaan_bahan_baku }}</td>
-                        <td>{{ $value->status_pengadaan_bahan_baku }}</td>
+                        <td width="300px">{{ $data['method']->rewrite('status', $value->catatan_pengadaan_bahan_baku) }}</td>
+                        <td>{{ $data['method']->rewrite('status-number', $value->status_pengadaan_bahan_baku) }}</td>
                       </tr>
                       <tr id="material-request-user-{{ $key1 }}" style="display:none; visibility: none;">
-                        <td></td>
-                        <td colspan="5">
+                        <td colspan="2"></td>
+                        <td colspan="4">
                           <div class="table-responsive">
                             <table class="table table-hover table-striped">
                             <tr>
-                              <th>Nama</th>
-                              <th>Jumlah</th>
-                              <th>Satuan</th>
+                              <th>Nama Bahan Baku</th>
                             </tr>
                               @foreach ($data[$key1]['material-request-user-detail'] as $key2 => $value)
                                 <tr>
                                   <td>{{ $value->nama_bahan_baku }}</td>
-                                  <td>{{ $value->jumlah_bahan_baku }}</td>
-                                  <td>{{ $value->satuan_bahan_baku }}</td>
                                 </tr>
                               @endforeach
                             </table>
@@ -78,16 +74,16 @@
                 <div class="col-md-12">
                   <form name="material-request-add" class="form-horizontal" action="{{url('/dashboard/create/request')}}" method="post">
                     <div class="row">
-                      <div class="col-md-2">
+                      <div class="col-md-2 col-sm-2">
                         <label style="margin: 10px 5px 10px 0px;">Subjek</label>
                       </div>
-                      <div class="col-md-5">
+                      <div class="col-md-5 col-sm-5">
                         <input type="text" name="material-request-create-subject" class="input-lengko-default block" placeholder="Subjek Pengadaan Bahan Baku" />
                       </div>
-                      <div class="col-md-2">
+                      <div class="col-md-2 col-sm-2">
                         <label style="margin: 10px 5px 10px 0px;">Prioritas</label>
                       </div>
-                      <div class="col-md-3">
+                      <div class="col-md-3 col-sm-3">
                         <select name="material-request-create-priority" class="select-lengko-default block">
                           @foreach ($data['priority'] as $key => $value)
                             <option value="{{ $value->kode_prioritas }}">{{ $value->nama_prioritas }}</option>
@@ -96,20 +92,20 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-md-2">
+                      <div class="col-md-2 col-sm-2">
                         <label style="margin: 10px 5px 10px 0px;">Nama</label>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-6 col-sm-5">
                         <input type="text" id="material-request-create-item-0" name="material-request-create-item-0" class="input-lengko-default block" placeholder="Nama Bahan Baku" />
                       </div>
-                      <div class="col-md-4">
+                      <div class="col-md-4 col-sm-5">
                         <div class="row">
-                          <div class="col-md-2 col-xs-12 col-sm-12 padd-lr-15">
+                          <div class="col-md-3 col-sm-3">
                             <button type="button" class="btn-lengko btn-lengko-default block" onclick="add_val('material-list-0', 'material-request-create-item-0');" style="height:42px; padding: 10px 5px 10px 5px; font-size: 13pt;">
                               <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>&nbsp;
                             </button>
                           </div>
-                          <div class="col-md-10 col-xs-12 col-sm-12 padd-lr-15">
+                          <div class="col-md-9 col-sm-9">
                             <select id="material-list-0" name="" class="select2" onchange="add_val('material-list-0', 'material-request-create-item-0');">
                               @if (count($data['material']) > 0)
                                 @foreach ($data['material'] as $key => $value)
@@ -191,7 +187,7 @@
                         <td>{{ $value->subjek_pengadaan_bahan_baku }}</td>
                         <td>{{ $value->tanggal_pengadaan_bahan_baku . ' ' . $value->waktu_pengadaan_bahan_baku }}</td>
                         <td>{{ $value->nama_prioritas }}</td>
-                        <td width="300px">{{ $value->catatan_pengadaan_bahan_baku }}</td>
+                        <td width="300px">{{ $data['method']->rewrite('status', $value->catatan_pengadaan_bahan_baku) }}</td>
                       </tr>
                       <tr id="material-request-{{ $key1 }}" style="display:none; visibility: none;">
                         <td></td>
@@ -270,9 +266,9 @@
           @if (count($data['material']) > 0)
 
           <div class="row">
-            <div class="col-md-offset-8 col-md-4">
+            <div class="col-md-offset-8 col-md-4 col-sm-offset-6 col-sm-6 col-xs-12">
               <div class="input-group">
-                <input type="text" name="material-search-query" class="form-control" placeholder="Cari Bahan Baku" />
+                <input type="text" name="material-search-query" class="form-control input-lengko-default" placeholder="Cari Bahan Baku" />
                 <input type="hidden" name="material-search-method" value="post">
                 <input type="hidden" name="material-search-token" value="{{ csrf_token() }}">
                 <span class="input-group-btn">
@@ -284,7 +280,7 @@
             </div>
           </div>
 
-          <div id="material-card-section" class="row mrg-t-20 padd-lr-20">
+          <div id="material-card-section" class="row mrg-t-20">
             <div class="col-md-12">
               <div class="table-responsive">
                 <table class="table table-hover table-striped">
@@ -314,7 +310,7 @@
                       <td>
                         <input type="text" name="material-change-date" class="input-lengko-default block datepicker" placeholder="Kadaluarsa Bahan Baku" value="{{ $value->tanggal_kadaluarsa_bahan_baku }}" />
                       </td>
-                      <td>
+                      <td width="120px">
                         <button class="btn-lengko btn-lengko-default pull-left" type="button" onclick="show_obj('material-card-{{ $value->kode_bahan_baku }}'); hide_obj('material-card-change-{{ $value->kode_bahan_baku }}');">
                           <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
                         </button>
@@ -355,7 +351,7 @@
           </div>
           @else
             <div class="row">
-              <div class="col-md-12">
+              <div class="col-md-8">
                 <div class="alert alert-warning">
                   Belum ada Bahan Baku, silahkan tambahkan bahan baku.
                 </div>
@@ -367,7 +363,7 @@
       </div>
 
       <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-6 col-sm-8">
 
           <div class="panel panel-default panel-custom">
             <div class="panel-heading">Tambah Bahan Baku</div>
@@ -388,10 +384,10 @@
                   <div class="col-md-3">
                     <label style="margin: 10px 5px 10px 0px;">Stok</label>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-4 col-sm-6">
                     <input type="number" name="material-create-stock" min="0" class="input-lengko-default block" placeholder="Stok Bahan Baku" />
                   </div>
-                  <div class="col-md-5">
+                  <div class="col-md-5 col-sm-6">
                     <input type="text" name="material-create-unit" class="input-lengko-default block" placeholder="Satuan Bahan Baku" />
                   </div>
                 </div>
@@ -400,7 +396,7 @@
                     <label style="margin: 10px 5px 10px 0px;">Kadaluarsa</label>
                   </div>
                   <div class="col-md-9">
-                    <input type="text" name="material-create-date" class="input-lengko-default block datepicker" placeholder="Tanggal Kadaluarsa" />
+                    <input type="text" name="material-create-date" class="input-lengko-default block datepicker" placeholder="Tanggal Kadaluarsa Bahan Baku" />
                   </div>
                 </div>
                 <div class="row">

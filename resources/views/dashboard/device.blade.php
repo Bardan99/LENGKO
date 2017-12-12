@@ -18,9 +18,16 @@
               @if (count($data['device']) > 0)
 
               <div class="row">
-                <div class="col-md-offset-8 col-md-4">
+                <div class="col-md-3 col-sm-4 col-xs-7">
+                  <select name="device-search-status" class="select-lengko-default block">
+                    <option value="*">Semua Status</option>
+                    <option value="1">Tersedia</option>
+                    <option value="0">Tidak Tersedia</option>
+                  </select>
+                </div>
+                <div class="col-md-offset-5 col-md-4 col-sm-offset-2 col-sm-6 col-xs-12">
                   <div class="input-group">
-                    <input type="text" name="device-search-query" class="form-control" placeholder="Cari Perangkat" />
+                    <input type="text" name="device-search-query" class="form-control input-lengko-default" placeholder="Cari Perangkat" />
                     <input type="hidden" name="device-search-method" value="post">
                     <input type="hidden" name="device-search-token" value="{{ csrf_token() }}">
                     <span class="input-group-btn">
@@ -138,7 +145,7 @@
               </div>
               @else
                 <div class="row">
-                  <div class="col-md-12">
+                  <div class="col-md-8">
                     <div class="alert alert-warning">
                       Perangkat belum tersedia, silahkan tambahkan perangkat terlebih dahulu
                     </div>
@@ -153,7 +160,7 @@
 
       <div class="row">
         @if ($auth == 'root')
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-8">
 
           <div class="panel panel-default panel-custom">
             <div class="panel-heading">Tambah Perangkat</div>
@@ -194,7 +201,7 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-12">
+                  <div class="col-md-12 col-sm-8">
                     <button type="reset" class="btn-lengko btn-lengko-danger">Batalkan</button>
                     <button type="submit" class="btn-lengko btn-lengko-default pull-right">Tambah</button>
                   </div>
@@ -206,7 +213,7 @@
 
         </div>
         @endif
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-8">
 
           <div class="panel panel-default panel-custom">
             <div class="panel-heading">Statistik Perangkat</div>
@@ -215,7 +222,7 @@
                 <canvas id="device-statistic" width="400" height="250"></canvas>
               @else
                 <div class="row">
-                  <div class="col-md-12">
+                  <div class="col-md-8">
                     <div class="alert alert-warning">
                       Perangkat belum tersedia, silahkan tambahkan perangkat terlebih dahulu
                     </div>

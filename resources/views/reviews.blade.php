@@ -61,7 +61,13 @@
     <div class="row mrg-b-20">
       <div class="col-md-12">
         <hr />
-        <h2 class="text-center">Bagaimana dengan anda?</h2>
+        <h2 class="text-center">
+          @if (count($data['customer-reviews']) > 0)
+            Bagaimana dengan kamu?
+          @else
+            Yuk, bantu kami tingkatkan kualitas ^_^
+          @endif
+        </h2>
       </div>
     </div>
 

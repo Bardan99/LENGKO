@@ -316,64 +316,77 @@ function done_menu(id) {
   });//endswal
 }
 
-function done_transaction(id) {
-  swal({
-    title: "Transaksi selesai?",
-    html: "Lakukan pembayaran terhadap pesanan ini?",
-    type: "question",
-    timer: 10000,
-    showCancelButton: true,
-    confirmButtonText: 'Iya',
-    confirmButtonColor: '#2c3e50',
-    cancelButtonText: 'Tidak'
-  }).then(function(result) {
-    if (result.value) {
-      var data = {
-        '_id' : id,
-        '_cash' : $('input[name="transaction-cash-' + id + '"]').val(),
-        '_method' : "get",
-        '_token' : $('input[name="search_token"]').val()
-      };
+function done_transaction(id, min) {
+  var cash = $('input[name="transaction-cash-' + id + '"]').val();
+  if (cash >= min) {
+    swal({
+      title: "Transaksi selesai?",
+      html: "Lakukan pembayaran terhadap pesanan ini?",
+      type: "question",
+      timer: 10000,
+      showCancelButton: true,
+      confirmButtonText: 'Iya',
+      confirmButtonColor: '#2c3e50',
+      cancelButtonText: 'Tidak'
+    }).then(function(result) {
+      if (result.value) {
+        var data = {
+          '_id' : id,
+          '_cash' : $('input[name="transaction-cash-' + id + '"]').val(),
+          '_method' : "get",
+          '_token' : $('input[name="search_token"]').val()
+        };
 
-      $.ajax({
-        type: "POST",
-        url: "/dashboard/update/transaction/" + id + "/" + $('input[name="transaction-cash-' + id + '"]').val(),
-        data: data,
-        cache: false,
-        success: function(result) {
-          if (result.status == 200) {
-            swal({
-              title: "Berhasil melakukan pembayaran",
-              text: result.text,
-              type: "success",
-              timer: 30000
-            }).then(function(result) {
-              if (result.value) {
-                window.location = '/dashboard/transaction/';
-              }
-            });
-          }
-          else {
-            swal({
-              title: "Oops terjadi kesalahan",
-              html: result.text,
-              type: "warning",
-              timer: 10000,
-              confirmButtonText: 'Ok',
-              confirmButtonColor: '#2c3e50',
-            }).then(function(result) {
-              if (result.value) {
-                window.location = '/dashboard/transaction/';
-              }
-            });
-          }
-        },
-        error: function(result){
+        $.ajax({
+          type: "POST",
+          url: "/dashboard/update/transaction/" + id + "/" + cash,
+          data: data,
+          cache: false,
+          success: function(result) {
+            if (result.status == 200) {
+              swal({
+                title: "Berhasil melakukan pembayaran",
+                text: result.text,
+                type: "success",
+                timer: 30000
+              }).then(function(result) {
+                if (result.value) {
+                  window.location = '/dashboard/transaction/';
+                }
+              });
+            }
+            else {
+              swal({
+                title: "Oops terjadi kesalahan",
+                html: result.text,
+                type: "warning",
+                timer: 10000,
+                confirmButtonText: 'Ok',
+                confirmButtonColor: '#2c3e50',
+              }).then(function(result) {
+                if (result.value) {
+                  window.location = '/dashboard/transaction/';
+                }
+              });
+            }
+          },
+          error: function(result){
 
-        }
-      });//end ajax
-    }//endif
-  });//endswal
+          }
+        });//end ajax
+      }//endif
+    });//endswal
+  }
+  else {
+    swal({
+      title: "Oops terjadi kesalahan",
+      html: "Biaya yang dibayarkan kurang dari yang seharusnya",
+      type: "warning",
+      timer: 10000,
+      confirmButtonText: 'Ok',
+      confirmButtonColor: '#2c3e50',
+    });
+  }
 }
 
 function delete_review(id) {
@@ -1085,7 +1098,7 @@ function search_transaction(data) {
       }
       else if (result.status == 200) {
         var res = '';
-        if (result.content) {
+        if (result.content.length > 0) {
           var token = $('input[name=search_token]').val();
           res += '<table class="table"><tr><th>Transaksi</th><th>Waktu</th>';
           res += '<th>Pembeli</th><th>Perangkat</th></tr>';
@@ -1122,7 +1135,7 @@ function search_transaction(data) {
               res += '<button type="button" class="btn-lengko btn-lengko-warning pull-left">';
               res += '<span class="glyphicon glyphicon-print" aria-hidden="true"></span> Cetak';
               res += '</button>';
-              res += '<button type="button" class="btn-lengko btn-lengko-default pull-right" onclick="done_transaction(' + result.content.transaction[i].kode_pesanan + ');">';
+              res += '<button type="button" class="btn-lengko btn-lengko-default pull-right" onclick="done_transaction(' + result.content.transaction[i].kode_pesanan + ', ' + result.content.transaction[i].harga_pesanan + ');">';
               res += '<span class="glyphicon glyphicon-usd" aria-hidden="true"></span> Bayar';
               res += '</button>';
               res += '</div></td></tr>';
@@ -1131,7 +1144,8 @@ function search_transaction(data) {
           res += '</table>';
         }
         else {
-          res = '<div class="padd-lr-15">Transaksi tidak ditemukan</div>';
+          res = '<div class="row"><div class="col-md-8">';
+          res += '<div class="alert alert-warning">Transaksi tidak ditemukan</div></div></div>';
         }
         $('#transaction-card-section').html(res);
         swal({
@@ -1369,6 +1383,8 @@ function report_lookup(data) {
             var res = '';
             if (result.content) {
               var total = 0;
+              res += '<div class="row"><div class="col-md-12">';
+              res += '<h4 class="text-center">Hasil Laporan</h4></div></div>';
               res += '<div class="table-responsive">';
               res += '<table class="table table-hover table-striped">';
               res += '<tr><th class="text-center">Tanggal</th>';

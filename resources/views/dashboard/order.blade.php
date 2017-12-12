@@ -16,10 +16,10 @@
               @if (count($data['order-confirmation']) > 0)
 
               <div class="row">
-                <div class="col-md-offset-8 col-md-4">
+                <div class="col-md-offset-8 col-md-4 col-sm-offset-6 col-sm-6">
                   <form name="" action="{{ url('/dashboard/search/order') }}" method="post">
                     <div class="input-group">
-                      <input type="text" name="order-search-query" class="form-control" placeholder="Cari Pesanan" />
+                      <input type="text" name="order-search-query" class="form-control input-lengko-default" placeholder="Cari Pesanan" />
                       <span class="input-group-btn">
                         <button class="btn btn-default" type="button">
                           <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -72,14 +72,14 @@
                             @foreach ($data[$key1]['order-confirmation-detail'] as $key2 => $value2)
                               <tr>
                                 <td>{{ $value2->nama_menu }}</td>
-                                <td>{{ $data['menu_obj']->num_to_rp($value2->harga_menu) }}</td>
+                                <td>{{ $data['method']->num_to_rp($value2->harga_menu) }}</td>
                                 <td>{{ $value2->jumlah_pesanan_detil }}</td>
-                                <td>{{ $data['menu_obj']->num_to_rp($value2->harga_menu * $value2->jumlah_pesanan_detil) }}</td>
+                                <td>{{ $data['method']->num_to_rp($value2->harga_menu * $value2->jumlah_pesanan_detil) }}</td>
                               </tr>
                             @endforeach
                             <tr>
                               <td colspan="3" class="text-right"><label>Total</label></td>
-                              <td>{{ $data['menu_obj']->num_to_rp($value1->harga_pesanan) }}</td>
+                              <td>{{ $data['method']->num_to_rp($value1->harga_pesanan) }}</td>
                             </tr>
                             </table>
                           </div>
@@ -178,7 +178,7 @@
                           <br />
                           {{ $value->catatan_pesanan }}
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-sm-8">
                           <label>Tandai selesai semua</label>
                           <button type="button" class="btn-lengko btn-lengko-success block" onclick="done_order({{$value->kode_pesanan}});" title="Tandai sudah selesai semua">
                             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
@@ -187,7 +187,8 @@
                       </div>
 
                       <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6 col-sm-6">
+
                           <div class="row">
                             <div class="col-md-offset-4 col-md-4">
                               <h3 class="text-center border-btm">Makanan</h3>
@@ -219,7 +220,7 @@
                           </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-6 col-sm-6">
                           <div class="row">
                             <div class="col-md-offset-4 col-md-4">
                               <h3 class="text-center border-btm">Minuman</h3>
@@ -235,7 +236,7 @@
                                     </div>
                                     <div class="col-md-2">
                                       @if ($value3->status_pesanan_detil == 'P')
-                                        <button type="button" class="btn-lengko btn-lengko-success block" style="font-size: 10px;">
+                                        <button type="button" class="btn-lengko btn-lengko-success block" onclick="done_menu({{$value3->kode_pesanan_detil}})" style="font-size: 10px;">
                                           <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                         </button>
                                       @elseif ($value3->status_pesanan_detil == 'D')

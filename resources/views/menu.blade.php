@@ -90,7 +90,7 @@
                   <div class="input-group">
                     <input type="hidden" name="order-add-name-{{$value->kode_menu}}" value="{{ $value->nama_menu }}">
                     <input type="number" name="order-add-count-{{$value->kode_menu}}" class="form-control input-lengko-default" placeholder="Jumlah" value="1" min="1" step="1">
-                    <div class="input-group-addon" style="background-color: #2c3e50; color: #ecf0f1" onclick="add_menu('{{$value->kode_menu}}')">Tambah <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></div>
+                    <div class="input-group-addon" style="background-color: #2c3e50; color: #ecf0f1" onclick="add_menu('{{$value->kode_menu}}')"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></div>
                   </div>
                 </div>
               </div>

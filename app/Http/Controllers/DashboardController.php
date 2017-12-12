@@ -81,7 +81,7 @@ class DashboardController extends Controller {
           case 'material':
             $data['material'] = DB::table('bahan_baku')
               ->orderBy('tanggal_kadaluarsa_bahan_baku', 'ASC')
-              ->get();
+              ->skip(0)->take(7)->get();
             $data['material-request'] = DB::table('pengadaan_bahan_baku')
               ->join('prioritas', 'prioritas.kode_prioritas', '=', 'pengadaan_bahan_baku.kode_prioritas')
               ->orderBy('pengadaan_bahan_baku.kode_prioritas', 'ASC')
@@ -114,7 +114,7 @@ class DashboardController extends Controller {
             $data['priority'] = DB::table('prioritas')
               ->orderBy('nama_prioritas', 'ASC')
               ->get();
-            $data['menu_obj'] = new MethodController();
+            $data['method'] = new MethodController();
           break;
           case 'menu':
             $data['menu'] = DB::table('menu')
@@ -140,7 +140,7 @@ class DashboardController extends Controller {
               ->orderBy('nama_bahan_baku', 'ASC')
               ->get();
 
-            $data['menu_obj'] = new MethodController();
+            $data['method'] = new MethodController();
           break;
           case 'order':
             $data['order'] = DB::table('pesanan')
@@ -193,7 +193,7 @@ class DashboardController extends Controller {
                 ->where('pesanan.kode_pesanan', '=', $data['order-confirmation'][$key]->kode_pesanan)
                 ->get();
             }
-            $data['menu_obj'] = new MethodController();
+            $data['method'] = new MethodController();
           break;
           case 'transaction':
             $data['transaction'] = DB::table('pesanan')
@@ -226,7 +226,7 @@ class DashboardController extends Controller {
                 ->where('pesanan.kode_pesanan', '=', $data['transaction-history'][$key]->kode_pesanan)
                 ->get();
             }
-            $data['menu_obj'] = new MethodController();
+            $data['method'] = new MethodController();
           break;
           case 'report':
             $data['unknown'] = null;

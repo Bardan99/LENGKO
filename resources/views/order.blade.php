@@ -101,15 +101,21 @@
     @else
       <div class="row">
         <div class="col-md-12 col-xs-12 text-center" style="font-size: 24pt;">
-          <h1>Lho, kok belum pesan @if (count($data['order-processed']) > 0){{'lagi'}}@endif?</h1>
-          <br />
-          <a href="{{url('/menu/')}}"><img src="{{ url('/files/images/lengko-favicon.png') }}" alt="LENGKO" width="180px" height="120px" /></a>
-          <br />
-          <br />
-          <a href="{{ url('/menu/') }}">
-            Ayo jangan malu-malu;<br />
-            Biasanya juga malu-maluin.<br />
-          </a>
+          @if (count($data['order-processed']) > 0)
+            <a href="{{url('/menu/')}}"><img src="{{ url('/files/images/lengko-favicon.png') }}" alt="LENGKO" width="180px" height="120px" /></a>
+            <br />
+            <a href="{{url('/menu/')}}"><h1>Sambil menunggu, yuk lihat-lihat lagi.</h1></a>
+          @else
+            <h1>Lho, kok belum pesan?</h1>
+            <br />
+            <a href="{{url('/menu/')}}"><img src="{{ url('/files/images/lengko-favicon.png') }}" alt="LENGKO" width="180px" height="120px" /></a>
+            <br />
+            <br />
+            <a href="{{ url('/menu/') }}">
+              Ayo jangan malu-malu;<br />
+              Biasanya juga malu-maluin.<br />
+            </a>
+          @endif
         </div>
       </div>
     @endif
@@ -145,7 +151,9 @@
                     <th>Harga</th>
                     <th>Jumlah</th>
                     <th>Sub-Total</th>
+                    @if ($value1->status_pesanan != 'C')
                     <th>Status</th>
+                    @endif
                   </tr>
                   @foreach ($data[$key1]['order-processed-detail'] as $key2 => $value2)
                     <tr>
@@ -153,7 +161,9 @@
                       <td>{{ $data['menu_obj']->num_to_rp($value2->harga_menu) }}</td>
                       <td>{{ $value2->jumlah_pesanan_detil }}</td>
                       <td>{{ $data['menu_obj']->num_to_rp($value2->harga_menu * $value2->jumlah_pesanan_detil) }}</td>
-                      <td class="status-{{$value2->status_pesanan_detil}}">{{ $data['menu_obj']->rewrite('status', $value2->status_pesanan_detil) }}</td>
+                      @if ($value1->status_pesanan != 'C')
+                        <td class="status-{{$value2->status_pesanan_detil}}">{{ $data['menu_obj']->rewrite('status', $value2->status_pesanan_detil) }}</td>
+                      @endif
                     </tr>
                   @endforeach
                   <tr>

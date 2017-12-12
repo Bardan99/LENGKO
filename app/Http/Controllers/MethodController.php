@@ -49,8 +49,24 @@ class MethodController extends BaseController {
       case 'time':
 
       break;
+      case 'status-number':
+        switch ($param) {
+          case 0:
+            $res = 'Belum disetujui';
+          break;
+          case -1:
+            $res = 'Tidak disetujui';
+          break;
+          case 1:
+            $res = 'Disetujui';
+          break;
+        }
+      break;
       case 'status':
         switch ($param) {
+          case '':
+            $res = '-';
+          break;
           case 'C':
             $res = 'Menunggu konfirmasi';
           break;

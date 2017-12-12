@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="/assets/select2/css/select2.css" />
   <link rel="stylesheet" href="/assets/datepicker/dist/datepicker.css" />
   <link rel="stylesheet" href="/assets/custom/css/general.css" />
+  <link rel="stylesheet" href="/assets/custom/css/rewrite.css" />
   <link rel="stylesheet" href="/assets/fontawesome/css/font-awesome.css">
   <link rel="stylesheet" href="/assets/jqueryrating/themes/fontawesome-stars.css">
   <link rel="icon" type="image/x-icon" href="/files/images/lengko-favicon.png" />

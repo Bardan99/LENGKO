@@ -15,9 +15,9 @@
               @if (count($data['review-device']) > 0)
 
               <div class="row">
-                <div class="col-md-offset-8 col-md-4">
+                <div class="col-md-offset-8 col-md-4 col-sm-offset-6 col-sm-6">
                   <div class="input-group padd-tb-10">
-                    <input type="text" name="review-search-query" class="form-control" placeholder="Cari Kuisioner" />
+                    <input type="text" name="review-search-query" class="form-control input-lengko-default" placeholder="Cari Kuisioner" />
                     <span class="input-group-btn">
                       <button class="btn btn-default" name="review-search-button" type="button">
                         <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -163,7 +163,11 @@
                     </table>
                   </div>
                   @else
-                    Belum ada kuisioner
+                    <div class="row">
+                      <div class="col-md-8">
+                        <div class="alert alert-warning">Belum ada kuisioner.</div>
+                      </div>
+                    </div>
                   @endif
                 </div>
 
@@ -224,7 +228,11 @@
             <div class="panel-heading">Statistik Kuisioner</div>
             <div class="panel-body">
               @if (count($data['review-status']) > 0)
-              <canvas id="customer-review" width="400px" height="300px"></canvas>
+              <div class="row">
+                <div class="col-md-12 col-sm-8">
+                  <canvas id="customer-review" width="400px" height="300px"></canvas>
+                </div>
+              </div>
               @else
                 <div class="row">
                   <div class="col-md-12">

@@ -70,7 +70,7 @@
 
               <form class="" action="{{ url('/dashboard/update/profile/') }}" method="post" enctype="multipart/form-data">
                 <div class="row">
-                  <div class="col-md-3">
+                  <div class="col-md-4 col-sm-4">
                     <div class="container-file-lengko overlay block">
                       <img id="preview-profile" class="img-circle img-center" src="{{ url('/files/images/employee/') . '/' . $path }}" alt="" width="140px" height="140px" />
                       <input name="employee-photo" type="file" title="Ubah foto profil" onchange="reload_image(this, '#preview-profile');" />
@@ -79,7 +79,7 @@
                       <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     </div>
                   </div>
-                  <div class="col-md-9">
+                  <div class="col-md-8 col-sm-8">
                     <div class="row mrg-b-10">
                       <div class="col-md-4">Nama Pengguna</div>
                       <div class="col-md-8"><b>{{ $data['employee']->kode_pegawai }}</b></div>

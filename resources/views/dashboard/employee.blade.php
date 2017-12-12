@@ -24,9 +24,9 @@
               @if (count($data['employee']) > 0)
 
               <div class="row">
-                <div class="col-md-offset-8 col-md-4">
+                <div class="col-md-offset-8 col-md-4 col-sm-offset-6 col-sm-6 col-xs-12">
                   <div class="input-group">
-                    <input type="text" name="employee-search-query" class="form-control" placeholder="Cari Pegawai" />
+                    <input type="text" name="employee-search-query" class="form-control input-lengko-default" placeholder="Cari Pegawai" />
                     <input type="hidden" name="employee-search-method" value="post">
                     <input type="hidden" name="employee-search-token" value="{{ csrf_token() }}">
                     <span class="input-group-btn">
@@ -91,7 +91,7 @@
                       <td>{{ $value->nama_pegawai }}</td>
                       <td>{{ $value->jenis_kelamin_pegawai }}</td>
                       <td>{{ $value->nama_otoritas }}</td>
-                      <td>
+                      <td width="120px">
                         <button class="btn-lengko btn-lengko-default pull-left" type="button" onclick="show_obj('employee-card-change-{{ $value->kode_pegawai }}'); hide_obj('employee-card-{{ $value->kode_pegawai }}');">
                           <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                         </button>
@@ -111,7 +111,7 @@
               </div>
               @else
                 <div class="row">
-                  <div class="col-md-12">
+                  <div class="col-md-8">
                     <div class="alert alert-warning">
                       Belum ada pegawai, silahkan tambahkan pegawai terlebih dahulu
                     </div>
@@ -126,7 +126,7 @@
       </div>
 
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-8">
 
           <div class="panel panel-default panel-custom">
             <div class="panel-heading">Tambah Pegawai</div>
@@ -194,7 +194,7 @@
           </div>
 
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-8">
 
           <div class="panel panel-default panel-custom">
             <div class="panel-heading">Statistik Pegawai</div>

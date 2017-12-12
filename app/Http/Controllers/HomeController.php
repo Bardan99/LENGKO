@@ -240,7 +240,7 @@ class HomeController extends Controller {
             'status' => 200,
             'text' => 'Pencarian selesai dilakukan',
             'content' => $result,
-            'status' => $tmp
+            'available' => $tmp
           ]);
       }
 
@@ -501,7 +501,7 @@ class HomeController extends Controller {
         Perangkat::find(Auth::guard('device')->user()->kode_perangkat)->update([
           'status_perangkat' => 0
         ]);
-        
+
         $try = PesananDetil::insert($detil);
         if ($try) {
           $request->session()->forget('order');
@@ -510,6 +510,63 @@ class HomeController extends Controller {
         return response()->json(['status' => 500,'text' => 'Oops terjadi sesuatu, silahkan hubungi kami apabila terjadi kendala']);
       }//endif
     }//end request ajax
+  }
+
+  public function filtermenu(Request $request) {
+    if ($request->ajax()) {
+      $data = $request->all();
+      $validator = Validator::make($data, [
+        '_keyword' => 'required'
+      ]);
+
+      if ($validator->fails()) {
+        return response()
+          ->json([
+            'status' => 500,
+            'text' => 'Oops, terjadi sesuatu'
+        ]);
+      }
+      else {
+        switch ($data['_keyword']) {
+          case 'A':
+            $result = DB::table('menu')
+              ->orderBy('nama_menu', 'ASC')
+              ->get();
+          break;
+          default:
+            $result = DB::table('menu')
+              ->where('jenis_menu', '=', $data['_keyword'])
+              ->orderBy('nama_menu', 'ASC')
+              ->get();
+          break;
+        }
+
+        foreach ($result as $key => $value) {
+          $tmp[$key]['menu-material'] = DB::table('menu')
+          ->select('menu_detil.*')
+          ->join('menu_detil', 'menu_detil.kode_menu', '=', 'menu.kode_menu')
+          ->where('menu.kode_menu', '=', $value->kode_menu)
+          ->get();
+        }
+
+        foreach ($result as $key => $value) {
+          $tmp[$key]['menu-status'] = DB::table('menu')
+          ->select('bahan_baku.nama_bahan_baku', 'bahan_baku.stok_bahan_baku')
+          ->join('menu_detil', 'menu_detil.kode_menu', '=', 'menu.kode_menu')
+          ->join('bahan_baku', 'bahan_baku.kode_bahan_baku', '=', 'menu_detil.kode_bahan_baku')
+          ->where('menu.kode_menu', '=', $value->kode_menu)
+          ->get();
+        }
+
+        return response()->json([
+            'status' => 200,
+            'text' => 'Pencarian selesai dilakukan',
+            'content' => $result,
+            'available' => $tmp
+          ]);
+
+      }
+    }//endif
   }
 
 }

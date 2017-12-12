@@ -33,9 +33,9 @@ function search_menu(data) {
           for (i = 0; i < result.content.length; i++) {
             var status = 'Tidak tersedia';
             var tmp = false;
-            for (j = 0; j < result.status[i]['menu-status'].length; j++) {
+            for (j = 0; j < result.available[i]['menu-status'].length; j++) {
               i++;
-              if (result.status[i]['menu-status'].stok_bahan_baku > 0) {
+              if (result.available[i]['menu-status'].stok_bahan_baku > 0) {
                 tmp = true;
               }
               else {
@@ -44,7 +44,7 @@ function search_menu(data) {
               }
             }
 
-            if (i == result.status[i]['menu-status'].length) {
+            if (i == result.available[i]['menu-status'].length) {
               if (tmp) {
                 status = 'Tersedia';
               }
@@ -129,7 +129,6 @@ function add_review(data) {
         data: data,
         cache: false,
         success: function(result) {
-          console.log(result);
           if (result.status == 200) {
             swal({
               title: "Berhasil menambah kuisioner",
@@ -347,7 +346,6 @@ function create_order(data) {
         data: data,
         cache: false,
         success: function(result) {
-          console.log(result);
           if (result.status == 200) {
             swal({
               title: "Berhasil melakukan pemesanan",
@@ -380,6 +378,107 @@ function create_order(data) {
     }
   });
 }//end
+
+
+function filter_menu(data) {
+  $.ajax({
+    type: "POST",
+    url: "/customer/filter/menu",
+    data: data,
+    cache: false,
+    success: function(result) {
+      if (result.status == 200) {
+        var res = '';
+        if (result.content.length > 0) {
+          for (i = 0; i < result.content.length; i++) {
+            var status = 'Tidak tersedia';
+            var tmp = false;
+            for (j = 0; j < result.available[i]['menu-status'].length; j++) {
+              i++;
+              if (result.available[i]['menu-status'].stok_bahan_baku > 0) {
+                tmp = true;
+              }
+              else {
+                tmp = false;
+                break;
+              }
+            }
+
+            if (i == result.available[i]['menu-status'].length) {
+              if (tmp) {
+                status = 'Tersedia';
+              }
+            }
+
+            res += '<div class="col-md-4 col-sm-6" onclick="show_obj(\'menu-' + result.content[i].kode_menu + '\');">';
+            res += '<div class="menu">';
+            res += '<img src="/files/images/menus/';
+            if (result.content[i].gambar_menu) {
+              res += result.content[i].gambar_menu;
+            }
+            else {
+              res += 'not-available.png';
+            }
+            res += '" alt="' + result.content[i].nama_menu + '" width="100%" height="150px" />';
+            res += '<h2 class="menu-title">' + result.content[i].nama_menu + ' <small>(' + status + ')</small></h2>';
+            res += 'Rp' + result.content[i].harga_menu;
+            res += '<a href="/" class="pull-right"><i class="material-icons">add_shopping_cart</i></a>';
+            res += '<br /></div></div>';
+            /* overlay content */
+
+            res += '<div id="menu-' + result.content[i].kode_menu + '" class="menu-overlay">';
+            res += '<div class="row menu-overlay-content"><div class="col-md-12">';
+            res += '<div class="row">  <div class="col-md-offset-11 col-md-1" style="font-size:20pt;">';
+            res += '<span class="glyphicon glyphicon-remove pull-right cursor-pointer" aria-hidden="true" onclick="hide_obj(\'menu-' + result.content[i].kode_menu + '\');"></span>';
+            res += '</div></div>';
+            res += '<div class="row"><div class="col-md-3">';
+            res += '<img src="/files/images/menus/';
+            if (result.content[i].gambar_menu) {
+              res += result.content[i].gambar_menu;
+            }
+            else {
+              res += 'not-available.png';
+            }
+            res += '" alt="' + result.content[i].nama_menu + '" width="200px" height="200px" />';
+            res += '</div><div class="col-md-9">';
+            res += '<h2 class="menu-title">' + result.content[i].nama_menu + ' <small>(' + status + ')</small></h2>';
+            res += '<p>' + result.content[i].deskripsi_menu + '</p>';
+            res += 'Rp' + result.content[i].harga_menu + '</div></div>';
+            if (status == 'Tersedia') {
+              res += '<div class="row">';
+              res += '<div class="col-md-offset-10 col-md-2">';
+              res += '<div class="input-group">';
+              res += '<input type="hidden" name="order-add-name-' + result.content[i].kode_menu + '" value="' + result.content[i].nama_menu + '">';
+              res += '<input type="number" name="order-add-count-' + result.content[i].kode_menu + '" class="form-control input-lengko-default" placeholder="Jumlah" value="1" min="1" step="1">';
+              res += '<div class="input-group-addon" style="background-color: #2c3e50; color: #ecf0f1" onclick="add_menu(\'' + result.content[i].kode_menu + '\')">Tambah <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></div>';
+              res += '</div></div></div>';
+            }
+            res += '</div></div></div>';
+
+          }
+        }
+        else {
+          res = '<div class="padd-lr-15">Menu tidak ditemukan</div>';
+        }
+        $('#menu-card-section').html(res);
+      }
+      else {
+        swal({
+          title: "Oops terjadi kesalahan",
+          html: result.text,
+          type: "warning",
+          timer: 10000,
+          showCancelButton: false,
+          confirmButtonText: 'Ok',
+          confirmButtonColor: '#2c3e50',
+        });
+      }
+    },
+    error: function(result){
+
+    }
+  });
+}
 
 $(document).ready(function() {
 
@@ -450,4 +549,19 @@ $(document).ready(function() {
       create_order(data);
     });
   }
+
+  /* menu */
+  if ($('select[name=menu-search-type]')) {
+    $('select[name=menu-search-type]').on('change', function(e) {
+      e.preventDefault();
+      var data = {
+        '_keyword' : $("select[name=menu-search-type]").val(),
+        '_method' : "post",
+        '_token' : $("input[name=_token]").val()
+      };
+
+      filter_menu(data);
+    });
+  }
+
 });

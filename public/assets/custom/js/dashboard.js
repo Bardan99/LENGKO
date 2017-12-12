@@ -601,7 +601,7 @@ function search_device(data) {
           }
         }
         else {
-          res = '<div class="row"><div class="col-md-8">';
+          res = '<div class="row padd-lr-15"><div class="col-md-8">';
           res += '<div class="alert alert-warning">Perangkat tidak ditemukan</div></div></div>';
         }
         $('#device-card-section').html(res);
@@ -714,7 +714,7 @@ function search_employee(data) {
           res += '</table></div>';
         }
         else {
-          res = '<div class="row"><div class="col-md-8">';
+          res = '<div class="row padd-lr-15"><div class="col-md-8">';
           res += '<div class="alert alert-warning">Pegawai tidak ditemukan</div></div></div>';
         }
         $('#employee-card-section').html(res);
@@ -818,7 +818,7 @@ function search_material(data) {
           res += '</table></div>';
         }
         else {
-          res = '<div class="row"><div class="col-md-8">';
+          res = '<div class="row padd-lr-15"><div class="col-md-8">';
           res += '<div class="alert alert-warning">Bahan baku tidak ditemukan</div></div></div>';
         }
         $('#material-card-section').html(res);
@@ -1002,7 +1002,7 @@ function search_menu(data) {
           }//end loop
         }
         else {
-          res = '<div class="row"><div class="col-md-8">';
+          res = '<div class="row padd-lr-15"><div class="col-md-8">';
           res += '<div class="alert alert-warning">Menu tidak ditemukan</div></div></div>';
         }
         $('#menu-card-section').html(res);
@@ -1065,7 +1065,7 @@ function search_material_menu(data) {
           res += '<input type="hidden" name="menu-material-max" value="' + result.content.length + '" />';
         }
         else {
-          res = '<div class="row"><div class="col-md-8">';
+          res = '<div class="row padd-lr-15"><div class="col-md-8">';
           res += '<div class="alert alert-warning">Bahan baku tidak ditemukan</div></div></div>';
         }
         $('#material-card-section').html(res);
@@ -1149,7 +1149,7 @@ function search_transaction(data) {
           res += '</table>';
         }
         else {
-          res = '<div class="row"><div class="col-md-8">';
+          res = '<div class="row padd-lr-15"><div class="col-md-8">';
           res += '<div class="alert alert-warning">Transaksi tidak ditemukan</div></div></div>';
         }
         $('#transaction-card-section').html(res);
@@ -1236,7 +1236,7 @@ function search_transaction_history(data) {
           res += '</table>';
         }
         else {
-          res = '<div class="row"><div class="col-md-8">';
+          res = '<div class="row padd-lr-15"><div class="col-md-8">';
           res += '<div class="alert alert-warning">Catatan transaksi tidak ditemukan</div></div></div>';
         }
         $('#transaction-history-card-section').html(res);
@@ -1350,7 +1350,7 @@ function search_review(data) {
           res += '</table>';
         }
         else {
-          res = '<div class="row"><div class="col-md-8">';
+          res = '<div class="row padd-lr-15"><div class="col-md-8">';
           res += '<div class="alert alert-warning">Kuisioner tidak ditemukan</div></div></div>';
         }
         $('#review-card-section').html(res);
@@ -1410,7 +1410,7 @@ function report_lookup(data) {
               res += ' Cetak</button></div></div>';
             }
             else {
-              res = '<div class="row"><div class="col-md-12">';
+              res = '<div class="row padd-lr-15"><div class="col-md-12">';
               res += '<div class="alert alert-warning">';
               res += 'Data tidak ditemukan';
               res += '</div></div></div>';
@@ -1511,7 +1511,7 @@ function filter_device(data) {
           }
         }
         else {
-          res = '<div class="row"><div class="col-md-8">';
+          res = '<div class="row padd-lr-15"><div class="col-md-8">';
           res += '<div class="alert alert-warning">Perangkat tidak ditemukan</div></div></div>';
         }
         $('#device-card-section').html(res);
@@ -1994,7 +1994,7 @@ $(document).ready(function() {
               }//end loop
             }
             else {
-              res = '<div class="row"><div class="col-md-8">';
+              res = '<div class="row padd-lr-15"><div class="col-md-8">';
               res += '<div class="alert alert-warning">Pesanan tidak ditemukan</div></div></div>';
             }
             $('#order-card-section').html(res);

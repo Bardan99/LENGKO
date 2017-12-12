@@ -601,7 +601,8 @@ function search_device(data) {
           }
         }
         else {
-          res = '<div class="padd-lr-15">Perangkat tidak ditemukan</div>';
+          res = '<div class="row"><div class="col-md-8">';
+          res += '<div class="alert alert-warning">Perangkat tidak ditemukan</div></div></div>';
         }
         $('#device-card-section').html(res);
         swal({
@@ -713,7 +714,8 @@ function search_employee(data) {
           res += '</table></div>';
         }
         else {
-          res = '<div class="padd-lr-15">Pegawai tidak ditemukan</div>';
+          res = '<div class="row"><div class="col-md-8">';
+          res += '<div class="alert alert-warning">Pegawai tidak ditemukan</div></div></div>';
         }
         $('#employee-card-section').html(res);
         swal({
@@ -816,7 +818,8 @@ function search_material(data) {
           res += '</table></div>';
         }
         else {
-          res = '<div class="padd-lr-15">Bahan baku tidak ditemukan</div>';
+          res = '<div class="row"><div class="col-md-8">';
+          res += '<div class="alert alert-warning">Bahan baku tidak ditemukan</div></div></div>';
         }
         $('#material-card-section').html(res);
         swal({
@@ -999,7 +1002,8 @@ function search_menu(data) {
           }//end loop
         }
         else {
-          res = '<div class="padd-lr-15">Menu tidak ditemukan</div>';
+          res = '<div class="row"><div class="col-md-8">';
+          res += '<div class="alert alert-warning">Menu tidak ditemukan</div></div></div>';
         }
         $('#menu-card-section').html(res);
         swal({
@@ -1061,7 +1065,8 @@ function search_material_menu(data) {
           res += '<input type="hidden" name="menu-material-max" value="' + result.content.length + '" />';
         }
         else {
-          res = '<div class="padd-lr-15">Bahan baku tidak ditemukan</div>';
+          res = '<div class="row"><div class="col-md-8">';
+          res += '<div class="alert alert-warning">Bahan baku tidak ditemukan</div></div></div>';
         }
         $('#material-card-section').html(res);
         swal({
@@ -1231,7 +1236,8 @@ function search_transaction_history(data) {
           res += '</table>';
         }
         else {
-          res = '<div class="padd-lr-15">Catatan transaksi tidak ditemukan</div>';
+          res = '<div class="row"><div class="col-md-8">';
+          res += '<div class="alert alert-warning">Catatan transaksi tidak ditemukan</div></div></div>';
         }
         $('#transaction-history-card-section').html(res);
         swal({
@@ -1344,7 +1350,8 @@ function search_review(data) {
           res += '</table>';
         }
         else {
-          res = '<div class="padd-lr-15">Kuisioner tidak ditemukan</div>';
+          res = '<div class="row"><div class="col-md-8">';
+          res += '<div class="alert alert-warning">Kuisioner tidak ditemukan</div></div></div>';
         }
         $('#review-card-section').html(res);
         swal({
@@ -1404,7 +1411,7 @@ function report_lookup(data) {
             }
             else {
               res = '<div class="row"><div class="col-md-12">';
-              res += '<div class="alert alert-warning padd-lr-15">';
+              res += '<div class="alert alert-warning">';
               res += 'Data tidak ditemukan';
               res += '</div></div></div>';
             }
@@ -1430,6 +1437,102 @@ function report_lookup(data) {
   });
 }//end
 
+function filter_device(data) {
+  $.ajax({
+    type: "POST",
+    url: "/dashboard/filter/device",
+    data: data,
+    cache: false,
+    success: function(result) {
+      if (result.status == 200) {
+        var res = '';
+        if (result.content) {
+          var token = $('input[name=search_token]').val();
+          for (i = 0; i < result.content.length; i++) {
+            if (result.auth == 'root') {
+              res += '<form id="device-card-change-' + result.content[i].kode_perangkat + '" action="/dashboard/update/device" method="POST" hidden="hidden">';
+              res += '<div class="col-md-3 col-sm-6 col-xs-12">';
+              res += '<div class="device device-' + result.content[i].status_text + '">';
+              res += '<div class="device-title row"><div class="col-md-12">';
+              res += '<input type="text" name="device-change-name" class="input-lengko-default block" value="' + result.content[i].nama_perangkat + '" />';
+              res += '</div></div><span>(' + result.content[i].kode_perangkat + ')</span>';
+              res += '<div class="row"><div class="col-md-12">';
+              res += 'Kapasitas: <input type="number" name="device-change-chair" min="1" class="input-lengko-default" value="' + result.content[i].jumlah_kursi_perangkat + '" /> Orang<br />';
+              res += '</div></div>';
+              res += '<div class="row"><div class="col-md-12">Status:';
+              res += '<select name="device-change-status" class="select-lengko-default">';
+              res += '<option value="0">Tidak Tersedia</option>';
+              res += '<option value="1">Tersedia</option>';
+              res += '</select>';
+              res += '</div></div>';
+              res += '<div class="row"><div class="col-md-12">Kata sandi:';
+              res += '<input type="password" name="device-change-password" class="input-lengko-default block" placeholder="(tidak diubah, kosongkan)" />';
+              res += '<hr /></div></div>';
+              res += '<div class="row"><div class="col-md-6 col-xs-6">';
+              res += '<form action="/dashboard/delete/device/' + result.content[i].kode_perangkat + '" method="POST">';
+              res += '<button class="btn-lengko btn-lengko-default pull-left" type="button" onclick="show_obj(\'device-card-' + result.content[i].kode_perangkat + '\'); hide_obj(\'device-card-change-' + result.content[i].kode_perangkat + '\');">';
+              res += '<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>';
+              res += '</button><button class="btn-lengko btn-lengko-default" type="submit">';
+              res += '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>';
+              res += '</button>';
+              res += '<input type="hidden" name="_token" value="' + token + '"><input type="hidden" name="_method" value="DELETE">';
+              res += '</form></div>';
+              res += '<div class="col-md-6 col-xs-6">';
+              res += '<button class="btn-lengko btn-lengko-default pull-right" type="submit">';
+              res += '<span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>';
+              res += '</button>';
+              res += '<input type="hidden" name="device-id" value="' + result.content[i].kode_perangkat + '" />';
+              res += '<input type="hidden" name="_token" value="' + token + '"><input type="hidden" name="_method" value="PUT"></div></div></div></div></form>';
+            }
+
+            res += '<div id="device-card-' + result.content[i].kode_perangkat + '" class="col-md-3 col-sm-6 col-xs-12">';
+            res += '<div class="device device-' + result.content[i].status_text + '">';
+            res += '<div class="device-title row"><div class="col-md-12">';
+            res += '' + result.content[i].nama_perangkat + '';
+            res += '</div></div><span>(' + result.content[i].kode_perangkat + ')</span>';
+            res += '<div class="row"><div class="col-md-12">';
+            res += '<hr />Kapasitas: ' + result.content[i].jumlah_kursi_perangkat + '';
+            res += '</div></div><div class="row">';
+            res += '<div class="col-md-12">Status: ' + result.content[i].status_text_human + '';
+            res += '<hr /></div></div>';
+            if (result.auth == 'root') {
+              res += '<div class="row"><div class="col-md-6 col-xs-6">';
+              res += '<form action="/dashboard/delete/device/' + result.content[i].kode_perangkat + '" method="POST">';
+              res += '<button class="btn-lengko btn-lengko-default pull-left" type="submit">';
+              res += '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>';
+              res += '</button><input type="hidden" name="_token" value="' + token + '"><input type="hidden" name="_method" value="DELETE">';
+              res += '</form></div><div class="col-md-6 col-xs-6">';
+              res += '<button class="btn-lengko btn-lengko-default pull-right" type="button" onclick="show_obj(\'device-card-change-' + result.content[i].kode_perangkat + '\'); hide_obj(\'device-card-' + result.content[i].kode_perangkat + '\');">';
+              res += '<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>';
+              res += '</button>';
+              res += '</div></div>';
+            }
+            res += '</div></div>';
+          }
+        }
+        else {
+          res = '<div class="row"><div class="col-md-8">';
+          res += '<div class="alert alert-warning">Perangkat tidak ditemukan</div></div></div>';
+        }
+        $('#device-card-section').html(res);
+      }
+      else {
+        swal({
+          title: "Oops terjadi kesalahan",
+          html: result.text,
+          type: "warning",
+          timer: 10000,
+          showCancelButton: false,
+          confirmButtonText: 'Ok',
+          confirmButtonColor: '#2c3e50',
+        });
+      }
+    },
+    error: function(result){
+
+    }
+  });
+}
 
 $(document).ready(function() {
 
@@ -1535,6 +1638,19 @@ $(document).ready(function() {
     });
   }
 
+  /* filter device */
+  if ($('select[name=device-search-status]')) {
+    $('select[name=device-search-status]').on('change', function(e) {
+      e.preventDefault();
+      var data = {
+        '_keyword' : $("select[name=device-search-status]").val(),
+        '_method' : "post",
+        '_token' : $("input[name=_token]").val()
+      };
+
+      filter_device(data);
+    });
+  }
 
   /* employee */
 
@@ -1878,7 +1994,8 @@ $(document).ready(function() {
               }//end loop
             }
             else {
-              res = '<div class="padd-lr-15">Pesanan tidak ditemukan</div>';
+              res = '<div class="row"><div class="col-md-8">';
+              res += '<div class="alert alert-warning">Pesanan tidak ditemukan</div></div></div>';
             }
             $('#order-card-section').html(res);
             swal({

@@ -14,6 +14,7 @@ use App\Review;
 use App\ReviewDevice;
 use App\ReviewDetil;
 use Auth;
+use Validator;
 use Hash;
 
 class DashboardController extends Controller {
@@ -521,6 +522,56 @@ class DashboardController extends Controller {
       break;
       default:break;
     }
+  }
+
+  public function filterdevice(Request $request) {
+    if ($request->ajax()) {
+      $data = $request->all();
+      $validator = Validator::make($data, [
+        '_keyword' => 'required'
+      ]);
+
+      if ($validator->fails()) {
+        return response()
+          ->json([
+            'status' => 500,
+            'text' => 'Oops, terjadi sesuatu'
+        ]);
+      }
+      else {
+        switch ($data['_keyword']) {
+          case '*':
+            $devices = DB::table('perangkat')
+              ->orderBy('nama_perangkat', 'ASC')
+              ->select('*',
+                DB::raw(
+                  'IF (status_perangkat = "1", "available", IF (status_perangkat = "0", "unavailable", "disabled")) AS status_text,
+                  IF (status_perangkat = "1", "Tersedia", IF (status_perangkat = "0", "Tidak Tersedia", "Tidak Diketahui")) AS status_text_human'
+                  ))
+              ->get();
+          break;
+          default:
+          $devices = DB::table('perangkat')
+            ->where('status_perangkat', '=', $data['_keyword'])
+            ->orderBy('nama_perangkat', 'ASC')
+            ->select('*',
+              DB::raw(
+                'IF (status_perangkat = "1", "available", IF (status_perangkat = "0", "unavailable", "disabled")) AS status_text,
+                IF (status_perangkat = "1", "Tersedia", IF (status_perangkat = "0", "Tidak Tersedia", "Tidak Diketahui")) AS status_text_human'
+                ))
+            ->get();
+          break;
+        }
+
+        return response()->json([
+            'status' => 200,
+            'text' => 'Pencarian selesai dilakukan',
+            'content' => $devices,
+            'auth' => Auth::guard('employee')->user()->kode_otoritas
+          ]);
+
+      }
+    }//endif
   }
 
 }

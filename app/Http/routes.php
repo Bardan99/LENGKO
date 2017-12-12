@@ -73,6 +73,8 @@ Route::group(['middleware' => 'employee'], function() {
 
     Route::put('/update/{param}/', 'DashboardController@update');
     Route::delete('/delete/{param}/{id}', 'DashboardController@delete');
+
+    Route::post('/filter/device', 'DashboardController@filterdevice');
   });
   Route::get('/ajax/object/{param}', 'HomeController@ajax_handler');
 });

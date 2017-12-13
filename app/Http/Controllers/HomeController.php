@@ -59,14 +59,14 @@ class HomeController extends Controller {
           $data['gallery'] =
           (object) array(
               (object) array(
+                'path' => 'gallery13-kfc.jpg',
+                'title' => 'Our pride',
+                'desc' => 'Mahkota kebanggaan kami yang senantiasa menjadi penyemangat dalam menyelesaikan pembangunan aplikasi ini, thank you so much Mr. Adam'
+              ),
+              (object) array(
                 'path' => 'gallery11-our-beloved-campus.jpg',
                 'title' => 'Our beloved campus',
                 'desc' => 'Quality is our tradition, it\'s a must! Sebetulnya kami bingung mau tulis apa di bagian ini, tapi ya sudahlah. Semoga kampus kami tidak pelit koneksi internet, internet cepet buat apa? pak sekarang zamannya Cloud! Orang-orang udah pergi ke venus kami masih di bumi aja pak :('
-              ),
-              (object) array(
-                'path' => 'gallery1-mujigae-food-court.jpg',
-                'title' => 'Food Court',
-                'desc' => 'LENGKO adalah restoran yang bisa dengan mudah ditemukan di sudut kota-kota di Indonesia, bahkan di food-court sekalipun. Dengan dekorasi ruangan yang penuh warna dan kekinian, serta ruangan yang bersih dan nyaman membuat cita rasa kuliner khas Indonesia menjadi lebih berasa. Restoran ini sangat cocok untuk seluruh kalangan, muda-tua.'
               ),
               (object) array(
                 'path' => 'gallery12-what.jpg',
@@ -74,29 +74,14 @@ class HomeController extends Controller {
                 'desc' => 'Tempat favorit Mr. Soegoto untuk parkir mobil. Sebetulnya kenapa Mr. Soegoto senang sekali menyimpan mobilnya di situ, ini masih menjadi sebuah misteri! Tidak tahu kenapa, hanya ingin menambahkan gambar ini saja; sepertinya kami jatuh cinta!'
               ),
               (object) array(
-                'path' => 'gallery3-mujigae-restaurant-ciwalk.jpg',
-                'title' => 'Independent Resto',
-                'desc' => 'Selain terdapat di mall, LENGKO mempunyai restoran tersendiri (khusus) yang bisa ditemukan dengan mudah, hari gini gak bisa pakai G-Maps? Anak muda jaman now akan lebih mudah untuk menemukan restoran ini saat sedang jalan-jalan. Salah satu keunggulan yang terdapat di restoran khusus LENGKO adalah lengkapnya menu yang tersedia jika dibandingkan dengan tempat lainnya.'
-              ),
-              (object) array(
                 'path' => 'gallery9-refreshing-after-meeting.jpg',
                 'title' => 'After Scrum Meeting',
                 'desc' => 'Kami, sang pujangga, setelah melakukan scrum meeting di Teras Cihampelas. Niatnya sih mau ke Mujigae, cuma pada bandel gk bawa duit; Zak sendalmu mana? btw Azmi yang fotoin!'
               ),
               (object) array(
-                'path' => 'gallery6-app-tabs.jpg',
-                'title' => 'Get in Touch',
-                'desc' => 'Kalian bisa memilih makanan dan minuman langsung melalui perangkat yang sudah tersedia, bingung dengan cara pemakaiannya? Jangan khawatir, panggil pelayan kami melalui perangkat tersebut dengan 1-click.'
-              ),
-              (object) array(
                 'path' => 'gallery10-our-beloved-team.jpg',
                 'title' => 'Our beloved team',
                 'desc' => 'Ini kami, sang penantang yang gagah berani! Btw senyummu mempesona zak; copy of Raka(1) jangan ngumpet aja nanti diculik :3'
-              ),
-              (object) array(
-                'path' => 'gallery8-fee-selfie.jpg',
-                'title' => 'Free Selfie',
-                'desc' => 'Jadikan setiap harimu menjadi kenangan manis dalam hidupmu, kami menghargai setiap waktu yang berlalu dalam hidup ini; momen-momen berharga hidup ini tidak akan pernah terulang kembali, cheese!'
               )
           );
         break;
@@ -207,6 +192,12 @@ class HomeController extends Controller {
         $result = DB::table('menu')
           ->orderBy('nama_menu', 'ASC')
           ->skip(0)->take(9)->get();
+        $prev = DB::table('menu')
+          ->orderBy('nama_menu', 'ASC')
+          ->skip(count($result) - 9)->take(9)->get();
+        $next = DB::table('menu')
+          ->orderBy('nama_menu', 'ASC')
+          ->skip(count($result) + 9)->take(9)->get();
       }
       else {
         $result = DB::table('menu')
@@ -214,7 +205,22 @@ class HomeController extends Controller {
           ->orwhere('nama_menu', 'LIKE', $keyword)
           ->orwhere('harga_menu', 'LIKE', $keyword)
           ->orwhere('deskripsi_menu', 'LIKE', $keyword)
-          ->get();
+          ->orderBy('nama_menu', 'ASC')
+          ->skip(0)->take(9)->get();
+        $prev = DB::table('menu')
+          ->where('kode_menu', 'LIKE', $keyword)
+          ->orwhere('nama_menu', 'LIKE', $keyword)
+          ->orwhere('harga_menu', 'LIKE', $keyword)
+          ->orwhere('deskripsi_menu', 'LIKE', $keyword)
+          ->orderBy('nama_menu', 'ASC')
+          ->skip(count($result) - 9)->take(9)->get();
+        $next = DB::table('menu')
+          ->orderBy('nama_menu', 'ASC')
+          ->where('kode_menu', 'LIKE', $keyword)
+          ->orwhere('nama_menu', 'LIKE', $keyword)
+          ->orwhere('harga_menu', 'LIKE', $keyword)
+          ->orwhere('deskripsi_menu', 'LIKE', $keyword)
+          ->skip(count($result) + 9)->take(9)->get();
       }
 
       foreach ($result as $key => $value) {
@@ -235,12 +241,165 @@ class HomeController extends Controller {
       }
 
 
+      $pointer['prev']['skip'] = count($result) - 9;
+      $pointer['prev']['take'] = 9;
+
+      $pointer['next']['skip'] = count($result) + 9;
+      $pointer['next']['take'] = 9;
+
       if ($result) {
         return response()->json([
             'status' => 200,
             'text' => 'Pencarian selesai dilakukan',
             'content' => $result,
-            'available' => $tmp
+            'available' => $tmp,
+            'prev' => $prev,
+            'next' => $next,
+            'pointer' => $pointer
+          ]);
+      }
+
+    }
+  }
+
+  public function pagemenu(Request $request) {
+    if ($request->ajax()) {
+      $data = $request->all();
+      $keyword = '%' . $data['_keyword'] . '%';
+      $category = $data['_category'];
+      $skip = $data['_skip'];
+      $take = $data['_take'];
+
+      switch ($data['_keyword']) {
+        case ' ':
+          switch ($category) {
+            case 'A':
+              $result = DB::table('menu')
+                ->orderBy('nama_menu', 'ASC')
+                ->skip($skip)->take($take)->get();
+              $prev = DB::table('menu')
+                ->orderBy('nama_menu', 'ASC')
+                ->skip($skip - 9)->take($take)->get();
+              $next = DB::table('menu')
+                ->orderBy('nama_menu', 'ASC')
+                ->skip($skip + 9)->take($take)->get();
+            break;
+            default:
+              $result = DB::table('menu')
+                ->where('jenis_menu', 'LIKE', $category)
+                ->orderBy('nama_menu', 'ASC')
+                ->skip($skip)->take($take)->get();
+              $prev = DB::table('menu')
+                ->where('jenis_menu', 'LIKE', $category)
+                ->orderBy('nama_menu', 'ASC')
+                ->skip($skip - 9)->take($take)->get();
+              $next = DB::table('menu')
+                ->where('jenis_menu', 'LIKE', $category)
+                ->orderBy('nama_menu', 'ASC')
+                ->skip($skip + 9)->take($take)->get();
+            break;
+          }
+        break;
+        default:
+          switch ($category) {
+            case 'A':
+              $result = DB::table('menu')
+                ->where(function ($qry) use ($keyword) {
+                  $qry ->orwhere('kode_menu', 'LIKE', $keyword)
+                  ->orwhere('nama_menu', 'LIKE', $keyword)
+                  ->orwhere('harga_menu', 'LIKE', $keyword)
+                  ->orwhere('deskripsi_menu', 'LIKE', $keyword);
+                })
+                ->orderBy('nama_menu', 'ASC')
+                ->skip($skip)->take($take)->get();
+              $prev = DB::table('menu')
+                ->where(function ($qry) use ($keyword) {
+                  $qry ->orwhere('kode_menu', 'LIKE', $keyword)
+                  ->orwhere('nama_menu', 'LIKE', $keyword)
+                  ->orwhere('harga_menu', 'LIKE', $keyword)
+                  ->orwhere('deskripsi_menu', 'LIKE', $keyword);
+                })
+                ->orderBy('nama_menu', 'ASC')
+                ->skip($skip - 9)->take($take)->get();
+              $next = DB::table('menu')
+                ->where(function ($qry) use ($keyword) {
+                  $qry ->orwhere('kode_menu', 'LIKE', $keyword)
+                  ->orwhere('nama_menu', 'LIKE', $keyword)
+                  ->orwhere('harga_menu', 'LIKE', $keyword)
+                  ->orwhere('deskripsi_menu', 'LIKE', $keyword);
+                })
+                ->orderBy('nama_menu', 'ASC')
+                ->skip($skip + 9)->take($take)->get();
+            break;
+            default:
+              $result = DB::table('menu')
+                ->where(function ($qry) use ($keyword) {
+                  $qry ->orwhere('kode_menu', 'LIKE', $keyword)
+                  ->orwhere('nama_menu', 'LIKE', $keyword)
+                  ->orwhere('harga_menu', 'LIKE', $keyword)
+                  ->orwhere('deskripsi_menu', 'LIKE', $keyword);
+                })
+                ->where('jenis_menu', 'LIKE', $category)
+                ->orderBy('nama_menu', 'ASC')
+                ->skip($skip)->take($take)->get();
+              $prev = DB::table('menu')
+                ->where(function ($qry) use ($keyword) {
+                  $qry ->orwhere('kode_menu', 'LIKE', $keyword)
+                  ->orwhere('nama_menu', 'LIKE', $keyword)
+                  ->orwhere('harga_menu', 'LIKE', $keyword)
+                  ->orwhere('deskripsi_menu', 'LIKE', $keyword);
+                })
+                ->where('jenis_menu', 'LIKE', $category)
+                ->orderBy('nama_menu', 'ASC')
+                ->skip($skip - 9)->take($take)->get();
+              $next = DB::table('menu')
+                ->where(function ($qry) use ($keyword) {
+                  $qry ->orwhere('kode_menu', 'LIKE', $keyword)
+                  ->orwhere('nama_menu', 'LIKE', $keyword)
+                  ->orwhere('harga_menu', 'LIKE', $keyword)
+                  ->orwhere('deskripsi_menu', 'LIKE', $keyword);
+                })
+                ->where('jenis_menu', 'LIKE', $category)
+                ->orderBy('nama_menu', 'ASC')
+                ->skip($skip + 9)->take($take)->get();
+            break;
+          }
+        break;
+      }
+
+
+      foreach ($result as $key => $value) {
+        $tmp[$key]['menu-material'] = DB::table('menu')
+        ->select('menu_detil.*')
+        ->join('menu_detil', 'menu_detil.kode_menu', '=', 'menu.kode_menu')
+        ->where('menu.kode_menu', '=', $value->kode_menu)
+        ->get();
+      }
+
+      foreach ($result as $key => $value) {
+        $tmp[$key]['menu-status'] = DB::table('menu')
+        ->select('bahan_baku.nama_bahan_baku', 'bahan_baku.stok_bahan_baku')
+        ->join('menu_detil', 'menu_detil.kode_menu', '=', 'menu.kode_menu')
+        ->join('bahan_baku', 'bahan_baku.kode_bahan_baku', '=', 'menu_detil.kode_bahan_baku')
+        ->where('menu.kode_menu', '=', $value->kode_menu)
+        ->get();
+      }
+
+      $pointer['prev']['skip'] = $skip - $take;
+      $pointer['prev']['take'] = $take;
+
+      $pointer['next']['skip'] = $skip + $take;
+      $pointer['next']['take'] = $take;
+
+      if ($result) {
+        return response()->json([
+            'status' => 200,
+            'text' => 'Pencarian selesai dilakukan',
+            'content' => $result,
+            'available' => $tmp,
+            'prev' => $prev,
+            'next' => $next,
+            'pointer' => $pointer
           ]);
       }
 
@@ -345,7 +504,7 @@ class HomeController extends Controller {
         return response()
           ->json([
             'status' => 500,
-            'text' => 'Oops, ayo habis ngapain ayoo :o'
+            'text' => 'Oops, habis ngapain ayoo?'
         ]);
       }
       else {
@@ -531,13 +690,27 @@ class HomeController extends Controller {
           case 'A':
             $result = DB::table('menu')
               ->orderBy('nama_menu', 'ASC')
-              ->get();
+              ->skip(0)->take(9)->get();
+            $prev = DB::table('menu')
+              ->orderBy('nama_menu', 'ASC')
+              ->skip(count($result) - 9)->take(9)->get();
+            $next = DB::table('menu')
+              ->orderBy('nama_menu', 'ASC')
+              ->skip(count($result) + 9)->take(9)->get();
           break;
           default:
             $result = DB::table('menu')
               ->where('jenis_menu', '=', $data['_keyword'])
               ->orderBy('nama_menu', 'ASC')
-              ->get();
+              ->skip(0)->take(9)->get();
+            $prev = DB::table('menu')
+              ->where('jenis_menu', '=', $data['_keyword'])
+              ->orderBy('nama_menu', 'ASC')
+              ->skip(count($result) - 9)->take(9)->get();
+            $next = DB::table('menu')
+              ->where('jenis_menu', '=', $data['_keyword'])
+              ->orderBy('nama_menu', 'ASC')
+              ->skip(count($result) + 9)->take(9)->get();
           break;
         }
 
@@ -558,12 +731,23 @@ class HomeController extends Controller {
           ->get();
         }
 
-        return response()->json([
-            'status' => 200,
-            'text' => 'Pencarian selesai dilakukan',
-            'content' => $result,
-            'available' => $tmp
-          ]);
+        $pointer['prev']['skip'] = count($result) - 9;
+        $pointer['prev']['take'] = 9;
+
+        $pointer['next']['skip'] = count($result) + 9;
+        $pointer['next']['take'] = 9;
+
+        if ($result) {
+          return response()->json([
+              'status' => 200,
+              'text' => 'Pencarian selesai dilakukan',
+              'content' => $result,
+              'available' => $tmp,
+              'prev' => $prev,
+              'next' => $next,
+              'pointer' => $pointer
+            ]);
+        }
 
       }
     }//endif

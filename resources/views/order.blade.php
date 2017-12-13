@@ -31,7 +31,7 @@
             <div class="row">
               <div class="col-md-12 padd-lr-10 text-left" style="font-size: 16pt;">
                 <button type="button" class="btn-lengko btn-lengko-danger btn-lengko-circle pull-left" onclick="remove_menu('{{ $value->kode_menu }}', '{{ $value->nama_menu }}');">
-                  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                  <i class="material-icons md-24">remove_circle_outline</i>
                 </button>
                 {{ $value->nama_menu }}
               </div>
@@ -71,7 +71,7 @@
             <div class="row">
               <div class="col-md-12 padd-lr-10 text-left" style="font-size: 16pt;">
                 <button type="submit" class="btn-lengko btn-lengko-danger btn-lengko-circle pull-left" onclick="go_to('menu');">
-                  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                  <i class="material-icons md-24">add_circle_outline</i>
                 </button>
                 <a href="{{ url('/menu/') }}">"Kamu mau tambah lagi gk?" (<i>ciee perhatian nihh..</i>)</a>
               </div>

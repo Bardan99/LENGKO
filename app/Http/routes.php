@@ -84,6 +84,7 @@ Route::group(['middleware' => 'device'], function() {
   Route::get('/logout', 'Auth\DeviceLoginController@logout');
   Route::get('/{param}', 'HomeController@view');
   Route::post('/customer/search/menu', 'HomeController@searchmenu');
+  Route::post('/customer/page/menu', 'HomeController@pagemenu');
   Route::post('/customer/create/review', 'HomeController@createreview');
   Route::post('/customer/add/menu', 'HomeController@addmenu');
   Route::post('/customer/remove/menu', 'HomeController@removemenu');

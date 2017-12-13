@@ -10,16 +10,15 @@
       <div class="row mrg-b-30">
         <div class="col-md-12">
           <img src="{{ url('/files/images/members/rakasw.png') }}" class="img-circle img-center" alt="Raka Suryaardi Widjaja" width="90px" height="100px" />
-          <h2 class="menu-title text-center">
+          <h2 class="text-center">
               Raka Suryaardi Widjaja<br />
               <small>All in One Driver Pack</small>
             </h2>
           <div class="row">
             <div class="col-md-offset-2 col-md-8 text-center">
               <quote class="playfair">
-                Saya memang miskin dan bodoh;<br />
-                Tetapi saya tidak berencana untuk<br />
-                miskin dan bodoh selamanya.<br />
+                Saya memang miskin dan bodoh; Tetapi saya <br />
+                tidak berencana untuk miskin dan bodoh selamanya.<br />
                 <small>(2017)</small>
               </quote>
             </div>
@@ -32,7 +31,7 @@
           <img src="{{ url('/files/images/members/rakamp.png') }}" class="img-circle img-center" alt="Raka Muhamad Pratama" width="90px" height="100px" />
         </div>
         <div class="col-md-4 col-sm-4">
-          <h2 class="menu-title text-left">
+          <h2 class="text-left">
               Raka Muhamad Pratama<br />
               <small>Front-end Designer</small>
             </h2>
@@ -44,7 +43,7 @@
         </div>
 
         <div class="col-md-4 col-sm-4 text-right">
-          <h2 class="menu-title text-right">
+          <h2 class="text-right">
               Binsar Bernandus Silalahi<br />
               <small>Front-end Designer</small>
             </h2>
@@ -61,7 +60,7 @@
 
       <div class="row mrg-btm-30">
         <div class="col-md-4 col-sm-4 text-right">
-          <h2 class="menu-title text-right">
+          <h2 class="text-right">
               Azmi Yudista<br />
               <small>Graphical Designer</small>
             </h2>
@@ -79,7 +78,7 @@
           <img src="{{ url('/files/images/members/zaki.png') }}" class="img-circle img-center" alt="Binsar Bernandus Silalahi" width="90px" height="100px" />
         </div>
         <div class="col-md-4 col-sm-40">
-          <h2 class="menu-title text-left">
+          <h2 class="text-left">
               Muhammad Zaki<br />
               <small>Quality Assurance</small>
             </h2>

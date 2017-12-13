@@ -46,7 +46,7 @@ class DeviceLoginController extends Controller {
 
   public function logout(Request $request) {
     Auth::guard('device')->logout();
-    $request->session()->flush();
+    $request->session()->forget('device');
     return redirect('/login');
   }
 

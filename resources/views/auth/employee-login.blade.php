@@ -8,7 +8,7 @@
       <div id="form-login">
         <form method="POST" action="{{ route('employee.login.submit') }}">
           <div class="form-section mrg-b-20">
-            <a href="/">
+            <a href="{{ url('/dashboard') }}">
               <img class="img-center" src="{{ url('/files/images/lengko-logo.png') }}" alt="" width="150px" height="70px" />
             </a>
             {{ csrf_field() }}

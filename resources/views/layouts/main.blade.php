@@ -86,7 +86,7 @@
   </nav>
 
 
-  <div class="container-fluid padd-t-100">
+  <div class="container-fluid padd-t-20vh">
 
     <div class="row mrg-b-20 min-height-80">
       <div class="col-md-12">
@@ -115,7 +115,6 @@
   <script type="text/javascript" data-cfasync="false" src="/assets/custom/js/chart-data.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/custom/js/general.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/custom/js/customer.js"></script>
-  <script type="text/javascript" data-cfasync="false" src="/assets/custom/js/main.js"></script>
 </body>
 
 </html>

@@ -21,7 +21,8 @@
       </div>
     </div>
 
-    <div class="row sticky">
+
+    <div class="row">
       <div class="col-md-12 padd-lr-0">
         @include('addition')
         <footer class="footer">

@@ -131,12 +131,36 @@ function ajax_init() {
   }
 }
 
+/* PopOver Dismiss */
+
+$('body').on('click', function (e) {
+  $('[data-toggle="popover"]').each(function () {
+    //the 'is' for buttons that trigger popups
+    //the 'has' for icons within a button that triggers a popup
+    if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+        $(this).popover('hide');
+    }
+  });
+});
+
 $(document).ready(function() {
+  /* PopOver */
+  $('.open-tooltip').tooltip('show', {
+    container: 'html',
+    html: true,
+    delay: { "show": 200, "hide": 1000 },
+  });
+
+  $('[data-toggle="tooltip"]').tooltip({
+    container: 'html',
+    html: true,
+    delay: { "show": 200, "hide": 1000 },
+  });
 
   /* Type it settings */
   if ($('#brand-description').length > 0) {
     $('#brand-description').typeIt({
-      startDelay: 1000,
+      startDelay: 100,
       speed: 80,
       deleteSpeed: 50,
       cursor: true,
@@ -146,15 +170,7 @@ $(document).ready(function() {
       deleteDelay: 50,
       callback: function() {
         setTimeout(function() {
-          $('#brand-description').typeIt({
-            strings: 'Love of Beauty is taste <br>The creation of Beauty is Art <small>~Ralph W.E</small>',
-            startDelay: 500,
-            callback: function() {
-              setTimeout(function() {
-                $('#brand-description').remove();
-              }, 10000);
-            }
-          });
+          $('#brand-description').remove();
         }, 5000);
       }
     });

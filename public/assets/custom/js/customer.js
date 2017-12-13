@@ -1,3 +1,27 @@
+function call_waiter(device) {
+  swal({
+    title: "Butuh bantuan?",
+    text: "Jangan sungkan, kami siap membantu (^_^)/",
+    type: "question",
+    timer: 10000,
+    showCancelButton: true,
+    confirmButtonText: 'Iya',
+    confirmButtonColor: '#2c3e50',
+    cancelButtonText: 'Tidak'
+  }).then(function(result) {
+    if (result.value) {
+      swal({
+        title: 'Segera ke sana!',
+        text: 'Kalau disamperin jangan salting ya >_<',
+        type: 'success',
+        timer: 3000
+      });
+    // result.dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+    }
+  });
+}
+
+
 function search_menu(data) {
   $.ajax({
     type: "POST",
@@ -29,13 +53,15 @@ function search_menu(data) {
       }
       else {
         var res = '';
-        if (result.content.length > 0) {
+        if (result.content) {
+          res += '<div class="row">';
           for (i = 0; i < result.content.length; i++) {
             var status = 'Tidak tersedia';
             var tmp = false;
+            var k = 0;
             for (j = 0; j < result.available[i]['menu-status'].length; j++) {
-              i++;
-              if (result.available[i]['menu-status'].stok_bahan_baku > 0) {
+              k++;
+              if (result.available[j]['menu-status'].stok_bahan_baku > 0) {
                 tmp = true;
               }
               else {
@@ -44,14 +70,14 @@ function search_menu(data) {
               }
             }
 
-            if (i == result.available[i]['menu-status'].length) {
+            if (k == result.available[i]['menu-status'].length) {
               if (tmp) {
                 status = 'Tersedia';
               }
             }
 
-            res += '<div class="col-md-4 col-sm-6" onclick="show_obj(\'menu-' + result.content[i].kode_menu + '\');">';
-            res += '<div class="menu">';
+            res += '<div class="col-md-4 col-sm-6">';
+            res += '<div class="menu" onclick="show_obj(\'menu-' + result.content[i].kode_menu + '\');">';
             res += '<img src="/files/images/menus/';
             if (result.content[i].gambar_menu) {
               res += result.content[i].gambar_menu;
@@ -61,9 +87,13 @@ function search_menu(data) {
             }
             res += '" alt="' + result.content[i].nama_menu + '" width="100%" height="150px" />';
             res += '<h2 class="menu-title">' + result.content[i].nama_menu + ' <small>(' + status + ')</small></h2>';
-            res += 'Rp' + result.content[i].harga_menu;
-            res += '<a href="/" class="pull-right"><i class="material-icons">add_shopping_cart</i></a>';
-            res += '<br /></div></div>';
+
+            res += '<div class="row"><div class="col-md-6">Rp' + result.content[i].harga_menu;
+            res += '</div><div class="col-md-6">';
+            res += '<a href="#!" class="pull-right"><i class="material-icons md-36">add_circle_outline</i></a>';
+            res += '</div></div>';
+
+            res += '</div></div>';
             /* overlay content */
 
             res += '<div id="menu-' + result.content[i].kode_menu + '" class="menu-overlay">';
@@ -95,10 +125,171 @@ function search_menu(data) {
             }
             res += '</div></div></div>';
 
+          }//end loop
+          res += '</div>';
+
+          /* nav pagination */
+          res += '<div class="row"><div class="col-sm-12 col-md-push-4 col-md-4">';
+          res += '<nav aria-label="Page navigation" class="text-center"><ul class="pagination pagination-lg">';
+          res += '<li class="cursor-pointer ';
+          if (result.prev.length > 0 && result.pointer.prev.skip >= 0) {
+              res += '" onclick="pagination_menu(' + result.pointer.prev.skip + ', ' + result.pointer.prev.take + ');"><span aria-hidden="true">&laquo;</span></li>';
           }
+          else {
+            res +=' disabled"><span aria-hidden="true">&laquo;</span></li>';
+          }
+          res += '<li class="cursor-pointer"><span aria-hidden="true">&nbsp;</span></li>';
+          res += '<li class="cursor-pointer';
+          if (result.next.length > 0) {
+            res += '" onclick="pagination_menu(' + result.pointer.next.skip + ', ' + result.pointer.next.take + ');"><span aria-hidden="true">&raquo;</span></li>';
+          }
+          else {
+            res +=' disabled"><span aria-hidden="true">&raquo;</span></li>';
+          }
+          res += '</ul></nav></div></div>';
+          /* end of nav pagination */
         }
         else {
-          res = '<div class="padd-lr-15">Menu tidak ditemukan</div>';
+          res = '<div class="row padd-lr-15"><div class="col-md-offset-2 col-md-8">';
+          res += '<div class="alert alert-warning">Menu tidak ditemukan</div></div></div>';
+        }
+        $('#menu-card-section').html(res);
+      }
+    },
+    error: function(result){
+
+    }
+  });
+}//endfunction
+
+function pagination_menu(skip, take) {
+  var data = {
+    '_method' : "post",
+    '_token' : $("input[name=_token]").val(),
+    '_keyword' : $("input[name=menu-search-query]").val(),
+    '_category' : $("select[name=menu-search-type]").val(),
+    '_skip': skip,
+    '_take': take
+  };
+
+  $.ajax({
+    type: "POST",
+    url: "/customer/page/menu",
+    data: data,
+    cache: false,
+    success: function(result) {
+      if (result.status == 500 || result.status == 400) {
+        swal({
+          title: "Oops terjadi kesalahan",
+          html: result.text,
+          type: "warning",
+          timer: 10000,
+          showCancelButton: false,
+          confirmButtonText: 'Ok',
+          confirmButtonColor: '#2c3e50',
+        });
+      }
+      else {
+        var res = '';
+        if (result.content) {
+          res += '<div class="row">';
+          for (i = 0; i < result.content.length; i++) {
+            var status = 'Tidak tersedia';
+            var tmp = false;
+            var k = 0;
+            for (j = 0; j < result.available[i]['menu-status'].length; j++) {
+              k++;
+              if (result.available[j]['menu-status'].stok_bahan_baku > 0) {
+                tmp = true;
+              }
+              else {
+                tmp = false;
+                break;
+              }
+            }
+
+            if (k == result.available[i]['menu-status'].length) {
+              if (tmp) {
+                status = 'Tersedia';
+              }
+            }
+
+            res += '<div class="col-md-4 col-sm-6">';
+            res += '<div class="menu" onclick="show_obj(\'menu-' + result.content[i].kode_menu + '\');">';
+            res += '<img src="/files/images/menus/';
+            if (result.content[i].gambar_menu) {
+              res += result.content[i].gambar_menu;
+            }
+            else {
+              res += 'not-available.png';
+            }
+            res += '" alt="' + result.content[i].nama_menu + '" width="100%" height="150px" />';
+            res += '<h2 class="menu-title">' + result.content[i].nama_menu + ' <small>(' + status + ')</small></h2>';
+
+            res += '<div class="row"><div class="col-md-6">Rp' + result.content[i].harga_menu;
+            res += '</div><div class="col-md-6">';
+            res += '<a href="#!" class="pull-right"><i class="material-icons md-36">add_circle_outline</i></a>';
+            res += '</div></div>';
+
+            res += '</div></div>';
+            /* overlay content */
+
+            res += '<div id="menu-' + result.content[i].kode_menu + '" class="menu-overlay">';
+            res += '<div class="row menu-overlay-content"><div class="col-md-12">';
+            res += '<div class="row">  <div class="col-md-offset-11 col-md-1" style="font-size:20pt;">';
+            res += '<span class="glyphicon glyphicon-remove pull-right cursor-pointer" aria-hidden="true" onclick="hide_obj(\'menu-' + result.content[i].kode_menu + '\');"></span>';
+            res += '</div></div>';
+            res += '<div class="row"><div class="col-md-3">';
+            res += '<img src="/files/images/menus/';
+            if (result.content[i].gambar_menu) {
+              res += result.content[i].gambar_menu;
+            }
+            else {
+              res += 'not-available.png';
+            }
+            res += '" alt="' + result.content[i].nama_menu + '" width="200px" height="200px" />';
+            res += '</div><div class="col-md-9">';
+            res += '<h2 class="menu-title">' + result.content[i].nama_menu + ' <small>(' + status + ')</small></h2>';
+            res += '<p>' + result.content[i].deskripsi_menu + '</p>';
+            res += 'Rp' + result.content[i].harga_menu + '</div></div>';
+            if (status == 'Tersedia') {
+              res += '<div class="row">';
+              res += '<div class="col-md-offset-10 col-md-2">';
+              res += '<div class="input-group">';
+              res += '<input type="hidden" name="order-add-name-' + result.content[i].kode_menu + '" value="' + result.content[i].nama_menu + '">';
+              res += '<input type="number" name="order-add-count-' + result.content[i].kode_menu + '" class="form-control input-lengko-default" placeholder="Jumlah" value="1" min="1" step="1">';
+              res += '<div class="input-group-addon" style="background-color: #2c3e50; color: #ecf0f1" onclick="add_menu(\'' + result.content[i].kode_menu + '\')">Tambah <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></div>';
+              res += '</div></div></div>';
+            }
+            res += '</div></div></div>';
+
+          }//end loop
+          res += '</div>';
+
+          /* nav pagination */
+          res += '<div class="row"><div class="col-sm-12 col-md-push-4 col-md-4">';
+          res += '<nav aria-label="Page navigation" class="text-center"><ul class="pagination pagination-lg">';
+          res += '<li class="cursor-pointer ';
+          if (result.prev.length > 0 && result.pointer.prev.skip >= 0) {
+              res += '" onclick="pagination_menu(' + result.pointer.prev.skip + ', ' + result.pointer.prev.take + ');"><span aria-hidden="true">&laquo;</span></li>';
+          }
+          else {
+            res +=' disabled"><span aria-hidden="true">&laquo;</span></li>';
+          }
+          res += '<li class="cursor-pointer"><span aria-hidden="true">&nbsp;</span></li>';
+          res += '<li class="cursor-pointer';
+          if (result.next.length > 0) {
+            res += '" onclick="pagination_menu(' + result.pointer.next.skip + ', ' + result.pointer.next.take + ');"><span aria-hidden="true">&raquo;</span></li>';
+          }
+          else {
+            res +=' disabled"><span aria-hidden="true">&raquo;</span></li>';
+          }
+          res += '</ul></nav></div></div>';
+          /* end of nav pagination */
+        }
+        else {
+          res = '<div class="row padd-lr-15"><div class="col-md-offset-2 col-md-8">';
+          res += '<div class="alert alert-warning">Menu tidak ditemukan</div></div></div>';
         }
         $('#menu-card-section').html(res);
       }
@@ -172,8 +363,8 @@ function add_menu(menu) {
   };
   if (count >= 1) {
     swal({
-      title: "Tambah pesanan?",
-      html: "Kamu yakin akan menambahkan " + name + "<br /> sebanyak " + count + " porsi? <br />Yakin gak akan kurang nihh?",
+      title: name,
+      html: "Tambahkan " + count + " porsi? <br />Yakin gak akan kurang nihh?",
       type: "question",
       timer: 10000,
       showCancelButton: true,
@@ -241,7 +432,7 @@ function remove_menu(id, name) {
 
   swal({
     title: "Batalkan pesanan?",
-    html: "Kamu yakin akan menghapus pesanan " + name + " dari daftar pesanan?",
+    html: "Hapus pesanan " + name + " dari daftar pesanan?",
     type: "question",
     timer: 10000,
     showCancelButton: true,
@@ -390,6 +581,7 @@ function filter_menu(data) {
       if (result.status == 200) {
         var res = '';
         if (result.content.length > 0) {
+          res += '<div class="row">';
           for (i = 0; i < result.content.length; i++) {
             var status = 'Tidak tersedia';
             var tmp = false;
@@ -421,9 +613,13 @@ function filter_menu(data) {
             }
             res += '" alt="' + result.content[i].nama_menu + '" width="100%" height="150px" />';
             res += '<h2 class="menu-title">' + result.content[i].nama_menu + ' <small>(' + status + ')</small></h2>';
-            res += 'Rp' + result.content[i].harga_menu;
-            res += '<a href="/" class="pull-right"><i class="material-icons">add_shopping_cart</i></a>';
-            res += '<br /></div></div>';
+
+            res += '<div class="row"><div class="col-md-6">Rp' + result.content[i].harga_menu;
+            res += '</div><div class="col-md-6">';
+            res += '<a href="#!" class="pull-right"><i class="material-icons md-36">add_circle_outline</i></a>';
+            res += '</div></div>';
+
+            res += '</div></div>';
             /* overlay content */
 
             res += '<div id="menu-' + result.content[i].kode_menu + '" class="menu-overlay">';
@@ -455,10 +651,33 @@ function filter_menu(data) {
             }
             res += '</div></div></div>';
 
+          }//end loop
+          res += '</div>';
+
+          /* nav pagination */
+          res += '<div class="row"><div class="col-sm-12 col-md-push-4 col-md-4">';
+          res += '<nav aria-label="Page navigation" class="text-center"><ul class="pagination pagination-lg">';
+          res += '<li class="cursor-pointer ';
+          if (result.prev.length > 0 && result.pointer.prev.skip >= 0) {
+              res += '" onclick="pagination_menu(' + result.pointer.prev.skip + ', ' + result.pointer.prev.take + ');"><span aria-hidden="true">&laquo;</span></li>';
           }
+          else {
+            res +=' disabled"><span aria-hidden="true">&laquo;</span></li>';
+          }
+          res += '<li class="cursor-pointer"><span aria-hidden="true">&nbsp;</span></li>';
+          res += '<li class="cursor-pointer';
+          if (result.next.length > 0) {
+            res += '" onclick="pagination_menu(' + result.pointer.next.skip + ', ' + result.pointer.next.take + ');"><span aria-hidden="true">&raquo;</span></li>';
+          }
+          else {
+            res +=' disabled"><span aria-hidden="true">&raquo;</span></li>';
+          }
+          res += '</ul></nav></div></div>';
+          /* end of nav pagination */
         }
         else {
-          res = '<div class="padd-lr-15">Menu tidak ditemukan</div>';
+          res = '<div class="row padd-lr-15"><div class="col-md-offset-2 col-md-8">';
+          res += '<div class="alert alert-warning">Menu tidak ditemukan</div></div></div>';
         }
         $('#menu-card-section').html(res);
       }

@@ -90,7 +90,14 @@ function search_menu(data) {
 
             res += '<div class="row"><div class="col-md-6">Rp' + result.content[i].harga_menu;
             res += '</div><div class="col-md-6">';
-            res += '<a href="#!" class="pull-right"><i class="material-icons md-36">add_circle_outline</i></a>';
+            res += '<a href="#!" class="pull-right"><i class="material-icons md-36">';
+            if (status == 'Tersedia') {
+              res += 'add_circle_outline';
+            }
+            else {
+              res += 'report';
+            }
+            res += '</i></a>';
             res += '</div></div>';
 
             res += '</div></div>';
@@ -228,7 +235,14 @@ function pagination_menu(skip, take) {
 
             res += '<div class="row"><div class="col-md-6">Rp' + result.content[i].harga_menu;
             res += '</div><div class="col-md-6">';
-            res += '<a href="#!" class="pull-right"><i class="material-icons md-36">add_circle_outline</i></a>';
+            res += '<a href="#!" class="pull-right"><i class="material-icons md-36">';
+            if (status == 'Tersedia') {
+              res += 'add_circle_outline';
+            }
+            else {
+              res += 'report';
+            }
+            res += '</i></a>';
             res += '</div></div>';
 
             res += '</div></div>';
@@ -616,7 +630,14 @@ function filter_menu(data) {
 
             res += '<div class="row"><div class="col-md-6">Rp' + result.content[i].harga_menu;
             res += '</div><div class="col-md-6">';
-            res += '<a href="#!" class="pull-right"><i class="material-icons md-36">add_circle_outline</i></a>';
+            res += '<a href="#!" class="pull-right"><i class="material-icons md-36">';
+            if (status == 'Tersedia') {
+              res += 'add_circle_outline';
+            }
+            else {
+              res += 'report';
+            }
+            res += '</i></a>';
             res += '</div></div>';
 
             res += '</div></div>';

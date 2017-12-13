@@ -373,7 +373,7 @@ hr.content {
 #content {
   background-color: #f6f6f6;
   margin: 0px;
-  padding: 10vh 0px;
+  padding: 10vh 20px;
 }
 
 #footer-quote {
@@ -840,7 +840,7 @@ fieldset.title {
 
 .main-menu {
   padding: 25px 5px 10px 5px;
-  margin: 10px 2px;
+  margin: 15px 2px;
   min-height: 200px;
   box-shadow: 5px 5px 5px #595959;
   /* border-radius: 50px/15px; */

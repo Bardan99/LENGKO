@@ -10,10 +10,10 @@
       <div class="row mrg-b-30">
         <div class="col-md-12">
           <img src="{{ url('/files/images/members/rakasw.png') }}" class="img-circle img-center" alt="Raka Suryaardi Widjaja" width="90px" height="100px" />
-          <h2 class="text-center">
+          <h3 class="text-center">
               Raka Suryaardi Widjaja<br />
               <small>All in One Driver Pack</small>
-            </h2>
+          </h3>
           <div class="row">
             <div class="col-md-offset-2 col-md-8 text-center">
               <quote class="playfair">
@@ -31,10 +31,10 @@
           <img src="{{ url('/files/images/members/rakamp.png') }}" class="img-circle img-center" alt="Raka Muhamad Pratama" width="90px" height="100px" />
         </div>
         <div class="col-md-4 col-sm-4">
-          <h2 class="text-left">
+          <h3 class="text-left">
               Raka Muhamad Pratama<br />
               <small>Front-end Designer</small>
-            </h2>
+          </h3>
           <quote class="playfair">
             Kenyataan ada di depan
             <br />
@@ -43,10 +43,10 @@
         </div>
 
         <div class="col-md-4 col-sm-4 text-right">
-          <h2 class="text-right">
+          <h3 class="text-right">
               Binsar Bernandus Silalahi<br />
               <small>Front-end Designer</small>
-            </h2>
+          </h3>
           <quote class="playfair">
             All is well
             <br />
@@ -60,10 +60,10 @@
 
       <div class="row mrg-btm-30">
         <div class="col-md-4 col-sm-4 text-right">
-          <h2 class="text-right">
+          <h3 class="text-right">
               Azmi Yudista<br />
               <small>Graphical Designer</small>
-            </h2>
+          </h3>
           <quote class="playfair">
             Kegagalan bukti perjuangan
             <br />
@@ -78,10 +78,10 @@
           <img src="{{ url('/files/images/members/zaki.png') }}" class="img-circle img-center" alt="Binsar Bernandus Silalahi" width="90px" height="100px" />
         </div>
         <div class="col-md-4 col-sm-40">
-          <h2 class="text-left">
+          <h3 class="text-left">
               Muhammad Zaki<br />
               <small>Quality Assurance</small>
-            </h2>
+          </h3>
           <quote class="playfair">
             Aku pengen pindah ke Meikarta
             <br />

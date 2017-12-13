@@ -50,7 +50,6 @@
                           <input type="text" name="device-change-name" class="input-lengko-default block" value="{{ $value->nama_perangkat }}" />
                         </div>
                       </div>
-                      <span>({{$value->kode_perangkat }})</span>
                       <div class="row">
                         <div class="col-md-12">
                           Kapasitas: <input type="number" name="device-change-chair" min="1" class="input-lengko-default" value="{{ $value->jumlah_kursi_perangkat }}" /> Orang<br />
@@ -112,7 +111,7 @@
                     <div class="row">
                       <div class="col-md-12">
                         <hr />
-                        Kapasitas: {{ $value->jumlah_kursi_perangkat }}
+                        Kapasitas: {{ $value->jumlah_kursi_perangkat }} Orang
                       </div>
                     </div>
                     <div class="row">

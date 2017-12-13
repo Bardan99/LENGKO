@@ -545,7 +545,7 @@ function search_device(data) {
               res += '<div class="device device-' + result.content[i].status_text + '">';
               res += '<div class="device-title row"><div class="col-md-12">';
               res += '<input type="text" name="device-change-name" class="input-lengko-default block" value="' + result.content[i].nama_perangkat + '" />';
-              res += '</div></div><span>(' + result.content[i].kode_perangkat + ')</span>';
+              res += '</div></div>';
               res += '<div class="row"><div class="col-md-12">';
               res += 'Kapasitas: <input type="number" name="device-change-chair" min="1" class="input-lengko-default" value="' + result.content[i].jumlah_kursi_perangkat + '" /> Orang<br />';
               res += '</div></div>';
@@ -581,7 +581,7 @@ function search_device(data) {
             res += '' + result.content[i].nama_perangkat + '';
             res += '</div></div><span>(' + result.content[i].kode_perangkat + ')</span>';
             res += '<div class="row"><div class="col-md-12">';
-            res += '<hr />Kapasitas: ' + result.content[i].jumlah_kursi_perangkat + '';
+            res += '<hr />Kapasitas: ' + result.content[i].jumlah_kursi_perangkat + ' Orang';
             res += '</div></div><div class="row">';
             res += '<div class="col-md-12">Status: ' + result.content[i].status_text_human + '';
             res += '<hr /></div></div>';
@@ -1455,7 +1455,7 @@ function filter_device(data) {
               res += '<div class="device device-' + result.content[i].status_text + '">';
               res += '<div class="device-title row"><div class="col-md-12">';
               res += '<input type="text" name="device-change-name" class="input-lengko-default block" value="' + result.content[i].nama_perangkat + '" />';
-              res += '</div></div><span>(' + result.content[i].kode_perangkat + ')</span>';
+              res += '</div></div>';
               res += '<div class="row"><div class="col-md-12">';
               res += 'Kapasitas: <input type="number" name="device-change-chair" min="1" class="input-lengko-default" value="' + result.content[i].jumlah_kursi_perangkat + '" /> Orang<br />';
               res += '</div></div>';
@@ -1491,7 +1491,7 @@ function filter_device(data) {
             res += '' + result.content[i].nama_perangkat + '';
             res += '</div></div><span>(' + result.content[i].kode_perangkat + ')</span>';
             res += '<div class="row"><div class="col-md-12">';
-            res += '<hr />Kapasitas: ' + result.content[i].jumlah_kursi_perangkat + '';
+            res += '<hr />Kapasitas: ' + result.content[i].jumlah_kursi_perangkat + ' Orang';
             res += '</div></div><div class="row">';
             res += '<div class="col-md-12">Status: ' + result.content[i].status_text_human + '';
             res += '<hr /></div></div>';

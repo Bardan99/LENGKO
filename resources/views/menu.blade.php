@@ -60,7 +60,7 @@
                   {{ $data['menu_obj']->num_to_rp($value->harga_menu) }}
                 </div>
                 <div class="col-md-6">
-                  <a href="#!" class="pull-right"><i class="material-icons md-36">add_circle_outline</i></a>
+                  <a href="#!" class="pull-right"><i class="material-icons md-36">@if ($status == 'Tersedia'){{'add_circle_outline'}}@else{{'report'}}@endif</i></a>
                 </div>
               </div>
             </div>

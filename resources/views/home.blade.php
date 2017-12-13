@@ -15,7 +15,7 @@
 
     <div class="row">
       <div class="col-md-4 col-sm-6 col-xs-12">
-        <div class="main-menu menu-red open-tooltip" onclick="go_to('menu');" data-placement="bottom" data-toggle="tooltip" title="Semuanya berawal dari sini..">
+        <div class="main-menu menu-red open-tooltip" onclick="go_to('menu');" data-placement="bottom" data-toggle="tooltip" title="Perut yang lapar akan keroncongan :(">
           <div class="menu-icon">
             <i class="material-icons md-72">restaurant_menu</i>
             <br />

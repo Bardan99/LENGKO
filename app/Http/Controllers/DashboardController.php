@@ -74,7 +74,7 @@ class DashboardController extends Controller {
               ->select('*', DB::raw('IF (jenis_kelamin_pegawai = "L", "Laki-Laki", IF (jenis_kelamin_pegawai = "P", "Perempuan", "-")) AS jenis_kelamin_pegawai'))
               ->where('pegawai.kode_pegawai', '!=', Auth::guard('employee')->user()->kode_pegawai) //yg login gk boleh hapus datanya sendiri
               ->orderBy('nama_pegawai', 'ASC')
-              ->skip(0)->take(5)->get();
+              ->skip(0)->take(8)->get();
             $data['authority'] = DB::table('otoritas')
               ->orderBy('nama_otoritas', 'ASC')
               ->get();

@@ -315,6 +315,10 @@ hr.content {
   padding-top: 20vh;
 }
 
+.padd-b-10 {
+  padding-bottom: 10px;
+}
+
 .padd-b-20 {
   padding-bottom: 20px;
 }
@@ -1122,10 +1126,12 @@ form > .row {
   overflow: hidden;
 }
 
+/*
 [class*="col-"]{
   margin-bottom: -99999px;
   padding-bottom: 99999px;
 }
+*/
 
 /*
   https://www.w3schools.com/howto/howto_css_modals.asp

@@ -728,6 +728,19 @@ hr.content {
   height: 130px;
 }
 
+.hoverblur {
+  background-color: rgba(255, 255, 255, 0.15);
+  opacity: 1;
+}
+
+.hoverblur:hover {
+  display: block;
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: .5s ease;
+  opacity: 0.3;
+}
+
 .overlay {
   display: block;
   width: 100%;

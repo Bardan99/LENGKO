@@ -481,7 +481,7 @@ class DashboardController extends Controller {
         if ($handler) {
           Pegawai::destroy($id);
         }
-        return redirect('/dashboard/employee');
+        return response()->json(['status' => 200, 'text' => 'Berhasil menghapus pegawai']);
       break;
       case 'material':
         $handler = BahanBaku::find($id)->delete();

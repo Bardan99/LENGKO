@@ -39,74 +39,101 @@
               </div>
 
               <div id="employee-card-section" class="row mrg-t-20 padd-lr-20">
-                <div class="table-responsive">
-                  <table class="table table-hover table-striped">
-                    <tr>
-                      <th>#</th>
-                      <th>Nama</th>
-                      <th>Jenis Kelamin</th>
-                      <th>Otoritas</th>
-                      <th></th>
-                    </tr>
+                <div id="employee-card-table">
                   @foreach ($data['employee'] as $key => $value)
-
-                    <form name="" method="post" action="{{ url('dashboard/update/employee') }}">
-                      <tr id="employee-card-change-{{ $value->kode_pegawai }}" hidden="hidden">
-                        <td>{{ $value->kode_pegawai }}</td>
-                        <td>
-                          <input type="text" name="employee-change-name" class="input-lengko-default block" placeholder="Nama Pegawai" value="{{ $value->nama_pegawai }}" />
-                          <input type="password" name="employee-change-password" class="input-lengko-default block" placeholder="(Kata sandi tidak diubah, kosongkan)" value="" />
-                        </td>
-                        <td>
-                          <div class="radio-lengko-default">
-                            <input type="radio" name="employee-change-gender" id="gender-male-{{ $value->kode_pegawai }}" value="L" @if ($value->jenis_kelamin_pegawai == "Laki-Laki") {{'checked="checked" checked'}} @endif />
-                              <label for="gender-male-{{ $value->kode_pegawai }}">Laki-Laki</label>
-                            <input type="radio" name="employee-change-gender" id="gender-female-{{ $value->kode_pegawai }}" value="P" @if ($value->jenis_kelamin_pegawai == "Perempuan") {{'checked="checked" checked'}} @endif />
-                              <label for="gender-female-{{ $value->kode_pegawai }}">Perempuan</label>
+                    <div class="col-md-3 col-sm-4 col-xs-6">
+                      <div class="" onclick="show_obj('employee-card-change-{{ $value->kode_pegawai }}'); hide_obj('employee-card-{{ $value->kode_pegawai }}'); hide_obj('employee-card-table')">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <img class="hoverblur img-circle obj-center" src="/files/images/employee/@if($value->gambar_pegawai){{$value->gambar_pegawai}}@else{{'default.png'}}@endif" alt="{{ $value->kode_pegawai }}" width="150px" height="150px" />
                           </div>
-                        </td>
-                        <td>
-                          <select name="employee-change-authority" class="select-lengko-default block">
-                            @foreach ($data['authority'] as $key => $value2)
-                              <option value="{{ $value2->kode_otoritas }}" @if ($value2->kode_otoritas == $value->kode_otoritas) {{ 'selected' }} @endif>{{ $value2->nama_otoritas }}</option>
-                            @endforeach
-                          </select>
-                        </td>
-                        <td>
-                          <button class="btn-lengko btn-lengko-default pull-left" type="button" onclick="show_obj('employee-card-{{ $value->kode_pegawai }}'); hide_obj('employee-card-change-{{ $value->kode_pegawai }}');">
-                            <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
-                          </button>
-                          <button class="btn-lengko btn-lengko-default pull-left" type="submit">
-                            <span class="glyphicon glyphicon-save" aria-hidden="true"></span>
-                          </button>
-                          <input type="hidden" name="employee-id" value="{{$value->kode_pegawai}}" />
-                          {{ csrf_field() }}
-                          {{ method_field('PUT') }}
-                        </td>
-                      </tr>
-                    </form>
-
-                    <tr id="employee-card-{{ $value->kode_pegawai }}">
-                      <td>{{ $value->kode_pegawai }}</td>
-                      <td>{{ $value->nama_pegawai }}</td>
-                      <td>{{ $value->jenis_kelamin_pegawai }}</td>
-                      <td>{{ $value->nama_otoritas }}</td>
-                      <td width="120px">
-                        <button class="btn-lengko btn-lengko-default pull-left" type="button" onclick="show_obj('employee-card-change-{{ $value->kode_pegawai }}'); hide_obj('employee-card-{{ $value->kode_pegawai }}');">
-                          <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                        </button>
-                        <form name="employee-delete" action="{{ url('dashboard/delete/employee') . '/' . $value->kode_pegawai }}" method="POST">
-                          <button class="btn-lengko btn-lengko-default" type="submit">
-                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                          </button>
-                          <input type="hidden" name="employee-delete-id" value="{{$value->kode_pegawai}}">
-                          {{ csrf_field() }}
-                          {{ method_field('DELETE') }}
-                        </form>
-                      </td>
-                    </tr>
+                        </div>
+                        <div class="row" style="min-height: 60px;">
+                          <div class="col-md-12">
+                            <h4 class="text-center">{{ $value->nama_pegawai }}</h4>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   @endforeach
-                  </table>
+                </div>
+
+                <div id="employee-card-editable">
+                  @foreach ($data['employee'] as $key => $value)
+                    <form id="employee-card-change-{{ $value->kode_pegawai }}" hidden="hidden" name="" method="post" action="{{ url('dashboard/update/employee') }}">
+                      <div class="row">
+                        <div class="col-md-4 col-sm-4">
+                          <img class="img-circle obj-center" src="/files/images/employee/@if($value->gambar_pegawai){{$value->gambar_pegawai}}@else{{'default.png'}}@endif" alt="{{ $value->kode_pegawai }}" width="220px" height="220px" />
+                        </div>
+                        <div class="col-md-7 col-sm-8">
+
+                          <div class="row">
+                            <div class="col-md-12">
+                              <h3>Kode Pegawai: <b>{{ $value->kode_pegawai }}</b></h3>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-3 col-sm-3">
+                              <label style="margin: 10px 5px 10px 0px;">Nama</label>
+                            </div>
+                            <div class="col-md-9 col-sm-9">
+                              <input type="text" name="employee-change-name" class="input-lengko-default block" placeholder="Nama Pegawai" value="{{ $value->nama_pegawai }}" />
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-3 col-sm-3">
+                              <label style="margin: 10px 5px 10px 0px;">Kata Sandi</label>
+                            </div>
+                            <div class="col-md-9 col-sm-9">
+                              <input type="password" name="employee-change-password" class="input-lengko-default block" placeholder="(Kosongkan jika tidak diubah)" value="" />
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-3 col-sm-3">
+                              <label style="margin: 10px 5px 10px 0px;">Jenis Kelamin</label>
+                            </div>
+                            <div class="col-md-9 col-sm-9">
+                              <div class="radio-lengko-default">
+                                <input type="radio" name="employee-change-gender" id="gender-male-{{ $value->kode_pegawai }}" value="L" @if ($value->jenis_kelamin_pegawai == "Laki-Laki") {{'checked="checked" checked'}} @endif />
+                                  <label for="gender-male-{{ $value->kode_pegawai }}">Laki-Laki</label>
+                                <input type="radio" name="employee-change-gender" id="gender-female-{{ $value->kode_pegawai }}" value="P" @if ($value->jenis_kelamin_pegawai == "Perempuan") {{'checked="checked" checked'}} @endif />
+                                  <label for="gender-female-{{ $value->kode_pegawai }}">Perempuan</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-3 col-sm-3">
+                              <label style="margin: 10px 5px 10px 0px;">Otoritas</label>
+                            </div>
+                            <div class="col-md-9 col-sm-9">
+                              <select name="employee-change-authority" class="select-lengko-default block">
+                                @foreach ($data['authority'] as $key => $value2)
+                                  <option value="{{ $value2->kode_otoritas }}" @if ($value2->kode_otoritas == $value->kode_otoritas) {{ 'selected' }} @endif>{{ $value2->nama_otoritas }}</option>
+                                @endforeach
+                              </select>
+                            </div>
+                          </div>
+                          <div class="row mrg-t-20">
+                            <div class="col-md-12">
+                              <button class="btn-lengko btn-lengko-default pull-left" type="button" onclick="show_obj('employee-card-{{ $value->kode_pegawai }}'); hide_obj('employee-card-change-{{ $value->kode_pegawai }}'); show_obj('employee-card-table');">
+                                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Kembali
+                              </button>
+                              <button class="btn-lengko btn-lengko-default pull-right" type="submit">
+                                Simpan <span class="glyphicon glyphicon-save" aria-hidden="true"></span>
+                              </button>
+                              <button class="btn-lengko btn-lengko-danger pull-right" type="button" onclick="delete_employee('{{$value->kode_pegawai}}');">
+                                Hapus <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                              </button>
+                              <input type="hidden" name="employee-id" value="{{$value->kode_pegawai}}" />
+                              {{ csrf_field() }}
+                              {{ method_field('PUT') }}
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </form>
+                  @endforeach
                 </div>
               </div>
               @else

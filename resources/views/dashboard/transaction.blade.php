@@ -33,7 +33,7 @@
                   <div id="transaction-card-section">
                     <div class="table-responsive">
                       <table class="table">
-                        <tr>
+                        <tr class="open-tooltip" data-placement="bottom" data-toggle="tooltip" title="Klik untuk melihat detil transaksi">
                           <th>Transaksi</th>
                           <th>Waktu</th>
                           <th>Pembeli</th>
@@ -83,10 +83,6 @@
                                 </td>
                               </tr>
                               </table>
-                              <hr />
-                              <button type="button" class="btn-lengko btn-lengko-warning pull-left">
-                                <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Cetak
-                              </button>
                               <button type="button" class="btn-lengko btn-lengko-default pull-right" onclick="done_transaction({{ $value1->kode_pesanan }}, {{$value1->harga_pesanan}});">
                                 <span class="glyphicon glyphicon-usd" aria-hidden="true"></span> Bayar
                               </button>
@@ -139,7 +135,7 @@
 
               <div id="transaction-history-card-section" class="table-responsive">
                 <table class="table">
-                  <tr>
+                  <tr class="open-tooltip" data-placement="bottom" data-toggle="tooltip" title="Klik untuk melihat detil transaksi">
                     <th>Transaksi</th>
                     <th>Waktu</th>
                     <th>Pembeli</th>

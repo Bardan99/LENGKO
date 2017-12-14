@@ -1,24 +1,10 @@
 /* https://benkaminski.com/web-development-blog/customize-bootstrap-3-popovers-individually-using-css/ */
 .popover {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1060;
-  display: none;
-  max-width: 276px;
-  font-size: 13pt;
-  padding: 15px 5px;
-  text-align: left;
-  white-space: normal;
   background-color: #2c3e50;
-  color: #ecf0f1;
-  -webkit-background-clip: padding-box;
-          background-clip: padding-box;
-  border: 1px solid #ccc;
-  border: 1px solid rgba(0, 0, 0, .2);
-  border-radius: 6px;
-  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
-          box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+  color: #ffffff;
+  font-size: 13pt;
+  padding: 15px;
+  max-width: 350px;
 }
 
 .popover.top {
@@ -34,18 +20,18 @@
   margin-left: -10px;
 }
 .popover-title {
-  padding: 8px 14px;
-  margin: 0;
-  font-size: 14px;
-  font-weight: normal;
-  line-height: 18px;
   background-color: #2c3e50;
-  color: #ecf0f1;
-  border-bottom: 1px solid #ebebeb;
-  border-radius: 5px 5px 0 0;
+  color: #ffffff;
+  font-size: 13pt;
+  padding: 15px;
+  max-width: 350px;
 }
 .popover-content {
-  padding: 9px 14px;
+  background-color: #2c3e50;
+  color: #ffffff;
+  font-size: 13pt;
+  padding: 15px;
+  max-width: 350px;
 }
 .popover > .arrow,
 .popover > .arrow:after {

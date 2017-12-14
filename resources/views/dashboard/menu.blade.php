@@ -9,15 +9,6 @@
       <input type="hidden" name="search_token" value="{{ csrf_token() }}">
       <div class="row">
         <div class="col-md-12">
-          @if (count($errors) > 0)
-            <div class="alert alert-danger">
-              <ul>
-                @foreach ($errors->all() as $error)
-                  <li>{{ $error }}</li>
-                @endforeach
-              </ul>
-            </div>
-          @endif
 
           <div class="panel panel-default panel-custom">
             <div class="panel-heading">Manajemen Menu</div>
@@ -51,7 +42,7 @@
                           <div class="row">
                             <div class="col-md-5">
                               <div class="container-file-lengko block">
-                                <img id="preview-image-{{$keymenu}}" src="/files/images/menus/@if($value->gambar_menu){{$value->gambar_menu}}@else{{'not-available.png'}}@endif" alt="{{ $value->nama_menu }}" width="200px" height="150px" style="border-radius:5px;" />
+                                <img id="preview-image-{{$keymenu}}" class="hoverblur" src="/files/images/menus/@if($value->gambar_menu){{$value->gambar_menu}}@else{{'not-available.png'}}@endif" alt="{{ $value->nama_menu }}" width="200px" height="150px" style="border-radius:5px;" />
                                 @if ($auth == 'root' || $auth == 'chef')
                                   <input id="choose-image-{{$keymenu}}" name="menu-change-thumbnail" type="file" title="Ubah gambar menu" onchange="reload_image(this, '#preview-image-{{$keymenu}}');" />
                                 @endif
@@ -190,10 +181,20 @@
           <div class="panel panel-default panel-custom">
             <div class="panel-heading">Tambah Menu</div>
             <div class="panel-body">
+              @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                  <ul>
+                    @foreach ($errors->all() as $error)
+                      <li>{{ $error }}</li>
+                    @endforeach
+                  </ul>
+                </div>
+              @endif
+
               @if (count($data['material']) > 0)
               <form name="menu-add" class="form-horizontal" action="{{ url('/dashboard/create/menu/') }}" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                <div class="row">
+                <div class="row open-tooltip" data-placement="bottom" data-toggle="tooltip" title="Tambahkan informasi menu..">
                   <div class="col-md-1">
                     <label style="margin: 10px 5px 10px 0px;">Kode</label>
                   </div>
@@ -219,7 +220,7 @@
                   </div>
                   <div class="col-md-2">
                     <div class="container-file-lengko block">
-                      <img id="preview-thumbnail" class="img-thumbnail" src="/files/images/menus/default.png" alt="" width="140px" height="140px" />
+                      <img id="preview-thumbnail" class="img-thumbnail hoverblur" src="/files/images/menus/default.png" alt="" width="140px" height="140px" />
                       <input name="menu-create-thumbnail" type="file" title="Ubah gambar menu" onchange="reload_image(this, '#preview-thumbnail');" />
                     </div>
                   </div>

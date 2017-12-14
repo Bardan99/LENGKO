@@ -107,17 +107,19 @@ class HomeController extends Controller {
             ->get();
           }
 
-          $data['menu_obj'] = new MethodController();
+          $data['method'] = new MethodController();
         case 'order':
           $data['order-processed'] = DB::table('pesanan')
             ->select('pesanan.*', 'perangkat.nama_perangkat')
             ->join('perangkat', 'pesanan.kode_perangkat', '=', 'perangkat.kode_perangkat')
             ->orderBy('tanggal_pesanan', 'ASC')
             ->orderBy('waktu_pesanan', 'ASC')
-            ->where('pesanan.status_pesanan', '=', 'C')
-            ->orwhere('pesanan.status_pesanan', '=', 'P')
-            ->orwhere('pesanan.status_pesanan', '=', 'T')
-            //->where('pesanan.kode_perangkat', '=', $kode)
+            ->where(function ($qry) {
+              $qry->orwhere('pesanan.status_pesanan', '=', 'C')
+              ->orwhere('pesanan.status_pesanan', '=', 'P')
+              ->orwhere('pesanan.status_pesanan', '=', 'T');
+            })
+            ->where('pesanan.kode_perangkat', '=',  Auth::guard('device')->user()->kode_perangkat)
             ->get();
           foreach ($data['order-processed'] as $key => $value) {
             $data[$key]['order-processed-detail'] = DB::table('pesanan')
@@ -127,7 +129,7 @@ class HomeController extends Controller {
               ->where('pesanan.kode_pesanan', '=', $data['order-processed'][$key]->kode_pesanan)
               ->get();
           }
-          $data['menu_obj'] = new MethodController();
+          $data['method'] = new MethodController();
         break;
         case 'reviews':
           $data['review'] = DB::table('kuisioner')
@@ -154,7 +156,7 @@ class HomeController extends Controller {
             ->where('status_kuisioner', '=', '1')
             ->get();
 
-          $data['menu_obj'] = new MethodController();
+          $data['method'] = new MethodController();
         break;
         default:
           $data['unknown'] = null;

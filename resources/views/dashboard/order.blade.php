@@ -34,7 +34,7 @@
                 <div class="col-md-12 padd-tb-10">
                   <div id="order-card-section" class="table-responsive">
                     <table class="table">
-                      <tr>
+                      <tr class="open-tooltip" data-placement="bottom" data-toggle="tooltip" title="Klik untuk melihat detil pesanan">
                         <th>Transaksi</th>
                         <th>Waktu</th>
                         <th>Pembeli</th>
@@ -164,21 +164,21 @@
                       </div>
 
                       <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-4 col-sm-4 col-xs-6">
                           <label>Transaksi:</label> #{{ $value->kode_pesanan }}
                           ({{ $value->nama_perangkat }})
                           <br />
-                          <label>Pembeli:</label> {{ $value->pembeli_pesanan }}
+                          <label>Pembeli:</label> {{ $data['method']->rewrite('status', $value->pembeli_pesanan) }}
                           <br />
                           <label>Waktu:</label> {{ $value->tanggal_pesanan }}
                           {{ $value->waktu_pesanan }}
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-5 col-sm-5 col-xs-6">
                           <label>Catatan:</label>
                           <br />
-                          {{ $value->catatan_pesanan }}
+                          {{ $data['method']->rewrite('status', $value->catatan_pesanan) }}
                         </div>
-                        <div class="col-md-3 col-sm-8">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
                           <label>Tandai selesai semua</label>
                           <button type="button" class="btn-lengko btn-lengko-success block" onclick="done_order({{$value->kode_pesanan}});" title="Tandai sudah selesai semua">
                             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
@@ -196,26 +196,36 @@
                           </div>
                           <div class="row">
                             <div class="col-md-12">
-                              @foreach ($data[$key]['order-detail-food'] as $key2 => $value2)
-                                @if ($value2->kode_pesanan == $value2->kode_pesanan)
-                                  <div class="row">
-                                    <div class="col-md-10">
-                                      {{ $value2->nama_menu }} ({{ $value2->jumlah_pesanan_detil }})
+                              @if (count($data[$key]['order-detail-food']) > 0)
+                                @foreach ($data[$key]['order-detail-food'] as $key2 => $value2)
+                                  @if ($value2->kode_pesanan == $value2->kode_pesanan)
+                                    <div class="row padd-tb-10">
+                                      <div class="col-md-10">
+                                        {{ $value2->nama_menu }} ({{ $value2->jumlah_pesanan_detil }})
+                                      </div>
+                                      <div class="col-md-2">
+                                        @if ($value2->status_pesanan_detil == 'P')
+                                          <button type="button" class="btn-lengko btn-lengko-success block" onclick="done_menu({{$value2->kode_pesanan_detil}})" style="font-size: 10px;">
+                                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                          </button>
+                                        @elseif ($value2->status_pesanan_detil == 'D')
+                                          <button type="button" class="btn-lengko btn-lengko-warning block" style="font-size: 10px;">
+                                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                          </button>
+                                        @endif
+                                      </div>
                                     </div>
-                                    <div class="col-md-2">
-                                      @if ($value2->status_pesanan_detil == 'P')
-                                        <button type="button" class="btn-lengko btn-lengko-success block" onclick="done_menu({{$value2->kode_pesanan_detil}})" style="font-size: 10px;">
-                                          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                                        </button>
-                                      @elseif ($value2->status_pesanan_detil == 'D')
-                                        <button type="button" class="btn-lengko btn-lengko-warning block" style="font-size: 10px;">
-                                          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                        </button>
-                                      @endif
+                                  @endif
+                                @endforeach
+                              @else
+                                <div class="row">
+                                  <div class="col-md-12">
+                                    <div class="alert alert-warning">
+                                      Tidak pesan makanan
                                     </div>
                                   </div>
-                                @endif
-                              @endforeach
+                                </div>
+                              @endif
                             </div>
                           </div>
                         </div>
@@ -228,26 +238,36 @@
                           </div>
                           <div class="row">
                             <div class="col-md-12">
-                              @foreach ($data[$key]['order-detail-drink'] as $key3 => $value3)
-                                @if ($value3->kode_pesanan == $value3->kode_pesanan)
-                                  <div class="row">
-                                    <div class="col-md-10">
-                                      {{ $value3->nama_menu }} ({{ $value3->jumlah_pesanan_detil }})
+                              @if (count($data[$key]['order-detail-drink']) > 0)
+                                @foreach ($data[$key]['order-detail-drink'] as $key3 => $value3)
+                                  @if ($value3->kode_pesanan == $value3->kode_pesanan)
+                                    <div class="row padd-tb-10">
+                                      <div class="col-md-10">
+                                        {{ $value3->nama_menu }} ({{ $value3->jumlah_pesanan_detil }})
+                                      </div>
+                                      <div class="col-md-2">
+                                        @if ($value3->status_pesanan_detil == 'P')
+                                          <button type="button" class="btn-lengko btn-lengko-success block" onclick="done_menu({{$value3->kode_pesanan_detil}})" style="font-size: 10px;">
+                                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                          </button>
+                                        @elseif ($value3->status_pesanan_detil == 'D')
+                                          <button type="button" class="btn-lengko btn-lengko-warning block" style="font-size: 10px;">
+                                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                          </button>
+                                        @endif
+                                      </div>
                                     </div>
-                                    <div class="col-md-2">
-                                      @if ($value3->status_pesanan_detil == 'P')
-                                        <button type="button" class="btn-lengko btn-lengko-success block" onclick="done_menu({{$value3->kode_pesanan_detil}})" style="font-size: 10px;">
-                                          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                                        </button>
-                                      @elseif ($value3->status_pesanan_detil == 'D')
-                                        <button type="button" class="btn-lengko btn-lengko-warning block" style="font-size: 10px;">
-                                          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                        </button>
-                                      @endif
-                                    </div>
+                                  @endif
+                                @endforeach
+                              @else
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <div class="alert alert-warning">
+                                    Tidak pesan minuman
                                   </div>
-                                @endif
-                              @endforeach
+                                </div>
+                              </div>
+                              @endif
                             </div>
                           </div>
                         </div>

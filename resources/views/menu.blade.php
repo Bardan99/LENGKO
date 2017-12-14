@@ -7,7 +7,7 @@
   <div class="container-fluid">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     @if (count($data['menu']) > 0)
-    <div class="row mrg-b-30">
+    <div class="row mrg-b-30 open-popover" data-html="true" data-placement="bottom" data-toggle="popover" data-content="Bingung mulai dari mana? <br /> Dari matamu, matamu kumulai..<br />(jangan sambil nyanyi bacanya)">
       <div class="col-md-offset-3 col-md-6 col-sm-8 mrg-t-20">
         <div class="input-group">
           <input type="text" name="menu-search-query" class="form-control input-lengko-default block" placeholder="Cari menu.." style="height:45px;" />
@@ -53,11 +53,11 @@
 
           <div class="col-md-4 col-sm-6">
             <div class="menu" onclick="show_obj('menu-{{$value->kode_menu}}');">
-              <img src="/files/images/menus/@if($value->gambar_menu){{$value->gambar_menu}}@else{{'not-available.png'}}@endif" alt="{{ $value->nama_menu }}" width="100%" height="150px" />
+              <img class="hoverblur" src="/files/images/menus/@if($value->gambar_menu){{$value->gambar_menu}}@else{{'not-available.png'}}@endif" alt="{{ $value->nama_menu }}" width="100%" height="150px" />
               <h2 class="menu-title">{{ $value->nama_menu }} <small>({{$status}})</small></h2>
               <div class="row">
                 <div class="col-md-6">
-                  {{ $data['menu_obj']->num_to_rp($value->harga_menu) }}
+                  {{ $data['method']->num_to_rp($value->harga_menu) }}
                 </div>
                 <div class="col-md-6">
                   <a href="#!" class="pull-right"><i class="material-icons md-36">@if ($status == 'Tersedia'){{'add_circle_outline'}}@else{{'report'}}@endif</i></a>
@@ -84,7 +84,7 @@
                     <p>
                       {{$value->deskripsi_menu}}
                     </p>
-                    {{ $data['menu_obj']->num_to_rp($value->harga_menu) }}
+                    {{ $data['method']->num_to_rp($value->harga_menu) }}
                   </div>
                 </div>
                 @if ($status == 'Tersedia')

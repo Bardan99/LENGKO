@@ -112,7 +112,7 @@ $(document).ready(function() {
         };
         var options_transaction = {};
         var chart_transaction = new Chart(report_transaction, {
-          type: 'line',
+          type: 'bar',
           data: data_transaction,
           options: options_transaction
         });

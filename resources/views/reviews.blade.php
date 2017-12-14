@@ -74,8 +74,8 @@
     <div class="row mrg-b-10">
       <div class="col-md-6">
 
-        <div class="row mrg-b-10">
-          <div class="col-md-6">
+        <div class="row mrg-b-10 open-tooltip" data-placement="bottom" data-toggle="tooltip" title="Isi identitas kamu di sini ;)">
+          <div class="col-md-8">
             <label>Nama Pembeli</label>
             <input type="text" name="review-create-name" class="input-lengko-default block" placeholder="Nama Pembeli" value="" />
           </div>

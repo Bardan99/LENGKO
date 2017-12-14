@@ -78,7 +78,7 @@ function search_menu(data) {
 
             res += '<div class="col-md-4 col-sm-6">';
             res += '<div class="menu" onclick="show_obj(\'menu-' + result.content[i].kode_menu + '\');">';
-            res += '<img src="/files/images/menus/';
+            res += '<img class="hoverblur" src="/files/images/menus/';
             if (result.content[i].gambar_menu) {
               res += result.content[i].gambar_menu;
             }
@@ -109,7 +109,7 @@ function search_menu(data) {
             res += '<span class="glyphicon glyphicon-remove pull-right cursor-pointer" aria-hidden="true" onclick="hide_obj(\'menu-' + result.content[i].kode_menu + '\');"></span>';
             res += '</div></div>';
             res += '<div class="row"><div class="col-md-3">';
-            res += '<img src="/files/images/menus/';
+            res += '<img class="hoverblur" src="/files/images/menus/';
             if (result.content[i].gambar_menu) {
               res += result.content[i].gambar_menu;
             }
@@ -223,7 +223,7 @@ function pagination_menu(skip, take) {
 
             res += '<div class="col-md-4 col-sm-6">';
             res += '<div class="menu" onclick="show_obj(\'menu-' + result.content[i].kode_menu + '\');">';
-            res += '<img src="/files/images/menus/';
+            res += '<img class="hoverblur" src="/files/images/menus/';
             if (result.content[i].gambar_menu) {
               res += result.content[i].gambar_menu;
             }
@@ -254,7 +254,7 @@ function pagination_menu(skip, take) {
             res += '<span class="glyphicon glyphicon-remove pull-right cursor-pointer" aria-hidden="true" onclick="hide_obj(\'menu-' + result.content[i].kode_menu + '\');"></span>';
             res += '</div></div>';
             res += '<div class="row"><div class="col-md-3">';
-            res += '<img src="/files/images/menus/';
+            res += '<img class="hoverblur" src="/files/images/menus/';
             if (result.content[i].gambar_menu) {
               res += result.content[i].gambar_menu;
             }
@@ -317,8 +317,8 @@ function pagination_menu(skip, take) {
 function add_review(data) {
 
   swal({
-    title: "Tambah kuisioner?",
-    html: "",
+    title: "Kirim kuisioner?",
+    html: "Kami yakin dan percaya bahwa kamu terbaik",
     type: "question",
     timer: 10000,
     showCancelButton: true,
@@ -584,6 +584,46 @@ function create_order(data) {
   });
 }//end
 
+function finish_order() {
+
+  swal({
+    title: "Isi kuisioner",
+    html: "Sebelum melanjutkan proses pembayaran, apakah kamu mau mengisi kuisioner?",
+    type: "question",
+    timer: 10000,
+    showCancelButton: true,
+    confirmButtonText: 'Iya',
+    confirmButtonColor: '#2c3e50',
+    cancelButtonText: 'Tidak'
+  }).then(function(result) {
+    if (result.value) {
+      if (result.value) {
+        swal({
+          title: "Terima kasih",
+          html: "Kamu akan diarahkan ke menu kuisioner <br /> Silahkan isi kuisioner dan lanjutkan pembayaran di kasir atau melalui pelayan (^^)",
+          type: "success",
+          showCancelButton: false,
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#2c3e50',
+        }).then(function(result) {
+          if (result.value) {
+            window.location = '/reviews';
+          }
+        });
+      }
+    }
+    else {
+      swal({
+        title: "Lanjutkan pembayaran",
+        html: "Silahkan lanjutkan proses pembayaran di kasir atau melalui pelayan (^^)",
+        type: "success",
+        showCancelButton: false,
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#2c3e50',
+      });
+    }
+  });
+}//end
 
 function filter_menu(data) {
   $.ajax({
@@ -618,7 +658,7 @@ function filter_menu(data) {
 
             res += '<div class="col-md-4 col-sm-6" onclick="show_obj(\'menu-' + result.content[i].kode_menu + '\');">';
             res += '<div class="menu">';
-            res += '<img src="/files/images/menus/';
+            res += '<img class="hoverblur" src="/files/images/menus/';
             if (result.content[i].gambar_menu) {
               res += result.content[i].gambar_menu;
             }
@@ -649,7 +689,7 @@ function filter_menu(data) {
             res += '<span class="glyphicon glyphicon-remove pull-right cursor-pointer" aria-hidden="true" onclick="hide_obj(\'menu-' + result.content[i].kode_menu + '\');"></span>';
             res += '</div></div>';
             res += '<div class="row"><div class="col-md-3">';
-            res += '<img src="/files/images/menus/';
+            res += '<img class="hoverblur" src="/files/images/menus/';
             if (result.content[i].gambar_menu) {
               res += result.content[i].gambar_menu;
             }

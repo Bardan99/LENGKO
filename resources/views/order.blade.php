@@ -41,7 +41,7 @@
             <div class="row">
               <div class="col-md-12">
                 <div style="padding-top: 4vh; padding-bottom: 4vh;" >
-                  {{ $data['menu_obj']->num_to_rp($value->harga_menu) }}
+                  {{ $data['method']->num_to_rp($value->harga_menu) }}
                 </div>
               </div>
             </div>
@@ -81,6 +81,7 @@
 
       </div>
     </div>
+
     <div class="row">
       <div class="col-md-6">
         <label>Nama Pembeli</label>
@@ -91,10 +92,11 @@
         <textarea name="order-create-addition" class="textarea-lengko-default block" rows="5" placeholder="(Kosongkan jika tidak ada keterangan tambahan pemesanan)"></textarea>
       </div>
     </div>
-    <div class="row mrg-b-20">
-      <div class="col-md-12 padd-lr-10 padd-tb-10">
-        <button type="button" name="order-create-button" class="btn-lengko btn-lengko-default pull-right">
-          <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Lanjutkan
+
+    <div class="row mrg-b-20 padd-tb-10">
+      <div class="col-md-offset-9 col-md-3 padd-lr-10 padd-tb-10">
+        <button type="button" name="order-create-button" class="btn-lengko btn-lengko-default pull-right open-tooltip" data-placement="left" data-toggle="tooltip" title="Lanjutkan proses pemesanan..">
+          <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Pesan Sekarang
         </button>
       </div>
     </div>
@@ -138,7 +140,7 @@
               <td>#{{ $value1->kode_pesanan }} {{ $value1->pembeli_pesanan }}</td>
               <td width="400px">{{ $value1->catatan_pesanan }}</td>
               <td>{{ $value1->tanggal_pesanan }} {{ $value1->waktu_pesanan }}</td>
-              <td class="status-{{$value1->status_pesanan}}">{{ $data['menu_obj']->rewrite('status', $value1->status_pesanan) }}</td>
+              <td class="status-{{$value1->status_pesanan}}">{{ $data['method']->rewrite('status', $value1->status_pesanan) }}</td>
             </tr>
             @if (count($data[$key1]['order-processed-detail']) > 0)
             <tr id="review-{{ $key1 }}" style="display:none; visibility: none;">
@@ -158,17 +160,17 @@
                   @foreach ($data[$key1]['order-processed-detail'] as $key2 => $value2)
                     <tr>
                       <td>{{ $value2->nama_menu }}</td>
-                      <td>{{ $data['menu_obj']->num_to_rp($value2->harga_menu) }}</td>
+                      <td>{{ $data['method']->num_to_rp($value2->harga_menu) }}</td>
                       <td>{{ $value2->jumlah_pesanan_detil }}</td>
-                      <td>{{ $data['menu_obj']->num_to_rp($value2->harga_menu * $value2->jumlah_pesanan_detil) }}</td>
+                      <td>{{ $data['method']->num_to_rp($value2->harga_menu * $value2->jumlah_pesanan_detil) }}</td>
                       @if ($value1->status_pesanan != 'C')
-                        <td class="status-{{$value2->status_pesanan_detil}}">{{ $data['menu_obj']->rewrite('status', $value2->status_pesanan_detil) }}</td>
+                        <td class="status-{{$value2->status_pesanan_detil}}">{{ $data['method']->rewrite('status', $value2->status_pesanan_detil) }}</td>
                       @endif
                     </tr>
                   @endforeach
                   <tr>
                     <th colspan="3" class="text-right">Total</th>
-                    <td colspan="2">{{ $data['menu_obj']->num_to_rp($value1->harga_pesanan) }}</td>
+                    <td colspan="2">{{ $data['method']->num_to_rp($value1->harga_pesanan) }}</td>
                   </tr>
                   </table>
                 </div>
@@ -179,8 +181,17 @@
           </table>
         </div>
 
+        </div>
       </div>
-      </div>
+      @if ($data['order-processed'][0]->status_pesanan == 'T')
+        <div class="row padd-tb-20">
+          <div class="col-md-offset-4 col-md-4 col-sm-offset-2 col-sm-6">
+            <button type="button" name="order-finish-button" class="btn-lengko btn-lengko-default pull-right block" onclick="finish_order();">
+              <span class="glyphicon glyphicon-usd" aria-hidden="true"></span> Bayar Sekarang
+            </button>
+          </div>
+        </div>
+      @endif
       @endif
     <!-- here -->
 

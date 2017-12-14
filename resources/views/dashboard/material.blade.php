@@ -28,7 +28,7 @@
                   @if (count($data['material-request-user']) > 0)
                   <div class="table-responsive">
                     <table class="table">
-                      <tr>
+                      <tr class="open-tooltip" data-placement="bottom" data-toggle="tooltip" title="Klik untuk melihat detil pengajuan">
                         <th>#</th>
                         <th>Subjek</th>
                         <th>Waktu</th>
@@ -92,31 +92,22 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-md-2 col-sm-2">
+                      <div class="col-md-2 col-sm-2 col-xs-12">
                         <label style="margin: 10px 5px 10px 0px;">Nama</label>
                       </div>
-                      <div class="col-md-6 col-sm-5">
+                      <div class="col-md-6 col-sm-5 col-xs-7">
                         <input type="text" id="material-request-create-item-0" name="material-request-create-item-0" class="input-lengko-default block" placeholder="Nama Bahan Baku" />
                       </div>
-                      <div class="col-md-4 col-sm-5">
-                        <div class="row">
-                          <div class="col-md-3 col-sm-3">
-                            <button type="button" class="btn-lengko btn-lengko-default block" onclick="add_val('material-list-0', 'material-request-create-item-0');" style="height:42px; padding: 10px 5px 10px 5px; font-size: 13pt;">
-                              <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>&nbsp;
-                            </button>
-                          </div>
-                          <div class="col-md-9 col-sm-9">
-                            <select id="material-list-0" name="" class="select2" onchange="add_val('material-list-0', 'material-request-create-item-0');">
-                              @if (count($data['material']) > 0)
-                                @foreach ($data['material'] as $key => $value)
-                                  <option value="{{ $value->kode_bahan_baku }}">{{ $value->nama_bahan_baku }}</option>
-                                @endforeach
-                              @else
-                                <option value="">Tidak tersedia</option>
-                              @endif
-                            </select>
-                          </div>
-                        </div>
+                      <div class="col-md-4 col-sm-5 col-xs-5">
+                        <select id="material-list-0" name="" class="select2" onchange="add_val('material-list-0', 'material-request-create-item-0');">
+                          @if (count($data['material']) > 0)
+                            @foreach ($data['material'] as $key => $value)
+                              <option value="{{ $value->kode_bahan_baku }}">{{ $value->nama_bahan_baku }}</option>
+                            @endforeach
+                          @else
+                            <option value="">Tidak tersedia</option>
+                          @endif
+                        </select>
                       </div>
                     </div>
 
@@ -125,7 +116,7 @@
                     </div>
 
                     <div class="row">
-                      <div class="col-md-offset-2 col-md-10">
+                      <div class="col-md-offset-2 col-md-10 open-tooltip" data-placement="top" data-toggle="tooltip" title="Tambah bahan baku lainnya">
                         <button type="button" id="btn-material-list-request" class="btn-lengko btn-lengko-default block" style="height:18px; padding: 0px 5px 0px 5px; font-size: 10pt;">
                           <span class="glyphicon glyphicon-circle-arrow-down" aria-hidden="true"></span>&nbsp;
                         </button>

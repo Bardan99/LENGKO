@@ -71,9 +71,9 @@
               <form class="" action="{{ url('/dashboard/update/profile/') }}" method="post" enctype="multipart/form-data">
                 <div class="row">
                   <div class="col-md-4 col-sm-4">
-                    <div class="container-file-lengko overlay block">
+                    <div class="container-file-lengko overlay block open-tooltip" data-placement="bottom" data-toggle="tooltip" title="Ubah gambar profil">
                       <img id="preview-profile" class="img-circle img-center" src="{{ url('/files/images/employee/') . '/' . $path }}" alt="" width="140px" height="140px" />
-                      <input name="employee-photo" type="file" title="Ubah foto profil" onchange="reload_image(this, '#preview-profile');" />
+                      <input name="employee-photo" type="file" onchange="reload_image(this, '#preview-profile');" />
                       <input type="hidden" name="employee-id" value="{{ $data['employee']->kode_pegawai }}">
                       <input type="hidden" name="_method" value="put">
                       <input type="hidden" name="_token" value="{{ csrf_token() }}">

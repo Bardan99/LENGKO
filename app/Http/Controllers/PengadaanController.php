@@ -31,18 +31,17 @@ class PengadaanController extends Controller {
 
 
   public function createrequest(Request $request) {
-
     $data = $request->all();
-    $max = $data['material-request-create-max'] + 1;
+    $max = $data['material-request-create-max'];
     $items['material-request-create-subject'] = 'required|min:4';
     $items['material-request-create-priority'] = 'required|min:1';
-    if ($max > 2) {
+    if ($max == 1) {
+      $items['material-request-create-item-0'] = 'required|min:1';
+    }
+    else {
       for ($i = 0; $i < $max; $i++) {
         $items['material-request-create-item-' . $i] = 'required|min:1';
       }
-    }
-    else {
-      $items['material-request-create-item-0'] = 'required|min:1';
     }
     $this->validate($request, $items);
 
@@ -57,7 +56,15 @@ class PengadaanController extends Controller {
     ]);
     $id = $try->kode_pengadaan_bahan_baku;
 
-    if ($max > 2) {
+    if ($max == 1) {
+      $detils[] = array(
+        'nama_bahan_baku' => $data['material-request-create-item-0'],
+        'jumlah_bahan_baku' => 0,
+        'satuan_bahan_baku' => '',
+        'kode_pengadaan_bahan_baku' => $id,
+      );
+    }
+    else {
       for ($i = 0; $i < $max; $i++) {
         $detils[] = array(
           'nama_bahan_baku' => $data['material-request-create-item-' . $i],
@@ -66,14 +73,6 @@ class PengadaanController extends Controller {
           'kode_pengadaan_bahan_baku' => $id,
         );
       }
-    }
-    else {
-      $detils[] = array(
-        'nama_bahan_baku' => $data['material-request-create-item-0'],
-        'jumlah_bahan_baku' => 0,
-        'satuan_bahan_baku' => '',
-        'kode_pengadaan_bahan_baku' => $id,
-      );
     }
 
     $try = PengadaanDetil::insert($detils);

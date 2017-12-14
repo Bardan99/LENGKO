@@ -95,7 +95,7 @@ function confirm_material(id) {
           success: function(result) {
             if (result.status == 200) {
               swal({
-                title: "Berhasil menambah bahan baku",
+                title: "Pengajuan berhasil diterima",
                 text: result.text,
                 type: "success",
                 timer: 30000
@@ -652,66 +652,94 @@ function search_employee(data) {
         var res = '';
         if (result.content) {
           var token = $('input[name=search_token]').val();
-
-          res += '<div class="table-responsive"><table class="table table-hover table-striped">';
-          res += '<tr><th>#</th><th>Nama</th><th>Jenis Kelamin</th><th>Otoritas</th><th></th></tr>';
-
-          for (i = 0; i < result.content.length; i++) {
-            res += '<tr id="employee-card-change-' + result.content[i].kode_pegawai + '" hidden="hidden">';
-            res += '<td colspan="5">';
-            res += '<form name="" method="post" action="/dashboard/update/employee">';
-            res += '<div class="row"><div class="col-md-1">' + result.content[i].kode_pegawai + '</div>';
-            res += '<div class="col-md-3"><input type="text" name="employee-change-name" class="input-lengko-default block" placeholder="Nama Pegawai" value="' + result.content[i].nama_pegawai + '" />';
-            res += '<input type="password" name="employee-change-password" class="input-lengko-default block" placeholder="(Kata sandi tidak diubah, kosongkan)" value="" />';
-            res += '</div><div class="col-md-3"><div class="radio-lengko-default">';
-            res += '<input type="radio" name="employee-change-gender" id="gender-male-' + result.content[i].kode_pegawai + '" value="L"';
-            if (result.content[i].jenis_kelamin_pegawai == "Laki-Laki") {
-              res += ' checked="checked"';
-            }
-            res += ' /><label for="gender-male-' + result.content[i].kode_pegawai + '">Laki-Laki</label>';
-            res += '<br /><input type="radio" name="employee-change-gender" id="gender-female-' + result.content[i].kode_pegawai + '" value="P" ';
-            if (result.content[i].jenis_kelamin_pegawai == "Perempuan") {
-              res += ' checked="checked"';
-            }
-            res += ' /><label for="gender-female-' + result.content[i].kode_pegawai + '">Perempuan</label>';
-
-            res += '</div></div>';
-            res += '<div class="col-md-3"><select name="employee-change-authority" class="select-lengko-default block">';
-
-            for (j = 0; j < result.authority.length; j++) {
-              res += '<option value="' + result.authority[j].kode_otoritas + '"';
-              if (result.authority[j].kode_otoritas == result.content[i].kode_otoritas) {
-                res += ' selected';
+          res += '<div id="employee-card-table">';
+            for (i = 0; i < result.content.length; i++) {
+              res += '<div class="col-md-3 col-sm-4 col-xs-6">';
+              res += '<div class="" onclick="show_obj(\'employee-card-change-' + result.content[i].kode_pegawai + '\'); hide_obj(\'employee-card-' + result.content[i].kode_pegawai + '\'); hide_obj(\'employee-card-table\')">';
+              res += '<div class="row"><div class="col-md-12">';
+              res += '<img class="hoverblur img-circle obj-center" src="/files/images/employee/';
+              if (result.content[i].gambar_pegawai) {
+                res += result.content[i].gambar_pegawai;
               }
-              res += ' >' + result.authority[j].nama_otoritas + '</option>';
+              else {
+                res += 'default.png';
+              }
+              res += '" alt="' + result.content[i].kode_pegawai + '" width="150px" height="150px" />';
+              res += '</div></div>';
+              res += '<div class="row" style="min-height: 60px;"><div class="col-md-12">';
+              res += '<h4 class="text-center">' + result.content[i].nama_pegawai + '</h4>';
+              res += '</div></div></div></div>';
             }
+          res += '</div>';
 
-            res += '</select>';
-            res += '</div><div class="col-md-2"><button class="btn-lengko btn-lengko-default pull-left" type="button" onclick="show_obj(\'employee-card-' + result.content[i].kode_pegawai + '\'); hide_obj(\'employee-card-change-' + result.content[i].kode_pegawai + '\');">';
-            res += '<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>';
-            res += '</button>';
-            res += '<button class="btn-lengko btn-lengko-default pull-left" type="submit">';
-            res += '<span class="glyphicon glyphicon-save" aria-hidden="true"></span>';
-            res += '</button>';
-            res += '<input type="hidden" name="employee-id" value="' + result.content[i].kode_pegawai + '" />';
-            res += '<input type="hidden" name="_token" value="' + token + '"><input type="hidden" name="_method" value="PUT">';
-            res += '</div></form></td></tr>';
-
-            res += '<tr id="employee-card-' + result.content[i].kode_pegawai + '">';
-            res += '<td>' + result.content[i].kode_pegawai + '</td>';
-            res += '<td>' + result.content[i].nama_pegawai + '</td>';
-            res += '<td>' + result.content[i].jenis_kelamin_pegawai + '</td>';
-            res += '<td>' + result.content[i].nama_otoritas + '</td><td>';
-            res += '<button class="btn-lengko btn-lengko-default pull-left" type="button" onclick="show_obj(\'employee-card-change-' + result.content[i].kode_pegawai + '\'); hide_obj(\'employee-card-' + result.content[i].kode_pegawai + '\');">';
-            res += '<span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>';
-            res += '<form name="employee-delete" action="/dashboard/delete/employee/' + result.content[i].kode_pegawai + '" method="POST">';
-            res += '<button class="btn-lengko btn-lengko-default" type="submit">';
-            res += '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>';
-            res += '<input type="hidden" name="employee-delete-id" value="' + result.content[i].kode_pegawai + '">';
-            res += '<input type="hidden" name="_token" value="' + token + '"><input type="hidden" name="_method" value="DELETE">';
-            res += '</form></td></tr>';
-          }
-          res += '</table></div>';
+          res += '<div id="employee-card-editable">';
+            for (i = 0; i < result.content.length; i++) {
+              res += '<form id="employee-card-change-' + result.content[i].kode_pegawai + '" hidden="hidden" name="" method="post" action="/dashboard/update/employee">';
+              res += '<div class="row"><div class="col-md-4 col-sm-4">';
+              res += '<img class="img-circle obj-center" src="/files/images/employee/';
+              if (result.content[i].gambar_pegawai) {
+                res += result.content[i].gambar_pegawai;
+              }
+              else {
+                res += 'default.png';
+              }
+              res += '" alt="' + result.content[i].kode_pegawai + '" width="220px" height="220px" />';
+              res += '</div><div class="col-md-7 col-sm-8">';
+              res += '<div class="row">';
+              res += '<div class="col-md-12">';
+              res += '<h3>Kode Pegawai: <b>' + result.content[i].kode_pegawai + '</b></h3>';
+              res += '</div></div>';
+              res += '<div class="row"><div class="col-md-3 col-sm-3">';
+              res += '<label style="margin: 10px 5px 10px 0px;">Nama</label>';
+              res += '</div><div class="col-md-9 col-sm-9">';
+              res += '<input type="text" name="employee-change-name" class="input-lengko-default block" placeholder="Nama Pegawai" value="' + result.content[i].nama_pegawai + '" />';
+              res += '</div></div>';
+              res += '<div class="row"><div class="col-md-3 col-sm-3">';
+              res += '<label style="margin: 10px 5px 10px 0px;">Kata Sandi</label>';
+              res += '</div><div class="col-md-9 col-sm-9">';
+              res += '<input type="password" name="employee-change-password" class="input-lengko-default block" placeholder="(Kosongkan jika tidak diubah)" value="" />';
+              res += '</div></div>';
+              res += '<div class="row"><div class="col-md-3 col-sm-3">';
+              res += '<label style="margin: 10px 5px 10px 0px;">Jenis Kelamin</label>';
+              res += '</div><div class="col-md-9 col-sm-9">';
+              res += '<div class="radio-lengko-default">';
+              res += '<input type="radio" name="employee-change-gender" id="gender-male-' + result.content[i].kode_pegawai + '" value="L"';
+              if (result.content[i].jenis_kelamin_pegawai == "Laki-Laki") {
+                res += 'checked="checked" checked';
+              }
+              res += ' > <label for="gender-male-' + result.content[i].kode_pegawai + '">Laki-Laki</label>';
+              res += '<input type="radio" name="employee-change-gender" id="gender-female-' + result.content[i].kode_pegawai + '" value="P"';
+              if (result.content[i].jenis_kelamin_pegawai == "Perempuan") {
+                res += 'checked="checked" checked';
+              }
+              res += ' > <label for="gender-female-' + result.content[i].kode_pegawai + '">Perempuan</label>';
+              res += '</div></div></div>';
+              res += '<div class="row"><div class="col-md-3 col-sm-3">';
+              res += '<label style="margin: 10px 5px 10px 0px;">Otoritas</label>';
+              res += '</div><div class="col-md-9 col-sm-9">';
+              res += '<select name="employee-change-authority" class="select-lengko-default block">';
+              for (j = 0; j < result.authority.length; j++) {
+                res += '<option value="' + result.authority[j].kode_otoritas + '"';
+                if (result.authority[j].kode_otoritas == result.content[i].kode_otoritas) {
+                  res += 'selected';
+                }
+                res += '>' + result.authority[j].nama_otoritas + '</option>';
+              }//endloop
+              res += '</select>';
+              res += '</div></div>';
+              res += '<div class="row mrg-t-20"><div class="col-md-12">';
+              res += '<button class="btn-lengko btn-lengko-default pull-left" type="button" onclick="show_obj(\'employee-card-' + result.content[i].kode_pegawai + '\'); hide_obj(\'employee-card-change-' + result.content[i].kode_pegawai + '\'); show_obj(\'employee-card-table\');">';
+              res += '<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Kembali</button>';
+              res += '<button class="btn-lengko btn-lengko-default pull-right" type="submit">';
+              res += 'Simpan <span class="glyphicon glyphicon-save" aria-hidden="true"></span></button>';
+              res += '<button class="btn-lengko btn-lengko-danger pull-right" type="button" onclick="delete_employee(\'' + result.content[i].kode_pegawai + '\');">';
+              res += 'Hapus <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>';
+              res += '<input type="hidden" name="employee-id" value="' + result.content[i].kode_pegawai + '" />';
+              res += '<input type="hidden" name="_method" value="PUT" />';
+              res += '<input type="hidden" name="_token" value=' + token + ' />';
+              res += '</div></div></div></div></form>';
+            }//endloop
+          res += '</div>';
         }
         else {
           res = '<div class="row padd-lr-15"><div class="col-md-8">';
@@ -732,6 +760,64 @@ function search_employee(data) {
   });
 }//end
 
+function delete_employee(id) {
+  swal({
+    title: "Hapus pegawai?",
+    html: "Hapus " + id + " dari daftar pegawai?",
+    type: "question",
+    timer: 10000,
+    showCancelButton: true,
+    confirmButtonText: 'Iya',
+    confirmButtonColor: '#2c3e50',
+    cancelButtonText: 'Tidak'
+  }).then(function(result) {
+    if (result.value) {
+      data = {
+        '_id' : id,
+        '_method' : "delete",
+        '_token' : $('input[name="_token"]').val()
+      };
+
+      $.ajax({
+        type: "POST",
+        url: "/dashboard/delete/employee/" + id,
+        data: data,
+        cache: false,
+        success: function(result) {
+          if (result.status == 200) {
+            swal({
+              title: "Berhasil menghapus pegawai",
+              text: result.text,
+              type: "success",
+              timer: 30000
+            }).then(function(result) {
+              if (result.value) {
+                window.location = '/dashboard/employee/';
+              }
+            });
+          }
+          else {
+            swal({
+              title: "Oops terjadi kesalahan",
+              html: result.text,
+              type: "warning",
+              timer: 10000,
+              confirmButtonText: 'Ok',
+              confirmButtonColor: '#2c3e50',
+            }).then(function(result) {
+              if (result.value) {
+                window.location = '/dashboard/employee/';
+              }
+            });
+          }
+        },
+        error: function(result){
+
+        }
+      });//end ajax
+    }//endif
+  });//endswal
+}
 
 function search_material(data) {
   $.ajax({
@@ -766,27 +852,27 @@ function search_material(data) {
         var res = '';
         if (result.content) {
           var token = $('input[name=search_token]').val();
-          res += '<div class="table-responsive"><table class="table table-hover table-striped">';
+          res += '<div class="col-md-12"><div class="table-responsive"><table class="table table-hover table-striped">';
           res += '<tr><td colspan="6">';
-          res += '<div class="row"><div class="col-md-1">#</div><div class="col-md-3">';
-          res += 'Nama</div><div class="col-md-2">Stok</div><div class="col-md-2">';
-          res += 'Satuan</div><div class="col-md-2">Kadaluarsa</div><div class="col-md-2"></div></td></tr>';
+          res += '<div class="row"><div class="col-md-1 col-sm-1">#</div><div class="col-md-3 col-sm-3">';
+          res += 'Nama</div><div class="col-md-2 col-sm-2">Stok</div><div class="col-md-2 col-sm-2">';
+          res += 'Satuan</div><div class="col-md-2 col-sm-2">Kadaluarsa</div><div class="col-md-2 col-sm-2"></div></td></tr>';
           for (i = 0; i < result.content.length; i++) {
             res += '<tr id="material-card-change-' + result.content[i].kode_bahan_baku + '" hidden="hidden">';
             res += '<td colspan="6">';
             res += '<form name="" method="post" action="/dashboard/update/material">';
             res += '<div class="row"><div class="col-md-1">';
             res += result.content[i].kode_bahan_baku;
-            res += '</div><div class="col-md-3">';
+            res += '</div><div class="col-md-3 col-sm-6 col-xs-12">';
             res += '<input type="hidden" name="material-id" value="' + result.content[i].kode_bahan_baku + '">';
             res += '<input type="text" name="material-change-name" class="input-lengko-default block" placeholder="Nama Bahan Baku" value="' + result.content[i].nama_bahan_baku + '" />';
-            res += '</div><div class="col-md-2">';
+            res += '</div><div class="col-md-2 col-sm-6 col-xs-12">';
             res += '<input type="number" min="0" name="material-change-stock" class="input-lengko-default block" placeholder="Stok Bahan Baku" value="' + result.content[i].stok_bahan_baku + '" />';
-            res += '</div><div class="col-md-2">';
+            res += '</div><div class="col-md-2 col-sm-6 col-xs-12">';
             res += '<input type="text" name="material-change-unit" class="input-lengko-default block" placeholder="Satuan Bahan Baku" value="' + result.content[i].satuan_bahan_baku + '" />';
-            res += '</div><div class="col-md-2">';
+            res += '</div><div class="col-md-2 col-sm-6 col-xs-12">';
             res += '<input type="text" name="material-change-date" class="input-lengko-default block datepicker" placeholder="Kadaluarsa Bahan Baku" value="' + result.content[i].tanggal_kadaluarsa_bahan_baku + '" />';
-            res += '</div><div class="col-md-2">';
+            res += '</div><div class="col-md-2 col-sm-6 col-xs-12">';
             res += '<button class="btn-lengko btn-lengko-default pull-left" type="button" onclick="show_obj(\'material-card-' + result.content[i].kode_bahan_baku + '\'); hide_obj(\'material-card-change-' + result.content[i].kode_bahan_baku + '\');">';
             res += '<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>';
             res += '</button>';
@@ -815,7 +901,7 @@ function search_material(data) {
             res += '<input type="hidden" name="_method" value="DELETE">';
             res += '</form></div></td></tr>';
           }
-          res += '</table></div>';
+          res += '</table></div></div>';
         }
         else {
           res = '<div class="row padd-lr-15"><div class="col-md-8">';
@@ -1855,6 +1941,39 @@ $(document).ready(function() {
             }
           });
 
+        }
+      });
+
+    });
+  }
+
+  if ($('#btn-material-list-request').length > 0) {
+    var inc = 0;
+    $('#btn-material-list-request').click(function() {
+      inc += 1;
+      $.ajax({
+        type: "GET",
+        url: "/ajax/object/bahan-baku/",
+        data: {inc: inc},
+        success: function(result) {
+          var field = '<div class="row padd-lr-15"><div class="col-md-offset-2 col-md-6 col-sm-offset-2 col-sm-5 col-xs-7">';
+          field += '<input type="text" id="material-request-create-item-' + inc + '" name="material-request-create-item-' + inc + '" class="input-lengko-default block" placeholder="Nama Bahan Baku" /></div>';
+          field += '<div class="col-md-4 col-sm-5 col-xs-5">';
+          field += '';
+          field += '<select id="material-list-' + inc + '" name="" class="select2" onchange="add_val(\'material-list-' + inc + '\', \'material-request-create-item-' + inc + '\');">';
+          if (result.data.material.length > 0) {
+            for (j = 0; j < result.data.material.length; j++) {
+              field += '<option value="' + result.data.material[j].kode_bahan_baku + '">' + result.data.material[j].nama_bahan_baku + '</option>';
+            }
+          }
+          else {
+            field += '<option value="">Tidak tersedia</option>';
+          }
+          field +=  '</select>';
+          field +=  '</div></div>';
+          add_element('material-list-request', field);
+          $('input[name=material-request-create-max]').val(inc + 1);
+          ajax_init();
         }
       });
 

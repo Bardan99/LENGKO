@@ -434,21 +434,7 @@ class DashboardController extends Controller {
 
         }
         return redirect('/dashboard/menu');
-      break;
-      case 'review':
-        $id = $request->get('_id');
-        $handler = Review::find($id);
-        if ($handler) {
-          $status = 1;
-          if ($handler->status_kuisioner == 1) {
-            $status = 0;
-          }
-          $try = Review::find($id)->update([
-            'status_kuisioner' => $status,
-          ]);
-        }
-        return redirect('/dashboard/review');
-      break;
+      break;      
       case 'reviewdevice':
         $id = $request->get('_id');
         $handler = ReviewDevice::find($id);

@@ -129,9 +129,38 @@ function ajax_init() {
       width: '100%'
     });
   }
+
+  if ($('.barrating').length > 0) {
+    $('.barrating').barrating({
+      theme: 'fontawesome-stars',
+      allowEmpty: true,
+      showValues: false
+    });
+  }
+
+  if ($('.barrating-readonly').length > 0) {
+    $('.barrating-readonly').barrating({
+      theme: 'fontawesome-stars',
+      showValues: false,
+      readonly: true
+    });
+  }
+  
   if ($('#material-management').length > 0) {
     $("#material-management").stacktable();
-  }//endif
+  }
+
+  if ($('#transaciton-management').length > 0) {
+    $("#transaciton-management").stacktable();
+  }
+
+  if ($('#transaciton-history-management').length > 0) {
+    $("#transaciton-history-management").stacktable();
+  }
+
+  if ($('.stackable'.length > 0)) {
+    $('.stackable').stacktable();
+  }
 }
 
 /* PopOver Dismiss */

@@ -12,7 +12,7 @@ function decline_material(id) {
       data = {
         '_id' : id,
         '_method' : "post",
-        '_token' : $('input[name="material-request-detail-token"]').val()
+        '_token' : $('input[name="_token"]').val()
       };
 
       $.ajax({
@@ -58,6 +58,7 @@ function decline_material(id) {
 function confirm_material(id) {
   //var id = $('input[name=material-request-detail-id]').val();
   var max = $('input[name=material-request-detail-max-' + id + ']').val();
+  console.log(max);
   if (max > 0) {
     swal({
       title: "Setujui pengajuan?",
@@ -84,7 +85,7 @@ function confirm_material(id) {
           '_id' : id,
           '_data' : data,
           '_method' : "post",
-          '_token' : $('input[name="material-request-detail-token"]').val()
+          '_token' : $('input[name="_token"]').val()
         };
 
         $.ajax({
@@ -445,6 +446,48 @@ function delete_review(id) {
       });//end ajax
     }//endif
   });//endswal
+}
+
+function change_review(id) {
+  data = {
+    '_id' : id,
+    '_method' : "get",
+    '_token' : $('input[name="search_token"]').val()
+  };
+  $.ajax({
+    type: "POST",
+    url: "/dashboard/update/review/" + id,
+    data: data,
+    cache: false,
+    success: function(result) {
+      if (result.status == 200) {
+        swal({
+          title: "Berhasil mengubah status kuisioner",
+          text: result.text,
+          type: "success",
+          timer: 30000
+        }).then(function(result) {
+          if (result.value) {
+            window.location = '/dashboard/review/';
+          }
+        });
+      }
+      else {
+        swal({
+          title: "Oops terjadi kesalahan",
+          html: result.text,
+          type: "warning",
+          timer: 10000,
+          confirmButtonText: 'Ok',
+          confirmButtonColor: '#2c3e50',
+        }).then(function(result) {
+          if (result.value) {
+            window.location = '/dashboard/review/';
+          }
+        });
+      }
+    }
+  });
 }
 
 function delete_review_device(id) {
@@ -851,7 +894,7 @@ function search_material(data) {
       else {
         var res = '';
         if (result.content) {
-          var token = $('input[name=search_token]').val();
+          var token = $('input[name=_token]').val();
           res += '<div class="col-md-12">';
           res += '<div class="table-responsive">';
           res += '<table id="material-management" class="table table-hover table-striped">';
@@ -884,7 +927,7 @@ function search_material(data) {
         else {
           res = '<div class="row padd-lr-15"><div class="col-md-8">';
           res += '<div class="alert alert-warning">Bahan baku tidak ditemukan</div></div></div>';
-        }        
+        }
         $('#material-card-section').html(res);
         ajax_init();
         swal({
@@ -1168,50 +1211,63 @@ function search_transaction(data) {
       }
       else if (result.status == 200) {
         var res = '';
-        if (result.content.length > 0) {
+        if (result.content) {
           var token = $('input[name=search_token]').val();
-          res += '<table class="table"><tr><th>Transaksi</th><th>Waktu</th>';
-          res += '<th>Pembeli</th><th>Perangkat</th></tr>';
-          for (i = 0; i < result.content.transaction.length; i++) {
-            res += '<tr onclick="show_obj(\'transaction-' + i + '\');" class="cursor-pointer">';
-            res += '<td>#' + result.content.transaction[i].kode_pesanan + '</td>';
-            res += '<td>' + result.content.transaction[i].tanggal_pesanan + ' ' + result.content.transaction[i].waktu_pesanan + '</td>';
-            res += '<td>' + result.content.transaction[i].pembeli_pesanan + '</td>';
-            res += '<td>' + result.content.transaction[i].nama_perangkat + '</td></tr>';
-            if (result.content[i]['transaction-detail'].length > 0) {
-              res += '<tr id="transaction-' + i + '" style="display:none; visibility: none;">';
-              res += '<td></td><td colspan="5"><div class="table-responsive">';
-              res += '<table class="table table-hover table-striped">';
-              res += '<tr><th>Menu</th><th>Harga</th>';
-              res += '<th>Jumlah</th><th>Sub-Total</th></tr>';
+          res += '<div class="row padd-lr-15 open-tooltip" data-placement="bottom" data-toggle="tooltip" title="Klik untuk melihat detil transaksi">';
+          res += '<div class="col-md-5 col-sm-6 col-xs-6">';
+          res += '<i class="material-icons md-18">arrow_drop_down</i>';
+          res += '<label>Transaksi</label></div>';
+          res += '<div class="col-md-7 col-sm-6 col-xs-6">';
+          res += '<label>Waktu</label></div></div>';
 
+          res += '<div class="row"><div class="col-md-12 col-sm-12 col-xs-12">';
+          res += '<div class="seperator"></div></div></div>';
+          for (i = 0; i < result.content.transaction.length; i++) {
+            res += '<div onclick="show_obj(\'transaction-' + i + '\');" class="cursor-pointer padd-tb-10 padd-lr-15">';
+            res += '<div class="row"><div class="col-md-5 col-sm-6 col-xs-6">';
+            res += '#' + result.content.transaction[i].kode_pesanan + ' ' + result.content.transaction[i].pembeli_pesanan + '';
+            res += ' [' + result.content.transaction[i].nama_perangkat + ']';
+            res += '</div>';
+            res += '<div class="col-md-7 col-sm-6 col-xs-6">';
+            res += '' + result.content.transaction[i].tanggal_pesanan + ' ' + result.content.transaction[i].waktu_pesanan + '';
+            res += '</div></div></div>';
+            if (result.content[i]['transaction-detail'].length > 0) {
+              res += '<div class="row">';
+              res += '<div class="col-md-12 col-sm-12 col-xs-12">';
+              res += '<div id="transaction-' + i + '" class="mrg-t-20 padd-lr-15" style="display:none; visibility: none;">';
+              res += '<table class="table table-hover table-striped">';
+              res += '<tr><th>Pesanan</th><th>Harga</th>';
+              res += '<th>Jumlah</th><th>Sub-Total</th></tr>';
               for (j = 0; j < result.content[i]['transaction-detail'].length; j++) {
-                res += '<tr><td>' + result.content[i]['transaction-detail'][j].nama_menu + '</td>';
+                res += '<tr>';
+                res += '<td>' + result.content[i]['transaction-detail'][j].nama_menu + '</td>';
                 res += '<td>' + result.content[i]['transaction-detail'][j].harga_menu + '</td>';
                 res += '<td>' + result.content[i]['transaction-detail'][j].jumlah_pesanan_detil + '</td>';
                 res += '<td>' + result.content[i]['transaction-detail'][j].harga_menu * result.content[i]['transaction-detail'][j].jumlah_pesanan_detil + '</td>';
                 res += '</tr>';
               }
-              res += '<tr><td colspan="3" class="text-right"><label>Total</label></td>';
+              res += '<tr>';
+              res += '<td colspan="3" class="text-right"><label>Total</label></td>';
               res += '<td>' + result.content.transaction[i].harga_pesanan + '</td>';
               res += '</tr><tr>';
               res += '<td colspan="3" class="text-right"><label>Tunai</label></td>';
               res += '<td width="170px">';
-              res += '<input type="number" id="transaction-cash-' + result.content.transaction[i].kode_pesanan + '" name="transaction-cash-' + result.content.transaction[i].kode_pesanan + '" min="' + result.content.transaction[i].harga_pesanan + '" class="input-lengko-default block" placeholder="0" value="' + result.content.transaction[i].harga_pesanan + '" onchange="cash_back(\'transaction-cash-' + result.content.transaction[i].kode_pesanan + '\', \'transaction-cash-back-' + result.content.transaction[i].kode_pesanan + '\', ' + result.content.transaction[i].harga_pesanan + ', \'Rp\');" />';
+              res += '<input type="number" id="transaction-cash-' + result.content.transaction[i].kode_pesanan + '" name="transaction-cash-' + result.content.transaction[i].kode_pesanan + '"';
+              res += ' min="' + result.content.transaction[i].harga_pesanan + '" step="5000" class="input-lengko-default block" placeholder="0" value="' + result.content.transaction[i].harga_pesanan + '"';
+              res += ' onchange="cash_back(\'transaction-cash-' + result.content.transaction[i].kode_pesanan + '\', \'transaction-cash-back-' + result.content.transaction[i].kode_pesanan + '\', ' + result.content.transaction[i].harga_pesanan + ', \'Rp\');" />';
               res += '</td></tr>';
               res += '<tr><td colspan="3" class="text-right"><label>Kembali</label></td>';
               res += '<td><input type="text" id="transaction-cash-back-' + result.content.transaction[i].kode_pesanan + '" class="input-lengko-default block" value="0" disabled="disabled" disabled />';
-              res += '</td></tr></table><hr />';
-              res += '<button type="button" class="btn-lengko btn-lengko-warning pull-left">';
-              res += '<span class="glyphicon glyphicon-print" aria-hidden="true"></span> Cetak';
-              res += '</button>';
-              res += '<button type="button" class="btn-lengko btn-lengko-default pull-right" onclick="done_transaction(' + result.content.transaction[i].kode_pesanan + ', ' + result.content.transaction[i].harga_pesanan + ');">';
+              res += '</td></tr></table>';
+              res += '<div class="row padd-tb-10">';
+              res += '<div class="col-md-offset-10 col-md-2 col-sm-offset-9 col-sm-3">';
+              res += '<button type="button" class="btn-lengko btn-lengko-default pull-right" onclick="done_transaction(\'' + result.content.transaction[i].kode_pesanan + '\', ' + result.content.transaction[i].harga_pesanan + ');">';
               res += '<span class="glyphicon glyphicon-usd" aria-hidden="true"></span> Bayar';
-              res += '</button>';
-              res += '</div></td></tr>';
-            }
-          }
-          res += '</table>';
+              res += '</button></div></div></div></div></div>';
+            }//endif
+            res += '<div class="row"><div class="col-md-12 col-sm-12 col-xs-12">';
+            res += '<div class="seperator"></div></div></div>';
+          }//endfor
         }
         else {
           res = '<div class="row padd-lr-15"><div class="col-md-8">';
@@ -1265,40 +1321,61 @@ function search_transaction_history(data) {
         var res = '';
         if (result.content) {
           var token = $('input[name=search_token]').val();
-          res += '<table class="table"><tr>';
-          res += '<th>Transaksi</th><th>Waktu</th>';
-          res += '<th>Pembeli</th><th>Perangkat</th></tr>';
+          res += '<div class="row padd-lr-15 open-tooltip" data-placement="bottom" data-toggle="tooltip" title="Klik untuk melihat detil transaksi">';
+          res += '<div class="col-md-5 col-sm-6 col-xs-6">';
+          res += '<i class="material-icons md-18">arrow_drop_down</i>';
+          res += '<label>Transaksi</label></div>';
+          res += '<div class="col-md-7 col-sm-6 col-xs-6">';
+          res += '<label>Waktu</label></div></div>';
+
+          res += '<div class="row"><div class="col-md-12 col-sm-12 col-xs-12">';
+          res += '<div class="seperator"></div></div></div>';
           for (i = 0; i < result.content['transaction-history'].length; i++) {
-            res += '<tr onclick="show_obj(\'transaction-history-' + i + '\');" class="cursor-pointer">';
-            res += '<td>#' + result.content['transaction-history'][i].kode_pesanan + '</td>';
-            res += '<td>' + result.content['transaction-history'][i].tanggal_pesanan + ' ' + result.content['transaction-history'][i].waktu_pesanan + '</td>';
-            res += '<td>' + result.content['transaction-history'][i].pembeli_pesanan + '</td>';
-            res += '<td>' + result.content['transaction-history'][i].nama_perangkat + '</td></tr>';
+            res += '<div onclick="show_obj(\'transaction-' + i + '\');" class="cursor-pointer padd-tb-10 padd-lr-15">';
+            res += '<div class="row"><div class="col-md-5 col-sm-6 col-xs-6">';
+            res += '#' + result.content['transaction-history'][i].kode_pesanan + ' ' + result.content['transaction-history'][i].pembeli_pesanan + '';
+            res += ' [' + result.content['transaction-history'][i].nama_perangkat + ']';
+            res += '</div>';
+            res += '<div class="col-md-7 col-sm-6 col-xs-6">';
+            res += '' + result.content['transaction-history'][i].tanggal_pesanan + ' ' + result.content['transaction-history'][i].waktu_pesanan + '';
+            res += '</div></div></div>';
             if (result.content[i]['transaction-history-detail'].length > 0) {
-              res += '<tr id="transaction-history-' + i + '" style="display:none; visibility: none;">';
-              res += '<td></td><td colspan="5"><div class="table-responsive">';
+              res += '<div class="row">';
+              res += '<div class="col-md-12 col-sm-12 col-xs-12">';
+              res += '<div id="transaction-' + i + '" class="mrg-t-20 padd-lr-15" style="display:none; visibility: none;">';
               res += '<table class="table table-hover table-striped">';
-              res += '<tr><th>Menu</th><th>Harga</th><th>Jumlah</th>';
-              res += '<th>Sub-Total</th></tr>';
+              res += '<tr><th>Pesanan</th><th>Harga</th>';
+              res += '<th>Jumlah</th><th>Sub-Total</th></tr>';
               for (j = 0; j < result.content[i]['transaction-history-detail'].length; j++) {
-                res += '<tr><td>' + result.content[i]['transaction-history-detail'][j].nama_menu + '</td>';
+                res += '<tr>';
+                res += '<td>' + result.content[i]['transaction-history-detail'][j].nama_menu + '</td>';
                 res += '<td>' + result.content[i]['transaction-history-detail'][j].harga_menu + '</td>';
                 res += '<td>' + result.content[i]['transaction-history-detail'][j].jumlah_pesanan_detil + '</td>';
-                res += '<td>' + result.content[i]['transaction-history-detail'][j].harga_menu * result.content[i]['transaction-history-detail'][j].jumlah_pesanan_detil + '</td></tr>';
+                res += '<td>' + result.content[i]['transaction-history-detail'][j].harga_menu * result.content[i]['transaction-history-detail'][j].jumlah_pesanan_detil + '</td>';
+                res += '</tr>';
               }
-              res += '<tr><td colspan="3" class="text-right"><label>Total</label></td>';
-              res += '<td>' + result.content['transaction-history'][i].harga_pesanan + '</td></tr>';
-              res += '<tr><td colspan="3" class="text-right"><label>Tunai</label></td>';
-              res += '<td>' + result.content['transaction-history'][i].tunai_pesanan + '</td></tr>';
+              res += '<tr>';
+              res += '<td colspan="3" class="text-right"><label>Total</label></td>';
+              res += '<td>' + result.content['transaction-history'][i].harga_pesanan + '</td>';
+              res += '</tr><tr>';
+              res += '<td colspan="3" class="text-right"><label>Tunai</label></td>';
+              res += '<td width="170px">';
+              res += '<input type="number" id="transaction-cash-' + result.content['transaction-history'][i].kode_pesanan + '" name="transaction-cash-' + result.content['transaction-history'][i].kode_pesanan + '"';
+              res += ' min="' + result.content['transaction-history'][i].harga_pesanan + '" step="5000" class="input-lengko-default block" placeholder="0" value="' + result.content['transaction-history'][i].harga_pesanan + '"';
+              res += ' onchange="cash_back(\'transaction-cash-' + result.content['transaction-history'][i].kode_pesanan + '\', \'transaction-cash-back-' + result.content['transaction-history'][i].kode_pesanan + '\', ' + result.content['transaction-history'][i].harga_pesanan + ', \'Rp\');" />';
+              res += '</td></tr>';
               res += '<tr><td colspan="3" class="text-right"><label>Kembali</label></td>';
-              res += '<td>' + (result.content['transaction-history'][i].tunai_pesanan - result.content['transaction-history'][i].harga_pesanan) + '</td>';
-              res += '</tr></table></div>';
-              res += '<button type="button" class="btn-lengko btn-lengko-warning pull-right">';
-              res += '<span class="glyphicon glyphicon-print" aria-hidden="true"></span> Cetak';
-              res += '</button></td></tr>';
-            }
-          }
-          res += '</table>';
+              res += '<td><input type="text" id="transaction-cash-back-' + result.content['transaction-history'][i].kode_pesanan + '" class="input-lengko-default block" value="0" disabled="disabled" disabled />';
+              res += '</td></tr></table>';
+              res += '<div class="row padd-tb-10">';
+              res += '<div class="col-md-offset-10 col-md-2 col-sm-offset-9 col-sm-3">';
+              res += '<button type="button" class="btn-lengko btn-lengko-default pull-right" onclick="done_transaction(\'' + result.content['transaction-history'][i].kode_pesanan + '\', ' + result.content['transaction-history'][i].harga_pesanan + ');">';
+              res += '<span class="glyphicon glyphicon-usd" aria-hidden="true"></span> Bayar';
+              res += '</button></div></div></div></div></div>';
+            }//endif
+            res += '<div class="row"><div class="col-md-12 col-sm-12 col-xs-12">';
+            res += '<div class="seperator"></div></div></div>';
+          }//endfor
         }
         else {
           res = '<div class="row padd-lr-15"><div class="col-md-8">';
@@ -1363,62 +1440,72 @@ function search_review(data) {
         var res = '';
         if (result.content) {
           var token = $('input[name=search_token]').val();
-          res += '<table class="table"><tr><th width="150px">#</th>';
-          res += '<th>Kritik & Saran</th><th width="200px">Waktu</th>';
-          res += '<th>Status</th><th></th></tr>';
+          res += '<div class="row padd-lr-15 open-tooltip" data-placement="bottom" data-toggle="tooltip" title="Klik untuk melihat detil kuisioner">';
+          res += '<div class="col-md-3 col-sm-3 col-xs-4">';
+          res += '<i class="material-icons md-18">arrow_drop_down</i>';
+          res += '<label>Responden</label></div>';
+          res += '<div class="col-md-5 col-sm-5 col-xs-4">';
+          res += '<label>Kritik & Saran</label></div>';
+          res += '<div class="col-md-4 col-sm-4 col-xs-4">';
+          res += '<label>Waktu</label></div></div>';
+
+          res += '<div class="row"><div class="col-md-12 col-sm-12 col-xs-12"><div class="seperator"></div></div></div>';
           for (i = 0; i < result.content['review-device'].length; i++) {
-            res += '<tr class="cursor-pointer">';
-            res += '<td onclick="show_obj(\'review-' + i + '\');">#' + result.content['review-device'][i].kode_kuisioner_perangkat + ' (' + result.content['review-device'][i].pembeli_kuisioner_perangkat + ')</td>';
-            res += '<td onclick="show_obj(\'review-' + i + '\');">' + result.content['review-device'][i].pesan_kuisioner_perangkat + '</td>';
-            res += '<td onclick="show_obj(\'review-' + i + '\');">' + result.content['review-device'][i].tanggal_kuisioner_perangkat + ' ' + result.content['review-device'][i].waktu_kuisioner_perangkat + '</td>';
-            res += '<td>';
-            res += '<form method="post" action="/dashboard/update/reviewdevice">';
-            res += '<input type="hidden" name="_id" value="' + result.content['review-device'][i].kode_kuisioner_perangkat + '">';
-            res += '<input type="hidden" name="_token" value="' + token + '">';
-            res += '<input type="hidden" name="_method" value="put">';
-
-            res += '<button class="btn-lengko btn-lengko-default pull-right" type="submit">';
-            if (result.content['review-device'][i].status_kuisioner_perangkat === 1) {
-              res += '<span class="glyphicon glyphicon-record" aria-hidden="true"></span>';
-            }
-            else if (result.content['review-device'][i].status_kuisioner_perangkat === 0) {
-              res += '<span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>';
-            }
-            res += '</button>';
-
-            res += '</form></td><td>';
-            res += '<button class="btn-lengko btn-lengko-default pull-right" type="button" onclick="delete_review_device(' + result.content['review-device'][i].kode_kuisioner_perangkat + ');">';
-            res += '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>';
-            res += '</button></td></tr>';
+            res += '<div onclick="show_obj(\'review-' + i + '\');" class="cursor-pointer padd-tb-10 padd-lr-15">';
+            res += '<div class="row"><div class="col-md-3 col-sm-3 col-xs-4">';
+            res += '#' + result.content['review-device'][i].kode_kuisioner_perangkat + ' (' + result.content['review-device'][i].pembeli_kuisioner_perangkat + ')</div>';
+            res += '<div class="col-md-5 col-sm-5 col-xs-4">' + result.content['review-device'][i].pesan_kuisioner_perangkat + '</div>';
+            res += '<div class="col-md-4 col-sm-4 col-xs-4">';
+            res += '' + result.content['review-device'][i].tanggal_kuisioner_perangkat + ' ' + result.content['review-device'][i].waktu_kuisioner_perangkat + '</div></div></div>';
             if (result.content[i]['review-detail'].length > 0) {
-              res += '<tr id="review-' + i + '" style="display:none; visibility: none;">';
-              res += '<td></td><td colspan="5">';
-              res += '<div class="table-responsive">';
+              res += '<div class="row">';
+              res += '<div class="col-md-12 col-sm-12 col-xs-12">';
+              res += '<div id="review-' + i + '" class="mrg-t-20 padd-lr-15" style="display:none; visibility: none;">';
               res += '<table class="table table-hover table-striped">';
               res += '<tr><th>Kuisioner</th><th>Poin</th></tr>';
               for (j = 0; j < result.content[i]['review-detail'].length; j++) {
-                res += '<tr><td>[' + result.content[i]['review-detail'][j].judul_kuisioner + ']';
-                res += result.content[i]['review-detail'][j].isi_kuisioner + '</td>';
+                res += '<tr><td> [' + result.content[i]['review-detail'][j].judul_kuisioner + '] ' + result.content[i]['review-detail'][j].isi_kuisioner + ' </td>';
                 res += '<td><select id="customer-reviews-' + result.content[i]['review-detail'][j].kode_kuisioner_detil + '" class="barrating-readonly">';
                 for (k = 1; k <= 5; k++) {
                   res += '<option value="' + k + '"';
                   if (k === result.content[i]['review-detail'][j].poin_kuisioner_detil) {
                       res += 'selected';
-                  }
+                  }//endif
                   res += '>' + k + '</option>';
-                }
+                }//endofr
                 res += '</select></td></tr>';
+              }//endfor
+
+              res += '</table>';
+              res += '<div class="row padd-tb-10"><div class="col-md-6">';
+              res += '<button class="btn-lengko btn-lengko-danger block" type="button" onclick="delete_review_device(\'' + result.content['review-device'][i].kode_kuisioner_perangkat + '\');">';
+              res += '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Hapus</button></div>';
+              res += '<div class="col-md-6">';
+              res += '<form method="post" action="/dashboard/update/reviewdevice">';
+              res += '<input type="hidden" name="_id" value="' + result.content['review-device'][i].kode_kuisioner_perangkat + '">';
+              res += '<input type="hidden" name="_token" value="' + token + '">';
+              res += '<input type="hidden" name="_method" value="put">';
+              if (result.content['review-device'][i].status_kuisioner_perangkat === 1) {
+                res += '<button class="btn-lengko btn-lengko-default block" type="submit">';
+                res += '<span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> Sembunyikan';
+                res += '</button>';
               }
-              res += '</table></div></td></tr>';
-            }
-          }
-          res += '</table>';
+              else if (result.content['review-device'][i].status_kuisioner_perangkat === 0) {
+                res += '<button class="btn-lengko btn-lengko-default block" type="submit">';
+                res += '<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Tampilkan';
+                res += '</button>';
+              }//endif
+              res += '</form></div></div></div></div></div>';
+            }//endif
+            res += '<div class="row"><div class="col-md-12 col-sm-12 col-xs-12"><div class="seperator"></div></div></div>';
+          }//endloop
         }
         else {
           res = '<div class="row padd-lr-15"><div class="col-md-8">';
           res += '<div class="alert alert-warning">Kuisioner tidak ditemukan</div></div></div>';
         }
         $('#review-card-section').html(res);
+        ajax_init();
         swal({
           title: "Berhasil melakukan pencarian",
           html: result.text,
@@ -1455,8 +1542,7 @@ function report_lookup(data) {
             var res = '';
             if (result.content) {
               var total = 0;
-              res += '<div class="row"><div class="col-md-12">';
-              res += '<h4 class="text-center">Hasil Laporan</h4></div></div>';
+              res += '<div class="row"><div class="col-md-12"></div></div>';
               res += '<div class="table-responsive">';
               res += '<table class="table table-hover table-striped">';
               res += '<tr><th class="text-center">Tanggal</th>';
@@ -2055,41 +2141,46 @@ $(document).ready(function() {
             var res = '';
             if (result.content['order-confirmation'].length > 0) {
               var token = $('input[name=search_token]').val();
-              res += '<table class="table"><tr>';
-              res += '<th>Transaksi</th><th>Waktu</th>';
-              res += '<th>Pembeli</th><th>Perangkat</th>';
-              res += '<th>Konfirmasi</th></tr>';
+              res += '<div class="row padd-lr-15 open-tooltip" data-placement="bottom" data-toggle="tooltip" title="Klik untuk melihat detil pesanan">';
+              res += '<div class="col-md-3 col-sm-3 col-xs-3"><label>Transaksi</label></div>';
+              res += '<div class="col-md-3 col-sm-3 col-xs-3"><label>Waktu</label></div>';
+              res += '<div class="col-md-3 col-sm-3 col-xs-3"><label>Pembeli</label></div>';
+              res += '<div class="col-md-3 col-sm-3 col-xs-3"><label>Perangkat</label></div>';
+              res += '</div>';
+
+              res += '<div class="row"><div class="col-md-12 col-sm-12 col-xs-12"><div class="seperator"></div></div></div>';
+
               for (i = 0; i < result.content['order-confirmation'].length; i++) {
-                res += '<tr onclick="show_obj(\'order-confirmation-' + i + '\');" class="cursor-pointer">';
-                res += '<td>#' + result.content['order-confirmation'][i].kode_pesanan + '</td>';
-                res += '<td>' + result.content['order-confirmation'][i].tanggal_pesanan + ' ' + result.content['order-confirmation'][i].waktu_pesanan + '</td>';
-                res += '<td>' + result.content['order-confirmation'][i].pembeli_pesanan + '</td>';
-                res += '<td>' + result.content['order-confirmation'][i].nama_perangkat + '</td><td>';
+                res += '<div onclick="show_obj(\'order-confirmation-' + i + '\');" class="row cursor-pointer padd-tb-10 padd-lr-15">';
+                res += '<div class="col-md-3 col-sm-3 col-xs-3">#' + result.content['order-confirmation'][i].kode_pesanan + '</div>';
+                res += '<div class="col-md-3 col-sm-3 col-xs-3">' + result.content['order-confirmation'][i].tanggal_pesanan + ' ' + result.content['order-confirmation'][i].waktu_pesanan + '</div>';
+                res += '<div class="col-md-3 col-sm-3 col-xs-3">' + result.content['order-confirmation'][i].pembeli_pesanan + '</div>';
+                res += '<div class="col-md-3 col-sm-3 col-xs-3">' + result.content['order-confirmation'][i].nama_perangkat + '</div>';
+                res += '</div>';
+                if (result.content[i]['order-confirmation-detail'].length > 0) {
+                res += '  <div class="row"><div class="col-md-12 col-sm-12 col-xs-12">';
+                res += '<div id="order-confirmation-' + i + '" class="mrg-t-20 padd-lr-15" style="display:none; visibility: none;">';
+                res += '<table class="table table-hover table-striped">';
+                res += '<tr><th>Pesanan</th><th>Harga</th><th>Jumlah</th><th>Sub-Total</th></tr>';
+                for (j = 0; j < result.content[i]['order-confirmation-detail'].length; j++) {
+                  res += '<tr><td>' + result.content[i]['order-confirmation-detail'][j].nama_menu + '</td>';
+                  res += '<td>' + result.content[i]['order-confirmation-detail'][j].harga_menu + '</td>';
+                  res += '<td>' + result.content[i]['order-confirmation-detail'][j].jumlah_pesanan_detil + '</td>';
+                  res += '<td>' + result.content[i]['order-confirmation-detail'][j].harga_menu * result.content[i]['order-confirmation-detail'][j].jumlah_pesanan_detil + '</td></tr>';
+                }//endfor
+                res += '<tr><td colspan="3" class="text-right"><label>Total</label></td>';
+                res += '<td>Rp' + result.content['order-confirmation'][i].harga_pesanan + '</td></tr></table>';
+
+                res += '<div class="row">';
+                res += '<div class="col-md-offset-1 col-md-10 col-sm-offset-1 col-sm-10 col-xs-12 padd-tb-10 padd-lr-15">';
                 res += '<form name="" action="/dashboard/confirm/order" method="post">';
                 res += '<input type="hidden" name="_token" value="' + token + '">';
                 res += '<input type="hidden" name="order-confirm-id" value="' + result.content['order-confirmation'][i].kode_pesanan + '" />';
-                res += '<button type="submit" class="btn-lengko btn-lengko-warning" width="80px">';
-                res += '<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>';
-                res += '</button></form></td></tr>';
-                if (result.content[i]['order-confirmation-detail'].length > 0) {
-                  res += '<tr id="order-confirmation-' + i + '" style="display:none; visibility: none;">';
-                  res += '<td></td>';
-                  res += '<td colspan="5">';
-                  res += '<div class="table-responsive">';
-                  res += '<table class="table table-hover table-striped">';
-                  res += '<tr><th>Menu</th><th>Harga</th><th>Jumlah</th><th>Sub-Total</th></tr>';
-                  for (j = 0; j < result.content[i]['order-confirmation-detail'].length; j++) {
-                    res += '<tr><td>' + result.content[i]['order-confirmation-detail'][j].nama_menu + '</td>';
-                    res += '<td>' + result.content[i]['order-confirmation-detail'][j].harga_menu + '</td>';
-                    res += '<td>' + result.content[i]['order-confirmation-detail'][j].jumlah_pesanan_detil + '</td>';
-                    res += '<td>' + result.content[i]['order-confirmation-detail'][j].harga_menu * result.content[i]['order-confirmation-detail'][j].jumlah_pesanan_detil + '</td>';
-                    res += '</tr>';
-                  }
-                  res += '<tr><td colspan="3" class="text-right"><label>Total</label></td>';
-                  res += '<td>Rp' + result.content['order-confirmation'][i].harga_pesanan + '</td>';
-                  res += '</tr></table></div></td></tr></table>';
-                }
-              }//end loop
+                res += '<button type="submit" class="btn-lengko btn-lengko-warning block" width="80px">Konfirmasi Pesanan</button>';
+                res += '</form></div></div></div></div></div>';
+                }//endif
+                res += '<div class="row"><div class="col-md-12 col-sm-12 col-xs-12"><div class="seperator"></div></div></div>';
+              }//endloop
             }
             else {
               res = '<div class="row padd-lr-15"><div class="col-md-8">';
@@ -2203,7 +2294,18 @@ $(document).ready(function() {
 
   if ($('#material-management').length > 0) {
     $("#material-management").stacktable();
-  }//endif
+  }
 
+  if ($('#transaction-management').length > 0) {
+    $("#transaction-management").stacktable();
+  }
+
+  if ($('#transaction-history-management').length > 0) {
+    $("#transaction-history-management").stacktable();
+  }
+
+  if ($('.stackable'.length > 0)) {
+    $('.stackable').stacktable();
+  }
 
 });

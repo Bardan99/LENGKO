@@ -44,6 +44,11 @@ hr.dashed {
   border: 2px dashed #2c3e50;
 }
 
+.seperator {
+  border-bottom: 1px #2c3e50 dashed;
+  margin: 2px 15px;
+}
+
 #list-navbar {
   list-style-type: none;
   padding: 5px;
@@ -811,19 +816,20 @@ fieldset.title {
   padding: 5px 30vw;
 }
 
-@media (min-width: 736px) { /* col sm  992px*/
+@media (max-width: 1024px) {  
+  .desktop-only {
+    visibility: hidden;
+    display: none;
+  }
+}
+
+@media (min-width: 736px) {
   fieldset.title {
     padding: 5px 25vw;
   }
 }
 
-@media (min-width: 736px) { /* col sm  992px*/
-  fieldset.title {
-    padding: 5px 25vw;
-  }
-}
-
-@media (min-width: 992px) { /* col sm  992px*/
+@media (min-width: 992px) {
   fieldset.title {
     padding: 5px 10vw;
   }

@@ -32,7 +32,7 @@ Route::group(['middleware' => 'employee'], function() {
 
   Route::group(['prefix' => 'dashboard'], function() {
     Route::get('/', 'DashboardController@index');
-    Route::get('/logout', 'Auth\EmployeeLoginController@logout');    
+    Route::get('/logout', 'Auth\EmployeeLoginController@logout');
     Route::get('/{param}', 'DashboardController@view');
     Route::get('/material/change/{id}', 'MaterialController@changematerial');
 
@@ -72,6 +72,7 @@ Route::group(['middleware' => 'employee'], function() {
 
     Route::post('/create/review', 'ReviewController@create');
     Route::post('/search/review', 'ReviewController@search');
+    Route::get('/update/review/{id}', 'ReviewController@status');
 
     Route::put('/update/{param}/', 'DashboardController@update');
     Route::delete('/delete/{param}/{id}', 'DashboardController@delete');

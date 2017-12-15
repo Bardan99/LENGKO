@@ -118,4 +118,18 @@ class ReviewController extends Controller {
     }
   }
 
+  public function status(Request $request, $id) {
+    $handler = Review::find($id);
+    if ($handler) {
+      $status = 1;
+      if ($handler->status_kuisioner == 1) {
+        $status = 0;
+      }
+      $try = Review::find($id)->update([
+        'status_kuisioner' => $status,
+      ]);
+      return response()->json(['status' => 200, 'text' => 'Berhasil mengubah kuisioner']);
+    }
+    return response()->json(['status' => 500, 'text' => 'Kuisioner tidak ditemukan']);
+  }
 }

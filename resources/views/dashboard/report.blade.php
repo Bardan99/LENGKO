@@ -33,7 +33,7 @@
               <div class="row">
                 <div class="col-md-12 padd-tb-10">
                   <div class="row">
-                    <div class="col-md-4 col-sm-4 text-center">
+                    <div class="col-md-4 col-sm-4">
                       <label>Jenis Laporan</label>
                       <select name="report-type" class="select-lengko-default block">
                         <option value="daily">Harian ({{date('Y-m-d')}})</option>
@@ -42,7 +42,7 @@
                         <option value="yearly">Tahunan ({{date('Y-m-d', strtotime('-365 days')) . ' s.d. ' . date('Y-m-d')}})</option>
                       </select>
                     </div>
-                    <div class="col-md-5 col-sm-5 text-center">
+                    <div class="col-md-5 col-sm-5">
                       <label>Rentang Waktu</label>
                       <div class="row">
                         <div class="col-md-6 col-sm-6">

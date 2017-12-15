@@ -30,75 +30,104 @@
               <div class="row">
                 <div class="col-md-12">
 
-                  <div id="review-card-section" class="table-responsive">
-                    <table class="table">
-                      <tr>
-                        <th width="150px">#</th>
-                        <th>Kritik & Saran</th>
-                        <th width="200px">Waktu</th>
-                        <th width="50px">Status</th>
-                        <th width="50px"></th>
-                      </tr>
-                    @foreach ($data['review-device'] as $key1 => $value1)
-                      <tr class="cursor-pointer">
-                        <td onclick="show_obj('review-{{ $key1 }}');">#{{ $value1->kode_kuisioner_perangkat }} ({{ $value1->pembeli_kuisioner_perangkat }})</td>
-                        <td onclick="show_obj('review-{{ $key1 }}');">{{ $value1->pesan_kuisioner_perangkat }}</td>
-                        <td onclick="show_obj('review-{{ $key1 }}');">{{ $value1->tanggal_kuisioner_perangkat }} {{ $value1->waktu_kuisioner_perangkat }}</td>
-                        <td>
-                          <form method="post" action="{{url('/dashboard/update/reviewdevice')}}">
-                            <input type="hidden" name="_id" value="{{ $value1->kode_kuisioner_perangkat }}">
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <input type="hidden" name="_method" value="put">
-                          @if ($value1->status_kuisioner_perangkat === 1)
-                            <button class="btn-lengko btn-lengko-default pull-right" type="submit">
-                              <span class="glyphicon glyphicon-record" aria-hidden="true"></span>
-                            </button>
-                          @elseif ($value1->status_kuisioner_perangkat === 0)
-                            <button class="btn-lengko btn-lengko-default pull-right" type="submit">
-                              <span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>
-                            </button>
-                          @endif
-                          </form>
-                        </td>
-                        <td>
-                          <button class="btn-lengko btn-lengko-default pull-right" type="button" onclick="delete_review_device('{{$value1->kode_kuisioner_perangkat}}');">
-                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                          </button>
-                        </td>
-                      </tr>
-                      @if (count($data[$key1]['review-detail']) > 0)
-                      <tr id="review-{{ $key1 }}" style="display:none; visibility: none;">
-                        <td></td>
-                        <td colspan="5">
-                          <div class="table-responsive">
-                            <table class="table table-hover table-striped">
-                            <tr>
-                              <th>Kuisioner</th>
-                              <th>Poin</th>
-                            </tr>
-                            @foreach ($data[$key1]['review-detail'] as $key2 => $value2)
-                              <tr>
-                                <td>
-                                  [{{ $value2->judul_kuisioner }}]
-                                  {{$value2->isi_kuisioner}}
-                                </td>
-                                <td>
-                                  <select id="customer-reviews-{{$value2->kode_kuisioner_detil}}" class="barrating-readonly">
-                                    @for ($i = 1; $i <= 5; $i++)
-                                      <option value="{{$i}}" @if ($i == $value2->poin_kuisioner_detil) {{'selected'}} @endif>{{$i}}</option>
-                                    @endfor
-                                  </select>
-                                </td>
-                              </tr>
-                            @endforeach
-                            </table>
+                  <!-- copied here -->
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div id="review-card-section" class="padd-tb-10">
+                        <div class="row padd-lr-15 open-tooltip" data-placement="bottom" data-toggle="tooltip" title="Klik untuk melihat detil kuisioner">
+                          <div class="col-md-3 col-sm-3 col-xs-4">
+                            <i class="material-icons md-18">arrow_drop_down</i>
+                            <label>Responden</label>
                           </div>
-                        </td>
-                      </tr>
-                      @endif
-                    @endforeach
-                    </table>
+                          <div class="col-md-5 col-sm-5 col-xs-4">
+                            <label>Kritik & Saran</label>
+                          </div>
+                          <div class="col-md-4 col-sm-4 col-xs-4">
+                            <label>Waktu</label>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="seperator"></div>
+                          </div>
+                        </div>
+                        @foreach ($data['review-device'] as $key1 => $value1)
+                          <div onclick="show_obj('review-{{ $key1 }}');" class="cursor-pointer padd-tb-10 padd-lr-15">
+                            <div class="row">
+                              <div class="col-md-3 col-sm-3 col-xs-4">
+                                #{{ $value1->kode_kuisioner_perangkat }} ({{ $value1->pembeli_kuisioner_perangkat }})
+                              </div>
+                              <div class="col-md-5 col-sm-5 col-xs-4">
+                                {{ $value1->pesan_kuisioner_perangkat }}
+                              </div>
+                              <div class="col-md-4 col-sm-4 col-xs-4">
+                                {{ $value1->tanggal_kuisioner_perangkat }} {{ $value1->waktu_kuisioner_perangkat }}
+                              </div>
+                            </div>
+                          </div>
+                          @if (count($data[$key1]['review-detail']) > 0)
+                            <div class="row">
+                              <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div id="review-{{ $key1 }}" class="mrg-t-20 padd-lr-15" style="display:none; visibility: none;">
+                                  <table class="table table-hover table-striped">
+                                    <tr>
+                                      <th>Kuisioner</th>
+                                      <th>Poin</th>
+                                    </tr>
+                                  @foreach ($data[$key1]['review-detail'] as $key2 => $value2)
+                                    <tr>
+                                      <td> [{{ $value2->judul_kuisioner }}] {{$value2->isi_kuisioner}} </td>
+                                      <td>
+                                        <select id="customer-reviews-{{$value2->kode_kuisioner_detil}}" class="barrating-readonly">
+                                          @for ($i = 1; $i <= 5; $i++)
+                                            <option value="{{$i}}" @if ($i == $value2->poin_kuisioner_detil) {{'selected'}} @endif>{{$i}}</option>
+                                          @endfor
+                                        </select>
+                                      </td>
+                                    </tr>
+                                  @endforeach
+
+                                  </table>
+                                  <div class="row padd-tb-10">
+                                    <div class="col-md-6">
+                                      <button class="btn-lengko btn-lengko-danger block" type="button" onclick="delete_review_device('{{$value1->kode_kuisioner_perangkat}}');">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Hapus
+                                      </button>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <form method="post" action="{{url('/dashboard/update/reviewdevice')}}">
+                                        <input type="hidden" name="_id" value="{{ $value1->kode_kuisioner_perangkat }}">
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <input type="hidden" name="_method" value="put">
+                                      @if ($value1->status_kuisioner_perangkat === 1)
+                                        <button class="btn-lengko btn-lengko-default block" type="submit">
+                                          <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> Sembunyikan
+                                        </button>
+                                      @elseif ($value1->status_kuisioner_perangkat === 0)
+                                        <button class="btn-lengko btn-lengko-default block" type="submit">
+                                          <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Tampilkan
+                                        </button>
+                                      @endif
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+                          @endif
+                          <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                              <div class="seperator"></div>
+                            </div>
+                          </div>
+                        @endforeach
+                      </div>
+                    </div>
+
                   </div>
+                  <!-- copied here -->
 
                 </div>
               </div>
@@ -123,40 +152,32 @@
               <div class="row">
                 <div class="col-md-12">
                   @if (count($data['review']) > 0)
-                  <div class="table-responsive">
-                    <table class="table">
+                  <div>
+                    <table class="table table-hover table-striped stackable">
                       <tr>
                         <th>#</th>
                         <th>Kuisioner</th>
                         <th>Waktu</th>
-                        <th>Status</th>
                         <th></th>
                       </tr>
                     @foreach ($data['review'] as $key1 => $value1)
-                      <tr class="cursor-pointer">
+                      <tr>
                         <td>#{{ $value1->kode_kuisioner }} ({{ $value1->judul_kuisioner }})</td>
                         <td>{{ $value1->isi_kuisioner }}</td>
                         <td>{{ $value1->tanggal_kuisioner }} {{ $value1->waktu_kuisioner }}</td>
                         <td>
-                          <form method="post" action="{{url('/dashboard/update/review')}}">
-                            <input type="hidden" name="_id" value="{{ $value1->kode_kuisioner }}">
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <input type="hidden" name="_method" value="put">
+                          <button class="btn-lengko btn-lengko-default pull-right" type="button" onclick="delete_review('{{$value1->kode_kuisioner}}');">
+                            <i class="material-icons md-18">close</i>
+                          </button>
                           @if ($value1->status_kuisioner === 1)
-                            <button class="btn-lengko btn-lengko-default pull-right" type="submit">
-                              <span class="glyphicon glyphicon-record" aria-hidden="true"></span>
+                            <button class="btn-lengko btn-lengko-default pull-right" type="button" onclick="change_review('{{$value1->kode_kuisioner}}');">
+                              <i class="material-icons md-18">radio_button_checked</i>
                             </button>
                           @elseif ($value1->status_kuisioner === 0)
-                            <button class="btn-lengko btn-lengko-default pull-right" type="submit">
-                              <span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>
+                            <button class="btn-lengko btn-lengko-default pull-right" type="button" onclick="change_review('{{$value1->kode_kuisioner}}');">
+                              <i class="material-icons md-18">radio_button_unchecked</i>
                             </button>
                           @endif
-                          </form>
-                        </td>
-                        <td>
-                          <button class="btn-lengko btn-lengko-default pull-right" type="button" onclick="delete_review('{{$value1->kode_kuisioner}}');">
-                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                          </button>
                         </td>
                       </tr>
                     @endforeach
@@ -195,23 +216,23 @@
               <form class="form-horizontal" name="review-add" method="post" action="{{url('/dashboard/create/review')}}">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="row">
-                  <div class="col-md-3">
+                  <div class="col-md-3 col-sm-2">
                     <label style="margin: 10px 5px 10px 0px;">Judul</label>
                   </div>
-                  <div class="col-md-9">
+                  <div class="col-md-9 col-sm-7">
                     <input type="text" name="review-add-title" class="input-lengko-default block" placeholder="Judul Kuisioner" />
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-3">
+                  <div class="col-md-3 col-sm-2">
                     <label style="margin: 10px 5px 10px 0px;">Kuisioner</label>
                   </div>
-                  <div class="col-md-9">
+                  <div class="col-md-9 col-sm-7">
                     <textarea name="review-add-content" class="textarea-lengko-default block" rows="5" placeholder="Kuisioner"></textarea>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-12">
+                  <div class="col-md-12 col-sm-9">
                     <button type="reset" class="btn-lengko btn-lengko-danger">Batalkan</button>
                     <button type="submit" class="btn-lengko btn-lengko-default pull-right">Tambah</button>
                   </div>

@@ -6,7 +6,7 @@
 
   <div class="row mrg-b-20">
     <div class="col-md-12">
-      <input type="hidden" name="search_token" value="{{ csrf_token() }}">
+      <input type="hidden" name="_token" value="{{ csrf_token() }}">
       @if ($auth == 'root' || $auth == 'chef')
       <div class="row">
         <div class="col-md-12">
@@ -26,52 +26,81 @@
               <div class="row mrg-tb-20">
                 <div class="col-md-12">
                   @if (count($data['material-request-user']) > 0)
-                    @foreach ($data['material-request-user'] as $key1 => $value)
-                      <div onclick="show_obj('material-request-user-{{ $key1 }}');" class="cursor-pointer">
-                        <div class="col-md-3 col-sm-6">
-                          <i class="material-icons md-18">arrow_drop_down</i>
-                          <label>Subjek</label>
-                          <br />
-                          #{{ $value->kode_pengadaan_bahan_baku }} [{{ $value->subjek_pengadaan_bahan_baku }}]
-                        </div>
-                        <div class="col-md-3 col-sm-6">
-                          <label>Waktu</label>
-                          <br />
-                          {{ $value->tanggal_pengadaan_bahan_baku . ' ' . $value->waktu_pengadaan_bahan_baku }}
-                        </div>
-                        <div class="col-md-2 col-sm-6">
-                          <label>Prioritas</label>
-                          <br />
-                          {{ $value->nama_prioritas }}
-                        </div>
-                        <div class="col-md-2 col-sm-6">
-                          <label>Status</label>
-                          <br />
-                          {{ $data['method']->rewrite('status-number', $value->status_pengadaan_bahan_baku) }}
-                        </div>
-                        <div class="col-md-2 col-sm-6">
-                          <label>Keterangan</label>
-                          <br />
-                          {{ $data['method']->rewrite('status', $value->catatan_pengadaan_bahan_baku) }}
-                        </div>
-                      </div>
-                      <div class="clearfix"></div>
-                      <div id="material-request-user-{{ $key1 }}" class="row mrg-t-20" style="display:none; visibility: none;">
-                        <div class="col-md-offset-1 col-md-11 col-sm-offset-1 col-sm-11 col-xs-offset-1 col-xs-11">
-                          <div class="row">
-                            <div class="col-md-12">
-                              <label>Bahan Baku</label>
+                    <!-- copied here -->
+                    <div class="row">
+                      <div class="col-md-12">
+
+                        <div id="request-material-card-section" class="padd-tb-10">
+                          <div class="row padd-lr-15 open-tooltip" data-placement="bottom" data-toggle="tooltip" title="Klik untuk melihat detil pengajuan">
+
+                            <div class="col-md-3 col-sm-3 col-xs-6">
+                              <i class="material-icons md-18">arrow_drop_down</i>
+                              <label>Subjek</label>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-6">
+                              <label>Waktu</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-6">
+                              <label>Prioritas</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-6">
+                              <label>Status</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-12">
+                              <label>Keterangan</label>
                             </div>
                           </div>
+
                           <div class="row">
-                          @foreach ($data[$key1]['material-request-user-detail'] as $key2 => $value)
-                            <div class="col-md-3 col-sm-4 col-xs-6 padd-tb-10"><i class="material-icons md-18">arrow_forward</i>{{ $value->nama_bahan_baku }}</div>
-                          @endforeach
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                              <div class="seperator"></div>
+                            </div>
                           </div>
+
+                          @foreach ($data['material-request-user'] as $key1 => $value)
+                            <div onclick="show_obj('material-request-user-{{ $key1 }}');" class="row cursor-pointer padd-tb-10 padd-lr-15">
+                              <div class="col-md-3 col-sm-3 col-xs-6">
+                                #{{ $value->kode_pengadaan_bahan_baku }} [{{ $value->subjek_pengadaan_bahan_baku }}]
+                              </div>
+                              <div class="col-md-3 col-sm-3 col-xs-6">
+                                {{ $value->tanggal_pengadaan_bahan_baku . ' ' . $value->waktu_pengadaan_bahan_baku }}
+                              </div>
+                              <div class="col-md-2 col-sm-2 col-xs-6">
+                                {{ $value->nama_prioritas }}
+                              </div>
+                              <div class="col-md-2 col-sm-2 col-xs-6">
+                                {{ $data['method']->rewrite('status-number', $value->status_pengadaan_bahan_baku) }}
+                              </div>
+                              <div class="col-md-2 col-sm-2 col-xs-12">
+                                {{ $data['method']->rewrite('status', $value->catatan_pengadaan_bahan_baku) }}
+                              </div>
+                            </div>
+                            @if (count($data[$key1]['material-request-user-detail']) > 0)
+                              <div class="row">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                  <div id="material-request-user-{{ $key1 }}" class="mrg-t-20 padd-lr-15" style="display:none; visibility: none;">
+                                    <table class="table table-hover table-striped stackable">
+                                      <tr><th>Bahan Baku</th></tr>
+                                      @foreach ($data[$key1]['material-request-user-detail'] as $key2 => $value2)
+                                        <tr><td>{{ $value2->nama_bahan_baku }}</td></tr>
+                                      @endforeach
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+                            @endif
+                            <div class="row">
+                              <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="seperator"></div>
+                              </div>
+                            </div>
+                          @endforeach
+
                         </div>
-                      </div>
                       <hr />
-                    @endforeach
+                      </div>
+                    </div>
+                    <!-- copied here -->
                   @endif
 
                 </div>
@@ -166,80 +195,116 @@
             <div class="panel-heading">Pengadaan Bahan Baku</div>
             <div class="panel-body">
               @if (count($data['material-request']) > 0)
+                <!-- copied here -->
+                <div class="row">
+                  <div class="col-md-12">
 
-                <div class="row mrg-tb-20 padd-lr-15">
-                  <div id="request-material-card-section" class="col-md-12">
+                    <div id="confirm-material-card-section" class="padd-tb-10">
+                      <div class="row padd-lr-15 open-tooltip" data-placement="bottom" data-toggle="tooltip" title="Klik untuk melihat detil pengajuan">
 
-                  @foreach ($data['material-request'] as $key1 => $value)
-                    <div onclick="show_obj('material-request-{{ $key1 }}');" class="row cursor-pointer">
-                      <div class="col-md-3 col-sm-6">
-                        <i class="material-icons md-18">arrow_drop_down</i>
-                        <label>Subjek</label>
-                        <br />
-                        #{{ $value->kode_pengadaan_bahan_baku }} [{{ $value->subjek_pengadaan_bahan_baku }}]
+                        <div class="col-md-3 col-sm-3 col-xs-6">
+                          <i class="material-icons md-18">arrow_drop_down</i>
+                          <label>Subjek</label>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-6">
+                          <label>Waktu</label>
+                        </div>
+                        <div class="col-md-2 col-sm-2 col-xs-6">
+                          <label>Prioritas</label>
+                        </div>
+                        <div class="col-md-2 col-sm-2 col-xs-6">
+                          <label>Status</label>
+                        </div>
+                        <div class="col-md-2 col-sm-2 col-xs-12">
+                          <label>Keterangan</label>
+                        </div>
                       </div>
-                      <div class="col-md-3 col-sm-6">
-                        <label>Waktu</label>
-                        <br />
-                        {{ $value->tanggal_pengadaan_bahan_baku . ' ' . $value->waktu_pengadaan_bahan_baku }}
+
+                      <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                          <div class="seperator"></div>
+                        </div>
                       </div>
-                      <div class="col-md-2 col-sm-6">
-                        <label>Prioritas</label>
-                        <br />
-                        {{ $value->nama_prioritas }}
-                      </div>
-                      <div class="col-md-2 col-sm-6">
-                        <label>Status</label>
-                        <br />
-                        {{ $data['method']->rewrite('status-number', $value->status_pengadaan_bahan_baku) }}
-                      </div>
-                      <div class="col-md-2 col-sm-6">
-                        <label>Keterangan</label>
-                        <br />
-                        {{ $data['method']->rewrite('status', $value->catatan_pengadaan_bahan_baku) }}
-                      </div>
+
+                      @foreach ($data['material-request'] as $key1 => $value)
+                        <div onclick="show_obj('material-request-{{ $key1 }}');" class="row cursor-pointer padd-tb-10 padd-lr-15">
+                          <div class="col-md-3 col-sm-3 col-xs-6">
+                            #{{ $value->kode_pengadaan_bahan_baku }} [{{ $value->subjek_pengadaan_bahan_baku }}]
+                          </div>
+                          <div class="col-md-3 col-sm-3 col-xs-6">
+                            {{ $value->tanggal_pengadaan_bahan_baku . ' ' . $value->waktu_pengadaan_bahan_baku }}
+                          </div>
+                          <div class="col-md-2 col-sm-2 col-xs-6">
+                            {{ $value->nama_prioritas }}
+                          </div>
+                          <div class="col-md-2 col-sm-2 col-xs-6">
+                            {{ $data['method']->rewrite('status-number', $value->status_pengadaan_bahan_baku) }}
+                          </div>
+                          <div class="col-md-2 col-sm-2 col-xs-12">
+                            {{ $data['method']->rewrite('status', $value->catatan_pengadaan_bahan_baku) }}
+                          </div>
+                        </div>
+                        @if (count($data[$key1]['material-request-detail']) > 0)
+                          <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                              <div id="material-request-{{ $key1 }}" class="mrg-t-20 padd-lr-15" style="display:none; visibility: none;">
+                                <table class="table table-hover table-striped">
+                                  <tr>
+                                    <th>#Detil</th>
+                                    <th>Bahan Baku</th>
+                                    <th>Kadaluarsa</th>
+                                    <th>Jumlah</th>
+                                    <th>Satuan</th>
+                                  </tr>
+                                  @foreach ($data[$key1]['material-request-detail'] as $key2 => $value2)
+                                    <tr>
+                                      <td>#{{$value2->kode_pengadaan_bahan_baku_detil}}</td>
+                                      <td>
+                                        <input type="hidden" name="material-request-detail-id-{{ $value2->kode_pengadaan_bahan_baku . '-' . $key2  }}" value="{{$value2->kode_pengadaan_bahan_baku_detil}}">
+                                        <input type="text" name="material-request-detail-name-{{ $value2->kode_pengadaan_bahan_baku . '-' . $key2  }}" class="input-lengko-default block" placeholder="Nama" value="{{ $value2->nama_bahan_baku }}" />
+                                      </td>
+                                      <td>
+                                        <input type="text" name="material-request-detail-date-{{ $value2->kode_pengadaan_bahan_baku . '-' . $key2 }}" class="input-lengko-default block datepicker" placeholder="Tanggal kadaluarsa" />
+                                      </td>
+                                      <td>
+                                        <input type="number" min="0" name="material-request-detail-count-{{ $value2->kode_pengadaan_bahan_baku . '-' . $key2 }}" class="input-lengko-default block" placeholder="Jumlah" value="{{ $value2->jumlah_bahan_baku }}" />
+                                      </td>
+                                      <td>
+                                        <input type="text" name="material-request-detail-unit-{{ $value2->kode_pengadaan_bahan_baku . '-' . $key2  }}" class="input-lengko-default block" placeholder="Satuan terkecil" value="{{ $value2->satuan_bahan_baku }}" />
+                                      </td>
+                                    </tr>
+                                  @endforeach
+                                </table>
+                                <div class="row">
+                                  <div class="col-md-12">
+                                    *Bahan baku dengan jumlah = 0 dianggap tidak disetujui.
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-6 col-sm-6 padd-tb-10">
+                                    <input type="hidden" name="material-request-detail-max-{{ $value2->kode_pengadaan_bahan_baku }}" value="{{count($data[$key1]['material-request-detail'])}}">
+                                    <button type="button" class="btn-lengko btn-lengko-danger block" onclick="decline_material({{ $value->kode_pengadaan_bahan_baku }});">Tolak</button>
+                                  </div>
+                                  <div class="col-md-6 col-sm-6 padd-tb-10">
+                                    <button type="button" class="btn-lengko btn-lengko-success block" onclick="confirm_material({{ $value->kode_pengadaan_bahan_baku }});">Terima</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        @endif
+                        <div class="row">
+                          <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="seperator"></div>
+                          </div>
+                        </div>
+                      @endforeach
+
                     </div>
-                    <div class="clearfix"></div>
-                    <hr />
-                    <div id="material-request-{{ $key1 }}" style="display:none; visibility: none;">
-                      <form action="{{url('/dashboard/create/materialrequest')}}" method="post">
-                        <input type="hidden" name="material-request-detail-token" value="{{ csrf_token() }}">
-                        @foreach ($data[$key1]['material-request-detail'] as $key2 => $value2)
-                        <div class="row">
-                          <div class="col-md-3 col-sm-6 col-xs-6">
-                            <input type="hidden" name="material-request-detail-id-{{ $value2->kode_pengadaan_bahan_baku . '-' . $key2  }}" value="{{$value2->kode_pengadaan_bahan_baku_detil}}">
-                            <input type="text" name="material-request-detail-name-{{ $value2->kode_pengadaan_bahan_baku . '-' . $key2  }}" class="input-lengko-default block" placeholder="Nama" value="{{ $value2->nama_bahan_baku }}" />
-                          </div>
-                          <div class="col-md-3 col-sm-6 col-xs-6">
-                            <input type="text" name="material-request-detail-date-{{ $value2->kode_pengadaan_bahan_baku . '-' . $key2 }}" class="input-lengko-default block datepicker" placeholder="Tanggal kadaluarsa" />
-                          </div>
-                          <div class="col-md-3 col-sm-6 col-xs-6">
-                            <input type="number" min="0" name="material-request-detail-count-{{ $value2->kode_pengadaan_bahan_baku . '-' . $key2 }}" class="input-lengko-default block" placeholder="Jumlah" value="{{ $value2->jumlah_bahan_baku }}" />
-                          </div>
-                          <div class="col-md-3 col-sm-6 col-xs-6">
-                            <input type="text" name="material-request-detail-unit-{{ $value2->kode_pengadaan_bahan_baku . '-' . $key2  }}" class="input-lengko-default block" placeholder="Satuan terkecil" value="{{ $value2->satuan_bahan_baku }}" />
-                          </div>
-                        </div>
-                        @endforeach
-                        <div class="row">
-                          <div class="col-md-12">
-                            *Bahan baku dengan jumlah = 0 dianggap tidak disetujui.
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-6 col-sm-6 padd-tb-10">
-                            <input type="hidden" name="material-request-detail-max-{{ $value2->kode_pengadaan_bahan_baku }}" value="{{count($data[$key1]['material-request-detail'])}}">
-                            <button type="button" class="btn-lengko btn-lengko-danger block" onclick="decline_material({{ $value->kode_pengadaan_bahan_baku }});">Tolak</button>
-                          </div>
-                          <div class="col-md-6 col-sm-6 padd-tb-10">
-                            <button type="button" class="btn-lengko btn-lengko-success block" onclick="confirm_material({{ $value->kode_pengadaan_bahan_baku }});">Terima</button>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                  @endforeach
+                  <hr />
                   </div>
                 </div>
+                <!-- copied here -->
 
               @else
                 <div class="row">

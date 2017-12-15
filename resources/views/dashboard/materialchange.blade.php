@@ -10,7 +10,7 @@
       <input type="hidden" name="_token" value="{{ csrf_token() }}">
       @if ($auth == 'root' || $auth == 'pantry')
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-7">
           <div class="panel panel-default panel-custom">
             <div class="panel-heading">Ubah Bahan Baku</div>
             <div class="panel-body">
@@ -47,11 +47,11 @@
                   <div class="col-md-12">
                     <a href="{{ url('/dashboard/material/') }}">
                       <button class="btn-lengko btn-lengko-default pull-left" type="button">
-                        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Kembali
                       </button>
                     </a>
-                    <button class="btn-lengko btn-lengko-default pull-left" type="submit">
-                      <span class="glyphicon glyphicon-save" aria-hidden="true"></span>
+                    <button class="btn-lengko btn-lengko-default pull-right" type="submit">
+                      Simpan <span class="glyphicon glyphicon-save" aria-hidden="true"></span>
                     </button>
                     <input type="hidden" name="material-id" value="{{$data['material']->kode_bahan_baku}}" />
                     {{ csrf_field() }}

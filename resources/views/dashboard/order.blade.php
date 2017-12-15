@@ -14,84 +14,113 @@
             <div class="panel-heading">Konfirmasi Pesanan</div>
             <div class="panel-body">
               @if (count($data['order-confirmation']) > 0)
-
-              <div class="row">
-                <div class="col-md-offset-8 col-md-4 col-sm-offset-6 col-sm-6">
-                  <form name="" action="{{ url('/dashboard/search/order') }}" method="post">
-                    <div class="input-group">
-                      <input type="text" name="order-search-query" class="form-control input-lengko-default" placeholder="Cari Pesanan" />
-                      <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">
-                          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                        </button>
-                      </span>
-                    </div>
-                  </form>
+                <div class="row">
+                  <div class="col-md-offset-8 col-md-4 col-sm-offset-6 col-sm-6">
+                    <!-- <form name="" action="{{ url('/dashboard/search/order') }}" method="post"> -->
+                      <div class="input-group">
+                        <input type="text" name="order-search-query" class="form-control input-lengko-default" placeholder="Cari Pesanan" />
+                        <span class="input-group-btn">
+                          <button class="btn btn-default" type="button">
+                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                          </button>
+                        </span>
+                      </div>
+                    <!--</form> -->
+                  </div>
                 </div>
-              </div>
 
-              <div class="row">
-                <div class="col-md-12 padd-tb-10">
-                  <div id="order-card-section" class="table-responsive">
-                    <table class="table">
-                      <tr class="open-tooltip" data-placement="bottom" data-toggle="tooltip" title="Klik untuk melihat detil pesanan">
-                        <th>Transaksi</th>
-                        <th>Waktu</th>
-                        <th>Pembeli</th>
-                        <th>Perangkat</th>
-                        <th>Konfirmasi</th>
-                      </tr>
-                    @foreach ($data['order-confirmation'] as $key1 => $value1)
-                      <tr onclick="show_obj('order-confirmation-{{ $key1 }}');" class="cursor-pointer">
-                        <td>#{{ $value1->kode_pesanan }}</td>
-                        <td>{{ $value1->tanggal_pesanan }} {{ $value1->waktu_pesanan }}</td>
-                        <td>{{ $value1->pembeli_pesanan }}</td>
-                        <td>{{ $value1->nama_perangkat }}</td>
-                        <td>
-                          <form name="" action="{{ url('/dashboard/confirm/order') }}" method="post">
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <input type="hidden" name="order-confirm-id" value="{{$value1->kode_pesanan}}" />
-                            <button type="submit" class="btn-lengko btn-lengko-warning" width="80px">
-                              <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
-                            </button>
-                          </form>
-                        </td>
-                      </tr>
-                      @if (count($data[$key1]['order-confirmation-detail']) > 0)
-                      <tr id="order-confirmation-{{ $key1 }}" style="display:none; visibility: none;">
-                        <td></td>
-                        <td colspan="5">
-                          <div class="table-responsive">
-                            <table class="table table-hover table-striped">
-                            <tr>
-                              <th>Menu</th>
-                              <th>Harga</th>
-                              <th>Jumlah</th>
-                              <th>Sub-Total</th>
-                            </tr>
-                            @foreach ($data[$key1]['order-confirmation-detail'] as $key2 => $value2)
-                              <tr>
-                                <td>{{ $value2->nama_menu }}</td>
-                                <td>{{ $data['method']->num_to_rp($value2->harga_menu) }}</td>
-                                <td>{{ $value2->jumlah_pesanan_detil }}</td>
-                                <td>{{ $data['method']->num_to_rp($value2->harga_menu * $value2->jumlah_pesanan_detil) }}</td>
-                              </tr>
-                            @endforeach
-                            <tr>
-                              <td colspan="3" class="text-right"><label>Total</label></td>
-                              <td>{{ $data['method']->num_to_rp($value1->harga_pesanan) }}</td>
-                            </tr>
-                            </table>
+                <!-- copied here -->
+                <div class="row">
+                  <div class="col-md-12">
+
+                    <div id="order-card-section" class="padd-tb-10">
+                      <div class="row padd-lr-15 open-tooltip" data-placement="bottom" data-toggle="tooltip" title="Klik untuk melihat detil pesanan">
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                          <label>Transaksi</label>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                          <label>Waktu</label>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                          <label>Pembeli</label>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                          <label>Perangkat</label>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                          <div class="seperator"></div>
+                        </div>
+                      </div>
+
+                      @foreach ($data['order-confirmation'] as $key1 => $value1)
+                        <div onclick="show_obj('order-confirmation-{{ $key1 }}');" class="row cursor-pointer padd-tb-10 padd-lr-15">
+                          <div class="col-md-3 col-sm-3 col-xs-3">
+                            #{{ $value1->kode_pesanan }}
                           </div>
-                        </td>
-                      </tr>
-                      @endif
-                    @endforeach
-                    </table>
-                </div>
-              </div>
+                          <div class="col-md-3 col-sm-3 col-xs-3">
+                            {{ $value1->tanggal_pesanan }} {{ $value1->waktu_pesanan }}
+                          </div>
+                          <div class="col-md-3 col-sm-3 col-xs-3">
+                            {{ $value1->pembeli_pesanan }}
+                          </div>
+                          <div class="col-md-3 col-sm-3 col-xs-3">
+                            {{ $value1->nama_perangkat }}
+                          </div>
+                        </div>
+                        @if (count($data[$key1]['order-confirmation-detail']) > 0)
+                          <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                              <div id="order-confirmation-{{ $key1 }}" class="mrg-t-20 padd-lr-15" style="display:none; visibility: none;">
+                                <table class="table table-hover table-striped">
+                                  <tr>
+                                    <th>Pesanan</th>
+                                    <th>Harga</th>
+                                    <th>Jumlah</th>
+                                    <th>Sub-Total</th>
+                                  </tr>
+                                  @foreach ($data[$key1]['order-confirmation-detail'] as $key2 => $value2)
+                                    <tr>
+                                      <td>{{ $value2->nama_menu }}</td>
+                                      <td>{{ $data['method']->num_to_rp($value2->harga_menu) }}</td>
+                                      <td>{{ $value2->jumlah_pesanan_detil }}</td>
+                                      <td>{{ $data['method']->num_to_rp($value2->harga_menu * $value2->jumlah_pesanan_detil) }}</td>
+                                    </tr>
+                                  @endforeach
+                                  <tr>
+                                    <td colspan="3" class="text-right"><label>Total</label></td>
+                                    <td>{{ $data['method']->num_to_rp($value1->harga_pesanan) }}</td>
+                                  </tr>
+                                </table>
+                                <div class="row">
+                                  <div class="col-md-offset-1 col-md-10 col-sm-offset-1 col-sm-10 col-xs-12 padd-tb-10 padd-lr-15">
+                                    <form name="" action="{{ url('/dashboard/confirm/order') }}" method="post">
+                                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                      <input type="hidden" name="order-confirm-id" value="{{$value1->kode_pesanan}}" />
+                                      <button type="submit" class="btn-lengko btn-lengko-warning block" width="80px">
+                                        Konfirmasi Pesanan
+                                      </button>
+                                    </form>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        @endif
+                        <div class="row">
+                          <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="seperator"></div>
+                          </div>
+                        </div>
+                      @endforeach
 
-              </div> <!-- div panel-body -->
+                    </div>
+                  <hr />
+                  </div>
+                </div>
+                <!-- copied here -->
               @else
                 <div class="row">
                   <div class="col-md-4">
@@ -122,35 +151,40 @@
               @if (count($data['order']) > 0)
 
                 <div class="row">
-                  <div class="col-md-3">
+                  <div class="col-md-3 col-sm-12">
 
-                    <div class="list-group">
-                      <li class="list-group-item"><label>Antrian Perangkat</label></li>
-                      <div class="scrollable @if (count($data['order']) > 5) {{'scrollable-md'}} @endif">
-                      @foreach ($data['order'] as $key => $value)
-                        <a href="#" class="list-group-item @if ($key == 0) {{ 'active' }} @endif">
-                          #{{ $value->kode_pesanan }}
-                          [{{ $value->nama_perangkat }}]
-                        </a>
-                      @endforeach
+                    <div class="row">
+                      <div class="col-md-12 col-sm-6">
+                        <div class="list-group">
+                          <li class="list-group-item"><label>Antrian Perangkat</label></li>
+                          <div class="scrollable @if (count($data['order']) > 5) {{'scrollable-md'}} @endif">
+                          @foreach ($data['order'] as $key => $value)
+                            <a href="#" class="list-group-item @if ($key == 0) {{ 'active' }} @endif">
+                              #{{ $value->kode_pesanan }}
+                              [{{ $value->nama_perangkat }}]
+                            </a>
+                          @endforeach
+                          </div>
+                        </div>
                       </div>
-                    </div>
-
-                    <div class="list-group">
-                      <li class="list-group-item"><label>Antrian Menu</label></li>
-                      <div class="scrollable @if (count($data['order']) > 7) {{'scrollable-lg'}} @endif">
-                      @foreach ($data['order-detail'] as $key => $value)
-                        <a href="#" class="list-group-item @if ($key == 0) {{ 'active' }} @endif">
-                          {{ $value->nama_menu }}
-                          ({{ $value->jumlah_pesanan_detil }})
-                        </a>
-                      @endforeach
+                      <div class="col-md-12 col-sm-6">
+                        <div class="list-group">
+                          <li class="list-group-item"><label>Antrian Menu</label></li>
+                          <div class="scrollable @if (count($data['order']) > 7) {{'scrollable-lg'}} @endif">
+                          @foreach ($data['order-detail'] as $key => $value)
+                            <a href="#" class="list-group-item @if ($key == 0) {{ 'active' }} @endif">
+                              {{ $value->nama_menu }}
+                              ({{ $value->jumlah_pesanan_detil }})
+                            </a>
+                          @endforeach
+                          </div>
+                        </div>
                       </div>
                     </div>
 
                   </div>
 
-                  <div class="col-md-9"> <!-- panel kanan -->
+                  <div class="col-md-9 col-sm-12"> <!-- panel kanan -->
                     @foreach ($data['order'] as $key => $value)
                     <div class="@if ($key > 0) {{'overlay'}} @endif">
                       <div class="row">
@@ -200,10 +234,10 @@
                                 @foreach ($data[$key]['order-detail-food'] as $key2 => $value2)
                                   @if ($value2->kode_pesanan == $value2->kode_pesanan)
                                     <div class="row padd-tb-10">
-                                      <div class="col-md-10">
+                                      <div class="col-md-9 col-sm-9">
                                         {{ $value2->nama_menu }} ({{ $value2->jumlah_pesanan_detil }})
                                       </div>
-                                      <div class="col-md-2">
+                                      <div class="col-md-3 col-sm-3">
                                         @if ($value2->status_pesanan_detil == 'P')
                                           <button type="button" class="btn-lengko btn-lengko-success block" onclick="done_menu({{$value2->kode_pesanan_detil}})" style="font-size: 10px;">
                                             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
@@ -242,10 +276,10 @@
                                 @foreach ($data[$key]['order-detail-drink'] as $key3 => $value3)
                                   @if ($value3->kode_pesanan == $value3->kode_pesanan)
                                     <div class="row padd-tb-10">
-                                      <div class="col-md-10">
+                                      <div class="col-md-9 col-sm-9">
                                         {{ $value3->nama_menu }} ({{ $value3->jumlah_pesanan_detil }})
                                       </div>
-                                      <div class="col-md-2">
+                                      <div class="col-md-3 col-sm-3">
                                         @if ($value3->status_pesanan_detil == 'P')
                                           <button type="button" class="btn-lengko btn-lengko-success block" onclick="done_menu({{$value3->kode_pesanan_detil}})" style="font-size: 10px;">
                                             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>

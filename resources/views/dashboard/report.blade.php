@@ -45,28 +45,31 @@
                     <div class="col-md-5 col-sm-5">
                       <label>Rentang Waktu</label>
                       <div class="row">
-                        <div class="col-md-6 col-sm-6">
-                          <input type="text" name="report-date-start" class="input-lengko-default block datepicker" placeholder="Tanggal Awal" />
-                        </div>
-                        <div class="col-md-6 col-sm-6">
-                          <input type="text" name="report-date-end" class="input-lengko-default block datepicker" placeholder="Tanggal Akhir" />
+                        <div class="col-md-12 col-sm-12">
+                          <div class="input-group input-group-sm">
+                            <input type="text" name="report-date-start" class="input-lengko-box block form-control datepicker" style="height:45px;" aria-describedby="basic-addon1" placeholder="Tanggal Awal" />
+                            <span class="input-group-addon" id="basic-addon1" style="border: 0px; padding: 2px 10px; height: 45px;">
+                              s.d.
+                            </span>
+                            <input type="text" name="report-date-end" class="input-lengko-box block form-control datepicker" style="height:45px;" aria-describedby="basic-addon1" placeholder="Tanggal Akhir" />
+                          </div>
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-3 col-sm-3 text-center">
-                      <label>&nbsp;</label>
+                    <div class="col-md-3 col-sm-3 text-left">
+                      <label>&nbsp; </label>
                       <div class="row">
-                        <div class="col-md-6 col-sm-6">
-                          <button type="button" name="report-search-button" class="btn-lengko btn-lengko-default block">
-                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                            Lihat
-                          </button>
-                        </div>
-                        <div class="col-md-6 col-sm-6">
-                          <button type="button" name="report-print-button" class="btn-lengko btn-lengko-warning block">
-                            <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
-                            Cetak
-                          </button>
+                        <div class="col-md-12 col-sm-12">
+                          <div class="btn-group" role="group" aria-label="...">
+                            <button type="button" name="report-search-button" class="btn-lengko btn-lengko-default">
+                              <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                              Lihat
+                            </button>
+                            <button type="button" name="report-print-button" class="btn-lengko btn-lengko-warning">
+                              <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
+                              Cetak
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>

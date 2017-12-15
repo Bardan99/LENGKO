@@ -8,6 +8,8 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesResources;
 use Illuminate\Support\Facades\DB;
+use App\Perangkat;
+use App\Pemberitahuan;
 
 class MethodController extends BaseController {
 
@@ -87,17 +89,21 @@ class MethodController extends BaseController {
     return $res;
   }
 
-  public function msg($type) { //notification
-    $msg = '';
-    switch ($type) {
-      case 'value':
-        $msg = '';
-      break;
-      default:
-        $msg = '';
-      break;
+
+  public function generate_notification($data) {
+    $valid = Perangkat::find($data['device']);
+    if ($valid) {
+      $input = [
+        'isi_pemberitahuan' => $data['msg'],
+        'tanggal_pemberitahuan' => date('Y-m-d'),
+        'waktu_pemberitahuan' => date('H:m:s'),
+        'kode_perangkat' => $data['device'],
+      ];
+      $try = Pemberitahuan::create($input);
+      return true;
     }
-    return $msg;
+    return false;
   }
+
 
 }

@@ -14,6 +14,7 @@ use App\Menu;
 use App\Pesanan;
 use App\PesananDetil;
 use App\Perangkat;
+use App\Pemberitahuan;
 use Session;
 
 class HomeController extends Controller {
@@ -46,7 +47,7 @@ class HomeController extends Controller {
    public function index(Request $request) {
      if (view()->exists('home')) {
        $data['page'] = '';
-       return view('home', ['data' => $data, 'order' => $this->get_order($request)]);
+       return view('home', ['data' => $data, 'device' => Auth::guard('device')->user(), 'order' => $this->get_order($request)]);
      }
      return abort(404);
    }
@@ -612,9 +613,16 @@ class HomeController extends Controller {
 
         $try = PesananDetil::insert($detil);
         if ($try) {
-
           $request->session()->forget('order');
-          return response()->json(['status' => 200,'text' => 'Mohon ditunggu, pesanan sedang kami proses, GPL lhoo']);
+
+          $valid = Perangkat::find(Auth::guard('device')->user()->kode_perangkat);
+          $try = new MethodController();
+          $try = $try->generate_notification([
+            'device' => Auth::guard('device')->user()->kode_perangkat,
+            'msg' => 'Terdapat order baru di perangkat ' . $valid->nama_perangkat . '.'
+          ]);
+
+          return response()->json(['status' => 200,'text' => 'Mohon ditunggu, pesanan sedang kami proses.']);
         }
         return response()->json(['status' => 500,'text' => 'Oops terjadi sesuatu, silahkan hubungi kami apabila terjadi kendala']);
       }
@@ -649,7 +657,15 @@ class HomeController extends Controller {
         $try = PesananDetil::insert($detil);
         if ($try) {
           $request->session()->forget('order');
-          return response()->json(['status' => 200,'text' => 'Mohon ditunggu, pesanan sedang kami proses, GPL lhoo']);
+
+          $valid = Perangkat::find(Auth::guard('device')->user()->kode_perangkat);
+          $try = new MethodController();
+          $try = $try->generate_notification([
+            'device' => Auth::guard('device')->user()->kode_perangkat,
+            'msg' => 'Terdapat order baru di perangkat ' . $valid->nama_perangkat . '.'
+          ]);
+
+          return response()->json(['status' => 200,'text' => 'Mohon ditunggu, pesanan sedang kami proses.']);
         }
         return response()->json(['status' => 500,'text' => 'Oops terjadi sesuatu, silahkan hubungi kami apabila terjadi kendala']);
       }//endif
@@ -734,6 +750,37 @@ class HomeController extends Controller {
             ]);
         }
 
+      }
+    }//endif
+  }
+
+  public function notifhelp(Request $request) {
+    if ($request->ajax()) {
+      $data = $request->all();
+      $valid = Perangkat::find($data['_id']);
+      if ($valid) {
+
+        $try = new MethodController();
+        $try = $try->generate_notification([
+          'device' => $data['_id'],
+          'msg' => $valid->nama_perangkat . ' membutuhkan bantuan.'
+        ]);
+        if ($try) {
+          return response()->json([
+              'status' => 200,
+              'text' => 'Berhasil memanggil bantuan.',
+            ]);
+        }
+        return response()->json([
+            'status' => 500,
+            'text' => 'Gagal memanggil bantuan, silahkan hubungi pelayan secara manual.',
+          ]);
+      }
+      else {
+        return response()->json([
+            'status' => 500,
+            'text' => 'Gagal memanggil bantuan, silahkan hubungi pelayan secara manual.',
+          ]);
       }
     }//endif
   }

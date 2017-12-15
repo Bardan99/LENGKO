@@ -87,12 +87,20 @@ Route::group(['middleware' => 'device'], function() {
   Route::get('/', 'HomeController@index');
   Route::get('/logout', 'Auth\DeviceLoginController@logout');
   Route::get('/{param}', 'HomeController@view');
-  Route::post('/customer/search/menu', 'HomeController@searchmenu');
-  Route::post('/customer/page/menu', 'HomeController@pagemenu');
-  Route::post('/customer/create/review', 'HomeController@createreview');
-  Route::post('/customer/add/menu', 'HomeController@addmenu');
-  Route::post('/customer/remove/menu', 'HomeController@removemenu');
-  Route::post('/customer/change/menu', 'HomeController@changemenu');
-  Route::post('/customer/create/order', 'HomeController@createorder');
-  Route::post('/customer/filter/menu', 'HomeController@filtermenu');
+
+  Route::group(['prefix' => 'customer'], function() {
+    Route::post('/search/menu', 'HomeController@searchmenu');
+    Route::post('/page/menu', 'HomeController@pagemenu');
+    Route::post('/create/review', 'HomeController@createreview');
+    Route::post('/add/menu', 'HomeController@addmenu');
+    Route::post('/remove/menu', 'HomeController@removemenu');
+    Route::post('/change/menu', 'HomeController@changemenu');
+    Route::post('/create/order', 'HomeController@createorder');
+    Route::post('/filter/menu', 'HomeController@filtermenu');
+
+    Route::post('/notif/help', 'HomeController@notifhelp');
+    Route::post('/notif/order', 'HomeController@notiforder');
+    Route::post('/notif/transaction', 'HomeController@notiftransaction');
+  });
+
 });

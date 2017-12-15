@@ -4,7 +4,6 @@
 
 @section('content')
   <div class="container">
-
     <div class="row mrg-b-30">
       <div class="col-md-push-2 col-md-8">
         <h4 id="brand-description" class="brand-description">
@@ -33,7 +32,8 @@
         </div>
       </div>
       <div class="col-md-4 col-sm-6 col-xs-12">
-        <div class="main-menu menu-purple" onclick="call_waiter('DEVCODE');" data-placement="bottom" data-toggle="tooltip" title="Butuh bantuan? Kami siap membantu kamu untuk menyelesaikan pekerjaan rumah kamu; eh salah!">
+
+        <div class="main-menu menu-purple" onclick="call_waiter('{{$device->kode_perangkat}}');" data-placement="bottom" data-toggle="tooltip" title="Butuh bantuan? Kami siap membantu kamu untuk menyelesaikan pekerjaan rumah kamu; eh salah!">
           <div class="menu-icon">
             <i class="material-icons md-72">help_outline</i>
             <br />

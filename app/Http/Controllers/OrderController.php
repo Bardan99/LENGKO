@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests;
 use App\Pesanan;
 use App\PesananDetil;
+use App\Perangkat;
+use App\Menu;
 use Hash;
 use Validator;
 
@@ -14,25 +16,42 @@ class OrderController extends Controller {
 
   public function confirm(Request $request) {
     $id = $request->get('order-confirm-id');
-    $employee = Pesanan::findOrFail($id);
-    if ($employee) {
+    $order = Pesanan::findOrFail($id);
+    if ($order) {
       $data = [
         'status_pesanan' => 'P' //lanjut ke tahap proses = sudah dikonfirmasi
       ];
       $try = Pesanan::find($id)->update($data);
+
+      $valid = Perangkat::find($order->kode_perangkat);
+      if ($valid) {
+        $try = new MethodController();
+        $try = $try->generate_notification([
+          'device' => $valid->kode_perangkat,
+          'msg' => 'Pesanan ' . $order->pembeli_pesanan . '[' . $valid->nama_perangkat . ']' . ' sudah dikonfirmasi pelayan.'
+        ]);
+      }
     }
     return redirect('/dashboard/order');
   }
 
   public function marked(Request $request, $id) {
-    $handler = Pesanan::findOrFail($id);
-    if ($handler) {
+    $order = Pesanan::find($id);
+    if ($order) {
       $try = Pesanan::find($id)->update([
         'status_pesanan' => 'T'
       ]);
       $try = PesananDetil::where(['kode_pesanan' => $id])->update([
         'status_pesanan_detil' => 'D'
       ]);
+
+      $valid = Perangkat::find($order->kode_perangkat);
+      $try = new MethodController();
+      $try = $try->generate_notification([
+        'device' => $valid->kode_perangkat,
+        'msg' => 'Pesanan #' . $order->kode_pesanan . ' [' . $order->pembeli_pesanan . '@' . $valid->nama_perangkat . '] selesai dibuat.'
+      ]);
+
       return response()->json(['status' => 200, 'text' => 'Pelayan sekarang seharusnya sudah bisa mengantar pesanan']);
     }
     else {
@@ -41,11 +60,23 @@ class OrderController extends Controller {
   }
 
   public function checked(Request $request, $id) {
-    $handler = PesananDetil::findOrFail($id);
-    if ($handler) {
+    $orderdetil = PesananDetil::findOrFail($id);
+    if ($orderdetil) {
       $try = PesananDetil::find($id)->update([
         'status_pesanan_detil' => 'D'
       ]);
+
+      $order = Pesanan::find($orderdetil->kode_pesanan);
+      if ($order) {
+        $valid = Perangkat::find($order->kode_perangkat);
+        $menu = Menu::find($orderdetil->kode_menu);
+        $try = new MethodController();
+        $try = $try->generate_notification([
+          'device' => $valid->kode_perangkat,
+          'msg' => 'Pesanan #' . $order->kode_pesanan . ' (' . $menu->nama_menu . ') [' . $order->pembeli_pesanan . '@' . $valid->nama_perangkat . '] selesai dibuat.'
+        ]);
+      }
+
       return response()->json(['status' => 200, 'text' => 'Pelayan sekarang seharusnya sudah bisa mengantar pesanan']);
     }
     else {

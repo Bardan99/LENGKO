@@ -13,6 +13,7 @@ use App\MenuDetil;
 use App\Review;
 use App\ReviewDevice;
 use App\ReviewDetil;
+use App\Pemberitahuan;
 use Auth;
 use Validator;
 use Hash;
@@ -30,6 +31,10 @@ class DashboardController extends Controller {
       $data['employee'] = Pegawai::where('kode_pegawai', Auth::guard('employee')->user()->kode_pegawai)
                           ->join('otoritas', 'otoritas.kode_otoritas', '=', 'pegawai.kode_otoritas')
                           ->first();
+      $data['notification'] = Pemberitahuan::orderBy('kode_pemberitahuan', 'DESC')
+                          ->orderBy('tanggal_pemberitahuan', 'DESC')
+                          ->orderBy('waktu_pemberitahuan', 'DESC')
+                          ->skip(0)->take(10)->get();
       return view('dashboard.home', ['data' => $data, 'pages' => $pages, 'page' => '/']);
     }
     return abort(404);
@@ -434,7 +439,7 @@ class DashboardController extends Controller {
 
         }
         return redirect('/dashboard/menu');
-      break;      
+      break;
       case 'reviewdevice':
         $id = $request->get('_id');
         $handler = ReviewDevice::find($id);

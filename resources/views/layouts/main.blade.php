@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.css" />
   <link rel="stylesheet" href="/assets/slick/slick.css" />
   <link rel="stylesheet" href="/assets/slick/slick-theme.css" />
+  <link rel="stylesheet" href="/assets/stacktable/stacktable.css" />
   <link rel="stylesheet" href="/assets/custom/css/general.css" />
   <link rel="stylesheet" href="/assets/custom/css/rewrite.css" />
   <link rel="stylesheet" href="/assets/fontawesome/css/font-awesome.css">
@@ -28,6 +29,7 @@
       (object) array('title' => 'Tentang Kami', 'link' => '/about', 'icon' => 'sunglasses')
     );
   ?>
+  <input type="hidden" name="_token" value="{{ csrf_token() }}">
   <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
@@ -46,7 +48,7 @@
         <ul class="nav navbar-nav navbar-right">
           @foreach ($menu as $key => $value)
             @if ($value->link == '/' . $data['page'] && $value->link != '/order')
-            <li @if ($value->link == '#!') {!! 'onclick="call_waiter(\'DEVCODE\');"'!!} @endif class="@if ($value->link == '/'. $data['page']) {{ 'active'}} @endif">
+            <li @if ($value->link == '#!') {!! 'call_waiter(\' {{$device->kode_perangkat }}\');' !!} @endif class="@if ($value->link == '/'. $data['page']) {{ 'active'}} @endif">
               <a href="{{$value->link}}">
                 <span class="glyphicon glyphicon-{{$value->icon}}" aria-hidden="true"></span>
                 {{ $value->title }}
@@ -69,7 +71,7 @@
             <ul class="dropdown-menu">
               @foreach ($menu as $key => $value)
                 @if ($value->link != '/' . $data['page'] && $value->link != '/order')
-                <li @if ($value->link == '#!') {!! 'onclick="call_waiter(\'DEVCODE\');"'!!} @endif class="@if ($value->link == '/'. $data['page']) {{ 'active'}} @endif">
+                <li @if ($value->link == '#!') onclick="call_waiter('{{$device->kode_perangkat }}');" @endif class="@if ($value->link == '/'. $data['page']) {{ 'active'}} @endif">
                   <a href="{{ url($value->link) }}">
                     <span class="glyphicon glyphicon-{{$value->icon}}" aria-hidden="true"></span>
                     {{ $value->title }}
@@ -109,6 +111,7 @@
   <script type="text/javascript" data-cfasync="false" src="/assets/sweetalert/sweetalert.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/slick/slick.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/typeit/typeit.js"></script>
+  <script type="text/javascript" data-cfasync="false" src="/assets/stacktable/stacktable.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/bootstrap/js/bootstrap.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/jqueryrating/jquery.barrating.min.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/chartjs/chart-2.7.1.js"></script>

@@ -24,6 +24,16 @@ class TransactionController extends Controller {
       Perangkat::find($order->kode_perangkat)->update([
         'status_perangkat' => 1
       ]);
+
+      $valid = Perangkat::find($order->kode_perangkat);
+      if ($valid) {
+        $try = new MethodController();
+        $try = $try->generate_notification([
+          'device' => $valid->kode_perangkat,
+          'msg' => 'Transaksi ' . $order->pembeli_pesanan . '[' . $valid->nama_perangkat . ']' . ' selesai dilakukan, perangkat bisa digunakan kembali.'
+        ]);
+      }
+
       return response()->json(['status' => 200, 'text' => 'Pembayaran berhasil dilakukan']);
     }
     else {

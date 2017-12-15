@@ -145,7 +145,7 @@ function ajax_init() {
       readonly: true
     });
   }
-  
+
   if ($('#material-management').length > 0) {
     $("#material-management").stacktable();
   }
@@ -232,6 +232,10 @@ $(document).ready(function() {
 
   /* End of Select2 settings */
 
+  if ($('.stackable'.length > 0)) {
+    $('.stackable').stacktable();
+  }
+  
   if ($('.datepicker').length > 0) {
     $('.datepicker').datepicker({
       language: 'id-ID',

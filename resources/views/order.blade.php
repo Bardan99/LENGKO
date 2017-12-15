@@ -9,7 +9,7 @@
     @if (count($order) > 0)
     <div class="row">
       <div class="col-md-12">
-
+        <!-- new order from session -->
         <div class="row">
           <div class="col-md-5 col-xs-3 text-center">
             <h3 class="mrg-b-10">Menu</h3>
@@ -96,103 +96,184 @@
     <div class="row mrg-b-20 padd-tb-10">
       <div class="col-md-offset-9 col-md-3 padd-lr-10 padd-tb-10">
         <button type="button" name="order-create-button" class="btn-lengko btn-lengko-default pull-right open-tooltip" data-placement="left" data-toggle="tooltip" title="Lanjutkan proses pemesanan..">
-          <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Pesan Sekarang
+          <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Tambah Pesanan
         </button>
       </div>
     </div>
+    <!-- new order from session -->
     @else
-      <div class="row">
-        <div class="col-md-12 col-xs-12 text-center" style="font-size: 24pt;">
-          @if (count($data['order-processed']) > 0)
-            <a href="{{url('/menu/')}}"><img src="{{ url('/files/images/lengko-favicon.png') }}" alt="LENGKO" width="180px" height="120px" /></a>
-            <br />
-            <a href="{{url('/menu/')}}"><h1>Sambil menunggu, yuk lihat-lihat lagi.</h1></a>
-          @else
-            <h1>Lho, kok belum pesan?</h1>
-            <br />
-            <a href="{{url('/menu/')}}"><img src="{{ url('/files/images/lengko-favicon.png') }}" alt="LENGKO" width="180px" height="120px" /></a>
-            <br />
-            <br />
-            <a href="{{ url('/menu/') }}">
-              Ayo jangan malu-malu;<br />
-              Biasanya juga malu-maluin.<br />
-            </a>
-          @endif
-        </div>
+
+    <div class="row">
+      <div class="col-md-12 col-xs-12 text-center" style="font-size: 24pt;">
+        @if (count($data['order-processed']) > 0)
+
+        @else
+          <h1>Lho, kok belum pesan?</h1>
+          <br />
+          <a href="{{url('/menu/')}}"><img src="{{ url('/files/images/lengko-favicon.png') }}" alt="LENGKO" width="180px" height="120px" /></a>
+          <br />
+          <br />
+          <a href="{{ url('/menu/') }}">
+            Ayo jangan malu-malu;<br />
+            Biasanya juga malu-maluin.<br />
+          </a>
+        @endif
       </div>
+    </div>
+
     @endif
 
     <!-- cuted here -->
     @if (count($data['order-processed']) > 0)
     <div class="row mrg-t-20">
-      <div class="col-md-12">
+      <div class="col-md-9">
 
-        <div class="table-responsive">
-          <table class="table">
-            <tr>
-              <th># ({{ $data['order-processed'][0]->nama_perangkat }})</th>
-              <th width="400px">Catatan</th>
-              <th>Waktu</th>
-              <th>Status</th>
-            </tr>
+        <div class="note-book">
           @foreach ($data['order-processed'] as $key1 => $value1)
-            <tr onclick="show_obj('review-{{ $key1 }}');" class="cursor-pointer">
-              <td>#{{ $value1->kode_pesanan }} {{ $value1->pembeli_pesanan }}</td>
-              <td width="400px">{{ $value1->catatan_pesanan }}</td>
-              <td>{{ $value1->tanggal_pesanan }} {{ $value1->waktu_pesanan }}</td>
-              <td class="status-{{$value1->status_pesanan}}">{{ $data['method']->rewrite('status', $value1->status_pesanan) }}</td>
-            </tr>
+            <h1 class="text-center">Daftar Pesanan <br />{{ $value1->nama_perangkat }}</h1>
+
+            <div class="row padd-lr-15">
+              <div class="col-md-6 col-sm-6 col-xs-6">
+                <label>Pesanan: </label> #{{ $value1->kode_pesanan }} {{ $value1->pembeli_pesanan }}
+              </div>
+              <div class="col-md-6 col-sm-6 col-xs-6">
+                <label>Waktu: </label> {{ $value1->tanggal_pesanan }} {{ $value1->waktu_pesanan }}
+              </div>
+              <div class="col-md-6 col-sm-6 col-xs-6">
+                <label>Status: </label> {{ $data['method']->rewrite('status', $value1->status_pesanan) }}
+              </div>
+              <div class="col-md-6 col-sm-6 col-xs-6">
+                <label>Catatan: </label> <br />{{ $value1->catatan_pesanan }}
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="seperator"></div>
+              </div>
+            </div>
+
             @if (count($data[$key1]['order-processed-detail']) > 0)
-            <tr id="review-{{ $key1 }}" style="display:none; visibility: none;">
-              <td></td>
-              <td colspan="5">
-                <div class="table-responsive">
-                  <table class="table table-hover table-striped">
-                  <tr>
-                    <th>Menu</th>
-                    <th>Harga</th>
-                    <th>Jumlah</th>
-                    <th>Sub-Total</th>
-                    @if ($value1->status_pesanan != 'C')
-                    <th>Status</th>
-                    @endif
-                  </tr>
-                  @foreach ($data[$key1]['order-processed-detail'] as $key2 => $value2)
-                    <tr>
-                      <td>{{ $value2->nama_menu }}</td>
-                      <td>{{ $data['method']->num_to_rp($value2->harga_menu) }}</td>
-                      <td>{{ $value2->jumlah_pesanan_detil }}</td>
-                      <td>{{ $data['method']->num_to_rp($value2->harga_menu * $value2->jumlah_pesanan_detil) }}</td>
-                      @if ($value1->status_pesanan != 'C')
-                        <td class="status-{{$value2->status_pesanan_detil}}">{{ $data['method']->rewrite('status', $value2->status_pesanan_detil) }}</td>
-                      @endif
-                    </tr>
-                  @endforeach
-                  <tr>
-                    <th colspan="3" class="text-right">Total</th>
-                    <td colspan="2">{{ $data['method']->num_to_rp($value1->harga_pesanan) }}</td>
-                  </tr>
-                  </table>
+              @foreach ($data[$key1]['order-processed-detail'] as $key2 => $value2)
+                @if ($key2 === 0)
+                <div class="row padd-lr-15 desktop-only">
+                  <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class=" padd-tb-10">
+                      <label class="desktop-only">Menu</label>
+                    </div>
+                  </div>
+                  <div class="col-md-2 col-sm-6 col-xs-12">
+                    <div class=" padd-tb-10">
+                      <label class="desktop-only">Harga</label>
+                    </div>
+                  </div>
+                  <div class="col-md-2 col-sm-6 col-xs-12">
+                    <div class=" padd-tb-10">
+                      <label class="desktop-only">Jumlah</label>
+                    </div>
+                  </div>
+                  <div class="col-md-2 col-sm-6 col-xs-12">
+                    <div class=" padd-tb-10">
+                      <label class="desktop-only">Sub-Total</label>
+                    </div>
+                  </div>
+                  @if ($value1->status_pesanan != 'C')
+                  <div class="col-md-3 col-sm-12 col-xs-12 ">
+                    <div class=" padd-tb-10">
+                      <label class="desktop-only">Status</label>
+                    </div>
+                  </div>
+                  @endif
                 </div>
-              </td>
-            </tr>
+                @endif
+
+                <div class="row padd-lr-15 mrg-t-5">
+                  <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="">
+                      <label class="not-desktop-only">Menu</label>
+                    </div>
+                    <div class=" padd-tb-10">
+                      {{ $value2->nama_menu }}
+                    </div>
+                  </div>
+                  <div class="col-md-2 col-sm-6 col-xs-12">
+                    <div class="">
+                      <label class="not-desktop-only">Harga</label>
+                    </div>
+                    <div class=" padd-tb-10">
+                      {{ $data['method']->num_to_rp($value2->harga_menu) }}
+                    </div>
+                  </div>
+                  <div class="col-md-2 col-sm-6 col-xs-12">
+                    <div class="">
+                      <label class="not-desktop-only">Jumlah</label>
+                    </div>
+                    <div class=" padd-tb-10">
+                      {{ $value2->jumlah_pesanan_detil }}
+                    </div>
+                  </div>
+                  <div class="col-md-2 col-sm-6 col-xs-12">
+                    <div class="">
+                      <label class="not-desktop-only">Sub-Total</label>
+                    </div>
+                    <div class=" padd-tb-10">
+                      {{ $data['method']->num_to_rp($value2->harga_menu * $value2->jumlah_pesanan_detil) }}
+                    </div>
+                  </div>
+                  @if ($value1->status_pesanan != 'C')
+                  <div class="col-md-3 col-sm-12 col-xs-12 ">
+                    <div class="">
+                      <label class="not-desktop-only">Status</label>
+                    </div>
+                    <div class="status-{{$value2->status_pesanan_detil}} padd-tb-10 padd-lr-15">
+                      {{ $data['method']->rewrite('status', $value2->status_pesanan_detil) }}
+                    </div>
+                  </div>
+                  @endif
+                </div>
+              @endforeach
+              <div class="row padd-tb-10">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="seperator"></div>
+                </div>
+              </div>
+              <div class="row padd-lr-15">
+                <div class="col-md-offset-5 col-md-2 col-sm-6 col-xs-6">
+                  <label>Total</label>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-6 ">
+                  <strong>{{ $data['method']->num_to_rp($value1->harga_pesanan) }}</strong>
+                </div>
+              </div>
+              <div class="row padd-tb-10">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="seperator"></div>
+                </div>
+              </div>
+              <!-- all orders already done -->
+              @if ($value1->status_pesanan == 'T')
+                <div class="row padd-tb-20">
+                  <div class="col-md-offset-2 col-md-8 col-sm-offset-2 col-sm-8">
+                    <button type="button" name="order-finish-button" class="btn-lengko btn-lengko-default pull-right block" onclick="finish_order();">
+                      <span class="glyphicon glyphicon-usd" aria-hidden="true"></span> Bayar Sekarang
+                    </button>
+                  </div>
+                </div>
+              @endif
+              <!-- all orders already done -->
             @endif
           @endforeach
-          </table>
-        </div>
 
-        </div>
+        </div> <!-- end notebookk -->
+
       </div>
-      @if ($data['order-processed'][0]->status_pesanan == 'T')
-        <div class="row padd-tb-20">
-          <div class="col-md-offset-4 col-md-4 col-sm-offset-2 col-sm-6">
-            <button type="button" name="order-finish-button" class="btn-lengko btn-lengko-default pull-right block" onclick="finish_order();">
-              <span class="glyphicon glyphicon-usd" aria-hidden="true"></span> Bayar Sekarang
-            </button>
-          </div>
-        </div>
-      @endif
-      @endif
+      <div class="col-md-3 desktop-only text-center">
+        <a href="{{url('/order')}}"><img src="{{ url('/files/images/unknown-character.png') }}" alt="LENGKO" width="230px" height="350px" /></a>
+        <br /><small><b>Ini gambar boleh nyolonqq >_<</b></small>
+      </div>
+    </div>
+
+    @endif
     <!-- here -->
 
   </div> <!-- end container -->

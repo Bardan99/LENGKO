@@ -10,34 +10,44 @@
       <div class="row">
         <div class="col-md-12">
           <div class="panel panel-default panel-custom">
-            <div class="panel-heading">Informasi</div>
+            <div class="panel-heading">Pemberitahuan</div>
             <div class="panel-body">
-
+              @if (count($data['notification']) > 0)
               <div class="row">
-                <div class="col-md-6">
-
+                <div class="col-md-8 col-sm-8">
                   <div class="list-group-item"><label>Pemberitahuan</label></div>
                   <div class="list-group scrollable scrollable-md">
-                    <li class="list-group-item active">x</li>
-                    @for ($i=0; $i < 5; $i++)
-                      <li class="list-group-item">x</li>
-                    @endfor
+                    @foreach ($data['notification'] as $key => $value)
+                      <li class="list-group-item @if ($key == 0) {{' active'}}@endif">
+                        <div class="row">
+                          <div class="col-md-8 text-left">
+                            {{$value->isi_pemberitahuan}}
+                          </div>
+                          <div class="col-md-4 text-right">
+                            <span class="badge">
+                              {{$value->tanggal_pemberitahuan}} &nbsp;
+                              {{$value->waktu_pemberitahuan}}
+                            </span>
+                          </div>
+                        </div>
+                      </li>
+                    @endforeach
                   </div>
-
                 </div>
-                <div class="col-md-6">
-
-                  <div class="list-group-item"><label>Aktivitas</label></div>
-                  <div class="list-group scrollable scrollable-md">
-                    <li class="list-group-item active">x</li>
-                    @for ($i=0; $i < 5; $i++)
-                      <li class="list-group-item">x</li>
-                    @endfor
-                  </div>
-
+                <div class="col-md-4 col-sm-4 text-center">
+                  <i class="material-icons md-180 desktop-only">notifications</i>
+                  <h3 class="desktop-only mrg-t-0">Pemberitahuan</h3>
                 </div>
               </div>
-
+            @else
+              <div class="row">
+                <div class="col-md-8">
+                  <div class="alert alert-warning">
+                    Belum ada pemberitahuan.
+                  </div>
+                </div>
+              </div>
+            @endif
             </div>
           </div>
         </div>

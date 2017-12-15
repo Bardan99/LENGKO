@@ -53,7 +53,7 @@
                           </div>
                         </div>
                         @foreach ($data['review-device'] as $key1 => $value1)
-                          <div onclick="show_obj('review-{{ $key1 }}');" class="cursor-pointer padd-tb-10 padd-lr-15">
+                          <div onclick="show_obj('review-{{ $key1 }}');" class="cursor-pointer padd-tb-10 mrg-lr-15 padd-lr-15 @if ($value1->status_kuisioner_perangkat === 0) {{'status-disabled'}} @endif">
                             <div class="row">
                               <div class="col-md-3 col-sm-3 col-xs-4">
                                 #{{ $value1->kode_kuisioner_perangkat }} ({{ $value1->pembeli_kuisioner_perangkat }})
@@ -161,7 +161,7 @@
                         <th></th>
                       </tr>
                     @foreach ($data['review'] as $key1 => $value1)
-                      <tr>
+                      <tr class="@if ($value1->status_kuisioner === 0) {{'status-disabled'}} @endif">
                         <td>#{{ $value1->kode_kuisioner }} ({{ $value1->judul_kuisioner }})</td>
                         <td>{{ $value1->isi_kuisioner }}</td>
                         <td>{{ $value1->tanggal_kuisioner }} {{ $value1->waktu_kuisioner }}</td>

@@ -1,4 +1,9 @@
 function call_waiter(device) {
+  var data = {
+    '_method' : "post",
+    '_token' : $("input[name=_token]").val(),
+    '_id' : device
+  };
   swal({
     title: "Butuh bantuan?",
     text: "Jangan sungkan, kami siap membantu (^_^)/",
@@ -10,13 +15,42 @@ function call_waiter(device) {
     cancelButtonText: 'Tidak'
   }).then(function(result) {
     if (result.value) {
-      swal({
-        title: 'Segera ke sana!',
-        text: 'Kalau disamperin jangan salting ya >_<',
-        type: 'success',
-        timer: 3000
+      $.ajax({
+        type: "POST",
+        url: "/customer/notif/help",
+        data: data,
+        cache: false,
+        success: function(result) {
+          console.log(result);
+          if (result) {
+            if (result.status == 200) {
+              swal({
+                title: 'Segera ke sana!',
+                html: 'Kalau disamperin jangan salting ya >_<',
+                type: 'success',
+                timer: 3000
+              });
+            }
+            else {
+              swal({
+                title: 'Oops terjadi sesuatu',
+                html: 'Gagal menghubungi pelayan',
+                type: 'warning',
+                timer: 3000
+              });
+            }
+          }
+          else {
+            swal({
+              title: 'Waduhh',
+              html: 'Oops terjadi sesuatu',
+              type: 'warning',
+              timer: 3000
+            });
+          }
+        }
       });
-    // result.dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+
     }
   });
 }

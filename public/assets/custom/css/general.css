@@ -372,12 +372,17 @@ hr.content {
 #navbar {
   background-color: #fbfbfb;
   padding-top:50px;
+  padding-bottom: 500em;
+  margin-bottom: -500em;
 }
 
 #content {
   background-color: #f6f6f6;
   margin: 0px;
   padding: 10vh 20px;
+  margin-right: -1px; /* Thank you IE */
+  padding-bottom: 500em;
+  margin-bottom: -500em;
 }
 
 #footer-quote {

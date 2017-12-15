@@ -129,6 +129,9 @@ function ajax_init() {
       width: '100%'
     });
   }
+  if ($('#material-management').length > 0) {
+    $("#material-management").stacktable();
+  }//endif
 }
 
 /* PopOver Dismiss */
@@ -253,6 +256,8 @@ $(document).ready(function() {
       readonly: true
     });
   }
+
+
   /* check offset width
   var docWidth = document.documentElement.offsetWidth;
 

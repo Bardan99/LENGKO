@@ -32,8 +32,9 @@ Route::group(['middleware' => 'employee'], function() {
 
   Route::group(['prefix' => 'dashboard'], function() {
     Route::get('/', 'DashboardController@index');
-    Route::get('/logout', 'Auth\EmployeeLoginController@logout');
+    Route::get('/logout', 'Auth\EmployeeLoginController@logout');    
     Route::get('/{param}', 'DashboardController@view');
+    Route::get('/material/change/{id}', 'MaterialController@changematerial');
 
     Route::post('/create/device', 'DeviceController@create');
     Route::post('/search/device', 'DeviceController@search');
@@ -51,6 +52,7 @@ Route::group(['middleware' => 'employee'], function() {
 
     Route::post('/create/material', 'MaterialController@create');
     Route::post('/search/material', 'MaterialController@search');
+    Route::get('/retrieve/material', 'MaterialController@retrieve');
 
     Route::post('/create/menu', 'MenuController@create');
     Route::post('/search/menu', 'MenuController@search');
@@ -75,8 +77,9 @@ Route::group(['middleware' => 'employee'], function() {
     Route::delete('/delete/{param}/{id}', 'DashboardController@delete');
 
     Route::post('/filter/device', 'DashboardController@filterdevice');
+
+    Route::get('/generate/material/textbox', 'MaterialController@generate_textbox');
   });
-  Route::get('/ajax/object/{param}', 'HomeController@ajax_handler');
 });
 
 Route::group(['middleware' => 'device'], function() {

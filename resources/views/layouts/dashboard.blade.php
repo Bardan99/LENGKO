@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.css" />
   <link rel="stylesheet" href="/assets/select2/css/select2.css" />
   <link rel="stylesheet" href="/assets/datepicker/dist/datepicker.css" />
+  <link rel="stylesheet" href="/assets/stacktable/stacktable.css" />
   <link rel="stylesheet" href="/assets/custom/css/general.css" />
   <link rel="stylesheet" href="/assets/custom/css/rewrite.css" />
   <link rel="stylesheet" href="/assets/fontawesome/css/font-awesome.css">
@@ -18,7 +19,7 @@
 <body>
   <div class="container-fluid">
     <div class="row min-height-80">
-      <div id="navbar" class="col-md-2 mrg-b-20 padd-tb-20">
+      <div id="navbar" class="col-md-2">
         @include('layouts.navbar')
       </div>
       <div id="content" class="col-md-10">
@@ -41,6 +42,7 @@
   <script type="text/javascript" data-cfasync="false" src="/assets/bootstrap/js/bootstrap.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/select2/js/select2.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/datepicker/dist/datepicker.js"></script>
+  <script type="text/javascript" data-cfasync="false" src="/assets/stacktable/stacktable.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/jqueryrating/jquery.barrating.min.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/chartjs/chart-2.7.1.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/custom/js/chart-data.js"></script>

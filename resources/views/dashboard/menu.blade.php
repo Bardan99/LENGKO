@@ -40,7 +40,7 @@
                       <div class="row mrg-b-10 padd-tb-10">
                         <div class="col-md-6">
                           <div class="row">
-                            <div class="col-md-5">
+                            <div class="col-md-5 col-sm-4">
                               <div class="container-file-lengko block">
                                 <img id="preview-image-{{$keymenu}}" class="hoverblur" src="/files/images/menus/@if($value->gambar_menu){{$value->gambar_menu}}@else{{'not-available.png'}}@endif" alt="{{ $value->nama_menu }}" width="200px" height="150px" style="border-radius:5px;" />
                                 @if ($auth == 'root' || $auth == 'chef')
@@ -48,23 +48,23 @@
                                 @endif
                               </div>
                             </div>
-                            <div class="col-md-7">
+                            <div class="col-md-7 col-sm-8">
                               <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-sm-2">
                                   <div class="text-left padd-tb-10">[<b>{{ $value->kode_menu }}</b>]</div>
                                 </div>
-                                <div class="col-md-9">
+                                <div class="col-md-9 col-sm-10">
                                   <input type="text" name="menu-change-name" class="input-lengko-default block" placeholder="Nama Menu" value="{{ $value->nama_menu }}" @if ($auth != 'root' && $auth != 'chef') {{'readonly'}} @endif/>
                                 </div>
                               </div>
                               <div class="row">
-                                <div class="col-md-7">
+                                <div class="col-md-7 col-sm-6">
                                   <select name="menu-change-type" class="select-lengko-default block" @if ($auth != 'root' && $auth != 'chef') {{'disabled="disabled"'}} @endif>
                                     <option value="F" @if ($value->jenis_menu == "F") {{ 'selected="selected"' }} @endif>Makanan</option>
                                     <option value="D" @if ($value->jenis_menu == "D") {{ 'selected="selected"' }} @endif>Minuman</option>
                                   </select>
                                 </div>
-                                <div class="col-md-5">
+                                <div class="col-md-5 col-sm-6">
                                   <input type="number" name="menu-change-price" class="input-lengko-default block" placeholder="Harga Menu" value="{{ $value->harga_menu }}" @if ($auth != 'root' && $auth != 'chef') {{'readonly'}} @endif />
                                 </div>
                               </div>

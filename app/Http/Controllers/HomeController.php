@@ -168,23 +168,6 @@ class HomeController extends Controller {
     return abort(404);
   }
 
-  public function ajax_handler($param, Request $request) {
-    if ($request->isMethod('get')) {
-      if ($param) {
-        switch ($param) {
-          case 'bahan-baku':
-            $data['material'] = DB::table('bahan_baku')
-              ->orderBy('nama_bahan_baku', 'ASC')
-              ->get();
-          break;
-          default:
-          break;
-        }
-      }
-      return response()->json(['data' => $data]);
-    }
-  }
-
   public function searchmenu(Request $request) {
     if ($request->ajax()) {
       $data = $request->all();

@@ -852,62 +852,41 @@ function search_material(data) {
         var res = '';
         if (result.content) {
           var token = $('input[name=search_token]').val();
-          res += '<div class="col-md-12"><div class="table-responsive"><table class="table table-hover table-striped">';
-          res += '<tr><td colspan="6">';
-          res += '<div class="row"><div class="col-md-1 col-sm-1">#</div><div class="col-md-3 col-sm-3">';
-          res += 'Nama</div><div class="col-md-2 col-sm-2">Stok</div><div class="col-md-2 col-sm-2">';
-          res += 'Satuan</div><div class="col-md-2 col-sm-2">Kadaluarsa</div><div class="col-md-2 col-sm-2"></div></td></tr>';
+          res += '<div class="col-md-12">';
+          res += '<div class="table-responsive">';
+          res += '<table id="material-management" class="table table-hover table-striped">';
+          res += '<tr><th>Bahan Baku</th>';
+          res += '<th>Stok</th><th>Satuan</th>';
+          res += '<th>Kadaluarsa</th><th></th></tr>';
           for (i = 0; i < result.content.length; i++) {
-            res += '<tr id="material-card-change-' + result.content[i].kode_bahan_baku + '" hidden="hidden">';
-            res += '<td colspan="6">';
-            res += '<form name="" method="post" action="/dashboard/update/material">';
-            res += '<div class="row"><div class="col-md-1">';
-            res += result.content[i].kode_bahan_baku;
-            res += '</div><div class="col-md-3 col-sm-6 col-xs-12">';
-            res += '<input type="hidden" name="material-id" value="' + result.content[i].kode_bahan_baku + '">';
-            res += '<input type="text" name="material-change-name" class="input-lengko-default block" placeholder="Nama Bahan Baku" value="' + result.content[i].nama_bahan_baku + '" />';
-            res += '</div><div class="col-md-2 col-sm-6 col-xs-12">';
-            res += '<input type="number" min="0" name="material-change-stock" class="input-lengko-default block" placeholder="Stok Bahan Baku" value="' + result.content[i].stok_bahan_baku + '" />';
-            res += '</div><div class="col-md-2 col-sm-6 col-xs-12">';
-            res += '<input type="text" name="material-change-unit" class="input-lengko-default block" placeholder="Satuan Bahan Baku" value="' + result.content[i].satuan_bahan_baku + '" />';
-            res += '</div><div class="col-md-2 col-sm-6 col-xs-12">';
-            res += '<input type="text" name="material-change-date" class="input-lengko-default block datepicker" placeholder="Kadaluarsa Bahan Baku" value="' + result.content[i].tanggal_kadaluarsa_bahan_baku + '" />';
-            res += '</div><div class="col-md-2 col-sm-6 col-xs-12">';
-            res += '<button class="btn-lengko btn-lengko-default pull-left" type="button" onclick="show_obj(\'material-card-' + result.content[i].kode_bahan_baku + '\'); hide_obj(\'material-card-change-' + result.content[i].kode_bahan_baku + '\');">';
-            res += '<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>';
-            res += '</button>';
-            res += '<button class="btn-lengko btn-lengko-default pull-left" type="submit">';
-            res += '<span class="glyphicon glyphicon-save" aria-hidden="true"></span>';
-            res += '</button>';
-            res += '<input type="hidden" name="material-id" value="' + result.content[i].kode_bahan_baku + '" />';
-            res += '<input type="hidden" name="_token" value="' + token + '">';
-            res += '<input type="hidden" name="_method" value="PUT">';
-            res += '</div></form></td></tr>';
-
             res += '<tr id="material-card-' + result.content[i].kode_bahan_baku + '">';
-            res += '<td colspan="6">';
-            res += '<div class="row"><div class="col-md-1">' + result.content[i].kode_bahan_baku + '</div><div class="col-md-3">';
-            res += '' + result.content[i].nama_bahan_baku + '</div><div class="col-md-2">' + result.content[i].stok_bahan_baku + '</div><div class="col-md-2">';
-            res += '' + result.content[i].satuan_bahan_baku + '</div><div class="col-md-2">' + result.content[i].tanggal_kadaluarsa_bahan_baku + '</div><div class="col-md-2">';
-            res += '<button class="btn-lengko btn-lengko-default pull-left" type="button" onclick="show_obj(\'material-card-change-' + result.content[i].kode_bahan_baku + '\'); hide_obj(\'material-card-' + result.content[i].kode_bahan_baku + '\');">';
-            res += '<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>';
-            res += '</button>';
-            res += '<form name="material-delete" action="/dashboard/delete/material/' + result.content[i].kode_bahan_baku + '" method="POST">';
-            res += '<button class="btn-lengko btn-lengko-default" type="submit">';
+            res += '<td>#' + result.content[i].kode_bahan_baku + ' ' + result.content[i].nama_bahan_baku + '';
+            res += '<td>' + result.content[i].stok_bahan_baku + '</td>';
+            res += '<td>' + result.content[i].satuan_bahan_baku + '</td>';
+            res += '<td width="150px">' + result.content[i].tanggal_kadaluarsa_bahan_baku + '</td>';
+            res += '<td width="100px">';
+            res += '<form name="material-delete" action="/dashboard/delete/material' + '/' + result.content[i].kode_bahan_baku + '" method="POST">';
+            res += '<button class="btn-lengko btn-lengko-default pull-right" type="submit">';
             res += '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>';
             res += '</button>';
             res += '<input type="hidden" name="material-delete-id" value="' + result.content[i].kode_bahan_baku + '">';
             res += '<input type="hidden" name="_token" value="' + token + '">';
             res += '<input type="hidden" name="_method" value="DELETE">';
-            res += '</form></div></td></tr>';
+            res += '</form>';
+            res += '<a href="/dashboard/material/change/' + result.content[i].kode_bahan_baku + '">';
+            res += '<button class="btn-lengko btn-lengko-default pull-right" type="button">';
+            res += '<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>';
+            res += '</button>';
+            res += '</a></td></tr>';
           }
           res += '</table></div></div>';
         }
         else {
           res = '<div class="row padd-lr-15"><div class="col-md-8">';
           res += '<div class="alert alert-warning">Bahan baku tidak ditemukan</div></div></div>';
-        }
+        }        
         $('#material-card-section').html(res);
+        ajax_init();
         swal({
           title: "Berhasil melakukan pencarian",
           html: result.text,
@@ -962,7 +941,7 @@ function search_menu(data) {
             res += '<input type="hidden" name="menu-change-id" value="'+ result.content.menu[i].kode_menu + '">';
             res += '<input type="hidden" name="_token" value="' + token + '">';
             res += '<div class="row mrg-b-10 padd-tb-10">';
-            res += '<div class="col-md-6"><div class="row"><div class="col-md-5">';
+            res += '<div class="col-md-6"><div class="row"><div class="col-md-5 col-sm-4">';
             res += '<div class="container-file-lengko block">';
             res += '<img id="preview-image-' + i + '" src="/files/images/menus/';
             if (result.content.menu[i].gambar_menu) {
@@ -977,15 +956,15 @@ function search_menu(data) {
               res += '<input id="choose-image-' + i + '" name="menu-change-thumbnail" type="file" title="Ubah gambar menu" onchange="reload_image(this, \'#preview-image-\'' + i + ');" />';
             }
             res += '</div>';
-            res += '</div><div class="col-md-7"><div class="row"><div class="col-md-3">';
+            res += '</div><div class="col-md-7 col-sm-8"><div class="row"><div class="col-md-3 col-sm-2">';
             res += '<div class="text-left padd-tb-10">[<b>' + result.content.menu[i].kode_menu + '</b>]</div>';
-            res += '</div><div class="col-md-9">';
+            res += '</div><div class="col-md-9 col-sm-10">';
             res += '<input type="text" name="menu-change-name" class="input-lengko-default block" placeholder="Nama Menu" value="' + result.content.menu[i].nama_menu + '"';
             if (result.auth != 'root' && result.auth != 'chef') {
               res += ' readonly ';
             }
             res += '/>';
-            res += '</div></div><div class="row"><div class="col-md-7">';
+            res += '</div></div><div class="row"><div class="col-md-7 col-sm-6">';
             res += '<select name="menu-change-type" class="select-lengko-default block"';
             if (result.auth != 'root' && result.auth != 'chef') {
               res += ' disabled="disabled" ';
@@ -999,7 +978,7 @@ function search_menu(data) {
             if (result.content.menu[i].jenis_menu == "D") {
               res += ' selected="selected"';
             }
-            res += '>Minuman</option></select></div><div class="col-md-5">';
+            res += '>Minuman</option></select></div><div class="col-md-5 col-sm-6">';
             res += '<input type="number" name="menu-change-price" class="input-lengko-default block" placeholder="Harga Menu" value="' + result.content.menu[i].harga_menu + '"';
             if (result.auth != 'root' && result.auth != 'chef') {
               res += ' readonly ';
@@ -1953,7 +1932,7 @@ $(document).ready(function() {
       inc += 1;
       $.ajax({
         type: "GET",
-        url: "/ajax/object/bahan-baku/",
+        url: "/dashboard/generate/material/textbox",
         data: {inc: inc},
         success: function(result) {
           var field = '<div class="row padd-lr-15"><div class="col-md-offset-2 col-md-6 col-sm-offset-2 col-sm-5 col-xs-7">';
@@ -2221,5 +2200,10 @@ $(document).ready(function() {
       report_lookup(data);
     });
   }
+
+  if ($('#material-management').length > 0) {
+    $("#material-management").stacktable();
+  }//endif
+
 
 });

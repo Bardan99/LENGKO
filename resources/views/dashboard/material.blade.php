@@ -279,70 +279,42 @@
           <div id="material-card-section" class="row mrg-t-20">
             <div class="col-md-12">
               <div class="table-responsive">
-                <table class="table table-hover table-striped">
+                <table id="material-management" class="table table-hover table-striped">
                   <tr>
-                    <th>#</th>
-                    <th>Nama</th>
+                    <th>Bahan Baku</th>
                     <th>Stok</th>
                     <th>Satuan</th>
                     <th>Kadaluarsa</th>
                     <th></th>
                   </tr>
                 @foreach ($data['material'] as $key => $value)
-
-                  <form name="" method="post" action="{{ url('dashboard/update/material') }}">
-                    <tr id="material-card-change-{{ $value->kode_bahan_baku }}" hidden="hidden">
-                      <td>{{ $value->kode_bahan_baku }}</td>
-                      <td>
-                        <input type="hidden" name="material-id" value="{{$value->kode_bahan_baku}}">
-                        <input type="text" name="material-change-name" class="input-lengko-default block" placeholder="Nama Bahan Baku" value="{{ $value->nama_bahan_baku }}" />
-                      </td>
-                      <td>
-                        <input type="number" min="0" name="material-change-stock" class="input-lengko-default block" placeholder="Stok Bahan Baku" value="{{ $value->stok_bahan_baku }}" />
-                      </td>
-                      <td>
-                        <input type="text" name="material-change-unit" class="input-lengko-default block" placeholder="Satuan Bahan Baku" value="{{ $value->satuan_bahan_baku }}" />
-                      </td>
-                      <td>
-                        <input type="text" name="material-change-date" class="input-lengko-default block datepicker" placeholder="Kadaluarsa Bahan Baku" value="{{ $value->tanggal_kadaluarsa_bahan_baku }}" />
-                      </td>
-                      <td width="120px">
-                        <button class="btn-lengko btn-lengko-default pull-left" type="button" onclick="show_obj('material-card-{{ $value->kode_bahan_baku }}'); hide_obj('material-card-change-{{ $value->kode_bahan_baku }}');">
-                          <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
-                        </button>
-                        <button class="btn-lengko btn-lengko-default pull-left" type="submit">
-                          <span class="glyphicon glyphicon-save" aria-hidden="true"></span>
-                        </button>
-                        <input type="hidden" name="material-id" value="{{$value->kode_bahan_baku}}" />
-                        {{ csrf_field() }}
-                        {{ method_field('PUT') }}
-                      </td>
-                    </tr>
-                  </form>
-
                   <tr id="material-card-{{ $value->kode_bahan_baku }}">
-                    <td>{{ $value->kode_bahan_baku }}</td>
-                    <td>{{ $value->nama_bahan_baku }}</td>
+                    <td>#{{ $value->kode_bahan_baku }} ({{ $value->nama_bahan_baku }})</td>
                     <td>{{ $value->stok_bahan_baku }}</td>
                     <td>{{ $value->satuan_bahan_baku }}</td>
-                    <td>{{ $value->tanggal_kadaluarsa_bahan_baku }}</td>
-                    <td>
-                      <button class="btn-lengko btn-lengko-default pull-left" type="button" onclick="show_obj('material-card-change-{{ $value->kode_bahan_baku }}'); hide_obj('material-card-{{ $value->kode_bahan_baku }}');">
-                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                      </button>
+                    <td width="150px">{{ $value->tanggal_kadaluarsa_bahan_baku }}</td>
+                    <td width="100px">
                       <form name="material-delete" action="{{ url('dashboard/delete/material') . '/' . $value->kode_bahan_baku }}" method="POST">
-                        <button class="btn-lengko btn-lengko-default" type="submit">
+                        <button class="btn-lengko btn-lengko-default pull-right" type="submit">
                           <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                         </button>
                         <input type="hidden" name="material-delete-id" value="{{$value->kode_bahan_baku}}">
                         {{ csrf_field() }}
                         {{ method_field('DELETE') }}
                       </form>
+                      <a href="{{ url('/dashboard/material/change/' . $value->kode_bahan_baku) }}">
+                        <button class="btn-lengko btn-lengko-default pull-right" type="button">
+                          <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                        </button>
+                      </a>
+
                     </td>
                   </tr>
                 @endforeach
                 </table>
               </div>
+
+
             </div>
           </div>
           @else

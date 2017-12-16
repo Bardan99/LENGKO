@@ -10,6 +10,7 @@
       <div class="row">
         <div class="col-md-12">
           <input type="hidden" name="search_token" value="{{ csrf_token() }}">
+          <input type="hidden" name="_token" value="{{ csrf_token() }}">
           <div class="panel panel-default panel-custom">
             <div class="panel-heading">Transaksi</div>
             <div class="panel-body">

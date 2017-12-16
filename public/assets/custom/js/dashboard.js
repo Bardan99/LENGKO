@@ -1685,7 +1685,69 @@ function filter_device(data) {
   });
 }
 
+function generate_toast(data) {
+  $.toast({
+    heading: data.heading,
+    text: data.text,
+    icon: data.icon,
+    bgColor: data.bgColor,
+    textColor: data.textColor,
+    loader: true,
+    loaderBg: data.loaderBg,
+    showHideTransition: 'slide',
+    hideAfter: data.hideAfter,
+    allowToastClose: data.allowToastClose,
+    stack: 3,
+    position: 'bottom-right',
+  });
+}
+
+var interval = 5000;
+var lastnotif = 0;
+var inc = 0;
+function notifier() {
+  var data = {
+    '_method' : "POST",
+    '_token' : $("input[name=_token]").val(),
+  };
+  $.ajax({
+    type: 'POST',
+    url: '/dashboard/get/notification',
+    data: data,
+    dataType: 'json',
+    cache: false,
+    success: function (data) {
+      $('#notifs').html(data.content.length);
+      $('#notifnavs').html('Beranda (' + data.content.length + ') ');
+      inc++;
+    },
+    complete: function (data) {
+      //console.dir(data); //good way thanks stackoverflow ^^
+      data = data.responseJSON;
+      if (data.content.length > 0) {
+        if (lastnotif != data.content[0].kode_pemberitahuan && inc > 1) {
+          generate_toast({
+            'heading': 'Pemberitahuan',
+            'text': data.content[0].isi_pemberitahuan,
+            'icon': 'info',
+            'bgColor': '#141414',
+            'textColor': '#ecf0f1',
+            'loaderBg': '#3498db',
+            'hideAfter': 7000,
+            'allowToastClose': true,
+          });
+        }
+        lastnotif = data.content[0].kode_pemberitahuan;
+      }
+      setTimeout(notifier, interval);//reschedule
+    }
+  });
+}
+setTimeout(notifier, interval);
+
+
 $(document).ready(function() {
+  notifier();
 
   /* device */
   if ($('#device-add').length > 0) {

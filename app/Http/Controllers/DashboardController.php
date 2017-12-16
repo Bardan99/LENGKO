@@ -33,7 +33,6 @@ class DashboardController extends Controller {
                           ->first();
       $data['notification'] = Pemberitahuan::orderBy('kode_pemberitahuan', 'DESC')
                           ->orderBy('tanggal_pemberitahuan', 'DESC')
-                          ->orderBy('waktu_pemberitahuan', 'DESC')
                           ->skip(0)->take(10)->get();
       return view('dashboard.home', ['data' => $data, 'pages' => $pages, 'page' => '/']);
     }
@@ -563,6 +562,17 @@ class DashboardController extends Controller {
 
       }
     }//endif
+  }
+
+  public function getnotification(Request $request) {
+    $notification = Pemberitahuan::orderBy('kode_pemberitahuan', 'DESC')
+      ->orderBy('tanggal_pemberitahuan', 'DESC')
+      ->whereRaw('tanggal_pemberitahuan >= NOW() - INTERVAL 1 HOUR')
+      ->get();
+    return response()->json([
+        'status' => 200,
+        'content' => $notification
+      ]);
   }
 
 }

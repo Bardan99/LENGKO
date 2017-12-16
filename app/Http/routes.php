@@ -80,6 +80,8 @@ Route::group(['middleware' => 'employee'], function() {
     Route::post('/filter/device', 'DashboardController@filterdevice');
 
     Route::get('/generate/material/textbox', 'MaterialController@generate_textbox');
+
+    Route::post('/get/notification', 'DashboardController@getnotification');
   });
 });
 

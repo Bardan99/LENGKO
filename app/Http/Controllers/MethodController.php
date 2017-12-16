@@ -95,8 +95,6 @@ class MethodController extends BaseController {
     if ($valid) {
       $input = [
         'isi_pemberitahuan' => $data['msg'],
-        'tanggal_pemberitahuan' => date('Y-m-d'),
-        'waktu_pemberitahuan' => date('H:m:s'),
         'kode_perangkat' => $data['device'],
       ];
       $try = Pemberitahuan::create($input);

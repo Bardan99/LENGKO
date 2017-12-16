@@ -270,3 +270,13 @@
     line-height: 27px;
   }
 }
+
+.badge {
+  color: #fbfbfb;
+  background-color: #34495e;
+}
+
+.active > .row > div > .badge {
+  color: #34495e;
+  background-color: #fbfbfb;
+}

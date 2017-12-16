@@ -9,6 +9,7 @@ use App\Pesanan;
 use App\PesananDetil;
 use App\Perangkat;
 use App\Menu;
+use Auth;
 use Hash;
 use Validator;
 
@@ -39,7 +40,8 @@ class OrderController extends Controller {
     $order = Pesanan::find($id);
     if ($order) {
       $try = Pesanan::find($id)->update([
-        'status_pesanan' => 'T'
+        'status_pesanan' => 'T',
+        'kode_pegawai' => Auth::guard('employee')->user()->kode_pegawai
       ]);
       $try = PesananDetil::where(['kode_pesanan' => $id])->update([
         'status_pesanan_detil' => 'D'
@@ -63,7 +65,8 @@ class OrderController extends Controller {
     $orderdetil = PesananDetil::findOrFail($id);
     if ($orderdetil) {
       $try = PesananDetil::find($id)->update([
-        'status_pesanan_detil' => 'D'
+        'status_pesanan_detil' => 'D',
+        'kode_pegawai' => Auth::guard('employee')->user()->kode_pegawai
       ]);
 
       $order = Pesanan::find($orderdetil->kode_pesanan);

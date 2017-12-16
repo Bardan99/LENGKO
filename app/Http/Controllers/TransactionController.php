@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Pesanan;
 use App\PesananDetil;
 use App\Perangkat;
+use Auth;
 use Hash;
 use Validator;
 
@@ -18,7 +19,8 @@ class TransactionController extends Controller {
     if ($handler) {
       $try = Pesanan::find($id)->update([
         'status_pesanan' => 'D',
-        'tunai_pesanan' => $cash
+        'tunai_pesanan' => $cash,
+        'kode_pegawai' => Auth::guard('employee')->user()->kode_pegawai
       ]);
       $order = Pesanan::where('kode_pesanan', '=', $id)->first();
       Perangkat::find($order->kode_perangkat)->update([

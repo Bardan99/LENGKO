@@ -116,6 +116,15 @@ class DashboardController extends Controller {
                   ->get();
               }
             }
+            $data['material-expired-soon'] = DB::table('bahan_baku')
+              ->orderBy('tanggal_kadaluarsa_bahan_baku', 'ASC')
+              ->where('tanggal_kadaluarsa_bahan_baku', '>=', date('Y-m-d'))
+              ->where('tanggal_kadaluarsa_bahan_baku', '<=', date('Y-m-d', strtotime('+7 days')))
+              ->get();
+            $data['material-expired'] = DB::table('bahan_baku')
+              ->orderBy('tanggal_kadaluarsa_bahan_baku', 'ASC')
+              ->where('tanggal_kadaluarsa_bahan_baku', '<', date('Y-m-d'))
+              ->get();
             $data['priority'] = DB::table('prioritas')
               ->orderBy('nama_prioritas', 'ASC')
               ->get();

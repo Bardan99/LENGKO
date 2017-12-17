@@ -386,12 +386,74 @@
             <div class="row">
               <div class="col-md-8">
                 <div class="alert alert-warning">
-                  Belum ada Bahan Baku, silahkan tambahkan bahan baku.
+                  Belum ada bahan baku, silahkan tambahkan bahan baku.
                 </div>
               </div>
             </div>
           @endif
 
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-default panel-custom">
+            <div class="panel-heading">Pemantauan Bahan Baku</div>
+            <div class="panel-body">
+              <div class="row">
+                @if (count($data['material-expired-soon']) > 0 || count($data['material-expired']) > 0)
+                  @if (count($data['material-expired-soon']) > 0)
+                  <div class="col-md-6 col-sm-6">
+                    <div class="list-group scrollable @if (count($data['material-expired-soon']) > 7) {{'scrollable-lg'}} @endif">
+                      <a href="#!" class="list-group-item active">
+                        <h4 class="list-group-item-heading">Akan kadaluarsa (7 hari)</h4>
+                        <p class="list-group-item-text">
+                          Daftar bahan baku yang akan kadaluarsa
+                        </p>
+                      </a>
+                      @foreach ($data['material-expired-soon'] as $key => $value)
+                        <a href="{{url('/dashboard/material/change/' . $value->kode_bahan_baku)}}" class="list-group-item list-group-item-@if ($value->tanggal_kadaluarsa_bahan_baku == date('Y-m-d')){{'warning'}}@else{{'info'}}@endif">
+                          <h4 class="list-group-item-heading">{{$value->nama_bahan_baku}}</h4>
+                          <p class="list-group-item-text text-right">
+                            {{$value->tanggal_kadaluarsa_bahan_baku}}
+                          </p>
+                        </a>
+                      @endforeach
+                    </div>
+                  </div>
+                  @endif
+                  @if (count($data['material-expired']) > 0)
+                  <div class="col-md-6 col-sm-6">
+                    <div class="list-group scrollable @if (count($data['material-expired']) > 7) {{'scrollable-lg'}} @endif">
+
+                      <a href="#!" class="list-group-item active">
+                        <h4 class="list-group-item-heading">Sudah kadaluarsa</h4>
+                        <p class="list-group-item-text">
+                          Daftar bahan baku yang sudah kadaluarsa
+                        </p>
+                      </a>
+                      @foreach ($data['material-expired'] as $key => $value)
+                        <a href="{{url('/dashboard/material/change/' . $value->kode_bahan_baku)}}" class="list-group-item list-group-item-danger">
+                          <h4 class="list-group-item-heading">{{$value->nama_bahan_baku}}</h4>
+                          <p class="list-group-item-text text-right">
+                            {{$value->tanggal_kadaluarsa_bahan_baku}}
+                          </p>
+                        </a>
+                      @endforeach
+                    </div>
+                  </div>
+                  @endif
+                @else
+                  <div class="col-md-8 col-sm-8">
+                    <div class="alert alert-success">
+                      Hmm, semuanya aman terkendali!
+                    </div>
+                  </div>
+                @endif
+              </div>
+
+            </div>
+          </div>
         </div>
       </div>
 
@@ -444,6 +506,7 @@
           </div>
 
         </div>
+
       </div>
       @endif
     </div>

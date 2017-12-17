@@ -1290,11 +1290,11 @@ function search_transaction(data) {
             res += '<h2>Transaksi #' + result.content.transaction[i].kode_pesanan + '</h2>';
             res += '<div class="row">';
             res += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">';
-            res += '<button type="button" name="report-print-button" class="btn-lengko btn-lengko-warning block" onclick="print_dialog(\'transaction\', ' + result.content.transaction[i].kode_pesanan + ');">';
+            res += '<button type="button" name="" class="btn-lengko btn-lengko-warning block" onclick="print_dialog(\'transaction\', ' + result.content.transaction[i].kode_pesanan + ');">';
             res += '<span class="glyphicon glyphicon-print" aria-hidden="true"></span>Cetak</button></div>';
             res += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">';
             res += '<a href="/dashboard/transaction/report/' + result.content.transaction[i].kode_pesanan + '" target="_blank">';
-            res += '<button type="button" name="report-print-button" class="btn-lengko btn-lengko-default block">';
+            res += '<button type="button" name="" class="btn-lengko btn-lengko-default block">';
             res += '<span class="glyphicon glyphicon-search" aria-hidden="true"></span>';
             res += 'Lihat</button></a></div></div></div>';
             res += '<div class="col-md-9 mrg-t-20 fluidMedia">';
@@ -1394,22 +1394,46 @@ function search_transaction_history(data) {
               res += '<td>' + result.content['transaction-history'][i].harga_pesanan + '</td>';
               res += '</tr><tr>';
               res += '<td colspan="3" class="text-right"><label>Tunai</label></td>';
-              res += '<td width="170px">';
-              res += '<input type="number" id="transaction-cash-' + result.content['transaction-history'][i].kode_pesanan + '" name="transaction-cash-' + result.content['transaction-history'][i].kode_pesanan + '"';
-              res += ' min="' + result.content['transaction-history'][i].harga_pesanan + '" step="5000" class="input-lengko-default block" placeholder="0" value="' + result.content['transaction-history'][i].harga_pesanan + '"';
-              res += ' onchange="cash_back(\'transaction-cash-' + result.content['transaction-history'][i].kode_pesanan + '\', \'transaction-cash-back-' + result.content['transaction-history'][i].kode_pesanan + '\', ' + result.content['transaction-history'][i].harga_pesanan + ', \'Rp\');" />';
-              res += '</td></tr>';
-              res += '<tr><td colspan="3" class="text-right"><label>Kembali</label></td>';
-              res += '<td><input type="text" id="transaction-cash-back-' + result.content['transaction-history'][i].kode_pesanan + '" class="input-lengko-default block" value="0" disabled="disabled" disabled />';
-              res += '</td></tr></table>';
+              res += '<td width="170px">' + result.content['transaction-history'][i].harga_pesanan + '</td></tr></table>';
+
               res += '<div class="row padd-tb-10">';
-              res += '<div class="col-md-offset-10 col-md-2 col-sm-offset-9 col-sm-3">';
-              res += '<button type="button" class="btn-lengko btn-lengko-default pull-right" onclick="done_transaction(\'' + result.content['transaction-history'][i].kode_pesanan + '\', ' + result.content['transaction-history'][i].harga_pesanan + ');">';
-              res += '<span class="glyphicon glyphicon-usd" aria-hidden="true"></span> Bayar';
-              res += '</button></div></div></div></div></div>';
+              res += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">';
+              res += '<button type="button" name="" class="btn-lengko btn-lengko-warning block" onclick="show_obj(\'transaction-history-print-' + result.content['transaction-history'][i].kode_pesanan + '\');">';
+              res += '<span class="glyphicon glyphicon-print" aria-hidden="true"></span>Cetak</button></div>';
+              res += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">';
+              res += '<a href="/dashboard/transaction/report/' + result.content['transaction-history'][i].kode_pesanan + '" target="_blank">';
+              res += '<button type="button" name="" class="btn-lengko btn-lengko-default block">';
+              res += '<span class="glyphicon glyphicon-search" aria-hidden="true"></span>';
+              res += 'Lihat</button></a></div></div>';
+
             }//endif
             res += '<div class="row"><div class="col-md-12 col-sm-12 col-xs-12">';
             res += '<div class="seperator"></div></div></div>';
+
+            //print dialog
+            res += '<div id="transaction-history-print-' + result.content['transaction-history'][i].kode_pesanan + '" class="print-overlay" style="display:none; visibility: none;">';
+            res += '<div class="row print-overlay-content"><div class="col-md-12">';
+            res += '<div class="row">';
+            res += '<div class="col-md-offset-11 col-md-1" style="font-size:20pt;">';
+            res += '<span class="glyphicon glyphicon-remove pull-right cursor-pointer" aria-hidden="true" onclick="hide_obj(\'transaction-history-print-' + result.content['transaction-history'][i].kode_pesanan + '\');"></span>';
+            res += '</div></div>';
+
+            res += '<div class="row mrg-t-20">';
+            res += '<div class="col-md-3">';
+            res += '<h2>Transaksi #' + result.content['transaction-history'][i].kode_pesanan + '</h2>';
+            res += '<div class="row">';
+            res += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">';
+            res += '<button type="button" name="" class="btn-lengko btn-lengko-warning block" onclick="print_dialog(\'transaction-history\', ' + result.content['transaction-history'][i].kode_pesanan + ');">';
+            res += '<span class="glyphicon glyphicon-print" aria-hidden="true"></span>Cetak</button></div>';
+            res += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">';
+            res += '<a href="/dashboard/transaction/report/' + result.content['transaction-history'][i].kode_pesanan + '" target="_blank">';
+            res += '<button type="button" name="" class="btn-lengko btn-lengko-default block">';
+            res += '<span class="glyphicon glyphicon-search" aria-hidden="true"></span>';
+            res += 'Lihat</button></a></div></div></div>';
+            res += '<div class="col-md-9 mrg-t-20 fluidMedia">';
+            res += '<iframe id="transaction-history-print" src="/dashboard/transaction/report/' + result.content['transaction-history'][i].kode_pesanan + '" width="100%" scrolling="yes"></iframe>';
+            res += '</div></div></div></div></div>';
+            //print dialog
           }//endfor
         }
         else {
@@ -1590,10 +1614,6 @@ function report_lookup(data) {
               res += '<tr><td class="text-right" style="font-weight:bold;">Total</td><td class="text-center">Rp' + total + '</td></tr>';
               res += '</table></div>';
 
-              res += '<div class="row"><div class="col-md-offset-9 col-md-3">';
-              res += '<button type="button" name="report-print-button" class="btn-lengko btn-lengko-warning block">';
-              res += '<span class="glyphicon glyphicon-print" aria-hidden="true"></span>';
-              res += ' Cetak</button></div></div>';
             }
             else {
               res = '<div class="row padd-lr-15"><div class="col-md-12">';
@@ -1619,6 +1639,49 @@ function report_lookup(data) {
 
         }
       });
+    }
+  });
+}//end
+
+function report_print(data) {
+  if (data._start && data._end) {
+    type = 'date/' + data._start + '/' + data._end;
+  }
+  else {
+    type = data._type;
+  }
+  swal({
+    title: "Cetak laporan pendapatan?",
+    type: "question",
+    timer: 10000,
+    showCancelButton: true,
+    confirmButtonText: 'Iya',
+    confirmButtonColor: '#2c3e50',
+    cancelButtonText: 'Tidak'
+  }).then(function(result) {
+    if (result.value) {
+      var res = '';
+      res += '<div id="report-card-print" class="print-overlay">';
+      res += '<div class="row print-overlay-content"><div class="col-md-12"><div class="row">';
+      res += '<div class="col-md-offset-11 col-md-1" style="font-size:20pt;">';
+      res += '<span class="glyphicon glyphicon-remove pull-right cursor-pointer" aria-hidden="true" onclick="hide_obj(\'report-card-print\');"></span>';
+      res += '</div></div>';
+
+      res += '<div class="row mrg-t-20"><div class="col-md-3">';
+      res += '<h2>Laporan Pendapatan</h2>';
+      res += '<div class="row"><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">';
+      res += '<button type="button" name="" class="btn-lengko btn-lengko-warning block" onclick="print_dialog(\'report-income\', \'\');">';
+      res += '<span class="glyphicon glyphicon-print" aria-hidden="true"></span>Cetak</button></div>';
+      res += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">';
+      res += '<a href="/dashboard/report/income/' + type + '" target="_blank">';
+      res += '<button type="button" name="" class="btn-lengko btn-lengko-default block">';
+      res += '<span class="glyphicon glyphicon-search" aria-hidden="true"></span>Lihat</button></a>';
+      res += '</div></div></div>';
+      res += '<div class="col-md-9 mrg-t-20 fluidMedia">';
+      res += '<iframe id="report-income-print" src="/dashboard/report/income/' + type + '" width="100%" height="250px" scrolling="yes"></iframe>';
+      res += '</div></div></div></div></div>';
+      $('#report-card-print-section').html(res);
+      show_obj('report-card-print');
     }
   });
 }//end
@@ -1742,20 +1805,22 @@ function notifier() {
     complete: function (data) {
       //console.dir(data); //good way thanks stackoverflow ^^
       data = data.responseJSON;
-      if (data.content.length > 0) {
-        if (lastnotif != data.content[0].kode_pemberitahuan && inc > 1) {
-          generate_toast({
-            'heading': 'Pemberitahuan',
-            'text': data.content[0].isi_pemberitahuan,
-            'icon': 'info',
-            'bgColor': '#141414',
-            'textColor': '#ecf0f1',
-            'loaderBg': '#3498db',
-            'hideAfter': 7000,
-            'allowToastClose': true,
-          });
+      if (data.content) {
+        if (data.content.length > 0) {
+          if (lastnotif != data.content[0].kode_pemberitahuan && inc > 1) {
+            generate_toast({
+              'heading': 'Pemberitahuan',
+              'text': data.content[0].isi_pemberitahuan,
+              'icon': 'info',
+              'bgColor': '#141414',
+              'textColor': '#ecf0f1',
+              'loaderBg': '#3498db',
+              'hideAfter': 7000,
+              'allowToastClose': true,
+            });
+          }
+          lastnotif = data.content[0].kode_pemberitahuan;
         }
-        lastnotif = data.content[0].kode_pemberitahuan;
       }
       setTimeout(notifier, interval);//reschedule
     }
@@ -1764,9 +1829,16 @@ function notifier() {
 setTimeout(notifier, interval);
 
 function print_dialog(type, id) {
+  var iframe ='';
   switch (type) {
     case 'transaction':
-      var iframe = $("#transaction-print");
+      iframe = $("#transaction-print");
+    break;
+    case 'transaction-history':
+      iframe = $("#transaction-history-print");
+    break;
+    case 'report-income':
+      iframe = $("#report-income-print");
     break;
     default:
   }
@@ -2382,6 +2454,21 @@ $(document).ready(function() {
       report_lookup(data);
     });
   }
+
+  if ($('button[name=report-print-button]').length > 0) {
+    $('button[name=report-print-button]').on('click', function(e) {
+      e.preventDefault();
+      var data = {
+        '_type' : $("select[name=report-type").val(),
+        '_start' : $("input[name=report-date-start").val(),
+        '_end' : $("input[name=report-date-end").val(),
+        '_method' : "post",
+        '_token' : $("input[name=search_token]").val()
+      };
+      report_print(data);
+    });
+  }
+
 
   if ($('#material-management').length > 0) {
     $("#material-management").stacktable();

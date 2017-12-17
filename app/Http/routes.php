@@ -67,9 +67,11 @@ Route::group(['middleware' => 'employee'], function() {
     Route::post('/search/transaction', 'TransactionController@search');
     Route::post('/search/transactionhistory', 'TransactionController@searchhistory');
     Route::get('/transaction/report/{id}', 'TransactionController@report');
-    
+
     Route::get('/retrieve/income', 'ReportController@income');
     Route::post('/retrieve/report', 'ReportController@report');
+    Route::get('/report/income/date/{start}/{end}', 'ReportController@incomereportdate');
+    Route::get('/report/income/{type}', 'ReportController@incomereport');
 
     Route::post('/create/review', 'ReviewController@create');
     Route::post('/search/review', 'ReviewController@search');

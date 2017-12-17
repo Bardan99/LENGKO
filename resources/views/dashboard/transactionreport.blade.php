@@ -118,7 +118,7 @@
                 <!-- copied here -->
 
               @else
-                <div class="row">
+                <div class="row padd-tb-10">
                   <div class="col-md-8">
                     <div class="alert alert-warning">
                       Transaksi tidak ditemukan

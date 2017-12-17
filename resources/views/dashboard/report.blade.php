@@ -80,6 +80,7 @@
                 <div class="col-md-12">
                   <hr />
                   <div id="report-card-section"></div>
+                  <div id="report-card-print-section"></div>
                 </div>
               </div>
             </div>

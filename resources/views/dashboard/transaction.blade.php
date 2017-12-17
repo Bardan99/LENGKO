@@ -135,14 +135,14 @@
                                 <h2>Transaksi #{{$value1->kode_pesanan}}</h2>
                                 <div class="row">
                                   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <button type="button" name="report-print-button" class="btn-lengko btn-lengko-warning block" onclick="print_dialog('transaction', {{$value1->kode_pesanan}});">
+                                    <button type="button" name="" class="btn-lengko btn-lengko-warning block" onclick="print_dialog('transaction', {{$value1->kode_pesanan}});">
                                       <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
                                       Cetak
                                     </button>
                                   </div>
                                   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                     <a href="{{ url('/dashboard/transaction/report/' . $value1->kode_pesanan) }}" target="_blank">
-                                      <button type="button" name="report-print-button" class="btn-lengko btn-lengko-default block">
+                                      <button type="button" name="" class="btn-lengko btn-lengko-default block">
                                         <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                                         Lihat
                                       </button>
@@ -268,11 +268,19 @@
                               </tr>
                               </table>
                               <div class="row padd-tb-10">
-                                <div class="col-md-offset-10 col-md-2 col-sm-offset-9 col-sm-3">
-                                  <button type="button" name="report-print-button" class="btn-lengko btn-lengko-warning block">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                  <button type="button" name="report-print-button" class="btn-lengko btn-lengko-warning block" onclick="show_obj('transaction-history-print-{{$value1->kode_pesanan}}');">
                                     <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
                                     Cetak
                                   </button>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                  <a href="{{ url('/dashboard/transaction/report/' . $value1->kode_pesanan) }}" target="_blank">
+                                    <button type="button" name="report-print-button" class="btn-lengko btn-lengko-default block">
+                                      <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                      Lihat
+                                    </button>
+                                  </a>
                                 </div>
                               </div>
                             </div>
@@ -285,6 +293,48 @@
                           <div class="seperator"></div>
                         </div>
                       </div>
+
+                      <!-- print dialog -->
+                      <div id="transaction-history-print-{{$value1->kode_pesanan}}" class="print-overlay" style="display:none; visibility: none;">
+                        <div class="row print-overlay-content">
+                          <div class="col-md-12">
+                            <div class="row">
+                              <div class="col-md-offset-11 col-md-1" style="font-size:20pt;">
+                                <span class="glyphicon glyphicon-remove pull-right cursor-pointer" aria-hidden="true" onclick="hide_obj('transaction-history-print-{{$value1->kode_pesanan}}');"></span>
+                              </div>
+                            </div>
+
+                            <div class="row mrg-t-20">
+                              <div class="col-md-3">
+                                <h2>Transaksi #{{$value1->kode_pesanan}}</h2>
+                                <div class="row">
+                                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <button type="button" name="report-print-button" class="btn-lengko btn-lengko-warning block" onclick="print_dialog('transaction-history', {{$value1->kode_pesanan}});">
+                                      <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
+                                      Cetak
+                                    </button>
+                                  </div>
+                                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <a href="{{ url('/dashboard/transaction/report/' . $value1->kode_pesanan) }}" target="_blank">
+                                      <button type="button" name="report-print-button" class="btn-lengko btn-lengko-default block">
+                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                        Lihat
+                                      </button>
+                                    </a>
+                                  </div>
+                                </div>
+
+                              </div>
+                              <div class="col-md-9 mrg-t-20 fluidMedia">
+                                <iframe id="transaction-history-print" src="{{url('/dashboard/transaction/report/' . $value1->kode_pesanan)}}" width="100%" height="250px" scrolling="yes"></iframe>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                      <!-- print dialog -->
+
                     @endforeach
                   </div>
 

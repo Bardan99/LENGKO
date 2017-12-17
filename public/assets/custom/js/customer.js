@@ -21,7 +21,6 @@ function call_waiter(device) {
         data: data,
         cache: false,
         success: function(result) {
-          console.log(result);
           if (result) {
             if (result.status == 200) {
               swal({
@@ -794,7 +793,164 @@ function filter_menu(data) {
   });
 }
 
+function refresh_order() {
+  var data = {
+    '_method' : "POST",
+    '_token' : $("input[name=_token]").val(),
+  };
+  if ($('#customer-order').length > 0) {
+    $.ajax({
+      type: "POST",
+      url: "/customer/refresh/order",
+      data: data,
+      cache: false,
+      success: function(result) {
+        if (result.status == 200) {
+          var res = '';
+          if (result.content['order-processed'].length > 0) {
+            for (i = 0; i < result.content['order-processed'].length; i++) {
+              res += '<h1 class="text-center">Daftar Pesanan <br />' + result.content['order-processed'][i].nama_perangkat + '</h1>';
+
+              res += '<div class="row padd-lr-15">';
+              res += '<div class="col-md-6 col-sm-6 col-xs-6">';
+              res += '<label>Pesanan: </label> #' + result.content['order-processed'][i].kode_pesanan + ' ' + result.content['order-processed'][i].pembeli_pesanan + '</div>';
+              res += '<div class="col-md-6 col-sm-6 col-xs-6">';
+              res += '<label>Waktu: </label> ' + result.content['order-processed'][i].tanggal_pesanan + ' ' + result.content['order-processed'][i].waktu_pesanan + '</div>';
+              res += '<div class="col-md-6 col-sm-6 col-xs-6">';
+              res += '<label>Status: </label> ' + rewrite('status', result.content['order-processed'][i].status_pesanan) + '</div>';
+              res += '<div class="col-md-6 col-sm-6 col-xs-6"><label>Catatan: </label> <br />' + result.content['order-processed'][i].catatan_pesanan + '</div></div>';
+
+              res += '<div class="row">';
+              res += '<div class="col-md-12 col-sm-12 col-xs-12">';
+              res += '<div class="seperator"></div></div></div>';
+              if (result.content[i]['order-processed-detail'].length > 0) {
+                for (j = 0; j < result.content[i]['order-processed-detail'].length; j++) {
+                  if (j === 0) {
+                    res += '<div class="row padd-lr-15 desktop-only">';
+                    res += '<div class="col-md-3 col-sm-6 col-xs-12">';
+                    res += '<div class=" padd-tb-10"><label class="desktop-only">Menu</label></div></div>';
+                    res += '<div class="col-md-2 col-sm-6 col-xs-12">';
+                    res += '<div class=" padd-tb-10">';
+                    res += '<label class="desktop-only">Harga</label></div></div>';
+                    res += '<div class="col-md-2 col-sm-6 col-xs-12">';
+                    res += '<div class=" padd-tb-10">';
+                    res += '<label class="desktop-only">Jumlah</label></div></div>';
+                    res += '<div class="col-md-2 col-sm-6 col-xs-12"><div class=" padd-tb-10"><label class="desktop-only">Sub-Total</label></div></div>';
+                    if (result.content['order-processed'][i].status_pesanan != 'C') {
+                      res += '<div class="col-md-3 col-sm-12 col-xs-12 ">';
+                      res += '<div class=" padd-tb-10">';
+                      res += '<label class="desktop-only">Status</label></div></div>';
+                    }
+                    res += '</div>';
+                  }//endif
+
+                  res += '<div class="row padd-lr-15 mrg-t-5">';
+                  res += '<div class="col-md-3 col-sm-6 col-xs-12">';
+                  res += '<div class=""><label class="not-desktop-only">Menu</label></div>';
+                  res += '<div class=" padd-tb-10">' + result.content[i]['order-processed-detail'][j].nama_menu + '</div></div>';
+                  res += '<div class="col-md-2 col-sm-6 col-xs-12">';
+                  res += '<div class=""><label class="not-desktop-only">Harga</label></div>';
+                  res += '<div class=" padd-tb-10">';
+                  res += 'Rp' + result.content[i]['order-processed-detail'][j].harga_menu + '</div></div>';
+                  res += '<div class="col-md-2 col-sm-6 col-xs-12">';
+                  res += '<div class=""><label class="not-desktop-only">Jumlah</label></div>';
+                  res += '<div class=" padd-tb-10">' + result.content[i]['order-processed-detail'][j].jumlah_pesanan_detil + '</div></div>';
+                  res += '<div class="col-md-2 col-sm-6 col-xs-12">';
+                  res += '<div class=""><label class="not-desktop-only">Sub-Total</label></div>';
+                  res += '<div class=" padd-tb-10">Rp' + (result.content[i]['order-processed-detail'][j].harga_menu * result.content[i]['order-processed-detail'][j].jumlah_pesanan_detil) + '</div></div>';
+                    if (result.content['order-processed'][i].status_pesanan != 'C') {
+                      res += '<div class="col-md-3 col-sm-12 col-xs-12 ">';
+                      res += '<div class=""><label class="not-desktop-only">Status</label></div>';
+                      res += '<div class="status-' + result.content[i]['order-processed-detail'][j].status_pesanan_detil + ' padd-tb-10 padd-lr-15">';
+                      res += '' + rewrite('status', result.content[i]['order-processed-detail'][j].status_pesanan_detil) + '</div></div>';
+                    }//emndif
+                  res += '</div>';
+                }//endfor
+
+                res += '<div class="row padd-tb-10">';
+                res += '<div class="col-md-12 col-sm-12 col-xs-12"><div class="seperator"></div></div></div>';
+                res += '<div class="row padd-lr-15">';
+                res += '<div class="col-md-offset-5 col-md-2 col-sm-6 col-xs-6"><label>Total</label></div>';
+                res += '<div class="col-md-3 col-sm-6 col-xs-6 ">';
+                res += '<strong>Rp' + result.content['order-processed'][i].harga_pesanan + '</strong></div></div>';
+                res += '<div class="row padd-tb-10">';
+                res += '<div class="col-md-12 col-sm-12 col-xs-12"><div class="seperator"></div></div></div>';
+
+                if (result.content['order-processed'][i].status_pesanan == 'T') {
+                  res += '<div class="row padd-tb-20">';
+                  res += '<div class="col-md-offset-2 col-md-8 col-sm-offset-2 col-sm-8">';
+                  res += '<button type="button" name="order-finish-button" class="btn-lengko btn-lengko-default pull-right block" onclick="finish_order();">';
+                  res += '<span class="glyphicon glyphicon-usd" aria-hidden="true"></span> Bayar Sekarang';
+                  res += '</button></div></div>';
+                }//endif
+
+              }//endif
+            }//endfor
+
+          }
+          else {
+
+          }
+          $('#customer-order').html(res);
+        }
+        else {
+
+        }
+      },
+      error: function(result){
+
+      }
+    });
+  }
+}
+
+var interval = 5000;
+var lastnotif = 0;
+var inc = 0;
+function notifier() {
+  var data = {
+    '_method' : "POST",
+    '_token' : $("input[name=_token]").val(),
+  };
+  $.ajax({
+    type: 'POST',
+    url: '/customer/get/notification',
+    data: data,
+    dataType: 'json',
+    cache: false,
+    success: function (data) {
+      inc++;
+    },
+    complete: function (data) {
+      //console.dir(data); //good way thanks stackoverflow ^^
+      data = data.responseJSON;
+      if (data.content) {
+        if (data.content.length > 0) {
+          if (lastnotif != data.content[0].kode_pemberitahuan && inc > 1) {
+            refresh_order();
+            generate_toast({
+              'heading': 'Pemberitahuan',
+              'text': data.content[0].isi_pemberitahuan,
+              'icon': 'info',
+              'bgColor': '#141414',
+              'textColor': '#ecf0f1',
+              'loaderBg': '#3498db',
+              'hideAfter': 7000,
+              'allowToastClose': true,
+            });
+          }
+          lastnotif = data.content[0].kode_pemberitahuan;
+        }
+      }
+      setTimeout(notifier, interval);//reschedule
+    }
+  });
+}
+setTimeout(notifier, interval);
+
+
 $(document).ready(function() {
+  notifier();
 
   /* menu */
 

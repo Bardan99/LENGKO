@@ -43,7 +43,7 @@
                           <label>Waktu</label>
                         </div>
                         <div class="col-md-3 col-sm-3 col-xs-3">
-                          <label>Pembeli</label>
+                          <label>Catatan</label>
                         </div>
                         <div class="col-md-3 col-sm-3 col-xs-3">
                           <label>Perangkat</label>
@@ -59,13 +59,13 @@
                       @foreach ($data['order-confirmation'] as $key1 => $value1)
                         <div onclick="show_obj('order-confirmation-{{ $key1 }}');" class="row cursor-pointer padd-tb-10 padd-lr-15">
                           <div class="col-md-3 col-sm-3 col-xs-3">
-                            #{{ $value1->kode_pesanan }}
+                            [#{{ $value1->kode_pesanan }}] {{ $value1->pembeli_pesanan }}
                           </div>
                           <div class="col-md-3 col-sm-3 col-xs-3">
                             {{ $value1->tanggal_pesanan }} {{ $value1->waktu_pesanan }}
                           </div>
                           <div class="col-md-3 col-sm-3 col-xs-3">
-                            {{ $value1->pembeli_pesanan }}
+                            {{ $value1->catatan_pesanan }}
                           </div>
                           <div class="col-md-3 col-sm-3 col-xs-3">
                             {{ $value1->nama_perangkat }}

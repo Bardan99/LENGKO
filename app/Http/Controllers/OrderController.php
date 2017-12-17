@@ -66,7 +66,6 @@ class OrderController extends Controller {
     if ($orderdetil) {
       $try = PesananDetil::find($id)->update([
         'status_pesanan_detil' => 'D',
-        'kode_pegawai' => Auth::guard('employee')->user()->kode_pegawai
       ]);
 
       $order = Pesanan::find($orderdetil->kode_pesanan);

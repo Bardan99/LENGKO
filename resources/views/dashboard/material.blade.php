@@ -79,7 +79,7 @@
                               <div class="row">
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                   <div id="material-request-user-{{ $key1 }}" class="mrg-t-20 padd-lr-15" style="display:none; visibility: none;">
-                                    <table class="table table-hover table-striped stackable">
+                                    <table class="table table-hover table-striped">
                                       <tr><th>Bahan Baku</th></tr>
                                       @foreach ($data[$key1]['material-request-user-detail'] as $key2 => $value2)
                                         <tr><td>{{ $value2->nama_bahan_baku }}</td></tr>
@@ -354,7 +354,7 @@
                   </tr>
                 @foreach ($data['material'] as $key => $value)
                   <tr id="material-card-{{ $value->kode_bahan_baku }}">
-                    <td>#{{ $value->kode_bahan_baku }} ({{ $value->nama_bahan_baku }})</td>
+                    <td>[#{{ $value->kode_bahan_baku }}] {{ $value->nama_bahan_baku }}</td>
                     <td>{{ $value->stok_bahan_baku }}</td>
                     <td>{{ $value->satuan_bahan_baku }}</td>
                     <td width="150px">{{ $value->tanggal_kadaluarsa_bahan_baku }}</td>

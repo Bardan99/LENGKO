@@ -66,7 +66,8 @@ Route::group(['middleware' => 'employee'], function() {
     Route::get('/update/transaction/{id}/{cash}', 'TransactionController@marked');
     Route::post('/search/transaction', 'TransactionController@search');
     Route::post('/search/transactionhistory', 'TransactionController@searchhistory');
-
+    Route::get('/transaction/report/{id}', 'TransactionController@report');
+    
     Route::get('/retrieve/income', 'ReportController@income');
     Route::post('/retrieve/report', 'ReportController@report');
 
@@ -103,6 +104,9 @@ Route::group(['middleware' => 'device'], function() {
     Route::post('/notif/help', 'HomeController@notifhelp');
     Route::post('/notif/order', 'HomeController@notiforder');
     Route::post('/notif/transaction', 'HomeController@notiftransaction');
+
+    Route::post('/get/notification', 'HomeController@getnotification');
+    Route::post('/refresh/order', 'HomeController@refreshorder');
   });
 
 });

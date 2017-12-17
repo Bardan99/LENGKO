@@ -134,4 +134,31 @@ class TransactionController extends Controller {
     }
   }
 
+  public function report(Request $request, $id) {
+    if (view()->exists('dashboard.transactionreport')) {
+      $try = Pesanan::find($id);
+      if ($try) {
+        $data['transaction'] = DB::table('pesanan')
+          ->select('pesanan.*', 'perangkat.nama_perangkat')
+          ->join('perangkat', 'pesanan.kode_perangkat', '=', 'perangkat.kode_perangkat')
+          ->orderBy('tanggal_pesanan', 'ASC')
+          ->orderBy('waktu_pesanan', 'ASC')
+          ->where('kode_pesanan', '=', $id)
+          ->get();
+        foreach ($data['transaction'] as $key => $value) {
+          $data[$key]['transaction-detail'] = DB::table('pesanan')
+            ->select('pesanan_detil.*', 'menu.*')
+            ->join('pesanan_detil', 'pesanan.kode_pesanan', '=', 'pesanan_detil.kode_pesanan')
+            ->join('menu', 'pesanan_detil.kode_menu', '=', 'menu.kode_menu')
+            ->where('pesanan.kode_pesanan', '=', $data['transaction'][$key]->kode_pesanan)
+            ->get();
+        }
+        $data['method'] = new MethodController();
+        return view('dashboard.transactionreport', ['data' => $data]);
+      }
+      return redirect('/dashboard/transaction');
+    }
+    return abort(404);
+  }
+
 }

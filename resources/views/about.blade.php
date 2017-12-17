@@ -3,7 +3,7 @@
 @section('title', 'LENGKO - Boy Band')
 
 @section('content')
-
+  <input type="hidden" name="_token" value="{{ csrf_token() }}">
   <div id="members" class="row mrg-b-30">
     <div class="col-md-12">
 

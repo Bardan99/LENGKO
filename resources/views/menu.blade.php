@@ -3,9 +3,9 @@
 @section('title', 'LENGKO - Menu')
 
 @section('content')
-
+  <input type="hidden" name="_token" value="{{ csrf_token() }}">
   <div class="container-fluid">
-    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
     @if (count($data['menu']) > 0)
     <div class="row mrg-b-30 open-popover" data-html="true" data-placement="bottom" data-toggle="popover" data-content="Bingung mulai dari mana? <br /> Dari matamu, matamu kumulai..<br />(jangan sambil nyanyi bacanya)">
       <div class="col-md-offset-3 col-md-6 col-sm-8 mrg-t-20">

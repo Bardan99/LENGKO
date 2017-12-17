@@ -163,6 +163,64 @@ function ajax_init() {
   }
 }
 
+function rewrite(type, param) {
+  var res = false;
+  switch (type) {
+    case 'status-number':
+      switch ($param) {
+        case 0:
+          res = 'Belum disetujui';
+        break;
+        case -1:
+          res = 'Tidak disetujui';
+        break;
+        case 1:
+          res = 'Disetujui';
+        break;
+      }
+    break;
+    case 'status':
+      switch (param) {
+        case '':
+          res = '-';
+        break;
+        case 'C':
+          res = 'Menunggu konfirmasi';
+        break;
+        case 'P':
+          res = 'Sedang diproses';
+        break;
+        case 'T':
+          res = 'Menunggu pembayaran';
+        break;
+        case 'D':
+          res = 'Selesai diproses';
+        break;
+        default:res = '-';break;
+      }
+    break;
+    default:break;
+  }
+  return res;
+}
+
+function generate_toast(data) {
+  $.toast({
+    heading: data.heading,
+    text: data.text,
+    icon: data.icon,
+    bgColor: data.bgColor,
+    textColor: data.textColor,
+    loader: true,
+    loaderBg: data.loaderBg,
+    showHideTransition: 'slide',
+    hideAfter: data.hideAfter,
+    allowToastClose: data.allowToastClose,
+    stack: 3,
+    position: 'bottom-right',
+  });
+}
+
 /* PopOver Dismiss */
 
 $('body').on('click', function (e) {
@@ -174,6 +232,7 @@ $('body').on('click', function (e) {
     }
   });
 });
+
 
 $(document).ready(function() {
   /* Tooltip */
@@ -232,10 +291,10 @@ $(document).ready(function() {
 
   /* End of Select2 settings */
 
-  if ($('.stackable'.length > 0)) {
+  if ($('.stackable').length > 0) {
     $('.stackable').stacktable();
   }
-  
+
   if ($('.datepicker').length > 0) {
     $('.datepicker').datepicker({
       language: 'id-ID',

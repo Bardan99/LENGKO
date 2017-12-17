@@ -3,6 +3,7 @@
 @section('title', 'LENGKO - Beranda')
 
 @section('content')
+  <input type="hidden" name="_token" value="{{ csrf_token() }}">
   <div class="container">
     <div class="row mrg-b-30">
       <div class="col-md-push-2 col-md-8">

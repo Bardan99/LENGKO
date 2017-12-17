@@ -322,7 +322,7 @@ function done_transaction(id, min) {
   if (cash >= min) {
     swal({
       title: "Transaksi selesai?",
-      html: "Lakukan pembayaran terhadap pesanan ini?",
+      html: "Lakukan pembayaran pesanan?",
       type: "question",
       timer: 10000,
       showCancelButton: true,
@@ -352,7 +352,16 @@ function done_transaction(id, min) {
                 timer: 30000
               }).then(function(result) {
                 if (result.value) {
-                  window.location = '/dashboard/transaction/';
+                  swal({
+                    title: "Cetak nota pembayaran",
+                    text: "Silahkan cetak nota pembayaran",
+                    type: "info",
+                    timer: 30000
+                  }).then(function(result) {
+                    if (result.value) {
+                      show_obj('transaction-print-' + id + '');
+                    }
+                  });
                 }
               });
             }
@@ -1213,7 +1222,7 @@ function search_transaction(data) {
         var res = '';
         if (result.content) {
           var token = $('input[name=search_token]').val();
-          res += '<div class="row padd-lr-15 open-tooltip" data-placement="bottom" data-toggle="tooltip" title="Klik untuk melihat detil transaksi">';
+          res += '<div class="row padd-lr-15">';
           res += '<div class="col-md-5 col-sm-6 col-xs-6">';
           res += '<i class="material-icons md-18">arrow_drop_down</i>';
           res += '<label>Transaksi</label></div>';
@@ -1260,13 +1269,39 @@ function search_transaction(data) {
               res += '<td><input type="text" id="transaction-cash-back-' + result.content.transaction[i].kode_pesanan + '" class="input-lengko-default block" value="0" disabled="disabled" disabled />';
               res += '</td></tr></table>';
               res += '<div class="row padd-tb-10">';
-              res += '<div class="col-md-offset-10 col-md-2 col-sm-offset-9 col-sm-3">';
-              res += '<button type="button" class="btn-lengko btn-lengko-default pull-right" onclick="done_transaction(\'' + result.content.transaction[i].kode_pesanan + '\', ' + result.content.transaction[i].harga_pesanan + ');">';
+              res += '<div class="col-md-offset-1 col-md-10 col-sm-offset-2 col-sm-8">';
+              res += '<button type="button" class="btn-lengko btn-lengko-default pull-right block" onclick="done_transaction(\'' + result.content.transaction[i].kode_pesanan + '\', ' + result.content.transaction[i].harga_pesanan + ');">';
               res += '<span class="glyphicon glyphicon-usd" aria-hidden="true"></span> Bayar';
               res += '</button></div></div></div></div></div>';
             }//endif
             res += '<div class="row"><div class="col-md-12 col-sm-12 col-xs-12">';
             res += '<div class="seperator"></div></div></div>';
+
+            //print dialog
+            res += '<div id="transaction-print-' + result.content.transaction[i].kode_pesanan + '" class="print-overlay" style="display:none; visibility: none;">';
+            res += '<div class="row print-overlay-content"><div class="col-md-12">';
+            res += '<div class="row">';
+            res += '<div class="col-md-offset-11 col-md-1" style="font-size:20pt;">';
+            res += '<span class="glyphicon glyphicon-remove pull-right cursor-pointer" aria-hidden="true" onclick="hide_obj(\'transaction-print-' + result.content.transaction[i].kode_pesanan + '\'); window.location = \'/dashboard/transaction/\';"></span>';
+            res += '</div></div>';
+
+            res += '<div class="row mrg-t-20">';
+            res += '<div class="col-md-3">';
+            res += '<h2>Transaksi #' + result.content.transaction[i].kode_pesanan + '</h2>';
+            res += '<div class="row">';
+            res += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">';
+            res += '<button type="button" name="report-print-button" class="btn-lengko btn-lengko-warning block" onclick="print_dialog(\'transaction\', ' + result.content.transaction[i].kode_pesanan + ');">';
+            res += '<span class="glyphicon glyphicon-print" aria-hidden="true"></span>Cetak</button></div>';
+            res += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">';
+            res += '<a href="/dashboard/transaction/report/' + result.content.transaction[i].kode_pesanan + '" target="_blank">';
+            res += '<button type="button" name="report-print-button" class="btn-lengko btn-lengko-default block">';
+            res += '<span class="glyphicon glyphicon-search" aria-hidden="true"></span>';
+            res += 'Lihat</button></a></div></div></div>';
+            res += '<div class="col-md-9 mrg-t-20 fluidMedia">';
+            res += '<iframe id="transaction-print" src="/dashboard/transaction/report/' + result.content.transaction[i].kode_pesanan + '" width="100%" scrolling="yes"></iframe>';
+            res += '</div></div></div></div></div>';
+            //print dialog
+
           }//endfor
         }
         else {
@@ -1321,7 +1356,7 @@ function search_transaction_history(data) {
         var res = '';
         if (result.content) {
           var token = $('input[name=search_token]').val();
-          res += '<div class="row padd-lr-15 open-tooltip" data-placement="bottom" data-toggle="tooltip" title="Klik untuk melihat detil transaksi">';
+          res += '<div class="row padd-lr-15">';
           res += '<div class="col-md-5 col-sm-6 col-xs-6">';
           res += '<i class="material-icons md-18">arrow_drop_down</i>';
           res += '<label>Transaksi</label></div>';
@@ -1685,23 +1720,6 @@ function filter_device(data) {
   });
 }
 
-function generate_toast(data) {
-  $.toast({
-    heading: data.heading,
-    text: data.text,
-    icon: data.icon,
-    bgColor: data.bgColor,
-    textColor: data.textColor,
-    loader: true,
-    loaderBg: data.loaderBg,
-    showHideTransition: 'slide',
-    hideAfter: data.hideAfter,
-    allowToastClose: data.allowToastClose,
-    stack: 3,
-    position: 'bottom-right',
-  });
-}
-
 var interval = 5000;
 var lastnotif = 0;
 var inc = 0;
@@ -1744,6 +1762,17 @@ function notifier() {
   });
 }
 setTimeout(notifier, interval);
+
+function print_dialog(type, id) {
+  switch (type) {
+    case 'transaction':
+      var iframe = $("#transaction-print");
+    break;
+    default:
+  }
+  iframe.get(0).contentWindow.print();
+}
+
 
 
 $(document).ready(function() {

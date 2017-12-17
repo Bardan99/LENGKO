@@ -785,4 +785,48 @@ class HomeController extends Controller {
     }//endif
   }
 
+  public function getnotification(Request $request) {
+    $notification = Pemberitahuan::orderBy('kode_pemberitahuan', 'DESC')
+      ->orderBy('tanggal_pemberitahuan', 'DESC')
+      ->where('kode_perangkat', '=', Auth::guard('device')->user()->kode_perangkat)
+      ->where('isi_pemberitahuan', 'NOT LIKE', '%bantuan%')
+      ->whereRaw('tanggal_pemberitahuan >= NOW() - INTERVAL 1 HOUR')
+      ->get();
+    return response()->json([
+        'status' => 200,
+        'content' => $notification
+      ]);
+  }
+
+  public function refreshorder(Request $request) {
+    $data['order-processed'] = DB::table('pesanan')
+      ->select('pesanan.*', 'perangkat.nama_perangkat')
+      ->join('perangkat', 'pesanan.kode_perangkat', '=', 'perangkat.kode_perangkat')
+      ->orderBy('tanggal_pesanan', 'ASC')
+      ->orderBy('waktu_pesanan', 'ASC')
+      ->where(function ($qry) {
+        $qry->orwhere('pesanan.status_pesanan', '=', 'C')
+        ->orwhere('pesanan.status_pesanan', '=', 'P')
+        ->orwhere('pesanan.status_pesanan', '=', 'T');
+      })
+      ->where('pesanan.kode_perangkat', '=',  Auth::guard('device')->user()->kode_perangkat)
+      ->get();
+    foreach ($data['order-processed'] as $key => $value) {
+      $data[$key]['order-processed-detail'] = DB::table('pesanan')
+        ->select('pesanan_detil.*', 'menu.*')
+        ->join('pesanan_detil', 'pesanan.kode_pesanan', '=', 'pesanan_detil.kode_pesanan')
+        ->join('menu', 'pesanan_detil.kode_menu', '=', 'menu.kode_menu')
+        ->where('pesanan.kode_pesanan', '=', $data['order-processed'][$key]->kode_pesanan)
+        ->get();
+    }
+    $data['method'] = new MethodController();
+
+    return response()->json([
+      'status' => 200,
+      'content' => $data,
+      'device' => Auth::guard('device')->user(),
+      'order' => $this->get_order($request)
+    ]);
+  }
+
 }

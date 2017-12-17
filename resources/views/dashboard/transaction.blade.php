@@ -38,7 +38,7 @@
                 <div class="col-md-9">
 
                   <div id="transaction-card-section" class="padd-tb-10">
-                    <div class="row padd-lr-15 open-tooltip" data-placement="bottom" data-toggle="tooltip" title="Klik untuk melihat detil transaksi">
+                    <div class="row padd-lr-15">
                       <div class="col-md-5 col-sm-6 col-xs-6">
                         <i class="material-icons md-18">arrow_drop_down</i>
                         <label>Transaksi</label>
@@ -103,8 +103,8 @@
                               </tr>
                               </table>
                               <div class="row padd-tb-10">
-                                <div class="col-md-offset-10 col-md-2 col-sm-offset-9 col-sm-3">
-                                  <button type="button" class="btn-lengko btn-lengko-default pull-right" onclick="done_transaction({{ $value1->kode_pesanan }}, {{$value1->harga_pesanan}});">
+                                <div class="col-md-offset-1 col-md-10 col-sm-offset-2 col-sm-8">
+                                  <button type="button" class="btn-lengko btn-lengko-default pull-right block" onclick="done_transaction({{ $value1->kode_pesanan }}, {{$value1->harga_pesanan}});">
                                     <span class="glyphicon glyphicon-usd" aria-hidden="true"></span> Bayar
                                   </button>
                                 </div>
@@ -119,6 +119,48 @@
                           <div class="seperator"></div>
                         </div>
                       </div>
+
+                      <!-- print dialog -->
+                      <div id="transaction-print-{{$value1->kode_pesanan}}" class="print-overlay" style="display:none; visibility: none;">
+                        <div class="row print-overlay-content">
+                          <div class="col-md-12">
+                            <div class="row">
+                              <div class="col-md-offset-11 col-md-1" style="font-size:20pt;">
+                                <span class="glyphicon glyphicon-remove pull-right cursor-pointer" aria-hidden="true" onclick="hide_obj('transaction-print-{{$value1->kode_pesanan}}'); window.location = '/dashboard/transaction/';"></span>
+                              </div>
+                            </div>
+
+                            <div class="row mrg-t-20">
+                              <div class="col-md-3">
+                                <h2>Transaksi #{{$value1->kode_pesanan}}</h2>
+                                <div class="row">
+                                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <button type="button" name="report-print-button" class="btn-lengko btn-lengko-warning block" onclick="print_dialog('transaction', {{$value1->kode_pesanan}});">
+                                      <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
+                                      Cetak
+                                    </button>
+                                  </div>
+                                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <a href="{{ url('/dashboard/transaction/report/' . $value1->kode_pesanan) }}" target="_blank">
+                                      <button type="button" name="report-print-button" class="btn-lengko btn-lengko-default block">
+                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                        Lihat
+                                      </button>
+                                    </a>
+                                  </div>
+                                </div>
+
+                              </div>
+                              <div class="col-md-9 mrg-t-20 fluidMedia">
+                                <iframe id="transaction-print" src="{{url('/dashboard/transaction/report/' . $value1->kode_pesanan)}}" width="100%" height="250px" scrolling="yes"></iframe>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                      <!-- print dialog -->
+
                     @endforeach
                   </div>
 

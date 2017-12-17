@@ -3,9 +3,9 @@
 @section('title', 'LENGKO - Pesanan')
 
 @section('content')
-
+  <input type="hidden" name="_token" value="{{ csrf_token() }}">
   <div class="container">
-    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
     @if (count($order) > 0)
     <div class="row">
       <div class="col-md-12">
@@ -128,7 +128,7 @@
     <div class="row mrg-t-20">
       <div class="col-md-9">
 
-        <div class="note-book">
+        <div id="customer-order" class="note-book">
           @foreach ($data['order-processed'] as $key1 => $value1)
             <h1 class="text-center">Daftar Pesanan <br />{{ $value1->nama_perangkat }}</h1>
 

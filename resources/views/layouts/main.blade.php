@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="/assets/slick/slick.css" />
   <link rel="stylesheet" href="/assets/slick/slick-theme.css" />
   <link rel="stylesheet" href="/assets/stacktable/stacktable.css" />
+  <link rel="stylesheet" href="/assets/jquerytoast/jquerytoast.css" />
   <link rel="stylesheet" href="/assets/custom/css/general.css" />
   <link rel="stylesheet" href="/assets/custom/css/rewrite.css" />
   <link rel="stylesheet" href="/assets/fontawesome/css/font-awesome.css">
@@ -112,6 +113,7 @@
   <script type="text/javascript" data-cfasync="false" src="/assets/slick/slick.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/typeit/typeit.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/stacktable/stacktable.js"></script>
+  <script type="text/javascript" data-cfasync="false" src="/assets/jquerytoast/jquerytoast.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/bootstrap/js/bootstrap.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/jqueryrating/jquery.barrating.min.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/chartjs/chart-2.7.1.js"></script>

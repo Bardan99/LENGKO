@@ -3,9 +3,9 @@
 @section('title', 'LENGKO - Apa Kata Mereka?')
 
 @section('content')
-
+  <input type="hidden" name="_token" value="{{ csrf_token() }}">
   <div class="container">
-    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
     @if (count($data['customer-reviews']) > 0)
     <div class="row mrg-b-10">
       <div class="col-md-12">

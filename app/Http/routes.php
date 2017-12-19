@@ -115,3 +115,11 @@ Route::group(['middleware' => 'device'], function() {
   });
 
 });
+
+Route::get('/secret/clearcache', function() {
+    $exitCode = Artisan::call('cache:clear');
+});
+
+Route::get('/secret/routecache', function() {
+    $exitCode = Artisan::call('route:cache');
+});

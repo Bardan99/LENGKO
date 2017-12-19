@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
-use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use App\User;
+use Validator;
 
-class AuthController extends Controller
-{
+class AuthController extends Controller {
     /*
     |--------------------------------------------------------------------------
     | Registration & Login Controller
@@ -28,15 +27,16 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $username = 'kode_pegawai';
+    protected $redirectTo = '/dashboard';
+    protected $redirectAfterLogout = '/'; //not working coz custom provider
 
     /**
      * Create a new authentication controller instance.
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
     }
 
@@ -46,12 +46,10 @@ class AuthController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
-    {
+    protected function validator(array $data) {
         return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'kode_pegawai' => 'required|min:4|max:10|unique:users',
+            'kata_sandi_pegawai' => 'required|min:4|max:15|confirmed',
         ]);
     }
 
@@ -61,12 +59,14 @@ class AuthController extends Controller
      * @param  array  $data
      * @return User
      */
-    protected function create(array $data)
-    {
+    protected function create(array $data) {
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'kode_pegawai' => $data['kode_pegawai'],
+            'kata_sandi_pegawai' => bcrypt($data['kata_sandi_pegawai']),
         ]);
+    }
+
+    public function authenticated($request, $user) {
+    	return redirect('/dashboard');
     }
 }

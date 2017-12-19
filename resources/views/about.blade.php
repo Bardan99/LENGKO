@@ -1,33 +1,25 @@
-@extends('main')
+@extends('layouts.main')
 
 @section('title', 'LENGKO - Boy Band')
 
 @section('content')
-  <div class="row mrg-b-30">
-    <div class="col-md-12 text-center">
-      <quote class="msmincho">
-        火 の 意志
-      </quote>
-    </div>
-  </div>
-
+  <input type="hidden" name="_token" value="{{ csrf_token() }}">
   <div id="members" class="row mrg-b-30">
     <div class="col-md-12">
 
       <div class="row mrg-b-30">
         <div class="col-md-12">
-          <img src="files/images/members/rakasw.png" class="img-circle img-center" alt="Raka Suryaardi Widjaja" width="90px" height="100px" />
-          <h2 class="menu-title text-center">
+          <img src="{{ url('/files/images/members/rakasw.png') }}" class="img-circle img-center" alt="Raka Suryaardi Widjaja" width="90px" height="100px" />
+          <h3 class="text-center">
               Raka Suryaardi Widjaja<br />
-              <small>All in One</small>
-            </h2>
+              <small>All in One Driver Pack</small>
+          </h3>
           <div class="row">
             <div class="col-md-offset-2 col-md-8 text-center">
               <quote class="playfair">
-                I'm thankful to all of those who said '<strong>no</strong>' to me.
-                <br /> It's because of them i did it myself.
-                <br />
-                <small>Wayne Walter Dyer (2002)</small>
+                Saya memang miskin dan bodoh; Tetapi saya <br />
+                tidak berencana untuk miskin dan bodoh selamanya.<br />
+                <small>(2017)</small>
               </quote>
             </div>
           </div>
@@ -36,13 +28,13 @@
 
       <div class="row mrg-b-30">
         <div class="col-md-2 col-sm-2 text-left">
-          <img src="files/images/members/rakamp.png" class="img-circle img-center" alt="Raka Muhamad Pratama" width="90px" height="100px" />
+          <img src="{{ url('/files/images/members/rakamp.png') }}" class="img-circle img-center" alt="Raka Muhamad Pratama" width="90px" height="100px" />
         </div>
         <div class="col-md-4 col-sm-4">
-          <h2 class="menu-title text-left">
+          <h3 class="text-left">
               Raka Muhamad Pratama<br />
-              <small>Back-end Programmer</small>
-            </h2>
+              <small>Front-end Designer</small>
+          </h3>
           <quote class="playfair">
             Kenyataan ada di depan
             <br />
@@ -51,10 +43,10 @@
         </div>
 
         <div class="col-md-4 col-sm-4 text-right">
-          <h2 class="menu-title text-right">
+          <h3 class="text-right">
               Binsar Bernandus Silalahi<br />
-              <small>Front-end Programmer</small>
-            </h2>
+              <small>Front-end Designer</small>
+          </h3>
           <quote class="playfair">
             All is well
             <br />
@@ -62,16 +54,16 @@
           </quote>
         </div>
         <div class="col-md-2 col-sm-2">
-          <img src="files/images/members/binsar.png" class="img-circle img-center" alt="Binsar Bernandus Silalahi" width="90px" height="100px" />
+          <img src="{{ url('/files/images/members/binsar.png') }}" class="img-circle img-center" alt="Binsar Bernandus Silalahi" width="90px" height="100px" />
         </div>
       </div>
 
       <div class="row mrg-btm-30">
         <div class="col-md-4 col-sm-4 text-right">
-          <h2 class="menu-title text-right">
+          <h3 class="text-right">
               Azmi Yudista<br />
               <small>Graphical Designer</small>
-            </h2>
+          </h3>
           <quote class="playfair">
             Kegagalan bukti perjuangan
             <br />
@@ -79,17 +71,17 @@
           </quote>
         </div>
         <div class="col-md-2 col-sm-2">
-          <img src="files/images/members/azmi.png" class="img-circle img-center" alt="Azmi Yudista" width="90px" height="100px" />
+          <img src="{{ url('/files/images/members/azmi.png') }}" class="img-circle img-center" alt="Azmi Yudista" width="90px" height="100px" />
         </div>
 
         <div class="col-md-2 col-sm-2 text-left">
-          <img src="files/images/members/zaki.png" class="img-circle img-center" alt="Binsar Bernandus Silalahi" width="90px" height="100px" />
+          <img src="{{ url('/files/images/members/zaki.png') }}" class="img-circle img-center" alt="Binsar Bernandus Silalahi" width="90px" height="100px" />
         </div>
         <div class="col-md-4 col-sm-40">
-          <h2 class="menu-title text-left">
+          <h3 class="text-left">
               Muhammad Zaki<br />
               <small>Quality Assurance</small>
-            </h2>
+          </h3>
           <quote class="playfair">
             Aku pengen pindah ke Meikarta
             <br />
@@ -100,4 +92,12 @@
 
     </div>
   </div>
+
+@endsection
+
+@section('footer-section')
+  @include('addition')
+  @yield('footer-quote')
+  @yield('footer-content')
+  @yield('footer-copyright')
 @endsection

@@ -18,7 +18,18 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            return redirect('/');
+          switch ($guard) {
+            case 'employee':
+              $path = '/dashboard';
+            break;
+            case 'device':
+              $path = '/';
+            break;
+            default:
+              $path = '/';
+            break;
+          }
+            return redirect($path);
         }
 
         return $next($request);

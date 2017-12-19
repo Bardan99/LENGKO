@@ -45,6 +45,16 @@ return [
             'driver' => 'token',
             'provider' => 'users',
         ],
+
+        'device' => [
+            'driver' => 'session',
+            'provider' => 'devices',
+        ],
+
+        'employee' => [
+            'driver' => 'session',
+            'provider' => 'employees',
+        ],
     ],
 
     /*
@@ -66,8 +76,18 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'eloquent',
+            'driver' => 'eloquent', //default database
             'model' => App\User::class,
+        ],
+
+        'employees' => [
+            'driver' => 'employee',
+            'model' => App\Employee::class,
+        ],
+
+        'devices' => [
+            'driver' => 'device',
+            'model' => App\Device::class,
         ],
 
         // 'users' => [

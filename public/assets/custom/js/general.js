@@ -211,12 +211,12 @@ function generate_toast(data) {
     icon: data.icon,
     bgColor: data.bgColor,
     textColor: data.textColor,
-    loader: true,
+    loader: data.loader,
     loaderBg: data.loaderBg,
     showHideTransition: 'slide',
     hideAfter: data.hideAfter,
     allowToastClose: data.allowToastClose,
-    stack: 3,
+    stack: data.stack,
     position: 'bottom-right',
   });
 }
@@ -233,6 +233,16 @@ $('body').on('click', function (e) {
   });
 });
 
+
+$('body').on('click', function (e) {
+  $('[data-toggle="tooltip"]').each(function () {
+    //the 'is' for buttons that trigger popups
+    //the 'has' for icons within a button that triggers a popup
+    if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.tooltip').has(e.target).length === 0) {
+        $(this).tooltip('hide');
+    }
+  });
+});
 
 $(document).ready(function() {
   /* Tooltip */

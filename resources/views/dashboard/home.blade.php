@@ -6,54 +6,8 @@
 
   <div class="row mrg-b-20">
     <div class="col-md-12">
-
       <div class="row">
-        <div class="col-md-8">
-          <div class="panel panel-default panel-custom">
-            <div class="panel-heading">Pemberitahuan</div>
-            <div class="panel-body">
-              @if (count($data['notification']) > 0)
-              <div class="row">
-                <div class="col-md-12 col-sm-8">
-                  <div class="list-group-item"><label>Pemberitahuan</label></div>
-                  <div class="list-group scrollable scrollable-md">
-                    @foreach ($data['notification'] as $key => $value)
-                      <li class="list-group-item @if ($key == 0) {{' active'}}@endif">
-                        <div class="row">
-                          <div class="col-md-8 text-left">
-                            {{$value->isi_pemberitahuan}}
-                          </div>
-                          <div class="col-md-4 text-right">
-                            <span class="badge">
-                              {{$value->tanggal_pemberitahuan}} &nbsp;
-                              {{$value->waktu_pemberitahuan}}
-                            </span>
-                          </div>
-                        </div>
-                      </li>
-                    @endforeach
-                  </div>
-                </div>
-                <div class="col-md-4 col-sm-4 text-center">
-
-                </div>
-              </div>
-            @else
-              <div class="row">
-                <div class="col-md-12 col-sm-8">
-                  <div class="alert alert-warning">
-                    Belum ada pemberitahuan.
-                  </div>
-                </div>
-              </div>
-            @endif
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-9">
           <div class="panel panel-default panel-custom">
             <div class="panel-heading">Profil</div>
             <div class="panel-body">
@@ -118,18 +72,55 @@
                       <div class="col-md-4">Otoritas</div>
                       <div class="col-md-8"><b>{{ $data['employee']->nama_otoritas }}</b></div>
                     </div>
-                    <button type="submit" class="btn-lengko btn-lengko-default pull-right">Simpan</button>
+                    <button type="submit" class="btn-lengko btn-lengko-default pull-right">
+                      <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>
+                      Simpan
+                    </button>
                   </div>
                 </div>
               </form>
             </div>
           </div>
         </div>
-
       </div>
 
-    </div>
+      <div class="row">
+        <div class="col-md-9">
+          <div class="panel panel-default panel-custom">
+            <div class="panel-heading">Pemberitahuan</div>
+            <div class="list-group panel-body scrollable scrollable-@if(count($data['notification']) > 8){{'lg'}}@else{{'md'}}@endif">
+              @if (count($data['notification']) > 0)
+                @foreach ($data['notification'] as $key => $value)
+                  <li class="list-group-item @if ($key == 0) {{' active'}}@endif">
+                    <div class="row">
+                      <div class="col-md-8 text-left">
+                        {{$value->isi_pemberitahuan}}
+                      </div>
+                      <div class="col-md-4 text-right">
+                        <span class="badge">
+                          {{$value->tanggal_pemberitahuan}} &nbsp;
+                          {{$value->waktu_pemberitahuan}}
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                @endforeach
+            @else
+              <div class="row">
+                <div class="col-md-12 col-sm-8">
+                  <div class="alert alert-warning">
+                    Belum ada pemberitahuan.
+                  </div>
+                </div>
+              </div>
+            @endif
+            </div>
+          </div>
+        </div>
+      </div>
 
+
+    </div>
   </div>
 
 @endsection

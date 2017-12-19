@@ -128,6 +128,7 @@ class HomeController extends Controller {
               ->join('pesanan_detil', 'pesanan.kode_pesanan', '=', 'pesanan_detil.kode_pesanan')
               ->join('menu', 'pesanan_detil.kode_menu', '=', 'menu.kode_menu')
               ->where('pesanan.kode_pesanan', '=', $data['order-processed'][$key]->kode_pesanan)
+              ->orderBy('menu.jenis_menu', 'ASC')
               ->get();
           }
           $data['method'] = new MethodController();

@@ -94,7 +94,7 @@ function search_menu(data) {
             var k = 0;
             for (j = 0; j < result.available[i]['menu-status'].length; j++) {
               k++;
-              if (result.available[j]['menu-status'].stok_bahan_baku > 0) {
+              if (result.available[i]['menu-status'][j].stok_bahan_baku > 0) {
                 tmp = true;
               }
               else {
@@ -239,7 +239,7 @@ function pagination_menu(skip, take) {
             var k = 0;
             for (j = 0; j < result.available[i]['menu-status'].length; j++) {
               k++;
-              if (result.available[j]['menu-status'].stok_bahan_baku > 0) {
+              if (result.available[i]['menu-status'][j].stok_bahan_baku > 0) {
                 tmp = true;
               }
               else {
@@ -672,9 +672,11 @@ function filter_menu(data) {
           for (i = 0; i < result.content.length; i++) {
             var status = 'Tidak tersedia';
             var tmp = false;
+            var k = 0;
             for (j = 0; j < result.available[i]['menu-status'].length; j++) {
-              i++;
-              if (result.available[i]['menu-status'].stok_bahan_baku > 0) {
+              k++;
+
+              if (result.available[i]['menu-status'][j].stok_bahan_baku > 0) {
                 tmp = true;
               }
               else {
@@ -683,7 +685,7 @@ function filter_menu(data) {
               }
             }
 
-            if (i == result.available[i]['menu-status'].length) {
+            if (k == result.available[i]['menu-status'].length) {
               if (tmp) {
                 status = 'Tersedia';
               }
@@ -796,8 +798,13 @@ function filter_menu(data) {
 function refresh_order() {
   var data = {
     '_method' : "POST",
-    '_token' : $("input[name=_token]").val(),
+    '_token' : $('meta[name="csrf-token"]').attr('content'),
   };
+  $.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
   if ($('#customer-order').length > 0) {
     $.ajax({
       type: "POST",
@@ -889,7 +896,7 @@ function refresh_order() {
 
           }
           else {
-
+            window.location = "order";
           }
           $('#customer-order').html(res);
         }
@@ -910,8 +917,13 @@ var inc = 0;
 function notifier() {
   var data = {
     '_method' : "POST",
-    '_token' : $("input[name=_token]").val(),
+    '_token' : $('meta[name="csrf-token"]').attr('content'),
   };
+  $.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
   $.ajax({
     type: 'POST',
     url: '/customer/get/notification',
@@ -924,7 +936,7 @@ function notifier() {
     complete: function (data) {
       //console.dir(data); //good way thanks stackoverflow ^^
       data = data.responseJSON;
-      if (data.content) {
+      if (data) {
         if (data.content.length > 0) {
           if (lastnotif != data.content[0].kode_pemberitahuan && inc > 1) {
             refresh_order();
@@ -934,9 +946,11 @@ function notifier() {
               'icon': 'info',
               'bgColor': '#141414',
               'textColor': '#ecf0f1',
+              'loader': true,
               'loaderBg': '#3498db',
               'hideAfter': 7000,
               'allowToastClose': true,
+              'stack': 4
             });
           }
           lastnotif = data.content[0].kode_pemberitahuan;

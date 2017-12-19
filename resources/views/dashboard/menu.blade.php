@@ -43,7 +43,7 @@
                             <div class="col-md-5 col-sm-4">
                               <div class="container-file-lengko block">
                                 <img id="preview-image-{{$keymenu}}" class="hoverblur" src="/files/images/menus/@if($value->gambar_menu){{$value->gambar_menu}}@else{{'not-available.png'}}@endif" alt="{{ $value->nama_menu }}" width="200px" height="150px" style="border-radius:5px;" />
-                                @if ($auth == 'root' || $auth == 'chef')
+                                @if ($auth == 'root')
                                   <input id="choose-image-{{$keymenu}}" name="menu-change-thumbnail" type="file" title="Ubah gambar menu" onchange="reload_image(this, '#preview-image-{{$keymenu}}');" />
                                 @endif
                               </div>
@@ -105,7 +105,7 @@
                               <textarea name="menu-change-description" class="textarea-lengko-default block" rows="5" placeholder="Deskripsi Menu" @if ($auth != 'root' && $auth != 'chef') {{'readonly'}} @endif>{{ substr($value->deskripsi_menu, 0, 300) . '' }}</textarea>
                             </div>
                           </div>
-                          @if ($auth == 'root' || $auth == 'chef')
+                          @if ($auth == 'root')
                           <div class="row">
                             <div class="col-md-6">
                               <button class="btn-lengko btn-lengko-default pull-left" type="button" onclick="show_obj('material-card-change-{{ $value->kode_menu }}');">
@@ -114,11 +114,11 @@
                             </div>
                             <div class="col-md-6">
                               <button class="btn-lengko btn-lengko-default pull-right" type="submit">
-                                <span class="glyphicon glyphicon-save" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Simpan
                               </button>
 
                               <button class="btn-lengko btn-lengko-default pull-right" type="button" onclick="delete_menu('{{$value->kode_menu}}');">
-                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Hapus
                               </button>
                             </div>
                           </div>
@@ -174,7 +174,7 @@
 
         </div>
       </div>
-      @if ($auth == 'root' || $auth == 'chef')
+      @if ($auth == 'root')
       <div class="row">
         <div class="col-md-12 col-sm-8">
 
@@ -288,8 +288,12 @@
                 <div class="row">
                   <div class="col-md-12">
                     <hr />
-                    <button type="reset" class="btn-lengko btn-lengko-danger">Batalkan</button>
-                    <button type="submit" class="btn-lengko btn-lengko-default pull-right">Tambah</button>
+                    <button type="reset" class="btn-lengko btn-lengko-danger">
+                      <i class="material-icons md-18">undo</i> Batalkan
+                    </button>
+                    <button type="submit" class="btn-lengko btn-lengko-default pull-right">
+                      <i class="material-icons md-18">restaurant_menu</i> Tambah
+                    </button>
                   </div>
                 </div>
               </form>

@@ -125,6 +125,15 @@ class DashboardController extends Controller {
               ->orderBy('tanggal_kadaluarsa_bahan_baku', 'ASC')
               ->where('tanggal_kadaluarsa_bahan_baku', '<', date('Y-m-d'))
               ->get();
+            $data['material-almost-empty'] = DB::table('bahan_baku')
+              ->orderBy('tanggal_kadaluarsa_bahan_baku', 'ASC')
+              ->where('stok_bahan_baku', '>', 0)
+              ->where('stok_bahan_baku', '<=', 20)
+              ->get();
+            $data['material-empty'] = DB::table('bahan_baku')
+              ->orderBy('tanggal_kadaluarsa_bahan_baku', 'ASC')
+              ->where('stok_bahan_baku', '=', 0)
+              ->get();
             $data['priority'] = DB::table('prioritas')
               ->orderBy('nama_prioritas', 'ASC')
               ->get();
@@ -198,7 +207,7 @@ class DashboardController extends Controller {
               ->orderBy('tanggal_pesanan', 'ASC')
               ->orderBy('waktu_pesanan', 'ASC')
               ->where('pesanan.status_pesanan', '=', 'C')
-              ->skip(0)->take(2)->get();
+              ->skip(0)->take(5)->get();
             foreach ($data['order-confirmation'] as $key => $value) {
               $data[$key]['order-confirmation-detail'] = DB::table('pesanan')
                 ->select('pesanan_detil.*', 'menu.*')

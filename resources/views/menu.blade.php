@@ -82,7 +82,7 @@
                   <div class="col-md-9">
                     <h2 class="menu-title">{{ $value->nama_menu }} <small>({{$status}})</small></h2>
                     <p>
-                      {{$value->deskripsi_menu}}
+                      {{ substr($value->deskripsi_menu, 0, 200) . '(...)' }}
                     </p>
                     {{ $data['method']->num_to_rp($value->harga_menu) }}
                   </div>

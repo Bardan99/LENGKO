@@ -173,8 +173,12 @@
                         <input type="hidden" name="_method" value="post">
                         <input type="hidden" name="material-request-create-max" value="1">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <button type="reset" class="btn-lengko btn-lengko-danger">Batalkan</button>
-                        <button type="submit" class="btn-lengko btn-lengko-default pull-right">Kirim Pengajuan</button>
+                        <button type="reset" class="btn-lengko btn-lengko-danger">
+                          <i class="material-icons md-18">undo</i> Batalkan
+                        </button>
+                        <button type="submit" class="btn-lengko btn-lengko-default pull-right">
+                          <i class="material-icons md-18">note_add</i> Kirim Pengajuan
+                        </button>
                       </div>
                     </div>
                   </form>
@@ -283,10 +287,14 @@
                                 <div class="row">
                                   <div class="col-md-6 col-sm-6 padd-tb-10">
                                     <input type="hidden" name="material-request-detail-max-{{ $value2->kode_pengadaan_bahan_baku }}" value="{{count($data[$key1]['material-request-detail'])}}">
-                                    <button type="button" class="btn-lengko btn-lengko-danger block" onclick="decline_material({{ $value->kode_pengadaan_bahan_baku }});">Tolak</button>
+                                    <button type="button" class="btn-lengko btn-lengko-danger block" onclick="decline_material({{ $value->kode_pengadaan_bahan_baku }});">
+                                      <i class="material-icons md-18">delete_forever</i> Tolak
+                                    </button>
                                   </div>
                                   <div class="col-md-6 col-sm-6 padd-tb-10">
-                                    <button type="button" class="btn-lengko btn-lengko-success block" onclick="confirm_material({{ $value->kode_pengadaan_bahan_baku }});">Terima</button>
+                                    <button type="button" class="btn-lengko btn-lengko-success block" onclick="confirm_material({{ $value->kode_pengadaan_bahan_baku }});">
+                                      <i class="material-icons md-18">done_all</i> Terima
+                                    </button>
                                   </div>
                                 </div>
                               </div>
@@ -400,8 +408,8 @@
           <div class="panel panel-default panel-custom">
             <div class="panel-heading">Pemantauan Bahan Baku</div>
             <div class="panel-body">
-              <div class="row">
-                @if (count($data['material-expired-soon']) > 0 || count($data['material-expired']) > 0)
+              @if (count($data['material-expired-soon']) > 0 || count($data['material-expired']) > 0 || count($data['material-almost-empty']) > 0 || count($data['material-empty']) > 0)
+                <div class="row">
                   @if (count($data['material-expired-soon']) > 0)
                   <div class="col-md-6 col-sm-6">
                     <div class="list-group scrollable @if (count($data['material-expired-soon']) > 7) {{'scrollable-lg'}} @endif">
@@ -412,8 +420,8 @@
                         </p>
                       </a>
                       @foreach ($data['material-expired-soon'] as $key => $value)
-                        <a href="{{url('/dashboard/material/change/' . $value->kode_bahan_baku)}}" class="list-group-item list-group-item-@if ($value->tanggal_kadaluarsa_bahan_baku == date('Y-m-d')){{'warning'}}@else{{'info'}}@endif">
-                          <h4 class="list-group-item-heading">{{$value->nama_bahan_baku}}</h4>
+                        <a href="{{url('/dashboard/material/change/' . $value->kode_bahan_baku)}}" class="list-group-item list-group-item-@if ($value->tanggal_kadaluarsa_bahan_baku == date('Y-m-d')){{'danger'}}@else{{'warning'}}@endif">
+                          <h4 class="list-group-item-heading">{{$value->nama_bahan_baku}} ({{$value->stok_bahan_baku}} {{$value->satuan_bahan_baku}})</h4>
                           <p class="list-group-item-text text-right">
                             {{$value->tanggal_kadaluarsa_bahan_baku}}
                           </p>
@@ -434,7 +442,7 @@
                       </a>
                       @foreach ($data['material-expired'] as $key => $value)
                         <a href="{{url('/dashboard/material/change/' . $value->kode_bahan_baku)}}" class="list-group-item list-group-item-danger">
-                          <h4 class="list-group-item-heading">{{$value->nama_bahan_baku}}</h4>
+                          <h4 class="list-group-item-heading">{{$value->nama_bahan_baku}} ({{$value->stok_bahan_baku}} {{$value->satuan_bahan_baku}})</h4>
                           <p class="list-group-item-text text-right">
                             {{$value->tanggal_kadaluarsa_bahan_baku}}
                           </p>
@@ -443,15 +451,59 @@
                     </div>
                   </div>
                   @endif
+                </div>
+                <div class="row">
+                  @if (count($data['material-almost-empty']) > 0)
+                  <div class="col-md-6 col-sm-6">
+                    <div class="list-group scrollable @if (count($data['material-almost-empty']) > 7) {{'scrollable-lg'}} @endif">
+                      <a href="#!" class="list-group-item active">
+                        <h4 class="list-group-item-heading">Akan habis (< 20)</h4>
+                        <p class="list-group-item-text">
+                          Daftar bahan baku yang akan habis
+                        </p>
+                      </a>
+                      @foreach ($data['material-almost-empty'] as $key => $value)
+                        <a href="{{url('/dashboard/material/change/' . $value->kode_bahan_baku)}}" class="list-group-item list-group-item-@if ($value->tanggal_kadaluarsa_bahan_baku == date('Y-m-d')){{'danger'}}@else{{'warning'}}@endif">
+                          <h4 class="list-group-item-heading">{{$value->nama_bahan_baku}} ({{$value->stok_bahan_baku}} {{$value->satuan_bahan_baku}})</h4>
+                          <p class="list-group-item-text text-right">
+                            {{$value->tanggal_kadaluarsa_bahan_baku}}
+                          </p>
+                        </a>
+                      @endforeach
+                    </div>
+                  </div>
+                  @endif
+                  @if (count($data['material-empty']) > 0)
+                  <div class="col-md-6 col-sm-6">
+                    <div class="list-group scrollable @if (count($data['material-empty']) > 7) {{'scrollable-lg'}} @endif">
+
+                      <a href="#!" class="list-group-item active">
+                        <h4 class="list-group-item-heading">Sudah habis</h4>
+                        <p class="list-group-item-text">
+                          Daftar bahan baku yang sudah habis
+                        </p>
+                      </a>
+                      @foreach ($data['material-empty'] as $key => $value)
+                        <a href="{{url('/dashboard/material/change/' . $value->kode_bahan_baku)}}" class="list-group-item list-group-item-danger">
+                          <h4 class="list-group-item-heading">{{$value->nama_bahan_baku}} ({{$value->stok_bahan_baku}} {{$value->satuan_bahan_baku}})</h4>
+                          <p class="list-group-item-text text-right">
+                            {{$value->tanggal_kadaluarsa_bahan_baku}}
+                          </p>
+                        </a>
+                      @endforeach
+                    </div>
+                  </div>
+                  @endif
+                </div>
                 @else
-                  <div class="col-md-8 col-sm-8">
-                    <div class="alert alert-success">
-                      Hmm, semuanya aman terkendali!
+                  <div class="row">
+                    <div class="col-md-8 col-sm-8">
+                      <div class="alert alert-success">
+                        Hmm, semuanya aman terkendali!
+                      </div>
                     </div>
                   </div>
                 @endif
-              </div>
-
             </div>
           </div>
         </div>
@@ -496,8 +548,12 @@
                 </div>
                 <div class="row">
                   <div class="col-md-12">
-                    <button type="reset" class="btn-lengko btn-lengko-danger">Batalkan</button>
-                    <button type="submit" class="btn-lengko btn-lengko-default pull-right">Tambah</button>
+                    <button type="reset" class="btn-lengko btn-lengko-danger">
+                      <i class="material-icons md-18">undo</i> Batalkan
+                    </button>
+                    <button type="submit" class="btn-lengko btn-lengko-default pull-right">
+                      <i class="material-icons md-18">event_note</i> Tambah
+                    </button>
                   </div>
                 </div>
               </form>

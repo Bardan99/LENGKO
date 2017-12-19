@@ -231,6 +231,11 @@
                   </div>
                   @endif
                 </div>
+                <div class="row padd-lr-15">
+                  <div class="col-md-12 col-sm-12 col-xs-12">
+                    <hr />
+                  </div>
+                </div>
               @endforeach
               <div class="row padd-tb-10">
                 <div class="col-md-12 col-sm-12 col-xs-12">

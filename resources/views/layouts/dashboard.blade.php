@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.css" />
   <link rel="stylesheet" href="/assets/select2/css/select2.css" />
   <link rel="stylesheet" href="/assets/datepicker/dist/datepicker.css" />

@@ -132,4 +132,67 @@ class OrderController extends Controller {
     }
   }
 
+  public function refreshconfirmationorder(Request $request) {
+    $data['order-confirmation'] = DB::table('pesanan')
+      ->select('pesanan.*', 'perangkat.nama_perangkat')
+      ->join('perangkat', 'pesanan.kode_perangkat', '=', 'perangkat.kode_perangkat')
+      ->orderBy('tanggal_pesanan', 'ASC')
+      ->orderBy('waktu_pesanan', 'ASC')
+      ->where('pesanan.status_pesanan', '=', 'C')
+      ->skip(0)->take(5)->get();
+    foreach ($data['order-confirmation'] as $key => $value) {
+      $data[$key]['order-confirmation-detail'] = DB::table('pesanan')
+        ->select('pesanan_detil.*', 'menu.*')
+        ->join('pesanan_detil', 'pesanan.kode_pesanan', '=', 'pesanan_detil.kode_pesanan')
+        ->join('menu', 'pesanan_detil.kode_menu', '=', 'menu.kode_menu')
+        ->where('pesanan.kode_pesanan', '=', $data['order-confirmation'][$key]->kode_pesanan)
+        ->get();
+    }
+    return response()->json([
+      'status' => 200,
+      'content' => $data
+    ]);
+  }
+
+  public function refreshqueueorder(Request $request) {
+    $data['order'] = DB::table('pesanan')
+      ->select('pesanan.*', 'perangkat.nama_perangkat')
+      ->join('perangkat', 'pesanan.kode_perangkat', '=', 'perangkat.kode_perangkat')
+      ->orderBy('tanggal_pesanan', 'ASC')
+      ->orderBy('waktu_pesanan', 'ASC')
+      ->where('pesanan.status_pesanan', '=', 'P')
+      ->get();
+    $data['order-detail'] = DB::table('pesanan')
+      ->select('pesanan_detil.*', 'menu.*')
+      ->join('pesanan_detil', 'pesanan.kode_pesanan', '=', 'pesanan_detil.kode_pesanan')
+      ->join('menu', 'pesanan_detil.kode_menu', '=', 'menu.kode_menu')
+      ->orderBy('tanggal_pesanan', 'ASC')
+      ->orderBy('waktu_pesanan', 'ASC')
+      ->where('pesanan.status_pesanan', '=', 'P')
+      ->where('pesanan_detil.status_pesanan_detil', '=', 'P')
+      ->get();
+
+    foreach ($data['order'] as $key => $value) {
+      $data[$key]['order-detail-food'] = DB::table('pesanan')
+        ->select('pesanan_detil.*', 'menu.*')
+        ->join('pesanan_detil', 'pesanan.kode_pesanan', '=', 'pesanan_detil.kode_pesanan')
+        ->join('menu', 'pesanan_detil.kode_menu', '=', 'menu.kode_menu')
+        ->where('menu.jenis_menu', '=', 'F')
+        ->where('pesanan.kode_pesanan', '=', $value->kode_pesanan)
+        ->get();
+
+      $data[$key]['order-detail-drink'] = DB::table('pesanan')
+        ->select('pesanan_detil.*', 'menu.*')
+        ->join('pesanan_detil', 'pesanan.kode_pesanan', '=', 'pesanan_detil.kode_pesanan')
+        ->join('menu', 'pesanan_detil.kode_menu', '=', 'menu.kode_menu')
+        ->where('menu.jenis_menu', '=', 'D')
+        ->where('pesanan.kode_pesanan', '=', $value->kode_pesanan)
+        ->get();
+    }
+    return response()->json([
+      'status' => 200,
+      'content' => $data
+    ]);
+  }
+
 }

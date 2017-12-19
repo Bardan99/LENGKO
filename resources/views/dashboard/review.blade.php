@@ -100,11 +100,11 @@
                                         <input type="hidden" name="_id" value="{{ $value1->kode_kuisioner_perangkat }}">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <input type="hidden" name="_method" value="put">
-                                      @if ($value1->status_kuisioner_perangkat === 1)
+                                      @if ($value1->status_kuisioner_perangkat == 1)
                                         <button class="btn-lengko btn-lengko-default block" type="submit">
                                           <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> Sembunyikan
                                         </button>
-                                      @elseif ($value1->status_kuisioner_perangkat === 0)
+                                      @elseif ($value1->status_kuisioner_perangkat == 0)
                                         <button class="btn-lengko btn-lengko-default block" type="submit">
                                           <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Tampilkan
                                         </button>
@@ -169,11 +169,11 @@
                           <button class="btn-lengko btn-lengko-default pull-right" type="button" onclick="delete_review('{{$value1->kode_kuisioner}}');">
                             <i class="material-icons md-18">close</i>
                           </button>
-                          @if ($value1->status_kuisioner === 1)
+                          @if ($value1->status_kuisioner == 1)
                             <button class="btn-lengko btn-lengko-default pull-right" type="button" onclick="change_review('{{$value1->kode_kuisioner}}');">
                               <i class="material-icons md-18">radio_button_checked</i>
                             </button>
-                          @elseif ($value1->status_kuisioner === 0)
+                          @elseif ($value1->status_kuisioner == 0)
                             <button class="btn-lengko btn-lengko-default pull-right" type="button" onclick="change_review('{{$value1->kode_kuisioner}}');">
                               <i class="material-icons md-18">radio_button_unchecked</i>
                             </button>
@@ -233,8 +233,12 @@
                 </div>
                 <div class="row">
                   <div class="col-md-12 col-sm-9">
-                    <button type="reset" class="btn-lengko btn-lengko-danger">Batalkan</button>
-                    <button type="submit" class="btn-lengko btn-lengko-default pull-right">Tambah</button>
+                    <button type="reset" class="btn-lengko btn-lengko-danger">
+                      <i class="material-icons md-18">undo</i> Batalkan
+                    </button>
+                    <button type="submit" class="btn-lengko btn-lengko-default pull-right">
+                      <i class="material-icons md-18">description</i> Tambah
+                    </button>
                   </div>
                 </div>
               </form>

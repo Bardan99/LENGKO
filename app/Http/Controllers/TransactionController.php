@@ -161,4 +161,27 @@ class TransactionController extends Controller {
     return abort(404);
   }
 
+
+    public function refreshtransaction(Request $request) {
+      $data['transaction'] = DB::table('pesanan')
+        ->select('pesanan.*', 'perangkat.nama_perangkat')
+        ->join('perangkat', 'pesanan.kode_perangkat', '=', 'perangkat.kode_perangkat')
+        ->orderBy('tanggal_pesanan', 'ASC')
+        ->orderBy('waktu_pesanan', 'ASC')
+        ->where('pesanan.status_pesanan', '=', 'T')
+        ->get();
+      foreach ($data['transaction'] as $key => $value) {
+        $data[$key]['transaction-detail'] = DB::table('pesanan')
+          ->select('pesanan_detil.*', 'menu.*')
+          ->join('pesanan_detil', 'pesanan.kode_pesanan', '=', 'pesanan_detil.kode_pesanan')
+          ->join('menu', 'pesanan_detil.kode_menu', '=', 'menu.kode_menu')
+          ->where('pesanan.kode_pesanan', '=', $data['transaction'][$key]->kode_pesanan)
+          ->get();
+      }
+      return response()->json([
+        'status' => 200,
+        'content' => $data
+      ]);
+    }
+
 }

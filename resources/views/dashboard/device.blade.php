@@ -8,7 +8,7 @@
     <div class="col-md-12">
 
       <input type="hidden" name="search_token" value="{{ csrf_token() }}">
-
+      <input type="hidden" name="_token" value="{{ csrf_token() }}">
       <div class="row">
         <div class="col-md-12">
 
@@ -201,8 +201,12 @@
                 </div>
                 <div class="row">
                   <div class="col-md-12 col-sm-8">
-                    <button type="reset" class="btn-lengko btn-lengko-danger">Batalkan</button>
-                    <button type="submit" class="btn-lengko btn-lengko-default pull-right">Tambah</button>
+                    <button type="reset" class="btn-lengko btn-lengko-danger">
+                      <i class="material-icons md-18">undo</i> Batalkan
+                    </button>
+                    <button type="submit" class="btn-lengko btn-lengko-default pull-right">
+                      <i class="material-icons md-18">devices_other</i> Tambah
+                    </button>
                   </div>
                 </div>
               </form>

@@ -211,8 +211,12 @@
                 </div>
                 <div class="row">
                   <div class="col-md-12">
-                    <button type="reset" class="btn-lengko btn-lengko-danger">Batalkan</button>
-                    <button type="submit" class="btn-lengko btn-lengko-default pull-right">Tambah</button>
+                    <button type="reset" class="btn-lengko btn-lengko-danger">
+                      <i class="material-icons md-18">undo</i> Batalkan
+                    </button>
+                    <button type="submit" class="btn-lengko btn-lengko-default pull-right">
+                      <i class="material-icons md-18">person_add</i> Tambah
+                    </button>
                   </div>
                 </div>
               </form>

@@ -85,6 +85,9 @@ Route::group(['middleware' => 'employee'], function() {
     Route::get('/generate/material/textbox', 'MaterialController@generate_textbox');
 
     Route::post('/get/notification', 'DashboardController@getnotification');
+    Route::post('/refresh/confirmationorder', 'OrderController@refreshconfirmationorder');
+    Route::post('/refresh/queueorder', 'OrderController@refreshqueueorder');
+    Route::post('/refresh/transaction', 'TransactionController@refreshtransaction');
   });
 });
 

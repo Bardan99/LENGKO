@@ -421,13 +421,13 @@ hr.content {
 #footer-quote {
   background-color: #34495e;
   color: #fbfbfb;
-  padding: 50px 10px 50px 10px;
+  padding: 30px 10px 30px 10px;
 }
 
 #footer-copyright {
   background-color: #34495e;
   color: #fbfbfb;
-  padding: 40px 0px 40px 0px;
+  padding: 35px 5px 35px 5px;
   bottom:0px;
 }
 
@@ -848,15 +848,33 @@ hr.content {
 
 .menu-overlay-content {
   position: absolute;
-  width: 100%;
-  bottom: 1%;
-  left: 0%;
+  width: 90%;
+  left: 50%;
+  top: 55%;
   color: #2c3e50;
-  transform: translate(0%, 1%);
-  -ms-transform: translate(0%, 1%);
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
   background-color: #ecf0f1;
   padding: 15px;
   margin: 0px;
+}
+
+@media (min-width: 1200px) {
+  .menu-overlay-content {
+    width: 80%;
+  }
+}
+
+@media (min-width: 992px) {
+  .menu-overlay-content {
+    width: 90%;
+  }
+}
+
+@media (min-width: 768px) {
+  .menu-overlay-content {
+    width: 95%;
+  }
 }
 
 .fluidMedia {

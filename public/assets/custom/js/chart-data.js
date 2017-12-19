@@ -12,11 +12,11 @@ $(document).ready(function() {
         var color = [];
         for (i = 0; i < result.length; i++) {
           data[i] = result[i].res;
-          if (result[i].stat === 0) {
+          if (result[i].stat === 0 || result[i].stat === '0') {
             label[i] = 'Tidak Tersedia';
             color[i] = 'rgba(231, 76, 60, 0.4)';
           }
-          else {
+          else if (result[i].stat === 1 || result[i].stat === '1') {
             label[i] = 'Tersedia';
             color[i] = 'rgba(39, 173, 96, 0.4)';
           }

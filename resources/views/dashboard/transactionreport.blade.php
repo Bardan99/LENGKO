@@ -48,13 +48,13 @@
                   <div class="padd-tb-10 padd-lr-15">
 
                     <div class="row">
-                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                         <label>Transaksi</label> #{{ $value1->kode_pesanan }}
                         <br />
                         <label>Pembeli</label> {{ $value1->pembeli_pesanan }}
                         <br />
                       </div>
-                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                         <label>Perangkat</label> {{ $value1->nama_perangkat }}
                         <br />
                         <label>Waktu</label> {{ $value1->tanggal_pesanan }} {{ $value1->waktu_pesanan }}

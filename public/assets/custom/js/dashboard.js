@@ -359,7 +359,12 @@ function done_transaction(id, min) {
                     timer: 30000
                   }).then(function(result) {
                     if (result.value) {
-                      show_obj('transaction-print-' + id + '');
+                      if ($('#transaction-print-' + id).length > 0) {
+                        show_obj('transaction-print-' + id);
+                      }
+                      else {
+                        window.location = '/dashboard/transaction/';
+                      }
                     }
                   });
                 }
@@ -1004,7 +1009,7 @@ function search_menu(data) {
             }
 
             res += '" alt="' + result.content.menu[i].nama_menu + '" width="200px" height="150px" style="border-radius:5px;" />';
-            if (result.auth == 'root' || result.auth == 'chef') {
+            if (result.auth == 'root') {
               res += '<input id="choose-image-' + i + '" name="menu-change-thumbnail" type="file" title="Ubah gambar menu" onchange="reload_image(this, \'#preview-image-\'' + i + ');" />';
             }
             res += '</div>';
@@ -1067,12 +1072,12 @@ function search_menu(data) {
             res += '<div class="col-md-6"><div class="row">';
             res += '<div class="col-md-12">';
             res += '<textarea name="menu-change-description" class="textarea-lengko-default block" rows="5" placeholder="Deskripsi Menu"';
-            if (result.auth != 'root' && result.auth != 'chef') {
+            if (result.auth != 'root') {
               res += ' readonly ';
             }
             res += '>' + result.content.menu[i].deskripsi_menu + '</textarea>';
             res += '</div></div>';
-            if (result.auth == 'root' || result.auth == 'chef') {
+            if (result.auth == 'root') {
               res += '<div class="row"><div class="col-md-6">';
               res += '<button class="btn-lengko btn-lengko-default pull-left" type="button" onclick="show_obj(\'material-card-change-' + result.content.menu[i].kode_menu +'\');">';
               res += 'Bahan Baku <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>';
@@ -1220,7 +1225,7 @@ function search_transaction(data) {
       }
       else if (result.status == 200) {
         var res = '';
-        if (result.content) {
+        if (result.content && result.content.transaction.length > 0) {
           var token = $('input[name=search_token]').val();
           res += '<div class="row padd-lr-15">';
           res += '<div class="col-md-5 col-sm-6 col-xs-6">';
@@ -1270,7 +1275,7 @@ function search_transaction(data) {
               res += '</td></tr></table>';
               res += '<div class="row padd-tb-10">';
               res += '<div class="col-md-offset-1 col-md-10 col-sm-offset-2 col-sm-8">';
-              res += '<button type="button" class="btn-lengko btn-lengko-default pull-right block" onclick="done_transaction(\'' + result.content.transaction[i].kode_pesanan + '\', ' + result.content.transaction[i].harga_pesanan + ');">';
+              res += '<button type="button" class="btn-lengko btn-lengko-success pull-right block" onclick="done_transaction(\'' + result.content.transaction[i].kode_pesanan + '\', ' + result.content.transaction[i].harga_pesanan + ');">';
               res += '<span class="glyphicon glyphicon-usd" aria-hidden="true"></span> Bayar';
               res += '</button></div></div></div></div></div>';
             }//endif
@@ -1354,7 +1359,7 @@ function search_transaction_history(data) {
       }
       else if (result.status == 200) {
         var res = '';
-        if (result.content) {
+        if (result.content && result.content['transaction-history'].length > 0) {
           var token = $('input[name=search_token]').val();
           res += '<div class="row padd-lr-15">';
           res += '<div class="col-md-5 col-sm-6 col-xs-6">';
@@ -1783,13 +1788,385 @@ function filter_device(data) {
   });
 }
 
+function refresh_confirmation_order() {
+  if ($('#order-confirmation-panel').length > 0) {
+    var data = {
+      '_method' : "POST",
+      '_token' : $('meta[name="csrf-token"]').attr('content'),
+    };
+    $.ajaxSetup({
+      headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      type: "POST",
+      url: "/dashboard/refresh/confirmationorder",
+      data: data,
+      cache: false,
+      success: function(result) {
+        if (result.status == 200) {
+          var res = '';
+          var token = $("input[name=_token]").val();
+          if (result.content['order-confirmation'].length > 0) {
+            res += '<div class="row">';
+            res += '<div class="col-md-offset-8 col-md-4 col-sm-offset-6 col-sm-6">';
+            res += '<div class="input-group">';
+            res += '<input type="text" name="order-search-query" class="form-control input-lengko-default" placeholder="Cari Pesanan" />';
+            res += '<span class="input-group-btn">';
+            res += '<button class="btn btn-default" type="button">';
+            res += '<span class="glyphicon glyphicon-search" aria-hidden="true"></span>';
+            res += '</button></span></div></div>  </div>';
+
+            res += '<div class="row">';
+            res += '<div class="col-md-12">';
+            res += '<div id="order-card-section" class="padd-tb-10">';
+            res += '<div class="row padd-lr-15 open-tooltip" data-placement="bottom" data-toggle="tooltip" title="Klik untuk melihat detil pesanan">';
+            res += '<div class="col-md-3 col-sm-3 col-xs-3"><label>Transaksi</label></div>';
+            res += '<div class="col-md-3 col-sm-3 col-xs-3"><label>Waktu</label></div>';
+            res += '<div class="col-md-3 col-sm-3 col-xs-3"><label>Catatan</label></div>';
+            res += '<div class="col-md-3 col-sm-3 col-xs-3"><label>Perangkat</label></div></div>';
+
+            res += '<div class="row"><div class="col-md-12 col-sm-12 col-xs-12">';
+            res += '<div class="seperator"></div></div></div>';
+
+            for (i = 0; i < result.content['order-confirmation'].length; i++) {
+              res += '<div onclick="show_obj(\'order-confirmation-' + i + '\');" class="row cursor-pointer padd-tb-10 padd-lr-15">';
+              res += '<div class="col-md-3 col-sm-3 col-xs-3">';
+              res += '[#' + result.content['order-confirmation'][i].kode_pesanan + '] ' + result.content['order-confirmation'][i].pembeli_pesanan + '</div>';
+              res += '<div class="col-md-3 col-sm-3 col-xs-3">';
+              res += '' + result.content['order-confirmation'][i].tanggal_pesanan + ' ' + result.content['order-confirmation'][i].waktu_pesanan + '</div>';
+              res += '<div class="col-md-3 col-sm-3 col-xs-3">';
+              res += '' + result.content['order-confirmation'][i].catatan_pesanan + '</div>';
+              res += '<div class="col-md-3 col-sm-3 col-xs-3">';
+              res += '' + result.content['order-confirmation'][i].nama_perangkat + '</div></div>';
+              if (result.content[i]['order-confirmation-detail'].length > 0) {
+                res += '<div class="row">';
+                res += '<div class="col-md-12 col-sm-12 col-xs-12">';
+                res += '<div id="order-confirmation-' + i + '" class="mrg-t-20 padd-lr-15" style="display:none; visibility: none;">';
+                res += '<table class="table table-hover table-striped">';
+                res += '<tr><th>Pesanan</th><th>Harga</th><th>Jumlah</th><th>Sub-Total</th></tr>';
+                for (j = 0; j < result.content[i]['order-confirmation-detail'].length; j++) {
+                  res += '<tr><td>' + result.content[i]['order-confirmation-detail'][j].nama_menu + '</td>';
+                  res += '<td>Rp' + result.content[i]['order-confirmation-detail'][j].harga_menu + '</td>';
+                  res += '<td>' + result.content[i]['order-confirmation-detail'][j].jumlah_pesanan_detil + '</td>';
+                  res += '<td>Rp' + (result.content[i]['order-confirmation-detail'][j].harga_menu * result.content[i]['order-confirmation-detail'][j].jumlah_pesanan_detil) + '</td></tr>';
+                }//endfor
+                res += '<tr><td colspan="3" class="text-right"><label>Total</label></td>';
+                res += '<td' + result.content['order-confirmation'][i].harga_pesanan + '</td></tr></table>';
+
+                res += '<div class="row">';
+                res += '<div class="col-md-offset-1 col-md-10 col-sm-offset-1 col-sm-10 col-xs-12 padd-tb-10 padd-lr-15">';
+                res += '<form name="" action="/dashboard/confirm/order" method="post">';
+                res += '<input type="hidden" name="_token" value="' + token + '">';
+                res += '<input type="hidden" name="order-confirm-id" value="' + result.content['order-confirmation'][i].kode_pesanan + '" />';
+                res += '<button type="submit" class="btn-lengko btn-lengko-success block" width="80px">';
+                res += '<i class="material-icons md-18">done_all</i> Konfirmasi Pesanan</button></form>';
+                res += '</div></div></div></div></div>';
+              }//endif
+              res += '<div class="row"><div class="col-md-12 col-sm-12 col-xs-12">';
+              res += '<div class="seperator"></div></div></div>';
+            }//endfor
+
+            res += '</div><hr /></div></div>';
+          }
+          else {
+            res += '<div class="row"><div class="col-md-4">';
+            res += '<img src="/files/images/jokes/patrick-skripsi.png" width="250px" height="250px" />';
+            res += '</div>';
+            res += '<div class="col-md-8"><div class="alert alert-warning">';
+            res += 'Belum ada pesanan baru;<br />Relax and enjoy yourlife!</div></div></div>';
+          }//endif
+          $('#order-confirmation-panel').html(res);
+        }
+        else {
+          window.location = "dashboard/order";
+        }//endif
+      },
+      error: function(result) {
+
+      }
+    });
+  }//panel dom available
+}
+
+function refresh_queue_order() {
+  if ($('#order-queue-panel').length > 0) {
+    var data = {
+      '_method' : "POST",
+      '_token' : $('meta[name="csrf-token"]').attr('content'),
+    };
+    $.ajaxSetup({
+      headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      type: "POST",
+      url: "/dashboard/refresh/queueorder",
+      data: data,
+      cache: false,
+      success: function(result) {
+        if (result.status == 200) {
+          var res = '';
+          var token = $("input[name=_token]").val();
+
+          if (result.content.order.length > 0) {
+            res += '<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">';
+            for (i = 0; i < result.content.order.length; i++) {
+              res += '<div class="panel panel-default ';
+              if (i === 0) {
+                res += 'panel-custom';
+              }
+              res += ' ">';
+              res += '<div class="panel-heading" role="tab" id="head-order-' + result.content.order[i].kode_pesanan + '" style="height: 50px;">';
+              res += '<h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#accordion" href="#order-' + result.content.order[i].kode_pesanan + '" aria-expanded="true" aria-controls="order-' + result.content.order[i].kode_pesanan + '"  style="height: 50px;">';
+              res += '#' + result.content.order[i].kode_pesanan + ' [' + result.content.order[i].nama_perangkat + ']</h4></div>';
+
+              res += '<div id="order-' + result.content.order[i].kode_pesanan + '" class="panel-collapse collapse';
+              if (i === 0) {
+                res += 'in';
+              }
+              res += '" role="tabpanel" aria-labelledby="head-order-' + result.content.order[i].kode_pesanan + '">';
+              res += '<div class="panel-body"><div class="';
+              if (i > 0) {
+                res += 'overlay';
+              }
+              res += ' "><div class="row"><div class="col-md-12">';
+              res += '<h3 class="text-center">#' + result.content.order[i].kode_pesanan + ' (' + result.content.order[i].nama_perangkat + ')</h3>';
+              res += '<hr /></div></div>';
+
+              res += '<div class="row"><div class="col-md-4 col-sm-4 col-xs-6"><label>Waktu:</label> <br />';
+              res += '' + result.content.order[i].tanggal_pesanan + ' ' + result.content.order[i].waktu_pesanan + '</div>';
+              res += '<div class="col-md-5 col-sm-5 col-xs-6"><label>Catatan:</label><br />';
+              res += '' + result.content.order[i].catatan_pesanan + '</div>';
+              res += '<div class="col-md-3 col-sm-3 col-xs-12">';
+              res += '<button type="button" class="btn-lengko btn-lengko-success block" onclick="done_order(' + result.content.order[i].kode_pesanan + ');" title="Tandai sudah selesai semua">';
+              res += '<i class="material-icons md-18">done_all</i> Selesai semua</button></div></div>';
+
+              res += '<div class="row padd-tb-0"><div class="col-md-12">';
+              res += '<hr /></div></div>';
+
+              res += '<div class="row"><div class="col-md-6 col-sm-6">';
+
+              res += '<div class="row"><div class="col-md-offset-4 col-md-4">';
+              res += '<h3 class="text-center border-btm">Makanan</h3></div></div>';
+              res += '<div class="row"><div class="col-md-12">';
+              if (result.content[i]['order-detail-food'].length > 0) {
+                for (j = 0; j < result.content[i]['order-detail-food'].length; j++) {
+                  res += '<div class="row padd-tb-10"><div class="col-md-9 col-sm-9">';
+                  res += '' + result.content[i]['order-detail-food'][j].nama_menu + ' (' + result.content[i]['order-detail-food'][j].jumlah_pesanan_detil + ')</div>';
+                  res += '<div class="col-md-3 col-sm-3">';
+                  if (result.content[i]['order-detail-food'][j].status_pesanan_detil == 'P') {
+                    res += '<button type="button" class="btn-lengko btn-lengko-success block" onclick="done_menu(' + result.content[i]['order-detail-food'][j].kode_pesanan_detil + ')" style="font-size: 10px;">';
+                    res += '<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>';
+                    res += '</button>';
+                  }
+                  else if (result.content[i]['order-detail-food'][j].status_pesanan_detil == 'D') {
+                    res += '<button type="button" class="btn-lengko btn-lengko-warning block" style="font-size: 10px;">';
+                    res += '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>';
+                    res += '</button>';
+                  }
+                  res += '</div></div>';
+                }//endfor
+              }
+              else {
+                res += '<div class="row"><div class="col-md-12">';
+                res += '<div class="alert alert-warning">Tidak pesan makanan</div></div></div>';
+              }//endif
+
+              res += '</div></div>  </div>';
+
+              res += '<div class="col-md-6 col-sm-6"><div class="row">';
+              res += '<div class="col-md-offset-4 col-md-4">';
+              res += '<h3 class="text-center border-btm">Minuman</h3></div></div>';
+
+              res += '<div class="row">';
+              res += '<div class="col-md-12">';
+              if (result.content[i]['order-detail-drink'].length > 0) {
+                for (k = 0; k < result.content[i]['order-detail-drink'].length; k++) {
+                  res += '<div class="row padd-tb-10"><div class="col-md-9 col-sm-9">';
+                  res += '' + result.content[i]['order-detail-drink'][k].nama_menu + ' (' + result.content[i]['order-detail-drink'][k].jumlah_pesanan_detil + ')</div>';
+                  res += '<div class="col-md-3 col-sm-3">';
+                  if (result.content[i]['order-detail-drink'][k].status_pesanan_detil == 'P') {
+                    res += '<button type="button" class="btn-lengko btn-lengko-success block" onclick="done_menu('+ result.content[i]['order-detail-drink'][k].kode_pesanan_detil + ')" style="font-size: 10px;">';
+                    res += '<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>';
+                    res += '</button>';
+                  }
+                  else if (result.content[i]['order-detail-drink'][k].status_pesanan_detil == 'D') {
+                    res += '<button type="button" class="btn-lengko btn-lengko-warning block" style="font-size: 10px;">';
+                    res += '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>';
+                    res += '</button>';
+                  }
+                  res += '</div></div>';
+                }
+              }
+              else {
+                res += '<div class="row"><div class="col-md-12">';
+                res += '<div class="alert alert-warning">Tidak pesan minuman</div></div></div>';
+              }
+
+              res += '</div></div></div></div>';
+
+              res += '<div class="row padd-tb-0">';
+              res += '<div class="col-md-12"><hr /></div></div>';
+
+              res += '</div></div></div></div>';
+            }
+            res += '</div>';
+          }
+          else {
+            res += '<div class="row"><div class="col-md-8">';
+            res += '<div class="alert alert-warning">Belum ada pesanan baru;';
+            res += '<br />Relax and enjoy yourlife!</div></div>';
+            res += '<div class="col-md-4"><img src="/files/images/jokes/i-see-what-u-did.jpg" width="250px" height="250px" />';
+            res += '</div></div>';
+          }//endif
+          $('#order-queue-panel').html(res);
+        }
+        else {
+          window.location = "dashboard/order";
+        }//endif
+      },
+      error: function(result) {
+
+      }
+    });
+  }//panel dom available
+}
+
+function refresh_transaction() {
+  if ($('#transaction-panel').length > 0) {
+    var data = {
+      '_method' : "POST",
+      '_token' : $('meta[name="csrf-token"]').attr('content'),
+    };
+    $.ajaxSetup({
+      headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      type: "POST",
+      url: "/dashboard/refresh/transaction",
+      data: data,
+      cache: false,
+      success: function(result) {
+        if (result.status == 200) {
+          var res = '';
+          var token = $('meta[name="csrf-token"]').attr('content');
+          if (result.content.transaction.length > 0) {
+            res += '<div class="row"><div class="col-md-offset-8 col-md-4 col-sm-offset-6 col-sm-6">';
+            res += '<div class="input-group padd-tb-10">';
+            res += '<input type="text" name="transaction-search-query" class="form-control input-lengko-default" placeholder="Cari Transaksi" />';
+            res += '<span class="input-group-btn">';
+            res += '<button class="btn btn-default" name="transaction-search-button" type="button">';
+            res += '<span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>';
+            res += '</span></div></div></div>';
+
+            res += '<div class="row">';
+            res += '<div class="col-md-3  text-center">';
+            res += '<i class="material-icons md-180 desktop-only">attach_money</i>';
+            res += '<h3 class="desktop-only mrg-t-0">Transaksi</h3>';
+            res += '</div>';
+
+            res += '<div class="col-md-9"><div id="transaction-card-section" class="padd-tb-10">';
+            res += '<div class="row padd-lr-15"><div class="col-md-5 col-sm-6 col-xs-6">';
+            res += '<i class="material-icons md-18">arrow_drop_down</i><label>Transaksi</label></div>';
+            res += '<div class="col-md-7 col-sm-6 col-xs-6"><label>Waktu</label></div></div>';
+
+            res += '<div class="row"><div class="col-md-12 col-sm-12 col-xs-12">';
+            res += '<div class="seperator"></div></div></div>';
+            for (i = 0; i < result.content.transaction.length; i++) {
+              res += '<div onclick="show_obj(\'transaction-' + i + '\');" class="cursor-pointer padd-tb-10 padd-lr-15">';
+              res += '<div class="row"><div class="col-md-5 col-sm-6 col-xs-6">';
+              res += '#' + result.content.transaction[i].kode_pesanan + ' ' + result.content.transaction[i].pembeli_pesanan;
+              res += '[' + result.content.transaction[i].nama_perangkat + '</div>';
+              res += '<div class="col-md-7 col-sm-6 col-xs-6">';
+              res += '' + result.content.transaction[i].tanggal_pesanan + ' ' + result.content.transaction[i].waktu_pesanan + '</div></div></div>';
+              if (result.content[i]['transaction-detail'].length > 0) {
+                res += '<div class="row"><div class="col-md-12 col-sm-12 col-xs-12">';
+                res += '<div id="transaction-' + i + '" class="mrg-t-20 padd-lr-15" style="display:none; visibility: none;">';
+                res += '<table class="table table-hover table-striped">';
+                res += '<tr><th>Pesanan</th><th>Harga</th><th>Jumlah</th><th>Sub-Total</th></tr>';
+                for (j = 0; j < result.content[i]['transaction-detail'].length; j++) {
+                  res += '<tr><td>' + result.content[i]['transaction-detail'][j].nama_menu + '</td>';
+                  res += '<td>Rp' + result.content[i]['transaction-detail'][j].harga_menu + '</td>';
+                  res += '<td>' + result.content[i]['transaction-detail'][j].jumlah_pesanan_detil + '</td>';
+                  res += '<td>Rp' + (result.content[i]['transaction-detail'][j].harga_menu * result.content[i]['transaction-detail'][j].jumlah_pesanan_detil) + '</td></tr>';
+                }//endfor
+                res += '<tr><td colspan="3" class="text-right"><label>Total</label></td>';
+                res += '<td>Rp' + result.content.transaction[i].harga_pesanan + '</td></tr>';
+                res += '<tr><td colspan="3" class="text-right"><label>Tunai</label></td>';
+                res += '<td width="170px"><input type="number" id="transaction-cash-' + result.content.transaction[i].kode_pesanan + '" name="transaction-cash-' + result.content.transaction[i].kode_pesanan + '" min="' + result.content.transaction[i].harga_pesanan + '" step="5000" class="input-lengko-default block" placeholder="0" value="' + result.content.transaction[i].harga_pesanan;
+                res += '" onchange="cash_back(\'transaction-cash-' + result.content.transaction[i].kode_pesanan + '\', \'transaction-cash-back-' + result.content.transaction[i].kode_pesanan + '\', ' + result.content.transaction[i].harga_pesanan + ', \'Rp\');" />';
+                res += '</td></tr>';
+                res += '<tr><td colspan="3" class="text-right"><label>Kembali</label></td>';
+                res += '<td><input type="text" id="transaction-cash-back-' + result.content.transaction[i].kode_pesanan + '" class="input-lengko-default block" value="0" disabled="disabled" disabled />';
+                res += '</td></tr></table>';
+
+                res += '<div class="row padd-tb-10">';
+                res += '<div class="col-md-offset-1 col-md-10 col-sm-offset-2 col-sm-8">';
+                res += '<button type="button" class="btn-lengko btn-lengko-success pull-right block" onclick="done_transaction(' + result.content.transaction[i].kode_pesanan + ', ' + result.content.transaction[i].harga_pesanan + ');">';
+                res += '<span class="glyphicon glyphicon-usd" aria-hidden="true"></span> Bayar</button>';
+                res += '</div></div></div></div></div>';
+              }//endif
+
+              res += '<div class="row"><div class="col-md-12 col-sm-12 col-xs-12">';
+              res += '<div class="seperator"></div></div></div>';
+
+              res += '<div id="transaction-print-' + result.content.transaction[i].kode_pesanan + '" class="print-overlay" style="display:none; visibility: none;">';
+              res += '<div class="row print-overlay-content"><div class="col-md-12">';
+
+              res += '<div class="row">';
+              res += '<div class="col-md-offset-11 col-md-1" style="font-size:20pt;">';
+              res += '<span class="glyphicon glyphicon-remove pull-right cursor-pointer" aria-hidden="true" onclick="hide_obj(\'transaction-print-' + result.content.transaction[i].kode_pesanan + '\'); window.location = \'/dashboard/transaction/\';"></span>';
+              res += '</div></div>';
+
+              res += '<div class="row mrg-t-20"><div class="col-md-3">';
+              res += '<h2>Transaksi #' + result.content.transaction[i].kode_pesanan + '</h2>';
+              res += '<div class="row"><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">';
+              res += '<button type="button" name="" class="btn-lengko btn-lengko-warning block" onclick="print_dialog(\'transaction\', ' + result.content.transaction[i].kode_pesanan + ');">';
+              res += '<span class="glyphicon glyphicon-print" aria-hidden="true"></span>Cetak</button></div>';
+
+              res += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">';
+              res += '<a href="/dashboard/transaction/report/' + result.content.transaction[i].kode_pesanan + '" target="_blank">';
+              res += '<button type="button" name="" class="btn-lengko btn-lengko-default block">';
+              res += '<span class="glyphicon glyphicon-search" aria-hidden="true"></span>Lihat</button></a>';
+              res += '</div></div></div>';
+
+              res += '<div class="col-md-9 mrg-t-20 fluidMedia">';
+              res += '<iframe id="transaction-print" src="transaction/report/' + result.content.transaction[i].kode_pesanan + '" width="100%" height="250px" scrolling="yes"></iframe>';
+              res += '</div></div></div></div></div>';
+
+            }//endfor
+            res += '</div></div></div>';
+          }
+          else {
+              res += '<div class="row"><div class="col-md-8">';
+              res += '<div class="alert alert-warning">Belum ada Transaksi baru, relax and be happy!';
+              res += '</div></div></div>';
+          }//endif
+          $('#transaction-panel').html(res);
+        }
+        else {
+          window.location = "dashboard/transaction";
+        }//endif
+      },
+      error: function(result) {
+
+      }
+    });
+  }//panel dom available
+}
+
 var interval = 5000;
 var lastnotif = 0;
 var inc = 0;
 function notifier() {
   var data = {
     '_method' : "POST",
-    '_token' : $("input[name=_token]").val(),
+    '_token' : $('meta[name="csrf-token"]').attr('content'),
   };
   $.ajax({
     type: 'POST',
@@ -1805,18 +2182,23 @@ function notifier() {
     complete: function (data) {
       //console.dir(data); //good way thanks stackoverflow ^^
       data = data.responseJSON;
-      if (data.content) {
+      if (data) {
         if (data.content.length > 0) {
           if (lastnotif != data.content[0].kode_pemberitahuan && inc > 1) {
+            refresh_confirmation_order();
+            refresh_queue_order();
+            refresh_transaction();
             generate_toast({
               'heading': 'Pemberitahuan',
               'text': data.content[0].isi_pemberitahuan,
               'icon': 'info',
               'bgColor': '#141414',
               'textColor': '#ecf0f1',
+              'loader': false,
               'loaderBg': '#3498db',
-              'hideAfter': 7000,
               'allowToastClose': true,
+              'hideAfter': false,
+              'stack': 7
             });
           }
           lastnotif = data.content[0].kode_pemberitahuan;

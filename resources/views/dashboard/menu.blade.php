@@ -75,7 +75,7 @@
                                   @php ($i = 0)
                                   @foreach ($data[$keymenu]['menu-status'] as $key2 => $value2)
                                     @php ($i++)
-                                    @if ($value2->stok_bahan_baku > 0)
+                                    @if ($value2->stok_bahan_baku > 0 && $value2->tanggal_kadaluarsa_bahan_baku >= date('Y-m-d'))
                                       @php ($res = true)
                                     @else
                                       @php ($res = false)

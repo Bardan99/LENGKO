@@ -61,7 +61,7 @@ class HomeController extends Controller {
           (object) array(
               (object) array(
                 'path' => 'gallery13-kfc.jpg',
-                'title' => 'Our pride',
+                'title' => 'LENGKO Crown',
                 'desc' => 'Mahkota kebanggaan kami yang senantiasa menjadi penyemangat dalam menyelesaikan pembangunan aplikasi ini, thank you so much Mr. Adam'
               ),
               (object) array(
@@ -83,6 +83,11 @@ class HomeController extends Controller {
                 'path' => 'gallery10-our-beloved-team.jpg',
                 'title' => 'Our beloved team',
                 'desc' => 'Ini kami, sang penantang yang gagah berani! Btw senyummu mempesona zak; copy of Raka(1) jangan ngumpet aja nanti diculik :3'
+              ),
+              (object) array(
+                'path' => 'gallery14-library.jpg',
+                'title' => 'Untung bukan Brazzer captionnya',
+                'desc' => 'Azmi pengen eksis katanya, ywdh masukin aja foto ini, Binsar yang fotoin.'
               )
           );
         break;
@@ -101,11 +106,26 @@ class HomeController extends Controller {
 
           foreach ($data['menu'] as $key => $value) {
             $data[$key]['menu-status'] = DB::table('menu')
-            ->select('bahan_baku.nama_bahan_baku', 'bahan_baku.stok_bahan_baku')
+            ->select('bahan_baku.*')
             ->join('menu_detil', 'menu_detil.kode_menu', '=', 'menu.kode_menu')
             ->join('bahan_baku', 'bahan_baku.kode_bahan_baku', '=', 'menu_detil.kode_bahan_baku')
             ->where('menu.kode_menu', '=', $value->kode_menu)
             ->get();
+          }
+
+          foreach ($data['menu'] as $key => $value) {
+            $data[$key]['menu-max'] = DB::table('bahan_baku')
+            ->selectRaw('*, FLOOR(bahan_baku.stok_bahan_baku/menu_detil.jumlah_bahan_baku_detil) AS menu_max')
+            ->join('menu_detil', 'menu_detil.kode_bahan_baku', '=', 'bahan_baku.kode_bahan_baku')
+            ->where('menu_detil.kode_menu', '=', $value->kode_menu)
+            ->get();
+            foreach ($data[$key]['menu-max'] as $key2 => $value2) {
+              if ($key2+1 < count($data[$key]['menu-max'])) {
+                if ($value2->menu_max > $data[$key]['menu-max'][$key2+1]->menu_max) {
+                  $data['menu'][$key]->menu_max = $data[$key]['menu-max'][$key2+1]->menu_max;//ambil yg minimum
+                }
+              }
+            }
           }
 
           $data['method'] = new MethodController();
@@ -220,13 +240,27 @@ class HomeController extends Controller {
 
       foreach ($result as $key => $value) {
         $tmp[$key]['menu-status'] = DB::table('menu')
-        ->select('bahan_baku.nama_bahan_baku', 'bahan_baku.stok_bahan_baku')
+        ->select('bahan_baku.*')
         ->join('menu_detil', 'menu_detil.kode_menu', '=', 'menu.kode_menu')
         ->join('bahan_baku', 'bahan_baku.kode_bahan_baku', '=', 'menu_detil.kode_bahan_baku')
         ->where('menu.kode_menu', '=', $value->kode_menu)
         ->get();
       }
 
+      foreach ($data['menu'] as $key => $value) {
+        $data[$key]['menu-max'] = DB::table('bahan_baku')
+        ->selectRaw('*, FLOOR(bahan_baku.stok_bahan_baku/menu_detil.jumlah_bahan_baku_detil) AS menu_max')
+        ->join('menu_detil', 'menu_detil.kode_bahan_baku', '=', 'bahan_baku.kode_bahan_baku')
+        ->where('menu_detil.kode_menu', '=', $value->kode_menu)
+        ->get();
+        foreach ($data[$key]['menu-max'] as $key2 => $value2) {
+          if ($key2+1 < count($data[$key]['menu-max'])) {
+            if ($value2->menu_max > $data[$key]['menu-max'][$key2+1]->menu_max) {
+              $data['menu'][$key]->menu_max = $data[$key]['menu-max'][$key2+1]->menu_max;//ambil yg minimum
+            }
+          }
+        }
+      }
 
       $pointer['prev']['skip'] = count($result) - 9;
       $pointer['prev']['take'] = 9;
@@ -365,12 +399,29 @@ class HomeController extends Controller {
 
       foreach ($result as $key => $value) {
         $tmp[$key]['menu-status'] = DB::table('menu')
-        ->select('bahan_baku.nama_bahan_baku', 'bahan_baku.stok_bahan_baku')
+        ->select('bahan_baku.*')
         ->join('menu_detil', 'menu_detil.kode_menu', '=', 'menu.kode_menu')
         ->join('bahan_baku', 'bahan_baku.kode_bahan_baku', '=', 'menu_detil.kode_bahan_baku')
         ->where('menu.kode_menu', '=', $value->kode_menu)
         ->get();
       }
+
+
+      foreach ($result as $key => $value) {
+        $data[$key]['menu-max'] = DB::table('bahan_baku')
+        ->selectRaw('*, FLOOR(bahan_baku.stok_bahan_baku/menu_detil.jumlah_bahan_baku_detil) AS menu_max')
+        ->join('menu_detil', 'menu_detil.kode_bahan_baku', '=', 'bahan_baku.kode_bahan_baku')
+        ->where('menu_detil.kode_menu', '=', $value->kode_menu)
+        ->get();
+        foreach ($data[$key]['menu-max'] as $key2 => $value2) {
+          if ($key2+1 < count($data[$key]['menu-max'])) {
+            if ($value2->menu_max > $data[$key]['menu-max'][$key2+1]->menu_max) {
+              $result[$key]->menu_max = $data[$key]['menu-max'][$key2+1]->menu_max;//ambil yg minimum
+            }
+          }
+        }
+      }
+
 
       $pointer['prev']['skip'] = $skip - $take;
       $pointer['prev']['take'] = $take;
@@ -726,11 +777,26 @@ class HomeController extends Controller {
 
         foreach ($result as $key => $value) {
           $tmp[$key]['menu-status'] = DB::table('menu')
-          ->select('bahan_baku.nama_bahan_baku', 'bahan_baku.stok_bahan_baku')
+          ->select('bahan_baku.*')
           ->join('menu_detil', 'menu_detil.kode_menu', '=', 'menu.kode_menu')
           ->join('bahan_baku', 'bahan_baku.kode_bahan_baku', '=', 'menu_detil.kode_bahan_baku')
           ->where('menu.kode_menu', '=', $value->kode_menu)
           ->get();
+        }
+
+        foreach ($result as $key => $value) {
+          $data[$key]['menu-max'] = DB::table('bahan_baku')
+          ->selectRaw('*, FLOOR(bahan_baku.stok_bahan_baku/menu_detil.jumlah_bahan_baku_detil) AS menu_max')
+          ->join('menu_detil', 'menu_detil.kode_bahan_baku', '=', 'bahan_baku.kode_bahan_baku')
+          ->where('menu_detil.kode_menu', '=', $value->kode_menu)
+          ->get();
+          foreach ($data[$key]['menu-max'] as $key2 => $value2) {
+            if ($key2+1 < count($data[$key]['menu-max'])) {
+              if ($value2->menu_max > $data[$key]['menu-max'][$key2+1]->menu_max) {
+                $result[$key]->menu_max = $data[$key]['menu-max'][$key2+1]->menu_max;//ambil yg minimum
+              }
+            }
+          }
         }
 
         $pointer['prev']['skip'] = count($result) - 9;

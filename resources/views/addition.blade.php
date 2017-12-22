@@ -78,3 +78,13 @@
     </div>
   </div>
 @endsection
+
+@section('lengko-loading')
+  <div class="lengko-loading">
+    <div class="lengko-loading-content text-center">
+      <div class="lengko-loading-spinner obj-center">
+      </div>
+      Mohon Menunggu
+    </div>
+  </div>
+@endsection

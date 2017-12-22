@@ -1047,7 +1047,7 @@ function search_menu(data) {
 
             for (j = 0; j < result.content[i]['menu-status'].length; j++ ) {
               inc++;
-              if (result.content[i]['menu-status'][j].stok_bahan_baku > 0) {
+              if (result.content[i]['menu-status'][j].stok_bahan_baku > 0 && result.content[i]['menu-status'][j].tanggal_kadaluarsa_bahan_baku >= generate_date()) {
                 tmp = true;
               }
               else {
@@ -2174,6 +2174,7 @@ function notifier() {
     data: data,
     dataType: 'json',
     cache: false,
+    global: false,// this makes sure ajaxStart is not triggered thnx again stackoverflow
     success: function (data) {
       $('#notifs').html(data.content.length);
       $('#notifnavs').html('Beranda (' + data.content.length + ') ');
@@ -2827,9 +2828,9 @@ $(document).ready(function() {
     $('button[name=report-search-button]').on('click', function(e) {
       e.preventDefault();
       var data = {
-        '_type' : $("select[name=report-type").val(),
-        '_start' : $("input[name=report-date-start").val(),
-        '_end' : $("input[name=report-date-end").val(),
+        '_type' : $("select[name=report-type]").val(),
+        '_start' : $("input[name=report-date-start]").val(),
+        '_end' : $("input[name=report-date-end]").val(),
         '_method' : "post",
         '_token' : $("input[name=search_token]").val()
       };
@@ -2841,9 +2842,9 @@ $(document).ready(function() {
     $('button[name=report-print-button]').on('click', function(e) {
       e.preventDefault();
       var data = {
-        '_type' : $("select[name=report-type").val(),
-        '_start' : $("input[name=report-date-start").val(),
-        '_end' : $("input[name=report-date-end").val(),
+        '_type' : $("select[name=report-type]").val(),
+        '_start' : $("input[name=report-date-start]").val(),
+        '_end' : $("input[name=report-date-end]").val(),
         '_method' : "post",
         '_token' : $("input[name=search_token]").val()
       };

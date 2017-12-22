@@ -129,12 +129,29 @@ class MenuController extends Controller {
 
       foreach ($result['menu'] as $key => $value) {
         $result[$key]['menu-status'] = DB::table('menu')
-        ->select('bahan_baku.nama_bahan_baku', 'bahan_baku.stok_bahan_baku')
+        ->select('bahan_baku.*')
         ->join('menu_detil', 'menu_detil.kode_menu', '=', 'menu.kode_menu')
         ->join('bahan_baku', 'bahan_baku.kode_bahan_baku', '=', 'menu_detil.kode_bahan_baku')
         ->where('menu.kode_menu', '=', $value->kode_menu)
         ->get();
       }
+
+
+      foreach ($result['menu'] as $key => $value) {
+        $data[$key]['menu-max'] = DB::table('bahan_baku')
+        ->selectRaw('*, FLOOR(bahan_baku.stok_bahan_baku/menu_detil.jumlah_bahan_baku_detil) AS menu_max')
+        ->join('menu_detil', 'menu_detil.kode_bahan_baku', '=', 'bahan_baku.kode_bahan_baku')
+        ->where('menu_detil.kode_menu', '=', $value->kode_menu)
+        ->get();
+        foreach ($data[$key]['menu-max'] as $key2 => $value2) {
+          if ($key2+1 < count($data[$key]['menu-max'])) {
+            if ($value2->menu_max > $data[$key]['menu-max'][$key2+1]->menu_max) {
+              $result['menu'][$key]->menu_max = $data[$key]['menu-max'][$key2+1]->menu_max;//ambil yg minimum
+            }
+          }
+        }
+      }
+
 
       $material = DB::table('bahan_baku')
         ->orderBy('nama_bahan_baku', 'ASC')

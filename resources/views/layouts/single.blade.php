@@ -32,7 +32,7 @@
     </div>
 
   </div>
-
+  @yield('lengko-loading')
   <script type="text/javascript" data-cfasync="false" src="/assets/jquery/jquery.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/slick/slick.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/bootstrap/js/bootstrap.js"></script>

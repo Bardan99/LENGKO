@@ -94,7 +94,7 @@ function search_menu(data) {
             var k = 0;
             for (j = 0; j < result.available[i]['menu-status'].length; j++) {
               k++;
-              if (result.available[i]['menu-status'][j].stok_bahan_baku > 0) {
+              if (result.available[i]['menu-status'][j].stok_bahan_baku > 0 && result.available[i]['menu-status'][j].tanggal_kadaluarsa_bahan_baku >= generate_date()) {
                 tmp = true;
               }
               else {
@@ -159,7 +159,7 @@ function search_menu(data) {
               res += '<div class="col-md-offset-10 col-md-2">';
               res += '<div class="input-group">';
               res += '<input type="hidden" name="order-add-name-' + result.content[i].kode_menu + '" value="' + result.content[i].nama_menu + '">';
-              res += '<input type="number" name="order-add-count-' + result.content[i].kode_menu + '" class="form-control input-lengko-default" placeholder="Jumlah" value="1" min="1" step="1">';
+              res += '<input type="number" name="order-add-count-' + result.content[i].kode_menu + '" class="form-control input-lengko-default" placeholder="Jumlah" value="1" min="1" max="' + result.content[i].menu_max + '" step="1">';
               res += '<div class="input-group-addon" style="background-color: #2c3e50; color: #ecf0f1" onclick="add_menu(\'' + result.content[i].kode_menu + '\')">Tambah <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></div>';
               res += '</div></div></div>';
             }
@@ -239,7 +239,7 @@ function pagination_menu(skip, take) {
             var k = 0;
             for (j = 0; j < result.available[i]['menu-status'].length; j++) {
               k++;
-              if (result.available[i]['menu-status'][j].stok_bahan_baku > 0) {
+              if (result.available[i]['menu-status'][j].stok_bahan_baku > 0 && result.available[i]['menu-status'][j].tanggal_kadaluarsa_bahan_baku >= generate_date()) {
                 tmp = true;
               }
               else {
@@ -304,7 +304,7 @@ function pagination_menu(skip, take) {
               res += '<div class="col-md-offset-10 col-md-2">';
               res += '<div class="input-group">';
               res += '<input type="hidden" name="order-add-name-' + result.content[i].kode_menu + '" value="' + result.content[i].nama_menu + '">';
-              res += '<input type="number" name="order-add-count-' + result.content[i].kode_menu + '" class="form-control input-lengko-default" placeholder="Jumlah" value="1" min="1" step="1">';
+              res += '<input type="number" name="order-add-count-' + result.content[i].kode_menu + '" class="form-control input-lengko-default" placeholder="Jumlah" value="1" min="1" max="' + result.content[i].menu_max + '" step="1">';
               res += '<div class="input-group-addon" style="background-color: #2c3e50; color: #ecf0f1" onclick="add_menu(\'' + result.content[i].kode_menu + '\')">Tambah <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></div>';
               res += '</div></div></div>';
             }
@@ -403,12 +403,13 @@ function add_review(data) {
 function add_menu(menu) {
   var name = $('input[name=order-add-name-' + menu + ']').val();
   var count = $('input[name=order-add-count-' + menu + ']').val();
+  var max = $('input[name=order-add-count-' + menu + ']').attr('max');
   var data = {
     '_token' : $('input[name=_token]').val(),
     '_id' : menu,
     '_count' : count,
   };
-  if (count >= 1) {
+  if (count >= 1 && count <= max) {
     swal({
       title: name,
       html: "Tambahkan " + count + " porsi? <br />Yakin gak akan kurang nihh?",
@@ -461,7 +462,7 @@ function add_menu(menu) {
   else {
     swal({
       title: "Oops terjadi kesalahan",
-      html: "Jangan bandell yaa.. <br />Minimal beli 1, atau borong semua juga boleh!",
+      html: "Minimal beli saat ini 1 menu dan maksimal " + max + " menu",
       type: "warning",
       timer: 10000,
       showCancelButton: false,
@@ -676,7 +677,7 @@ function filter_menu(data) {
             for (j = 0; j < result.available[i]['menu-status'].length; j++) {
               k++;
 
-              if (result.available[i]['menu-status'][j].stok_bahan_baku > 0) {
+              if (result.available[i]['menu-status'][j].stok_bahan_baku > 0 && result.available[i]['menu-status'][j].tanggal_kadaluarsa_bahan_baku >= generate_date()) {
                 tmp = true;
               }
               else {
@@ -741,7 +742,7 @@ function filter_menu(data) {
               res += '<div class="col-md-offset-10 col-md-2">';
               res += '<div class="input-group">';
               res += '<input type="hidden" name="order-add-name-' + result.content[i].kode_menu + '" value="' + result.content[i].nama_menu + '">';
-              res += '<input type="number" name="order-add-count-' + result.content[i].kode_menu + '" class="form-control input-lengko-default" placeholder="Jumlah" value="1" min="1" step="1">';
+              res += '<input type="number" name="order-add-count-' + result.content[i].kode_menu + '" class="form-control input-lengko-default" placeholder="Jumlah" value="1" min="1" max="' + result.content[i].menu_max + '" step="1">';
               res += '<div class="input-group-addon" style="background-color: #2c3e50; color: #ecf0f1" onclick="add_menu(\'' + result.content[i].kode_menu + '\')">Tambah <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></div>';
               res += '</div></div></div>';
             }
@@ -930,6 +931,7 @@ function notifier() {
     data: data,
     dataType: 'json',
     cache: false,
+    global: false,// this makes sure ajaxStart is not triggered thnx again stackoverflow
     success: function (data) {
       inc++;
     },
@@ -965,8 +967,79 @@ setTimeout(notifier, interval);
 
 $(document).ready(function() {
   notifier();
-
   /* menu */
+
+  $(".menu-1").mouseover(function() {
+    $(".menu-1 > .menu-icon").css("color","#ffffff");
+    $(".menu-1 > .menu-icon > a").css("color","#ffffff");
+    $(".menu-1 > .menu-icon > .lengko-color").css("color","#ffffff");
+  });
+
+  $(".menu-1").mouseout(function() {
+    $(".menu-1 > .menu-icon").css("color","#34495e");
+    $(".menu-1 > .menu-icon > a").css("color","#34495e");
+    $(".menu-1 > .menu-icon > .lengko-color").css("color","#34495e");
+  });
+
+  $(".menu-2").mouseover(function() {
+    $(".menu-2 > .menu-icon").css("color","#ffffff");
+    $(".menu-2 > .menu-icon > a").css("color","#ffffff");
+    $(".menu-2 > .menu-icon > .lengko-color").css("color","#ffffff");
+  });
+
+  $(".menu-2").mouseout(function() {
+    $(".menu-2 > .menu-icon").css("color","#34495e");
+    $(".menu-2 > .menu-icon > a").css("color","#34495e");
+    $(".menu-2 > .menu-icon > .lengko-color").css("color","#34495e");
+  });
+
+  $(".menu-3").mouseover(function() {
+    $(".menu-3 > .menu-icon").css("color","#ffffff");
+    $(".menu-3 > .menu-icon > a").css("color","#ffffff");
+    $(".menu-3 > .menu-icon > .lengko-color").css("color","#ffffff");
+  });
+
+  $(".menu-3").mouseout(function() {
+    $(".menu-3 > .menu-icon").css("color","#34495e");
+    $(".menu-3 > .menu-icon > a").css("color","#34495e");
+    $(".menu-3 > .menu-icon > .lengko-color").css("color","#34495e");
+  });
+
+  $(".menu-4").mouseover(function() {
+    $(".menu-4 > .menu-icon").css("color","#ffffff");
+    $(".menu-4 > .menu-icon > a").css("color","#ffffff");
+    $(".menu-4 > .menu-icon > .lengko-color").css("color","#ffffff");
+  });
+
+  $(".menu-4").mouseout(function() {
+    $(".menu-4 > .menu-icon").css("color","#34495e");
+    $(".menu-4 > .menu-icon > a").css("color","#34495e");
+    $(".menu-4 > .menu-icon > .lengko-color").css("color","#34495e");
+  });
+
+  $(".menu-5").mouseover(function() {
+    $(".menu-5 > .menu-icon").css("color","#ffffff");
+    $(".menu-5 > .menu-icon > a").css("color","#ffffff");
+    $(".menu-5 > .menu-icon > .lengko-color").css("color","#ffffff");
+  });
+
+  $(".menu-5").mouseout(function() {
+    $(".menu-5 > .menu-icon").css("color","#34495e");
+    $(".menu-5 > .menu-icon > a").css("color","#34495e");
+    $(".menu-5 > .menu-icon > .lengko-color").css("color","#34495e");
+  });
+
+  $(".menu-6").mouseover(function() {
+    $(".menu-6 > .menu-icon").css("color","#ffffff");
+    $(".menu-6 > .menu-icon > a").css("color","#ffffff");
+    $(".menu-6 > .menu-icon > .lengko-color").css("color","#ffffff");
+  });
+
+  $(".menu-6").mouseout(function() {
+    $(".menu-6 > .menu-icon").css("color","#34495e");
+    $(".menu-6 > .menu-icon > a").css("color","#34495e");
+    $(".menu-6 > .menu-icon > .lengko-color").css("color","#34495e");
+  });
 
   if ($('input[name=menu-search-query]').length > 0) {
     $('input[name=menu-search-query]').on('change', function(e) {

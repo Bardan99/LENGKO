@@ -38,7 +38,8 @@
       </div>
     </div>
   </div>
-
+  @yield('lengko-loading')
+  
   <script type="text/javascript" data-cfasync="false" src="/assets/jquery/jquery.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/sweetalert/sweetalert.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/bootstrap/js/bootstrap.js"></script>

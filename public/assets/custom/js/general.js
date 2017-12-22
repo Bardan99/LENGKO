@@ -204,6 +204,21 @@ function rewrite(type, param) {
   return res;
 }
 
+function generate_date() {
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth() + 1;
+  var yyyy = today.getFullYear();
+  if (dd < 10) {
+      dd = '0' + dd;
+  }
+
+  if (mm < 10) {
+      mm = '0' + mm;
+  }
+  return (yyyy + '-' + mm + '-' + dd);
+}
+
 function generate_toast(data) {
   $.toast({
     heading: data.heading,
@@ -245,6 +260,15 @@ $('body').on('click', function (e) {
 });
 
 $(document).ready(function() {
+  var loading = $('.lengko-loading').hide();
+  $(document)
+    .ajaxStart(function() {
+      loading.show();
+    })
+    .ajaxStop(function () {
+      loading.hide();
+    });
+
   /* Tooltip */
   $('.open-tooltip').tooltip('show', {
     container: 'html',

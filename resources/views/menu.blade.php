@@ -34,7 +34,7 @@
           @php ($i = 0)
           @foreach ($data[$keymenu]['menu-status'] as $key2 => $value2)
             @php ($i++)
-            @if ($value2->stok_bahan_baku > 0)
+            @if ($value2->stok_bahan_baku > 0 && $value2->tanggal_kadaluarsa_bahan_baku >= date('Y-m-d'))
               @php ($res = true)
             @else
               @php ($res = false)
@@ -92,7 +92,7 @@
                   <div class="col-md-offset-9 col-md-3">
                     <div class="input-group">
                       <input type="hidden" name="order-add-name-{{$value->kode_menu}}" value="{{ $value->nama_menu }}">
-                      <input type="number" name="order-add-count-{{$value->kode_menu}}" class="form-control input-lengko-default" placeholder="Jumlah" value="1" min="1" step="1">
+                      <input type="number" name="order-add-count-{{$value->kode_menu}}" class="form-control input-lengko-default" placeholder="Jumlah" value="1" min="1" max="{{ $value->menu_max }}" step="1">
                       <div class="input-group-addon" style="background-color: #2c3e50; color: #ecf0f1" onclick="add_menu('{{$value->kode_menu}}')"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></div>
                     </div>
                   </div>

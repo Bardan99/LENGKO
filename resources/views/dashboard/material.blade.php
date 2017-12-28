@@ -191,6 +191,7 @@
         </div>
       </div>
       @endif
+
       @if ($auth == 'root' || $auth == 'pantry')
       <div class="row">
         <div class="col-md-12">
@@ -402,7 +403,9 @@
 
         </div>
       </div>
+      @endif
 
+      @if ($auth == 'root' || $auth == 'chef')
       <div class="row">
         <div class="col-md-12">
           <div class="panel panel-default panel-custom">
@@ -419,14 +422,25 @@
                           Daftar bahan baku yang akan kadaluarsa
                         </p>
                       </a>
-                      @foreach ($data['material-expired-soon'] as $key => $value)
-                        <a href="{{url('/dashboard/material/change/' . $value->kode_bahan_baku)}}" class="list-group-item list-group-item-@if ($value->tanggal_kadaluarsa_bahan_baku == date('Y-m-d')){{'danger'}}@else{{'warning'}}@endif">
-                          <h4 class="list-group-item-heading">{{$value->nama_bahan_baku}} ({{$value->stok_bahan_baku}} {{$value->satuan_bahan_baku}})</h4>
-                          <p class="list-group-item-text text-right">
-                            {{$value->tanggal_kadaluarsa_bahan_baku}}
-                          </p>
-                        </a>
-                      @endforeach
+                      @if ($auth == 'root' || $auth == 'pantry')
+                        @foreach ($data['material-expired-soon'] as $key => $value)
+                          <a href="{{url('/dashboard/material/change/' . $value->kode_bahan_baku)}}" class="list-group-item list-group-item-@if ($value->tanggal_kadaluarsa_bahan_baku == date('Y-m-d')){{'danger'}}@else{{'warning'}}@endif">
+                            <h4 class="list-group-item-heading">{{$value->nama_bahan_baku}} ({{$value->stok_bahan_baku}} {{$value->satuan_bahan_baku}})</h4>
+                            <p class="list-group-item-text text-right">
+                              {{$value->tanggal_kadaluarsa_bahan_baku}}
+                            </p>
+                          </a>
+                        @endforeach
+                     @elseif ($auth == 'chef')
+                       @foreach ($data['material-expired-soon'] as $key => $value)
+                         <a href="#!" class="list-group-item list-group-item-@if ($value->tanggal_kadaluarsa_bahan_baku == date('Y-m-d')){{'danger'}}@else{{'warning'}}@endif">
+                           <h4 class="list-group-item-heading">{{$value->nama_bahan_baku}} ({{$value->stok_bahan_baku}} {{$value->satuan_bahan_baku}})</h4>
+                           <p class="list-group-item-text text-right">
+                             {{$value->tanggal_kadaluarsa_bahan_baku}}
+                           </p>
+                         </a>
+                       @endforeach
+                     @endif
                     </div>
                   </div>
                   @endif
@@ -440,14 +454,25 @@
                           Daftar bahan baku yang sudah kadaluarsa
                         </p>
                       </a>
-                      @foreach ($data['material-expired'] as $key => $value)
-                        <a href="{{url('/dashboard/material/change/' . $value->kode_bahan_baku)}}" class="list-group-item list-group-item-danger">
-                          <h4 class="list-group-item-heading">{{$value->nama_bahan_baku}} ({{$value->stok_bahan_baku}} {{$value->satuan_bahan_baku}})</h4>
-                          <p class="list-group-item-text text-right">
-                            {{$value->tanggal_kadaluarsa_bahan_baku}}
-                          </p>
-                        </a>
-                      @endforeach
+                      @if ($auth == 'root' || $auth == 'pantry')
+                        @foreach ($data['material-expired'] as $key => $value)
+                          <a href="{{url('/dashboard/material/change/' . $value->kode_bahan_baku)}}" class="list-group-item list-group-item-danger">
+                            <h4 class="list-group-item-heading">{{$value->nama_bahan_baku}} ({{$value->stok_bahan_baku}} {{$value->satuan_bahan_baku}})</h4>
+                            <p class="list-group-item-text text-right">
+                              {{$value->tanggal_kadaluarsa_bahan_baku}}
+                            </p>
+                          </a>
+                        @endforeach
+                      @elseif ($auth == 'chef')
+                        @foreach ($data['material-expired'] as $key => $value)
+                          <a href="#!" class="list-group-item list-group-item-danger">
+                            <h4 class="list-group-item-heading">{{$value->nama_bahan_baku}} ({{$value->stok_bahan_baku}} {{$value->satuan_bahan_baku}})</h4>
+                            <p class="list-group-item-text text-right">
+                              {{$value->tanggal_kadaluarsa_bahan_baku}}
+                            </p>
+                          </a>
+                        @endforeach
+                      @endif
                     </div>
                   </div>
                   @endif
@@ -462,14 +487,25 @@
                           Daftar bahan baku yang akan habis
                         </p>
                       </a>
-                      @foreach ($data['material-almost-empty'] as $key => $value)
-                        <a href="{{url('/dashboard/material/change/' . $value->kode_bahan_baku)}}" class="list-group-item list-group-item-@if ($value->tanggal_kadaluarsa_bahan_baku == date('Y-m-d')){{'danger'}}@else{{'warning'}}@endif">
-                          <h4 class="list-group-item-heading">{{$value->nama_bahan_baku}} ({{$value->stok_bahan_baku}} {{$value->satuan_bahan_baku}})</h4>
-                          <p class="list-group-item-text text-right">
-                            {{$value->tanggal_kadaluarsa_bahan_baku}}
-                          </p>
-                        </a>
-                      @endforeach
+                      @if ($auth == 'root' || $auth == 'pantry')
+                        @foreach ($data['material-almost-empty'] as $key => $value)
+                          <a href="{{url('/dashboard/material/change/' . $value->kode_bahan_baku)}}" class="list-group-item list-group-item-@if ($value->tanggal_kadaluarsa_bahan_baku == date('Y-m-d')){{'danger'}}@else{{'warning'}}@endif">
+                            <h4 class="list-group-item-heading">{{$value->nama_bahan_baku}} ({{$value->stok_bahan_baku}} {{$value->satuan_bahan_baku}})</h4>
+                            <p class="list-group-item-text text-right">
+                              {{$value->tanggal_kadaluarsa_bahan_baku}}
+                            </p>
+                          </a>
+                        @endforeach
+                      @elseif ($auth == 'chef')
+                        @foreach ($data['material-almost-empty'] as $key => $value)
+                          <a href="#!' . $value->kode_bahan_baku)}}" class="list-group-item list-group-item-@if ($value->tanggal_kadaluarsa_bahan_baku == date('Y-m-d')){{'danger'}}@else{{'warning'}}@endif">
+                            <h4 class="list-group-item-heading">{{$value->nama_bahan_baku}} ({{$value->stok_bahan_baku}} {{$value->satuan_bahan_baku}})</h4>
+                            <p class="list-group-item-text text-right">
+                              {{$value->tanggal_kadaluarsa_bahan_baku}}
+                            </p>
+                          </a>
+                        @endforeach
+                      @endif
                     </div>
                   </div>
                   @endif
@@ -483,14 +519,25 @@
                           Daftar bahan baku yang sudah habis
                         </p>
                       </a>
-                      @foreach ($data['material-empty'] as $key => $value)
-                        <a href="{{url('/dashboard/material/change/' . $value->kode_bahan_baku)}}" class="list-group-item list-group-item-danger">
-                          <h4 class="list-group-item-heading">{{$value->nama_bahan_baku}} ({{$value->stok_bahan_baku}} {{$value->satuan_bahan_baku}})</h4>
-                          <p class="list-group-item-text text-right">
-                            {{$value->tanggal_kadaluarsa_bahan_baku}}
-                          </p>
-                        </a>
-                      @endforeach
+                      @if ($auth == 'root' || $auth == 'pantry')
+                        @foreach ($data['material-empty'] as $key => $value)
+                          <a href="{{url('/dashboard/material/change/' . $value->kode_bahan_baku)}}" class="list-group-item list-group-item-danger">
+                            <h4 class="list-group-item-heading">{{$value->nama_bahan_baku}} ({{$value->stok_bahan_baku}} {{$value->satuan_bahan_baku}})</h4>
+                            <p class="list-group-item-text text-right">
+                              {{$value->tanggal_kadaluarsa_bahan_baku}}
+                            </p>
+                          </a>
+                        @endforeach
+                      @else
+                        @foreach ($data['material-empty'] as $key => $value)
+                          <a href="#!" class="list-group-item list-group-item-danger">
+                            <h4 class="list-group-item-heading">{{$value->nama_bahan_baku}} ({{$value->stok_bahan_baku}} {{$value->satuan_bahan_baku}})</h4>
+                            <p class="list-group-item-text text-right">
+                              {{$value->tanggal_kadaluarsa_bahan_baku}}
+                            </p>
+                          </a>
+                        @endforeach
+                      @endif
                     </div>
                   </div>
                   @endif
@@ -508,7 +555,9 @@
           </div>
         </div>
       </div>
+      @endif
 
+      @if ($auth == 'root' || $auth == 'pantry')
       <div class="row">
         <div class="col-md-6 col-sm-8">
 

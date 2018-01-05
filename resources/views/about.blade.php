@@ -27,66 +27,72 @@
       </div>
 
       <div class="row mrg-b-30">
-        <div class="col-md-2 col-sm-2 text-left">
-          <img src="{{ url('/files/images/members/rakamp.png') }}" class="img-circle img-center" alt="Raka Muhamad Pratama" width="90px" height="100px" />
-        </div>
-        <div class="col-md-4 col-sm-4">
-          <h3 class="text-left">
-              Raka Muhamad Pratama<br />
-              <small>Front-end Designer</small>
+        <div class="col-md-6">
+          <img src="{{ url('/files/images/members/rakamp.png') }}" class="img-circle img-center" alt="Raka Suryaardi Widjaja" width="90px" height="100px" />
+          <h3 class="text-center">
+            Raka Muhamad Pratama<br />
+            <small>Front-end Designer</small>
           </h3>
-          <quote class="playfair">
-            Kenyataan ada di depan
-            <br />
-            <small>Raka ci ganteng kalem (2017)</small>
-          </quote>
+          <div class="row">
+            <div class="col-md-offset-2 col-md-8 text-center">
+              <quote class="playfair">
+                Kenyataan ada di depan
+                <br />
+                <small>Raka ci ganteng kalem (2017)</small>
+              </quote>
+            </div>
+          </div>
         </div>
-
-        <div class="col-md-4 col-sm-4 text-right">
-          <h3 class="text-right">
-              Binsar Bernandus Silalahi<br />
-              <small>Front-end Designer</small>
+        <div class="col-md-6">
+          <img src="{{ url('/files/images/members/binsar.png') }}" class="img-circle img-center" alt="Raka Suryaardi Widjaja" width="90px" height="100px" />
+          <h3 class="text-center">
+            Binsar Bernandus Silalahi<br />
+            <small>Front-end Designer</small>
           </h3>
-          <quote class="playfair">
-            All is well
-            <br />
-            <small>Binsar kerja di pt mencari cinta sejati (2017)</small>
-          </quote>
-        </div>
-        <div class="col-md-2 col-sm-2">
-          <img src="{{ url('/files/images/members/binsar.png') }}" class="img-circle img-center" alt="Binsar Bernandus Silalahi" width="90px" height="100px" />
+          <div class="row">
+            <div class="col-md-offset-2 col-md-8 text-center">
+              <quote class="playfair">
+                All is well
+                <br />
+                <small>Binsar kerja di pt mencari cinta sejati (2017)</small>
+              </quote>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="row mrg-btm-30">
-        <div class="col-md-4 col-sm-4 text-right">
-          <h3 class="text-right">
-              Azmi Yudista<br />
-              <small>Graphical Designer</small>
+      <div class="row mrg-b-30">
+        <div class="col-md-offset-2 col-md-4">
+          <img src="{{ url('/files/images/members/azmi.png') }}" class="img-circle img-center" alt="Raka Suryaardi Widjaja" width="90px" height="100px" />
+          <h3 class="text-center">
+            Azmi Yudista<br />
+            <small>Graphical Designer</small>
           </h3>
-          <quote class="playfair">
-            Kegagalan bukti perjuangan
-            <br />
-            <small>Azmi muedtz abiez (2017)</small>
-          </quote>
+          <div class="row">
+            <div class="col-md-offset-2 col-md-8 text-center">
+              <quote class="playfair">
+                Kegagalan bukti perjuangan
+                <br />
+                <small>Azmi muedtz abiez (2017)</small>
+              </quote>
+            </div>
+          </div>
         </div>
-        <div class="col-md-2 col-sm-2">
-          <img src="{{ url('/files/images/members/azmi.png') }}" class="img-circle img-center" alt="Azmi Yudista" width="90px" height="100px" />
-        </div>
-
-        <div class="col-md-2 col-sm-2 text-left">
-          <img src="{{ url('/files/images/members/zaki.png') }}" class="img-circle img-center" alt="Binsar Bernandus Silalahi" width="90px" height="100px" />
-        </div>
-        <div class="col-md-4 col-sm-40">
-          <h3 class="text-left">
-              Muhammad Zaki<br />
-              <small>Quality Assurance</small>
+        <div class="col-md-4">
+          <img src="{{ url('/files/images/members/zaki.png') }}" class="img-circle img-center" alt="Raka Suryaardi Widjaja" width="90px" height="100px" />
+          <h3 class="text-center">
+            Muhammad Zaki<br />
+            <small>Quality Assurance</small>
           </h3>
-          <quote class="playfair">
-            Aku pengen pindah ke Meikarta
-            <br />
-            <small>Zaki muach muach (2017)</small>
-          </quote>
+          <div class="row">
+            <div class="col-md-offset-2 col-md-8 text-center">
+              <quote class="playfair">
+                Aku pengen pindah ke Meikarta
+                <br />
+                <small>Zaki muach muach (2017)</small>
+              </quote>
+            </div>
+          </div>
         </div>
       </div>
 

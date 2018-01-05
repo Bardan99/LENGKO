@@ -100,34 +100,30 @@
 
                         </div>
                         <div class="col-md-6">
-                          <div class="row">
-                            <div class="col-md-12">
-                              <textarea name="menu-change-description" class="textarea-lengko-default block" rows="5" placeholder="Deskripsi Menu" @if ($auth != 'root' && $auth != 'chef') {{'readonly'}} @endif>{{ substr($value->deskripsi_menu, 0, 300) . '' }}</textarea>
-                            </div>
-                          </div>
-                          @if ($auth == 'root')
-                          <div class="row">
-                            <div class="col-md-6">
-                              <button class="btn-lengko btn-lengko-default pull-left" type="button" onclick="show_obj('material-card-change-{{ $value->kode_menu }}');">
-                                Bahan Baku <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                              </button>
-                            </div>
-                            <div class="col-md-6">
-                              <button class="btn-lengko btn-lengko-default pull-right" type="submit">
-                                <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Simpan
-                              </button>
-
-                              <button class="btn-lengko btn-lengko-default pull-right" type="button" onclick="delete_menu('{{$value->kode_menu}}');">
-                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Hapus
-                              </button>
-                            </div>
-                          </div>
-                          @endif
+                          <textarea name="menu-change-description" class="textarea-lengko-default block" rows="5" placeholder="Deskripsi Menu" @if ($auth != 'root' && $auth != 'chef') {{'readonly'}} @endif>{{ substr($value->deskripsi_menu, 0, 300) . '' }}</textarea>
                         </div>
                         <!-- end row -->
                       </div>
 
-                      <div id="material-card-change-{{ $value->kode_menu }}" class="row" hidden="hidden">
+                      @if ($auth == 'root')
+                      <div class="row">
+                        <div class="col-md-6">
+                          <button class="btn-lengko btn-lengko-default pull-left" type="button" onclick="show_obj('material-card-change-{{ $value->kode_menu }}');">
+                            Bahan Baku <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                          </button>
+                        </div>
+                        <div class="col-md-6">
+                          <button class="btn-lengko btn-lengko-default pull-right" type="submit">
+                            <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Simpan
+                          </button>
+                          <button class="btn-lengko btn-lengko-default pull-right" type="button" onclick="delete_menu('{{$value->kode_menu}}');">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Hapus
+                          </button>
+                        </div>
+                      </div>
+                      @endif
+
+                      <div id="material-card-change-{{ $value->kode_menu }}" class="row" hidden="hidden" style="margin-top: 15px; margin-bottom: 15px;">
                         <div class="col-md-12">
 
                             <div class="scrollable @if (count($data['material']) > 8) {{'scrollable-md'}} @endif">
@@ -158,7 +154,9 @@
                               </div>
                             </div>
 
-                          Bahan baku tidak tersedia? Silahkan ajukan <a href="{{url('/dashboard/material')}}">Permohonan Pengadaan Bahan Baku</a>.
+                          <p style="margin-top: 10px;">
+                            Bahan baku tidak tersedia? Silahkan ajukan <a href="{{url('/dashboard/material')}}">Permohonan Pengadaan Bahan Baku</a>.
+                          </p>
                         </div>
                       </div>
                     </form>

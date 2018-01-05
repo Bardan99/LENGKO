@@ -1069,56 +1069,61 @@ function search_menu(data) {
             }
 
             res += '</div></div></div></div></div></div>';
-            res += '<div class="col-md-6"><div class="row">';
-            res += '<div class="col-md-12">';
+            res += '<div class="col-md-6">';
             res += '<textarea name="menu-change-description" class="textarea-lengko-default block" rows="5" placeholder="Deskripsi Menu"';
             if (result.auth != 'root') {
               res += ' readonly ';
             }
             res += '>' + result.content.menu[i].deskripsi_menu + '</textarea>';
             res += '</div></div>';
+
             if (result.auth == 'root') {
               res += '<div class="row"><div class="col-md-6">';
               res += '<button class="btn-lengko btn-lengko-default pull-left" type="button" onclick="show_obj(\'material-card-change-' + result.content.menu[i].kode_menu +'\');">';
               res += 'Bahan Baku <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>';
               res += '</button></div><div class="col-md-6">';
               res += '<button class="btn-lengko btn-lengko-default pull-right" type="submit">';
-              res += '<span class="glyphicon glyphicon-save" aria-hidden="true"></span>';
+              res += '<span class="glyphicon glyphicon-save" aria-hidden="true"></span> Simpan';
               res += '</button><button class="btn-lengko btn-lengko-default pull-right" type="button" onclick="delete_menu(\'' + result.content.menu[i].kode_menu + '\');">';
-              res += '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>';
+              res += '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Hapus';
               res += '</button></div></div>';
             }
 
-            res += '</div></div>';
-            res += '<div id="material-card-change-' + result.content.menu[i].kode_menu + '" class="row" hidden="hidden">';
-            res += '<div class="col-md-12"><div class="scrollable scrollable-md"><div class="row">';
+
+            res += '<div id="material-card-change-' + result.content.menu[i].kode_menu + '" class="row" hidden="hidden" style="margin-top: 15px; margin-bottom: 15px;">';
+            res += '<div class="col-md-12"><div class="scrollable ';
+            if (result.material.length > 8) {
+              res += ' scrollable-md ';
+            }
+            res += '">';
+            res += '<div class="row">';
 
             for (j = 0; j < result.material.length; j++) {
               res += '<div class="col-md-6">';
               res += '<input type="hidden" name="menu-material-change-id-' + j + '" value="' + result.material[j].kode_bahan_baku + '" />';
-              var count = 0;
-
-              for (k = 0; k < result.content[i]['menu-material'].length; k++) {
-                if (result.content[i]['menu-material'][k].kode_bahan_baku == result.material[j].kode_bahan_baku) {
-                  count = result.content[i]['menu-material'][k].jumlah_bahan_baku_detil;
+                var count = 0;
+                for (k = 0; k < result.content[i]['menu-material'].length; k++) {
+                  if (result.content[i]['menu-material'][k].kode_bahan_baku == result.material[j].kode_bahan_baku) {
+                    count = result.content[i]['menu-material'][k].jumlah_bahan_baku_detil;
+                  }
                 }
-              }
 
-              if (count > 0) {
-                res += '<input type="number" name="menu-material-change-count-' + j + '" min="0" class="input-lengko-default" placeholder="0.0" value="' + count + '" />';
-                res += '(<small>' + result.material[j].satuan_bahan_baku + '</small>) ';
-                res += '<b>' + result.material[j].nama_bahan_baku + '</b>';
-              }
-              else {
-                res += '<input type="number" name="menu-material-change-count-' + j + '" min="0" class="input-lengko-default" placeholder="0.0" />';
-                res += '(<small>' + result.material[j].satuan_bahan_baku + '</small>) ';
-                res += result.material[j].nama_bahan_baku;
-              }
-              res += '</div>';
+                if (count > 0) {
+                  res += '<input type="number" name="menu-material-change-count-' + j + '" min="0" class="input-lengko-default" placeholder="0.0" value="' + count + '" />';
+                  res += '(<small>' + result.material[j].satuan_bahan_baku + '</small>) ';
+                  res += '<b>' + result.material[j].nama_bahan_baku + '</b>';
+                }
+                else {
+                  res += '<input type="number" name="menu-material-change-count-' + j + '" min="0" class="input-lengko-default" placeholder="0.0" />';
+                  res += '(<small>' + result.material[j].satuan_bahan_baku + '</small>) ';
+                  res += result.material[j].nama_bahan_baku;
+                }
+                res += '</div>';
             }
+
             res += '<input type="hidden" name="menu-material-max" value="' + result.material.length + '" />';
             res += '</div></div>';
-            res += 'Bahan baku tidak tersedia? Silahkan ajukan <a href="/dashboard/material">Permohonan Pengadaan Bahan Baku</a>.';
+            res += '<p style="margin-top: 10px;">Bahan baku tidak tersedia? Silahkan ajukan <a href="/dashboard/material">Permohonan Pengadaan Bahan Baku</a>.</p>';
             res += '</div></div></form><hr />';
 
           }//end loop

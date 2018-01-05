@@ -21,7 +21,7 @@
             <h3 class="mrg-b-10">Jumlah</h3>
           </div>
           <div class="col-md-2 col-xs-3 text-center">
-            <h3 class="mrg-b-10">Sub-Total</h3>
+            <h3 class="mrg-b-10">Total</h3>
           </div>
         </div>
         @foreach ($order as $key => $value)
@@ -31,7 +31,7 @@
             <div class="row">
               <div class="col-md-12 padd-lr-10 text-left" style="font-size: 16pt;">
                 <button type="button" class="btn-lengko btn-lengko-danger btn-lengko-circle pull-left" onclick="remove_menu('{{ $value->kode_menu }}', '{{ $value->nama_menu }}');">
-                  <i class="material-icons md-24">remove_circle_outline</i>
+                  <i class="material-icons md-24">close</i>
                 </button>
                 {{ $value->nama_menu }}
               </div>
@@ -71,7 +71,7 @@
             <div class="row">
               <div class="col-md-12 padd-lr-10 text-left" style="font-size: 16pt;">
                 <button type="submit" class="btn-lengko btn-lengko-danger btn-lengko-circle pull-left" onclick="go_to('menu');">
-                  <i class="material-icons md-24">add_circle_outline</i>
+                  <i class="material-icons md-24">add</i>
                 </button>
                 <a href="{{ url('/menu/') }}">"Kamu mau tambah lagi gk?" (<i>ciee perhatian nihh..</i>)</a>
               </div>
@@ -94,9 +94,9 @@
     </div>
 
     <div class="row mrg-b-20 padd-tb-10">
-      <div class="col-md-offset-9 col-md-3 padd-lr-10 padd-tb-10">
-        <button type="button" name="order-create-button" class="btn-lengko btn-lengko-default pull-right open-tooltip" data-placement="left" data-toggle="tooltip" title="Lanjutkan proses pemesanan..">
-          <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Tambah Pesanan
+      <div class="col-md-offset-2 col-md-8 padd-lr-10 padd-tb-10">
+        <button type="button" name="order-create-button" class="btn-lengko btn-lengko-default pull-right open-tooltip block" data-placement="left" data-toggle="tooltip" title="Lanjutkan proses pemesanan..">
+          <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Pesan
         </button>
       </div>
     </div>

@@ -158,7 +158,7 @@
                         <th>#</th>
                         <th>Kuisioner</th>
                         <th>Waktu</th>
-                        <th></th>
+                        <th style="min-width: 100px;"></th>
                       </tr>
                     @foreach ($data['review'] as $key1 => $value1)
                       <tr class="@if ($value1->status_kuisioner === 0) {{'status-disabled'}} @endif">

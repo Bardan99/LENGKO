@@ -314,9 +314,11 @@ class DashboardController extends Controller {
         if ($employee) {
           $rules = [
             'employee-name' => 'required|min:4',
-            'employee-password' => 'required|min:4',
             'employee-gender' => 'required'
           ];
+          if ($request->get('employee-password')) {
+            $rules[] = array('employee-password' => 'required|min:4');
+          }
 
           $data = [
             'nama_pegawai' => $request->get('employee-name'),
@@ -453,8 +455,8 @@ class DashboardController extends Controller {
           $this->validate($request, $rules);
           $try = Menu::find($id)->update($data);
 
-          $available = false;
-
+          $deleted = FALSE;
+          $inserted = FALSE;
           for ($i = 0 ;$i < $request->get('menu-material-max'); $i++) {
             if ($request->get('menu-material-change-count-' . $i) > 0) {
               $detil[] = array(
@@ -462,14 +464,23 @@ class DashboardController extends Controller {
                 'kode_bahan_baku' => $request->get('menu-material-change-id-' . $i),
                 'jumlah_bahan_baku_detil' => $request->get('menu-material-change-count-' . $i)
               );
-              $available = true;
+              $inserted = TRUE;
+            }
+            else {
+              $delete[] = $request->get('menu-material-change-id-' . $i);
+              $deleted = TRUE;
             }
           }
 
-          if ($available) {
+          if ($inserted) {
             $try = MenuDetil::where(['kode_menu' => $id])->delete();
             $try = MenuDetil::insert($detil);
           }
+
+         if ($deleted) {
+           $try = MenuDetil::whereIn('kode_bahan_baku', $delete)->delete();
+         }
+
 
         }
         return redirect('/dashboard/menu');

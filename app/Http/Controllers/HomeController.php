@@ -247,7 +247,7 @@ class HomeController extends Controller {
         ->get();
       }
 
-      foreach ($data['menu'] as $key => $value) {
+      foreach ($result as $key => $value) {
         $data[$key]['menu-max'] = DB::table('bahan_baku')
         ->selectRaw('*, FLOOR(bahan_baku.stok_bahan_baku/menu_detil.jumlah_bahan_baku_detil) AS menu_max')
         ->join('menu_detil', 'menu_detil.kode_bahan_baku', '=', 'bahan_baku.kode_bahan_baku')
@@ -256,7 +256,7 @@ class HomeController extends Controller {
         foreach ($data[$key]['menu-max'] as $key2 => $value2) {
           if ($key2+1 < count($data[$key]['menu-max'])) {
             if ($value2->menu_max > $data[$key]['menu-max'][$key2+1]->menu_max) {
-              $data['menu'][$key]->menu_max = $data[$key]['menu-max'][$key2+1]->menu_max;//ambil yg minimum
+              $result[$key]->menu_max = $data[$key]['menu-max'][$key2+1]->menu_max;//ambil yg minimum
             }
           }
         }

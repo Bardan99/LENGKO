@@ -7,25 +7,28 @@
   <div class="container-fluid">
 
     @if (count($data['menu']) > 0)
-    <div class="row mrg-b-30 open-popover" data-html="true" data-placement="bottom" data-toggle="popover" data-content="Bingung mulai dari mana? <br /> Dari matamu, matamu kumulai..<br />(jangan sambil nyanyi bacanya)">
-      <div class="col-md-offset-3 col-md-6 col-sm-8 mrg-t-20">
-        <div class="input-group">
-          <input type="text" name="menu-search-query" class="form-control input-lengko-default block" placeholder="Cari menu.." style="height:45px;" />
-          <span class="input-group-btn">
-            <button type="button" name="menu-search-button" class="btn btn-default pull-right" style="height:45px;">
-              <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-            </button>
-          </span>
+    <div class="floating-navbar">
+      <div class="row mrg-b-30 open-popover" data-html="true" data-placement="bottom" data-toggle="popover" data-content="Bingung mulai dari mana? <br /> Dari matamu, matamu kumulai..<br />(jangan sambil nyanyi bacanya)">
+        <div class="col-md-offset-3 col-md-6 col-sm-8 mrg-t-20">
+          <div class="input-group">
+            <input type="text" name="menu-search-query" class="form-control input-lengko-default block" placeholder="Cari menu.." style="height:45px;" />
+            <span class="input-group-btn">
+              <button type="button" name="menu-search-button" class="btn btn-default pull-right" style="height:45px;">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+              </button>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-4 mrg-t-20">
+          <select name="menu-search-type" class="select-lengko-default block">
+            <option value="A">Semua Menu</option>
+            <option value="F">Makanan</option>
+            <option value="D">Minuman</option>
+          </select>
         </div>
       </div>
-      <div class="col-md-3 col-sm-4 mrg-t-20">
-        <select name="menu-search-type" class="select-lengko-default block">
-          <option value="A">Semua Menu</option>
-          <option value="F">Makanan</option>
-          <option value="D">Minuman</option>
-        </select>
-      </div>
     </div>
+
     <div id="menu-card-section">
       <div class="row">
         @foreach ($data['menu'] as $keymenu => $value)

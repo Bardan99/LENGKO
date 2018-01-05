@@ -24,7 +24,7 @@ a:hover, a:active, a:focus {
   color: #1c1b1b;
 }
 
-h1.brand-text {
+.brand-text {
   margin: 15px 0px 15px 0px;
   text-align: center;
   margin: 0px 5px 5px 5px;
@@ -32,7 +32,7 @@ h1.brand-text {
   font-family: 'Kaushan Script', cursive;
 }
 
-h4.brand-description {
+.brand-description {
   margin: 15px 0px 15px 0px;
   text-align: center;
   margin: 5px;
@@ -40,13 +40,36 @@ h4.brand-description {
   font-family: 'Kaushan Script', cursive;
 }
 
-hr.dashed {
+.dashed {
   border: 2px dashed #2c3e50;
 }
 
 .seperator {
   border-bottom: 1px #2c3e50 dashed;
   margin: 2px 15px;
+}
+
+.floating-navbar {
+  position: fixed;
+  top: 80px;
+  left: 0;
+  z-index: 2;
+  background-color: #fbfbfb;
+  padding: 0 20px;
+}
+
+#menu-card-section {
+  margin-top: 80px;
+}
+
+@media (max-width: 736px) {
+  .floating-navbar {
+
+  }
+
+  #menu-card-section {
+    margin-top: 140px;
+  }
 }
 
 #list-navbar {
@@ -172,49 +195,50 @@ hr.dashed {
   padding-left: 0px;
 }
 
-quote.nosifer {
+.nosifer {
   font-size: 22pt;
   font-family: 'Nosifer', 'Arial', cursive;
 }
 
-quote.msmincho {
+.msmincho {
   font-size: 40pt;
   font-family: 'MS Mincho', 'Arial', sans-serif;
   font-weight: bold;
 }
 
-quote.parisienne {
+.parisienne {
   font-size: 22pt;
   font-family: 'Parisienne', 'Arial', cursive;
 }
 
-quote.rochester {
+.rochester {
   font-size: 18pt;
   font-family: 'Rochester', 'Arial', cursive;
 }
 
-quote.rochester > small {
+.rochester > small {
   font-weight: bolder;
 }
 
-quote.playfair {
+.playfair {
   font-size: 14pt;
   font-family: 'Playfair Display', 'Arial', cursive;
 }
 
-quote.playfair > small {
+.playfair > small {
   font-weight: bolder;
 }
 
-div.menu {
+.menu {
   background-color: #fbfbfb;
   box-shadow: 5px 0px 5px #e2dfdf;
   padding: 10px;
   margin-bottom: 10px;
   margin-top: 10px;
+  min-height: 280px;
 }
 
-div.menu > img:hover {
+.menu > img:hover {
   cursor: pointer;
 }
 
@@ -266,6 +290,10 @@ hr.content {
 
 .mrg-t-20 {
   margin-top: 20px;
+}
+
+.mrg-t-50 {
+  margin-top: 50px;
 }
 
 .mrg-b-0 {
@@ -1267,6 +1295,11 @@ fieldset.title {
 }
 
 .status-disabled > td {
+  background-color: rgba(136, 136, 136, 0.6);
+  color: #ffffff;
+}
+
+.status-disabled .st-head-row {
   background-color: rgba(136, 136, 136, 0.6);
   color: #ffffff;
 }

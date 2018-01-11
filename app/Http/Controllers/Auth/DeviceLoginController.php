@@ -13,7 +13,7 @@ class DeviceLoginController extends Controller {
   protected $redirectAfterLogout = '/login';
 
   public function __construct() {
-    $this->middleware('guest:device', ['except' => ['logout', 'getLogout']]);
+    $this->middleware('guest:device', ['except' => ['logout', 'getLogout', 'logoutverification']]);
   }
 
   public function showLoginForm() {
@@ -51,5 +51,21 @@ class DeviceLoginController extends Controller {
     return redirect('/login');
   }
 
+  public function logoutverification(Request $request) {
+    $this->validate($request, [
+      'kode_pegawai' => 'required|min:4',
+      'password' => 'required|min:4'
+    ]);
+
+    $credentials = [
+      'kode_pegawai' => $request->kode_pegawai,
+      'kata_sandi_pegawai' => $request->password
+    ];
+
+    if (Auth::guard('employee')->attempt($credentials)) {
+      return redirect('/logout');
+    }
+    return redirect()->back()->withInput($request->all());
+  }
 
 }

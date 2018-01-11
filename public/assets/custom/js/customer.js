@@ -964,10 +964,28 @@ function notifier() {
 }
 setTimeout(notifier, interval);
 
+$('.lengko-logout').on('click', function (e) {
+  var logout_form = $('.lengko-logout');
+  if (logout_form.length > 0 && logout_form.is(":visible")) {
+    logout_form.hide('slow');
+  }
+});
+
+$('#form-login').click(function(event){
+  event.stopPropagation();
+});
 
 $(document).ready(function() {
   notifier();
   /* menu */
+
+  var logout_form = $('.lengko-logout').hide();
+
+  if ($('#logout-form').length > 0) {
+    $('#logout-form').on('click', function() {
+      logout_form.show('slow');
+    });
+  }
 
   $(".menu-1").mouseover(function() {
     $(".menu-1 > .menu-icon").css("color","#ffffff");

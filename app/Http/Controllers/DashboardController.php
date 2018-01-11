@@ -309,22 +309,23 @@ class DashboardController extends Controller {
   public function update(Request $request, $param) {
     switch ($param) {
       case 'profile':
-        $id = $request->get('employee-id');
+        $id = Auth::guard('employee')->user()->kode_pegawai;
         $employee = Pegawai::findOrFail($id);
         if ($employee) {
           $rules = [
             'employee-name' => 'required|min:4',
             'employee-gender' => 'required'
           ];
-          if ($request->get('employee-password')) {
-            $rules[] = array('employee-password' => 'required|min:4');
-          }
 
           $data = [
             'nama_pegawai' => $request->get('employee-name'),
-            'kata_sandi_pegawai' => Hash::make($request->get('employee-password')),
             'jenis_kelamin_pegawai' => $request->get('employee-gender'),
           ];
+
+          if ($request->get('employee-password')) {
+            $rules['employee-password'] = 'required|min:4';
+            $data['kata_sandi_pegawai'] = Hash::make($request->get('employee-password'));
+          }
 
           $file = $request->file('employee-photo');
           if ($file) {

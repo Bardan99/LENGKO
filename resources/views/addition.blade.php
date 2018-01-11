@@ -88,3 +88,43 @@
     </div>
   </div>
 @endsection
+
+@section('lengko-logout')
+  <div class="lengko-logout">
+    <div class="lengko-logout-content text-center">
+      <div id="form-login" class="row">
+        <div class="col-md-12">
+
+          <div class="row mrg-b-10">
+            <div class="col-md-offset-11 col-md-1" style="font-size:20pt; color: black;">
+              <span class="glyphicon glyphicon-remove pull-right cursor-pointer" aria-hidden="true" onclick="hide('.lengko-logout');"></span>
+            </div>
+          </div>
+
+          <form method="POST" action="{{url('/logout/verification')}}">
+            {{ csrf_field() }}
+            <div class="form-section {{ $errors->has('kode_pegawai') ? ' has-error' : '' }}">
+              <input type="text" name="kode_pegawai" placeholder="Kode Pegawai" value="{{ old('kode_pegawai') }}">
+              @if ($errors->has('kode_pegawai'))
+                <span class="help-block">
+                  <strong>{{ $errors->first('kode_pegawai') }}</strong>
+                </span>
+              @endif
+            </div>
+            <div class="form-section {{ $errors->has('password') ? ' has-error' : '' }}">
+              <input type="password" name="password" placeholder="Kata Sandi Pegawai">
+              @if ($errors->has('password'))
+                <span class="help-block">
+                  <strong>{{ $errors->first('password') }}</strong>
+                </span>
+              @endif
+            </div>
+            <div class="form-section">
+              <button type="submit" class="btn-lengko btn-lengko-default block">Lanjutkan</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+@endsection

@@ -81,7 +81,7 @@
                 </li>
                 @endif
               @endforeach
-              <li><a href="{{ url('logout')}}"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Keluar Perangkat</a></li>
+              <li id="logout-form" class="cursor-pointer"><a><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Keluar Perangkat</a></li>
             </ul>
           </li>
           @endif
@@ -109,8 +109,10 @@
     </div>
 
   </div>
+
   @yield('lengko-loading')
-  
+  @yield('lengko-logout')
+
   <script type="text/javascript" data-cfasync="false" src="/assets/jquery/jquery.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/sweetalert/sweetalert.js"></script>
   <script type="text/javascript" data-cfasync="false" src="/assets/slick/slick.js"></script>

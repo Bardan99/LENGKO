@@ -3,6 +3,7 @@
 @section('title', 'LENGKO - Menu')
 
 @section('content')
+
   <input type="hidden" name="_token" value="{{ csrf_token() }}">
   <div class="container-fluid">
 
@@ -29,7 +30,7 @@
       </div>
     </div>
 
-    <div id="menu-card-section">
+    <div id="menu-card-section" class="main-menu-card-section">
       <div class="row">
         @foreach ($data['menu'] as $keymenu => $value)
 

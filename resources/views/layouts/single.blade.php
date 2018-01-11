@@ -13,14 +13,13 @@
 </head>
 
 <body>
-  <div class="container-fluid">
+  <div class="container-fluid wrapper">
 
-    <div class="row min-height-80">
-      <div id="content" class="col-md-12">
+    <div class="row min-height-100">
+      <div class="col-md-12 min-padd-15">
         @yield('content')
       </div>
     </div>
-
 
     <div class="row">
       <div class="col-md-12 padd-lr-0">

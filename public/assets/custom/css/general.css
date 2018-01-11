@@ -3,13 +3,17 @@
 html {
   position: relative;
   min-height: 100%;
-  /*min-width: 400px; issued with min mobile device */
+  height: 100%;
+  margin: 0;
 }
 
 body {
   font-family: "Roboto", "Ubuntu", "Arial", "Verdana";
   font-size: 12pt;
+  min-height: 100%;
   height: 100%;
+  margin: 0;
+  background-color: #f6f6f6;
 }
 
 footer {
@@ -58,7 +62,7 @@ a:hover, a:active, a:focus {
   padding: 0 20px;
 }
 
-#menu-card-section {
+.main-menu-card-section {
   margin-top: 80px;
 }
 
@@ -67,7 +71,7 @@ a:hover, a:active, a:focus {
 
   }
 
-  #menu-card-section {
+  .main-menu-card-section {
     margin-top: 140px;
   }
 }
@@ -168,9 +172,9 @@ a:hover, a:active, a:focus {
 }
 
 .list-group > .active {
-  background-color: #2c3e50;
+  background-color: rgba(136, 136, 136, 0.6);
   color: #ffffff;
-  border-color: #2c3e50;
+  border-color: rgba(136, 136, 136, 0.6);
 }
 
 .list-group > .active:hover,
@@ -286,6 +290,10 @@ hr.content {
 
 .mrg-t-5 {
   margin-top: 5px;
+}
+
+.mrg-t-10 {
+  margin-top: 10px;
 }
 
 .mrg-t-20 {
@@ -418,8 +426,26 @@ hr.content {
   padding-bottom: 200px;
 }
 
+.min-padd-15 {
+  padding-top: 15vh;
+  padding-bottom: 15vh;
+}
+
+.min-padd-20 {
+  padding-top: 20vh;
+  padding-bottom: 20vh;
+}
+
+.min-height-20 {
+  min-height: 20vh;
+}
+
 .min-height-80 {
   min-height: 80vh;
+}
+
+.min-height-100 {
+  min-height: 100vh;
 }
 
 .radius-5 {
@@ -439,11 +465,9 @@ hr.content {
 
 #content {
   background-color: #f6f6f6;
-  margin: 0px;
-  padding: 10vh 20px;
+  margin: 0;
+  padding: 20px 20px;
   margin-right: -1px; /* Thank you IE */
-  padding-bottom: 500em;
-  margin-bottom: -500em;
 }
 
 #footer-quote {
@@ -1063,6 +1087,33 @@ fieldset.title {
   height: 120px;
   -webkit-animation: spin 1.2s linear infinite; /* Safari */
   animation: spin 1.2s linear infinite;
+}
+
+
+.lengko-logout {
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.8);
+  z-index: 2;
+}
+
+.lengko-logout-content {
+  position: absolute;
+  min-width: 350px;
+  left: 50%;
+  top: 55%;
+  color: #2c3e50;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  padding: 15px;
+  margin: 0px;
+  color: #ecf0f1;
 }
 
 /* Safari */

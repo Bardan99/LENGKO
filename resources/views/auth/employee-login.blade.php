@@ -3,6 +3,7 @@
 @section('title', 'LENGKO - Login Pegawai')
 
 @section('content')
+
   <div class="row mrg-b-30">
     <div class="col-xs-12 col-sm-push-2 col-sm-8 col-md-push-4 col-md-4">
       <div id="form-login">
@@ -14,7 +15,7 @@
             {{ csrf_field() }}
           </div>
           <div class="form-section {{ $errors->has('kode_pegawai') ? ' has-error' : '' }}">
-            <input type="text" name="kode_pegawai" placeholder="Kode Pegawai" value="{{ old('email') }}">
+            <input type="text" name="kode_pegawai" placeholder="Kode Pegawai" value="{{ old('kode_pegawai') }}">
             @if ($errors->has('kode_pegawai'))
               <span class="help-block">
                 <strong>{{ $errors->first('kode_pegawai') }}</strong>

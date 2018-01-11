@@ -1078,15 +1078,19 @@ function search_menu(data) {
             res += '</div></div>';
 
             if (result.auth == 'root') {
-              res += '<div class="row"><div class="col-md-6">';
+              res += '<div class="row"><div class="mrg-t-5 col-md-6 col-sm-6 col-xs-12">';
               res += '<button class="btn-lengko btn-lengko-default pull-left" type="button" onclick="show_obj(\'material-card-change-' + result.content.menu[i].kode_menu +'\');">';
               res += 'Bahan Baku <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>';
-              res += '</button></div><div class="col-md-6">';
+              res += '</button></div>';
+
+              res += '<div class="mrg-t-5 col-md-6 col-sm-6 col-xs-12"><div class="row">';
+              res += '<div class="mrg-t-5 col-md-offset-6 col-md-3 col-sm-offset-2 col-sm-5 col-xs-6">';
+              res += '<button class="btn-lengko btn-lengko-default pull-left" type="button" onclick="delete_menu(\'' + result.content.menu[i].kode_menu + '\');">';
+              res += '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Hapus';
+              res += '</button></div><div class="mrg-t-5 col-md-3 col-sm-5 col-xs-6">';
               res += '<button class="btn-lengko btn-lengko-default pull-right" type="submit">';
               res += '<span class="glyphicon glyphicon-save" aria-hidden="true"></span> Simpan';
-              res += '</button><button class="btn-lengko btn-lengko-default pull-right" type="button" onclick="delete_menu(\'' + result.content.menu[i].kode_menu + '\');">';
-              res += '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Hapus';
-              res += '</button></div></div>';
+              res += '</button></div></div></div></div>';
             }
 
 
@@ -1703,9 +1707,9 @@ function filter_device(data) {
     data: data,
     cache: false,
     success: function(result) {
-      if (result.status == 200) {
-        var res = '';
-        if (result.content) {
+      if (result.status == 200 && result.content) {
+        var res = ''; 
+        if (result.content.length > 0) {
           var token = $('input[name=search_token]').val();
           for (i = 0; i < result.content.length; i++) {
             if (result.auth == 'root') {

@@ -94,6 +94,7 @@ Route::group(['middleware' => 'employee'], function() {
 Route::group(['middleware' => 'device'], function() {
   Route::get('/', 'HomeController@index');
   Route::get('/logout', 'Auth\DeviceLoginController@logout');
+  Route::post('/logout/verification', 'Auth\DeviceLoginController@logoutverification');
   Route::get('/{param}', 'HomeController@view');
 
   Route::group(['prefix' => 'customer'], function() {

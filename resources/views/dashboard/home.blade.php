@@ -88,7 +88,7 @@
         <div class="col-md-9">
           <div class="panel panel-default panel-custom">
             <div class="panel-heading">Pemberitahuan</div>
-            <div class="list-group panel-body scrollable scrollable-@if(count($data['notification']) > 8){{'lg'}}@else{{'md'}}@endif">
+            <div class="list-group scrollable scrollable-@if(count($data['notification']) > 8){{'lg'}}@else{{'md'}}@endif">
               @if (count($data['notification']) > 0)
                 @foreach ($data['notification'] as $key => $value)
                   <li class="list-group-item @if ($key == 0) {{' active'}}@endif">

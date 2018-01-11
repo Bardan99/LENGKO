@@ -29,7 +29,7 @@ var defaultParams = {
   preConfirm: null,
   confirmButtonText: 'OK',
   confirmButtonAriaLabel: '',
-  confirmButtonColor: '#3085d6',
+  confirmButtonColor: '#2c3e50', 
   confirmButtonClass: null,
   cancelButtonText: 'Cancel',
   cancelButtonAriaLabel: '',

@@ -42,7 +42,7 @@
                           <div class="row">
                             <div class="col-md-5 col-sm-4">
                               <div class="container-file-lengko block">
-                                <img id="preview-image-{{$keymenu}}" class="hoverblur" src="/files/images/menus/@if($value->gambar_menu){{$value->gambar_menu}}@else{{'not-available.png'}}@endif" alt="{{ $value->nama_menu }}" width="200px" height="150px" style="border-radius:5px;" />
+                                <img id="preview-image-{{$keymenu}}" class="hoverblur" src="/files/images/menus/@if($value->gambar_menu){{$value->gambar_menu}}@else{{'not-available.png'}}@endif" alt="{{ $value->nama_menu }}" width="100%" height="150px" style="border-radius:5px;" />
                                 @if ($auth == 'root')
                                   <input id="choose-image-{{$keymenu}}" name="menu-change-thumbnail" type="file" title="Ubah gambar menu" onchange="reload_image(this, '#preview-image-{{$keymenu}}');" />
                                 @endif
@@ -107,18 +107,24 @@
 
                       @if ($auth == 'root')
                       <div class="row">
-                        <div class="col-md-6">
+                        <div class="mrg-t-5 col-md-6 col-sm-6 col-xs-12">
                           <button class="btn-lengko btn-lengko-default pull-left" type="button" onclick="show_obj('material-card-change-{{ $value->kode_menu }}');">
                             Bahan Baku <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                           </button>
                         </div>
-                        <div class="col-md-6">
-                          <button class="btn-lengko btn-lengko-default pull-right" type="submit">
-                            <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Simpan
-                          </button>
-                          <button class="btn-lengko btn-lengko-default pull-right" type="button" onclick="delete_menu('{{$value->kode_menu}}');">
-                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Hapus
-                          </button>
+                        <div class="mrg-t-5 col-md-6 col-sm-6 col-xs-12">
+                          <div class="row">
+                            <div class="mrg-t-5 col-md-offset-6 col-md-3 col-sm-offset-2 col-sm-5 col-xs-6">
+                              <button class="btn-lengko btn-lengko-default pull-left" type="button" onclick="delete_menu('{{$value->kode_menu}}');">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Hapus
+                              </button>
+                            </div>
+                            <div class="mrg-t-5 col-md-3 col-sm-5 col-xs-6">
+                              <button class="btn-lengko btn-lengko-default pull-right" type="submit">
+                                <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Simpan
+                              </button>
+                            </div>
+                          </div>
                         </div>
                       </div>
                       @endif
@@ -165,6 +171,14 @@
                 </div>
               </div>
 
+              @else
+                <div class="row">
+                  <div class="col-md-8">
+                    <div class="alert alert-warning">
+                      Menu tidak tersedia.
+                    </div>
+                  </div>
+                </div>
               @endif
 
             </div>

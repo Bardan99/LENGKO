@@ -65,11 +65,6 @@ class HomeController extends Controller {
                 'desc' => 'Mahkota kebanggaan kami yang senantiasa menjadi penyemangat dalam menyelesaikan pembangunan aplikasi ini, thank you so much Mr. Adam'
               ),
               (object) array(
-                'path' => 'gallery11-our-beloved-campus.jpg',
-                'title' => 'Our beloved campus',
-                'desc' => 'Quality is our tradition, it\'s a must! Sebetulnya kami bingung mau tulis apa di bagian ini, tapi ya sudahlah. Semoga kampus kami tidak pelit koneksi internet, internet cepet buat apa? pak sekarang zamannya Cloud! Orang-orang udah pergi ke venus kami masih di bumi aja pak :('
-              ),
-              (object) array(
                 'path' => 'gallery12-what.jpg',
                 'title' => 'Mr. Soegoto favourite place',
                 'desc' => 'Tempat favorit Mr. Soegoto untuk parkir mobil. Sebetulnya kenapa Mr. Soegoto senang sekali menyimpan mobilnya di situ, ini masih menjadi sebuah misteri! Tidak tahu kenapa, hanya ingin menambahkan gambar ini saja; sepertinya kami jatuh cinta!'
@@ -119,10 +114,14 @@ class HomeController extends Controller {
             ->join('menu_detil', 'menu_detil.kode_bahan_baku', '=', 'bahan_baku.kode_bahan_baku')
             ->where('menu_detil.kode_menu', '=', $value->kode_menu)
             ->get();
-            foreach ($data[$key]['menu-max'] as $key2 => $value2) {
-              if ($key2+1 < count($data[$key]['menu-max'])) {
-                if ($value2->menu_max > $data[$key]['menu-max'][$key2+1]->menu_max) {
-                  $data['menu'][$key]->menu_max = $data[$key]['menu-max'][$key2+1]->menu_max;//ambil yg minimum
+            $data['menu'][$key]->menu_max = 0;
+            for ($i = 0; $i < count($data[$key]['menu-max']); $i++) {
+              if (count($data[$key]['menu-max']) > 0 && $i+1 < count($data[$key]['menu-max'])) {
+                if ($data[$key]['menu-max'][$i]->menu_max > $data[$key]['menu-max'][$i+1]->menu_max) {
+                  $data['menu'][$key]->menu_max = $data[$key]['menu-max'][$i+1]->menu_max;//ambil yg minimum
+                }
+                else {
+                  $data['menu'][$key]->menu_max = $data[$key]['menu-max'][$i]->menu_max;
                 }
               }
             }
@@ -253,10 +252,14 @@ class HomeController extends Controller {
         ->join('menu_detil', 'menu_detil.kode_bahan_baku', '=', 'bahan_baku.kode_bahan_baku')
         ->where('menu_detil.kode_menu', '=', $value->kode_menu)
         ->get();
-        foreach ($data[$key]['menu-max'] as $key2 => $value2) {
-          if ($key2+1 < count($data[$key]['menu-max'])) {
-            if ($value2->menu_max > $data[$key]['menu-max'][$key2+1]->menu_max) {
-              $result[$key]->menu_max = $data[$key]['menu-max'][$key2+1]->menu_max;//ambil yg minimum
+        $result[$key]->menu_max = 0;
+        for ($i = 0; $i < count($data[$key]['menu-max']); $i++) {
+          if (count($data[$key]['menu-max']) > 0 && $i+1 < count($data[$key]['menu-max'])) {
+            if ($data[$key]['menu-max'][$i]->menu_max > $data[$key]['menu-max'][$i+1]->menu_max) {
+              $result[$key]->menu_max = $data[$key]['menu-max'][$i+1]->menu_max;//ambil yg minimum
+            }
+            else {
+              $result[$key]->menu_max = $data[$key]['menu-max'][$i]->menu_max;
             }
           }
         }
@@ -413,10 +416,14 @@ class HomeController extends Controller {
         ->join('menu_detil', 'menu_detil.kode_bahan_baku', '=', 'bahan_baku.kode_bahan_baku')
         ->where('menu_detil.kode_menu', '=', $value->kode_menu)
         ->get();
-        foreach ($data[$key]['menu-max'] as $key2 => $value2) {
-          if ($key2+1 < count($data[$key]['menu-max'])) {
-            if ($value2->menu_max > $data[$key]['menu-max'][$key2+1]->menu_max) {
-              $result[$key]->menu_max = $data[$key]['menu-max'][$key2+1]->menu_max;//ambil yg minimum
+        $result[$key]->menu_max = 0;
+        for ($i = 0; $i < count($data[$key]['menu-max']); $i++) {
+          if (count($data[$key]['menu-max']) > 0 && $i+1 < count($data[$key]['menu-max'])) {
+            if ($data[$key]['menu-max'][$i]->menu_max > $data[$key]['menu-max'][$i+1]->menu_max) {
+              $result[$key]->menu_max = $data[$key]['menu-max'][$i+1]->menu_max;//ambil yg minimum
+            }
+            else {
+              $result[$key]->menu_max = $data[$key]['menu-max'][$i]->menu_max;
             }
           }
         }
@@ -790,10 +797,14 @@ class HomeController extends Controller {
           ->join('menu_detil', 'menu_detil.kode_bahan_baku', '=', 'bahan_baku.kode_bahan_baku')
           ->where('menu_detil.kode_menu', '=', $value->kode_menu)
           ->get();
-          foreach ($data[$key]['menu-max'] as $key2 => $value2) {
-            if ($key2+1 < count($data[$key]['menu-max'])) {
-              if ($value2->menu_max > $data[$key]['menu-max'][$key2+1]->menu_max) {
-                $result[$key]->menu_max = $data[$key]['menu-max'][$key2+1]->menu_max;//ambil yg minimum
+          $result[$key]->menu_max = 0;
+          for ($i = 0; $i < count($data[$key]['menu-max']); $i++) {
+            if (count($data[$key]['menu-max']) > 0 && $i+1 < count($data[$key]['menu-max'])) {
+              if ($data[$key]['menu-max'][$i]->menu_max > $data[$key]['menu-max'][$i+1]->menu_max) {
+                $result[$key]->menu_max = $data[$key]['menu-max'][$i+1]->menu_max;//ambil yg minimum
+              }
+              else {
+                $result[$key]->menu_max = $data[$key]['menu-max'][$i]->menu_max;
               }
             }
           }

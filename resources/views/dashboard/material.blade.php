@@ -476,8 +476,7 @@
                     </div>
                   </div>
                   @endif
-                </div>
-                <div class="row">
+
                   @if (count($data['material-almost-empty']) > 0)
                   <div class="col-md-6 col-sm-6">
                     <div class="list-group scrollable @if (count($data['material-almost-empty']) > 7) {{'scrollable-lg'}} @endif">
@@ -581,7 +580,7 @@
                     <label style="margin: 10px 5px 10px 0px;">Stok</label>
                   </div>
                   <div class="col-md-4 col-sm-6">
-                    <input type="number" name="material-create-stock" min="0" class="input-lengko-default block" placeholder="Stok Bahan Baku" />
+                    <input type="number" name="material-create-stock" min="0" step="0.1" class="input-lengko-default block" placeholder="Stok Bahan Baku" />
                   </div>
                   <div class="col-md-5 col-sm-6">
                     <input type="text" name="material-create-unit" class="input-lengko-default block" placeholder="Satuan Bahan Baku" />

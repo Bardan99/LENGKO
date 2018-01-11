@@ -102,6 +102,10 @@ function hide_obj(id) {
   }
 }
 
+function hide(obj) {
+  $(obj).hide('slow');
+}
+
 function truggle(selector) {
   if ($('input[name=' + selector + ']').val() == 1) {
     $('input[name=' + selector + ']').val(0);
@@ -261,6 +265,7 @@ $('body').on('click', function (e) {
 
 $(document).ready(function() {
   var loading = $('.lengko-loading').hide();
+
   $(document)
     .ajaxStart(function() {
       loading.show();

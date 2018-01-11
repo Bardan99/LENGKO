@@ -77,5 +77,4 @@
 @section('footer-section')
   @include('addition')
   @yield('footer-copyright')
-  @yield('shopping-cart')
 @endsection

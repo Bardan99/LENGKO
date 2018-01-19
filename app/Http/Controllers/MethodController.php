@@ -81,7 +81,7 @@ class MethodController extends BaseController {
           case 'D':
             $res = 'Selesai diproses';
           break;
-          default:$res = '-';break;
+          default:$res = $param;break;
         }
       break;
       default:break;

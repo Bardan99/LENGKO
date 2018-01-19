@@ -10,7 +10,7 @@
     @if (count($data['menu']) > 0)
     <div class="floating-navbar">
       <div class="row mrg-b-30 open-popover" data-html="true" data-placement="bottom" data-toggle="popover" data-content="Bingung mulai dari mana? <br /> Dari matamu, matamu kumulai..<br />(jangan sambil nyanyi bacanya)">
-        <div class="col-md-offset-3 col-md-6 col-sm-8 mrg-t-20">
+        <div class="col-md-offset-3 col-md-6 col-sm-8 col-xs-7 mrg-t-20">
           <div class="input-group">
             <input type="text" name="menu-search-query" class="form-control input-lengko-default block" placeholder="Cari menu.." style="height:45px;" />
             <span class="input-group-btn">
@@ -20,7 +20,7 @@
             </span>
           </div>
         </div>
-        <div class="col-md-3 col-sm-4 mrg-t-20">
+        <div class="col-md-3 col-sm-4 col-xs-5 mrg-t-20">
           <select name="menu-search-type" class="select-lengko-default block">
             <option value="A">Semua Menu</option>
             <option value="F">Makanan</option>
@@ -57,7 +57,7 @@
 
           <div class="col-md-4 col-sm-6">
             <div class="menu" onclick="show_obj('menu-{{$value->kode_menu}}');">
-              <img class="hoverblur" src="/files/images/menus/@if($value->gambar_menu){{$value->gambar_menu}}@else{{'not-available.png'}}@endif" alt="{{ $value->nama_menu }}" width="100%" height="150px" />
+              <img class="hoverblur" src="/files/images/menus/@if($value->gambar_menu && file_exists(public_path() . '/files/images/menus/' . $value->gambar_menu)){{$value->gambar_menu}}@else{{'not-available.png'}}@endif" alt="{{ $value->nama_menu }}" width="100%" height="150px" />
               <h2 class="menu-title">{{ $value->nama_menu }} <small>({{$status}})</small></h2>
               <div class="row">
                 <div class="col-md-6">
@@ -113,9 +113,9 @@
         <div class="col-sm-12 col-md-push-4 col-md-4">
           <nav aria-label="Page navigation" class="text-center">
             <ul class="pagination pagination-lg">
-              <li class="cursor-pointer disabled" onclick=""><span aria-hidden="true">&laquo;</span></li>
+              <li class="cursor-pointer disabled"><span aria-hidden="true">&laquo;</span></li>
               <li class="cursor-pointer"><span aria-hidden="true">&nbsp;</span></li>
-              <li class="cursor-pointer" onclick="pagination_menu(9, 9);"><span aria-hidden="true">&raquo;</span></li>
+              <li class="cursor-pointer @if (count($data['menu']) < 9) {{'disabled'}} @endif" onclick="pagination_menu(9, 9);"><span aria-hidden="true">&raquo;</span></li>
             </ul>
           </nav>
         </div>

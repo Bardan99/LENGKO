@@ -15,42 +15,38 @@ class MenuController extends Controller {
 
   public function create(Request $request) {
     $data = $request->all();
+    $file = $request->file('menu-create-thumbnail');
+    $rules = [
+      'menu-create-name' => 'required|min:4',
+      'menu-create-price' => 'required|min:1',
+      'menu-create-type' => 'required',
+      'menu-create-description' => 'required',
+    ];
 
-    $menu = Menu::find($data['menu-create-id']);
-    if (!$menu) {
-      $id = $request->get('menu-create-id');
-      $file = $request->file('menu-create-thumbnail');
-      $rules = [
-        'menu-create-id' => 'required|min:4',
-        'menu-create-name' => 'required|min:4',
-        'menu-create-price' => 'required|min:1',
-        'menu-create-type' => 'required',
-        'menu-create-description' => 'required',
-      ];
+    $input = [
+      'nama_menu' => $data['menu-create-name'],
+      'harga_menu' => $data['menu-create-price'],
+      'jenis_menu' => $data['menu-create-type'],
+      'deskripsi_menu' => $data['menu-create-description'],
+      'kode_pegawai' => Auth::guard('employee')->user()->kode_pegawai //sementara tmp
+    ];
 
-      $input = [
-        'kode_menu' => $data['menu-create-id'],
-        'nama_menu' => $data['menu-create-name'],
-        'harga_menu' => $data['menu-create-price'],
-        'jenis_menu' => $data['menu-create-type'],
-        'deskripsi_menu' => $data['menu-create-description'],
-        'kode_pegawai' => Auth::guard('employee')->user()->kode_pegawai //sementara tmp
-      ];
+    if ($file) {
+      $fileName   = strtolower(str_replace(" ", "-", $data['menu-create-name']))  . '.' . $file->getClientOriginalExtension();
+      $request->file('menu-create-thumbnail')->move("files/images/menus", $fileName);
+      $rules['menu-create-thumbnail'] = 'required';
+      $input['gambar_menu'] = $fileName;
+    }
+    $this->validate($request, $rules);
 
-      if ($file) {
-        $fileName   = strtolower(str_replace(" ", "-", $data['menu-create-name']))  . '.' . $file->getClientOriginalExtension();
-        $request->file('menu-create-thumbnail')->move("files/images/menus", $fileName);
-        $rules['menu-create-thumbnail'] = 'required';
-        $input['gambar_menu'] = $fileName;
-      }
-      $this->validate($request, $rules);
-
-      $assign = false;
+    $assign = false;
+    $try = Menu::create($input);
+    if ($try) {
       for ($i = 0; $i < $data['menu-material-max']; $i++) {
         if ($data['menu-material-create-count-' . $i] > 0) {
           $input2[$i] = [
             'kode_bahan_baku' => $data['menu-material-create-id-' . $i],
-            'kode_menu' => $id,
+            'kode_menu' => $try->kode_menu,
             'jumlah_bahan_baku_detil' => $data['menu-material-create-count-' . $i]
           ];
           $rules2[$i] = [
@@ -59,13 +55,13 @@ class MenuController extends Controller {
           $assign = true;
         }
       }
-
-      if ($assign) { //asumsi setiap menu wajib setidaknya punya 1 bahan baku
-        $this->validate($request, $rules2);
-        $try = Menu::create($input);
-        $try = MenuDetil::create($input2);
-      }
     }
+
+    if ($assign) { //asumsi setiap menu wajib setidaknya punya 1 bahan baku
+      $this->validate($request, $rules2);
+      $try = MenuDetil::create($input2);
+    }
+
     return redirect('/dashboard/menu');
   }
 
@@ -149,7 +145,7 @@ class MenuController extends Controller {
               $result['menu'][$key]->menu_max = $data[$key]['menu-max'][$key2+1]->menu_max;//ambil yg minimum
             }
           }
-        }
+        } 
       }
 
 

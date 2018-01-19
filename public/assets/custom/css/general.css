@@ -63,7 +63,7 @@ a:hover, a:active, a:focus {
 }
 
 .main-menu-card-section {
-  margin-top: 80px;
+  margin-top: 60px;
 }
 
 @media (max-width: 736px) {
@@ -72,7 +72,7 @@ a:hover, a:active, a:focus {
   }
 
   .main-menu-card-section {
-    margin-top: 140px;
+    margin-top: 80px;
   }
 }
 
@@ -173,7 +173,7 @@ a:hover, a:active, a:focus {
 
 .list-group > .active {
   background-color: rgba(136, 136, 136, 0.6);
-  color: #ffffff;
+  color:#000000;
   border-color: rgba(136, 136, 136, 0.6);
 }
 
@@ -530,7 +530,7 @@ hr.content {
   margin: 0px;
   margin-bottom: 5px;
   height: 45px;
-  border: 0px;
+  border: 1px solid #34495e;
   border-radius: 0px 10px 0px 0px;
 }
 
@@ -550,7 +550,7 @@ hr.content {
   background-color: #f6f6f6;
   padding: 10px;
   margin-bottom: 5px;
-  border: 0px;
+  border: 0;
 }
 
 .input-lengko-box {
@@ -561,7 +561,7 @@ hr.content {
   margin: 0px;
   margin-bottom: 5px;
   height: 45px;
-  border: 0px;
+  border: 0;
 }
 
 .input-lengko-box:focus{
@@ -580,7 +580,7 @@ hr.content {
   background-color: #f6f6f6;
   padding: 10px;
   margin-bottom: 5px;
-  border: 0px;
+  border: 1px solid #34495e;
   border-radius: 0px 10px 0px 0px;
 }
 

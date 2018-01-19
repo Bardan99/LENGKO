@@ -192,6 +192,9 @@ function search_menu(data) {
         else {
           res = '<div class="row padd-lr-15"><div class="col-md-offset-2 col-md-8">';
           res += '<div class="alert alert-warning">Menu tidak ditemukan</div></div></div>';
+
+          res += '<div class="row padd-lr-15 text-center"><div class="col-md-offset-2 col-md-8">';
+          res += '<h2><a href="/menu">Lihat menu lainnya...</a></h2> </div></div>';
         }
         $('#menu-card-section').html(res);
       }
@@ -337,6 +340,9 @@ function pagination_menu(skip, take) {
         else {
           res = '<div class="row padd-lr-15"><div class="col-md-offset-2 col-md-8">';
           res += '<div class="alert alert-warning">Menu tidak ditemukan</div></div></div>';
+
+          res += '<div class="row padd-lr-15 text-center"><div class="col-md-offset-2 col-md-8">';
+          res += '<h2><a href="/menu">Lihat menu lainnya...</a></h2> </div></div>';
         }
         $('#menu-card-section').html(res);
       }
@@ -775,6 +781,9 @@ function filter_menu(data) {
         else {
           res = '<div class="row padd-lr-15"><div class="col-md-offset-2 col-md-8">';
           res += '<div class="alert alert-warning">Menu tidak ditemukan</div></div></div>';
+
+          res += '<div class="row padd-lr-15 text-center"><div class="col-md-offset-2 col-md-8">';
+          res += '<h2><a href="/menu">Lihat menu lainnya...</a></h2> </div></div>';
         }
         $('#menu-card-section').html(res);
       }

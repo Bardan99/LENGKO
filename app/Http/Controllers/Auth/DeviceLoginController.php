@@ -34,7 +34,7 @@ class DeviceLoginController extends Controller {
     ]);
 
     $credentials = [
-      'kode_perangkat' => $request->kode_perangkat,
+      'kode_perangkat' => strtoupper($request->kode_perangkat),
       'kata_sandi_perangkat' => $request->password
     ];
 
@@ -58,7 +58,7 @@ class DeviceLoginController extends Controller {
     ]);
 
     $credentials = [
-      'kode_pegawai' => $request->kode_pegawai,
+      'kode_pegawai' => strtolower($request->kode_pegawai),
       'kata_sandi_pegawai' => $request->password
     ];
 

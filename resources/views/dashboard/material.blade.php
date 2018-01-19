@@ -72,7 +72,7 @@
                                 {{ $data['method']->rewrite('status-number', $value->status_pengadaan_bahan_baku) }}
                               </div>
                               <div class="col-md-2 col-sm-2 col-xs-12">
-                                {{ $data['method']->rewrite('status', $value->catatan_pengadaan_bahan_baku) }}
+                                {{ $data['method']->rewrite('status', $value->catatan_pengadaan_bahan_baku) }} 
                               </div>
                             </div>
                             @if (count($data[$key1]['material-request-user-detail']) > 0)

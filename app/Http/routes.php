@@ -23,6 +23,21 @@ Route::group(['prefix' => 'dashboard'], function() {
 Route::group(['prefix' => ''], function() {
   Route::get('login', 'Auth\DeviceLoginController@showLoginForm')->name('device.login');
   Route::post('login', 'Auth\DeviceLoginController@login')->name('device.login.submit');
+
+  Route::get('register', function() {
+    return redirect('/');
+  });
+  Route::get('register/{any}', function() {
+    return redirect('/');
+  });
+
+  Route::get('password', function() {
+    return redirect('/');
+  });
+
+  Route::get('password/{any}', function() {
+    return redirect('/');
+  });
 });
 
 //multi-view both employee and device; this is dangerous (for topsecret dataa)
@@ -67,6 +82,9 @@ Route::group(['middleware' => 'employee'], function() {
     Route::post('/search/transaction', 'TransactionController@search');
     Route::post('/search/transactionhistory', 'TransactionController@searchhistory');
     Route::get('/transaction/report/{id}', 'TransactionController@report');
+    Route::get('/transaction/report', function() {
+      return redirect('dashboard/transaction');
+    });
 
     Route::get('/retrieve/income', 'ReportController@income');
     Route::post('/retrieve/report', 'ReportController@report');
@@ -117,6 +135,7 @@ Route::group(['middleware' => 'device'], function() {
 
 });
 
+/*
 Route::get('/secret/clearcache', function() {
     $exitCode = Artisan::call('cache:clear');
 });
@@ -124,3 +143,8 @@ Route::get('/secret/clearcache', function() {
 Route::get('/secret/routecache', function() {
     $exitCode = Artisan::call('route:cache');
 });
+
+Route::get('/secret/generatekey', function() {
+    $exitCode = Artisan::call('key:generate');
+});
+*/

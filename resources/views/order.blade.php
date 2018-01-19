@@ -95,7 +95,7 @@
 
     <div class="row mrg-b-20 padd-tb-10">
       <div class="col-md-offset-2 col-md-8 padd-lr-10 padd-tb-10">
-        <button type="button" name="order-create-button" class="btn-lengko btn-lengko-default pull-right open-tooltip block" data-placement="left" data-toggle="tooltip" title="Lanjutkan proses pemesanan..">
+        <button type="button" name="order-create-button" class="btn-lengko btn-lengko-default pull-right block">
           <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Pesan
         </button>
       </div>

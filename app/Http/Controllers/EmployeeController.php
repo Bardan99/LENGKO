@@ -30,7 +30,7 @@ class EmployeeController extends Controller {
 
       if (!$employee) {
         $try = Pegawai::create([
-          'kode_pegawai' => $data['employee-create-id'],
+          'kode_pegawai' => strtolower($data['employee-create-id']),
           'nama_pegawai' => $data['employee-create-name'],
           'kata_sandi_pegawai' => Hash::make($data['employee-create-password']),
           'jenis_kelamin_pegawai' => $data['employee-create-gender'],

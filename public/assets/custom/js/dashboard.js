@@ -1013,9 +1013,8 @@ function search_menu(data) {
               res += '<input id="choose-image-' + i + '" name="menu-change-thumbnail" type="file" title="Ubah gambar menu" onchange="reload_image(this, \'#preview-image-\'' + i + ');" />';
             }
             res += '</div>';
-            res += '</div><div class="col-md-7 col-sm-8"><div class="row"><div class="col-md-3 col-sm-2">';
-            res += '<div class="text-left padd-tb-10">[<b>' + result.content.menu[i].kode_menu + '</b>]</div>';
-            res += '</div><div class="col-md-9 col-sm-10">';
+            res += '</div><div class="col-md-7 col-sm-8"><div class="row">';
+            res += '<div class="col-md-12">';
             res += '<input type="text" name="menu-change-name" class="input-lengko-default block" placeholder="Nama Menu" value="' + result.content.menu[i].nama_menu + '"';
             if (result.auth != 'root' && result.auth != 'chef') {
               res += ' readonly ';
@@ -1708,7 +1707,7 @@ function filter_device(data) {
     cache: false,
     success: function(result) {
       if (result.status == 200 && result.content) {
-        var res = ''; 
+        var res = '';
         if (result.content.length > 0) {
           var token = $('input[name=search_token]').val();
           for (i = 0; i < result.content.length; i++) {

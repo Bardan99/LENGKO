@@ -21,7 +21,7 @@ use Hash;
 class DashboardController extends Controller {
 
   public function __construct() {
-      $this->middleware('employee'); //defined on route middleware
+      //$this->middleware('employee'); //defined on route middleware
   }
 
   public function index() {
@@ -143,7 +143,7 @@ class DashboardController extends Controller {
           case 'menu':
             $data['menu'] = DB::table('menu')
               ->orderBy('nama_menu', 'ASC')
-              ->skip(0)->take(3)->get();
+              ->get();
             foreach ($data['menu'] as $key => $value) {
               $data[$key]['menu-material'] = DB::table('menu')
               ->select('menu_detil.*')
@@ -266,6 +266,7 @@ class DashboardController extends Controller {
                 ->where('pesanan.kode_pesanan', '=', $data['transaction-history'][$key]->kode_pesanan)
                 ->get();
             }
+
             $data['method'] = new MethodController();
           break;
           case 'report':
@@ -479,10 +480,8 @@ class DashboardController extends Controller {
           }
 
          if ($deleted) {
-           $try = MenuDetil::whereIn('kode_bahan_baku', $delete)->delete();
+           $try = MenuDetil::whereIn('kode_bahan_baku', $delete)->where(['kode_menu' => $id])->delete();
          }
-
-
         }
         return redirect('/dashboard/menu');
       break;

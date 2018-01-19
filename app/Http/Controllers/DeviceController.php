@@ -29,7 +29,7 @@ class DeviceController extends Controller {
 
       if (!$device) {
         $try = Perangkat::create([
-          'kode_perangkat' => $data['device-create-id'],
+          'kode_perangkat' => strtoupper($data['device-create-id']),
           'nama_perangkat' => $data['device-create-name'],
           'kata_sandi_perangkat' => Hash::make($data['device-create-password']),
           'jumlah_kursi_perangkat' => $data['device-create-chair']

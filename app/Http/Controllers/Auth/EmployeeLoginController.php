@@ -34,7 +34,7 @@ class EmployeeLoginController extends Controller {
     ]);
 
     $credentials = [
-      'kode_pegawai' => $request->kode_pegawai,
+      'kode_pegawai' => strtolower($request->kode_pegawai),
       'kata_sandi_pegawai' => $request->password
     ];
 

@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'driver' => env('SESSION_DRIVER', 'file'),
+    'driver' => env('SESSION_DRIVER', 'cookie'),
 
     /*
     |--------------------------------------------------------------------------
@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'lifetime' => 120,//2 jam
+    'lifetime' => 1440,
 
     'expire_on_close' => false,
 
@@ -109,7 +109,7 @@ return [
     |
     */
 
-    'cookie' => 'lengko_session',
+    'cookie' => 'laravel_session',
 
     /*
     |--------------------------------------------------------------------------

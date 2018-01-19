@@ -267,6 +267,12 @@
                                   {{ $data['method']->num_to_rp($value1->tunai_pesanan) }}
                                 </td>
                               </tr>
+                              <tr>
+                                <td colspan="3" class="text-right"><label>Kembali</label></td>
+                                <td width="170px">
+                                  {{ $data['method']->num_to_rp($value1->tunai_pesanan - $value1->harga_pesanan) }}
+                                </td>
+                              </tr>
                               </table>
                               <div class="row padd-tb-10">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">

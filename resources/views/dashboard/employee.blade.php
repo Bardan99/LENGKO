@@ -45,7 +45,7 @@
                       <div class="" onclick="show_obj('employee-card-change-{{ $value->kode_pegawai }}'); hide_obj('employee-card-{{ $value->kode_pegawai }}'); hide_obj('employee-card-table')">
                         <div class="row">
                           <div class="col-md-12">
-                            <img class="hoverblur img-circle obj-center" src="/files/images/employee/@if($value->gambar_pegawai){{$value->gambar_pegawai}}@else{{'default.png'}}@endif" alt="{{ $value->kode_pegawai }}" width="150px" height="150px" />
+                            <img class="hoverblur img-circle obj-center" src="/files/images/employee/@if($value->gambar_pegawai && file_exists(public_path() . '/files/images/employee/' . $value->gambar_pegawai)){{$value->gambar_pegawai}}@else{{'default.png'}}@endif" alt="{{ $value->kode_pegawai }}" width="150px" height="150px" />
                           </div>
                         </div>
                         <div class="row" style="min-height: 60px;">
@@ -63,7 +63,7 @@
                     <form id="employee-card-change-{{ $value->kode_pegawai }}" hidden="hidden" name="" method="post" action="{{ url('dashboard/update/employee') }}">
                       <div class="row">
                         <div class="col-md-4 col-sm-4">
-                          <img class="img-circle obj-center" src="/files/images/employee/@if($value->gambar_pegawai){{$value->gambar_pegawai}}@else{{'default.png'}}@endif" alt="{{ $value->kode_pegawai }}" width="220px" height="220px" />
+                          <img class="img-circle obj-center" src="/files/images/employee/@if($value->gambar_pegawai && file_exists(public_path() . '/files/images/employee/' . $value->gambar_pegawai)){{$value->gambar_pegawai}}@else{{'default.png'}}@endif" alt="{{ $value->kode_pegawai }}" width="220px" height="220px" />
                         </div>
                         <div class="col-md-7 col-sm-8">
 

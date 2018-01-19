@@ -3,4 +3,4 @@
 Supply Chain Management
 
 Lengko Restaurant
-Tugas Besar RPL I
+Build with laravel, love so much :)

@@ -42,7 +42,7 @@
                           <div class="row">
                             <div class="col-md-5 col-sm-4">
                               <div class="container-file-lengko block">
-                                <img id="preview-image-{{$keymenu}}" class="hoverblur" src="/files/images/menus/@if($value->gambar_menu){{$value->gambar_menu}}@else{{'not-available.png'}}@endif" alt="{{ $value->nama_menu }}" width="100%" height="150px" style="border-radius:5px;" />
+                                <img id="preview-image-{{$keymenu}}" class="hoverblur" src="/files/images/menus/@if($value->gambar_menu && file_exists(public_path() . '/files/images/menus/' . $value->gambar_menu)){{$value->gambar_menu}}@else{{'not-available.png'}}@endif" alt="{{ $value->nama_menu }}" width="100%" height="150px" style="border-radius:5px;" />
                                 @if ($auth == 'root')
                                   <input id="choose-image-{{$keymenu}}" name="menu-change-thumbnail" type="file" title="Ubah gambar menu" onchange="reload_image(this, '#preview-image-{{$keymenu}}');" />
                                 @endif
@@ -50,10 +50,7 @@
                             </div>
                             <div class="col-md-7 col-sm-8">
                               <div class="row">
-                                <div class="col-md-3 col-sm-2">
-                                  <div class="text-left padd-tb-10">[<b>{{ $value->kode_menu }}</b>]</div>
-                                </div>
-                                <div class="col-md-9 col-sm-10">
+                                <div class="col-md-12">
                                   <input type="text" name="menu-change-name" class="input-lengko-default block" placeholder="Nama Menu" value="{{ $value->nama_menu }}" @if ($auth != 'root' && $auth != 'chef') {{'readonly'}} @endif/>
                                 </div>
                               </div>
@@ -208,21 +205,15 @@
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="row open-tooltip" data-placement="bottom" data-toggle="tooltip" title="Tambahkan informasi menu..">
                   <div class="col-md-1">
-                    <label style="margin: 10px 5px 10px 0px;">Kode</label>
-                  </div>
-                  <div class="col-md-3">
-                    <input type="text" name="menu-create-id" class="input-lengko-default block" placeholder="Kode Menu" />
-                  </div>
-                  <div class="col-md-1">
                     <label style="margin: 10px 5px 10px 0px;">Nama</label>
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-5">
                     <input type="text" name="menu-create-name" class="input-lengko-default block" placeholder="Nama Menu" />
                   </div>
                   <div class="col-md-1">
                     <label style="margin: 10px 5px 10px 0px;">Harga</label>
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-5">
                     <input type="number" name="menu-create-price" min="0" class="input-lengko-default block" placeholder="Harga Menu" />
                   </div>
                 </div>

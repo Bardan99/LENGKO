@@ -1,4 +1,5 @@
 
+
 # LENGKO
 
 Supply Chain Management
@@ -14,33 +15,43 @@ Available online at [ *sometime overload :(* ]:
 
 1. Clone this repository [LENGKO](https://github.com/gurisa/LENGKO.git) or you can easily download it.
 	`git clone https://github.com/gurisa/LENGKO.git`    
-3. **CREATE DATABASE** named **lengko** (this is up to you, but you need to set it up on .env file later).
-4. Import **lengko.sql** file from `/storage/db`
-5. Make sure *your connections* are good (don't forget to setup host, username, password and database name). 
-Default: 
+2. Install trough composer:
+	`composer install`	
+3. Rename environment file configuration:
+	`cp .ex.env .env`
+4. Make sure *your connections* are good (don't forget to setup host, username, password and database name). 
+Default **.env** file: 
 
     >     host: localhost
     >     username: root
     >     password: 
     >     database: lengko
 
-6. You can easily run LENGKO with artisan, do: `php artisan serve` but i recommend to set virtual host for future purpose (since it's the recommendation way). Look [how to setup virtual host here](https://www.ngaret.com/cara-mengubah-localhost-menjadi-domain-window/).
-7. **Default username**:
-----------
+5. **CREATE DATABASE** named **lengko** (this is up to you, but you need to set it up on .env file).
+6. Import **lengko.sql** file from `/storage/db`
+7. You can easily run LENGKO with artisan, do: `php artisan serve` but i recommend to set virtual host for future purpose (since it's the recommendation way). Look [how to setup virtual host here](https://www.ngaret.com/cara-mengubah-localhost-menjadi-domain-window/).
+
+# LOGIN DETAILS
+
 Devices (choose one)
 ----------
 	AG001:123456
 	AG002:123456
 	JB001:123456
 	JB002:123456
-----------
+
 Employee (choose one)
 ----------
 	toor:root (root authority)
 	conan:conan (root authority)
-----------
 
-8. **Let's rock!**
+# Let's rock!
+**P.S:**
+> If you're facing error with chiper, regenerate it: `php artisan
+> key:generate`
+
+# DOCUMENTATION
+Documentations are available on `/docs` folder.
 
 # GALLERY
 

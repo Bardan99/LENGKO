@@ -58,6 +58,6 @@ Employee (choose one)
 
 ![report](https://github.com/gurisa/LENGKO/blob/master/public/files/gallery/report.png?raw=true)
 # ME
-> Saya memang miskin dan bodoh; Tetapi saya 
-tidak berencana untuk miskin dan bodoh selamanya.
-#toor (2017)
+>     Saya memang miskin dan bodoh;
+>     Tetapi saya  tidak berencana untuk miskin dan bodoh selamanya.
+>     #toor (2017)

@@ -1,0 +1,17 @@
+﻿Testing dilakukan pada mobile. :v
+
+- Apakah ada cara lain menampilkan semua data setelah dilakukan pencarian selain refresh?
+- Kalau dilakukan pencarian beberapa kali, managemen kuisioner jadi aneh jadi tambah panjang ke bawah seolah kegandain.
+- Poin-poin di managemen kuisioner kayak yang diganda tiga kali.
+- Untuk angka pada grafik mending bulat saja ga usah ada angka berkoma.
+- Kalau dua jenis kuisioner disembunyikan, gambar grafiknya jadi kayak segitiga iluminati. Mending dibalik saja.
+- Kode perangkat kes sensitif?
+- Kode pegawai kes sensitif?
+- Proporsi antara navigasi dan menu terlalu aneh pada mobile. 50:50? (opsional)
+- Pada menu, next page langsung menu tidak ditemukan. No turn back selain refresh?
+- Bagaimana cara log out perangkat, harus masuk dulu ke menu? 
+Keluar perangkat tidak ada di beranda.
+
+
+
+

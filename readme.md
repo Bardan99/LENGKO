@@ -26,18 +26,20 @@ Default:
 
 6. You can easily run LENGKO with artisan, do: `php artisan serve` but i recommend to set virtual host for future purpose (since it's the recommendation way). Look [how to setup virtual host here](https://www.ngaret.com/cara-mengubah-localhost-menjadi-domain-window/).
 7. **Default username**:
-- Devices (choose one)
+----------
+Devices (choose one)
+----------
+	AG001:123456
+	AG002:123456
+	JB001:123456
+	JB002:123456
+----------
+Employee (choose one)
+----------
+	toor:root (root authority)
+	conan:conan (root authority)
+----------
 
-AG001:123456
-AG002:123456
-JB001:123456
-JB002:123456
-
-- Employee (choose one)
-
-toor:root (root authority)
-conan:conan (root authority)
-	
 8. **Let's rock!**
 
 # GALLERY

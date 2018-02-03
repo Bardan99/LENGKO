@@ -24,7 +24,7 @@ Default:
     >     password: 
     >     database: lengko
 
-6. You can easily run LENGKO with artisan, do: `php artisan server` but i recommend to set virtual host for future purpose (since it's the recommendation way). Look [how to setup virtual host here](https://www.ngaret.com/cara-mengubah-localhost-menjadi-domain-window/).
+6. You can easily run LENGKO with artisan, do: `php artisan serve` but i recommend to set virtual host for future purpose (since it's the recommendation way). Look [how to setup virtual host here](https://www.ngaret.com/cara-mengubah-localhost-menjadi-domain-window/).
 7. **Default username**:
 - Devices (choose one)
 	AG001:123456

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 05, 2018 at 04:26 PM
+-- Generation Time: Feb 03, 2018 at 06:47 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -80,15 +80,44 @@ CREATE TABLE IF NOT EXISTS `bahan_baku` (
   `stok_bahan_baku` float unsigned NOT NULL,
   `satuan_bahan_baku` varchar(10) NOT NULL,
   `tanggal_kadaluarsa_bahan_baku` date NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `bahan_baku`
 --
 
 INSERT INTO `bahan_baku` (`kode_bahan_baku`, `nama_bahan_baku`, `stok_bahan_baku`, `satuan_bahan_baku`, `tanggal_kadaluarsa_bahan_baku`) VALUES
-(1, 'Ayam', 100, 'Pcs', '2018-01-07'),
-(2, 'Cabai Hijau', 333, 'Pcs', '2018-01-12');
+(1, 'Daging Ayam', 100, 'potong', '2017-03-07'),
+(2, 'Cabai Hijau', 333, 'pcs', '2017-12-07'),
+(3, 'Air Mineral', 754, 'ml', '2018-01-28'),
+(4, 'Bandrek Instan', 200, 'pcs', '2018-01-28'),
+(5, 'Air Kelapa', 1000, 'ml', '2018-01-28'),
+(6, 'Madu', 979, 'ml', '2018-02-23'),
+(7, 'Strawberry', 76, 'pcs', '2018-01-31'),
+(8, 'Beras Pandan Wangi', 50000, 'gr', '2018-01-31'),
+(9, 'Daging Sapi', 10000, 'gr', '2018-01-17'),
+(10, 'Kelapa', 1000, 'gr', '2018-01-25'),
+(11, 'Coklat', 1000, 'gr', '2018-01-24'),
+(12, 'Gula', 985, 'gr', '2018-01-25'),
+(13, 'Bawang putih', 1000, 'gr', '2018-12-14'),
+(19, 'Bawang merah', 1000, 'gr', '2018-12-14'),
+(21, 'Bawang bombai', 1500, 'gr', '2017-12-06'),
+(22, 'Kunyit', 1000, 'gr', '2018-12-15'),
+(23, 'Jahe', 1000, 'gr', '2018-12-15'),
+(24, 'Kencur', 1000, 'gr', '2018-12-15'),
+(25, 'Kecap', 1000, 'ml', '2020-01-15'),
+(27, 'Timun', 100, 'pcs', '2018-02-18'),
+(28, 'Sambal', 500, 'gr', '2018-02-18'),
+(29, 'Teh Sariwangi', 200, 'pcs', '2019-02-04'),
+(30, 'Kerupuk', 500, 'pcs', '2018-02-18'),
+(31, 'Bumbu Kacang', 300, 'pcs', '2018-02-25'),
+(32, 'Tempe', 300, 'potong', '2018-02-28'),
+(33, 'Tahu', 250, 'potong', '2018-03-25'),
+(34, 'Telur Ayam', 50, 'butir', '2018-03-11'),
+(35, 'Coca Cola Kaleng', 200, 'kaleng', '2020-04-01'),
+(36, 'Fanta Kaleng', 200, 'kaleng', '2020-04-01'),
+(37, 'Sprite Kaleng', 200, 'kaleng', '2020-04-01'),
+(38, 'Teh Botol Sosro', 200, 'botol', '2020-04-01');
 
 -- --------------------------------------------------------
 
@@ -181,18 +210,19 @@ CREATE TABLE IF NOT EXISTS `kuisioner` (
   `waktu_kuisioner` time NOT NULL,
   `status_kuisioner` tinyint(1) NOT NULL DEFAULT '1',
   `kode_pegawai` varchar(15) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `kuisioner`
 --
 
 INSERT INTO `kuisioner` (`kode_kuisioner`, `judul_kuisioner`, `isi_kuisioner`, `tanggal_kuisioner`, `waktu_kuisioner`, `status_kuisioner`, `kode_pegawai`) VALUES
-(1, 'Restoran', 'Bagaimana pendapat anda mengenai restoran LENGKO?', '2017-11-16', '21:43:33', 1, 'toor'),
+(1, 'Restoran', 'Bagaimana pendapat anda mengenai restoran LENGKO?', '2017-11-16', '21:43:33', 0, 'toor'),
 (2, 'Pelayanan', 'Bagaimana pelayanan yang diberikan oleh pegawai LENGKO terhadap anda?', '2017-11-17', '15:42:33', 1, 'toor'),
 (3, 'Fasilitas', 'Bagaimana pendapat anda mengenai Fasilitas yang terdapat di LENGKO?', '2017-11-17', '15:10:33', 1, 'toor'),
 (4, 'Harga', 'Apakah harga makanan dan minuman di LENGKO relatif murah?', '2017-12-03', '19:12:51', 1, 'toor'),
-(5, 'Pegawai', 'Apakah kamu suka atau setidaknya tertarik dengan pegawai LENGKO?', '2017-12-19', '23:12:12', 1, 'toor');
+(6, 'Tempat Parkiran', 'Apakah di tempat parkiran ada yang jualan krabby petty?', '2018-01-14', '01:01:12', 1, 'rakamp'),
+(7, 'Spongebob', 'Lucuan siapa, Spongebob atau Squidward?', '2018-01-14', '01:01:31', 1, 'rakamp');
 
 -- --------------------------------------------------------
 
@@ -205,23 +235,18 @@ CREATE TABLE IF NOT EXISTS `kuisioner_detil` (
   `poin_kuisioner_detil` tinyint(1) unsigned NOT NULL,
   `kode_kuisioner_perangkat` int(10) unsigned NOT NULL,
   `kode_kuisioner` int(10) unsigned NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `kuisioner_detil`
 --
 
 INSERT INTO `kuisioner_detil` (`kode_kuisioner_detil`, `poin_kuisioner_detil`, `kode_kuisioner_perangkat`, `kode_kuisioner`) VALUES
-(5, 1, 2, 3),
-(6, 4, 2, 4),
-(7, 0, 2, 5),
-(8, 0, 2, 2),
-(9, 2, 2, 1),
-(10, 1, 3, 3),
-(11, 0, 3, 4),
-(12, 2, 3, 5),
-(13, 2, 3, 2),
-(14, 3, 3, 1);
+(22, 4, 5, 3),
+(23, 3, 5, 4),
+(24, 5, 5, 2),
+(25, 1, 5, 7),
+(26, 0, 5, 6);
 
 -- --------------------------------------------------------
 
@@ -237,15 +262,14 @@ CREATE TABLE IF NOT EXISTS `kuisioner_perangkat` (
   `waktu_kuisioner_perangkat` time NOT NULL,
   `status_kuisioner_perangkat` tinyint(1) NOT NULL DEFAULT '1',
   `kode_perangkat` varchar(15) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `kuisioner_perangkat`
 --
 
 INSERT INTO `kuisioner_perangkat` (`kode_kuisioner_perangkat`, `pembeli_kuisioner_perangkat`, `pesan_kuisioner_perangkat`, `tanggal_kuisioner_perangkat`, `waktu_kuisioner_perangkat`, `status_kuisioner_perangkat`, `kode_perangkat`) VALUES
-(2, 'Kim Jong Un', 'Tadi gw beli baso kenapa ada hiasan matanya?\nUdah pernah keselek rudal nuklir belum?', '2018-01-05', '14:01:47', 1, 'JB001'),
-(3, 'Donald Trump', 'Muke gile lu, barusan gw liat si uun lagi di toilet banyak banget body-guard nya. Konspirasi macam apa ini? Tapi emang bener kata bama, baso nya enak!', '2018-01-05', '14:01:29', 1, 'JB001');
+(5, 'Donald Bebek', 'Rendang padangnya enak, khas padang. Cuma sayang bakso rudalnya udah habis :(', '2018-01-19', '15:01:23', 1, 'KJ002');
 
 -- --------------------------------------------------------
 
@@ -254,41 +278,33 @@ INSERT INTO `kuisioner_perangkat` (`kode_kuisioner_perangkat`, `pembeli_kuisione
 --
 
 CREATE TABLE IF NOT EXISTS `menu` (
-  `kode_menu` varchar(15) NOT NULL,
+`kode_menu` int(10) unsigned NOT NULL,
   `nama_menu` varchar(50) NOT NULL,
   `jenis_menu` enum('F','D') NOT NULL COMMENT 'F = food, D = drink',
   `harga_menu` int(10) unsigned NOT NULL,
   `deskripsi_menu` text NOT NULL,
   `gambar_menu` varchar(150) NOT NULL,
   `kode_pegawai` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `menu`
 --
 
 INSERT INTO `menu` (`kode_menu`, `nama_menu`, `jenis_menu`, `harga_menu`, `deskripsi_menu`, `gambar_menu`, `kode_pegawai`) VALUES
-('D001', 'Teh Botol Sosro', 'D', 4500, 'Apapun makanannya, minumnya teh botol sosro.', 'teh-botol-sosro.png', 'toor'),
-('D002', 'Kopi Hitam', 'D', 2500, '', '', 'rakamp'),
-('D003', 'Teh Tarik', 'D', 3500, 'Teh tarik adalah minuman manis berupa teh dicampur susu yang lazim ditemukan di Asia Tenggara, khususnya Malaysia. Minuman ini biasanya dijual oleh para mamak di Malaysia dan Singapura, yang menjadikannya sebagai minuman nasional negara tersebut.', '', 'rakamp'),
-('D004', 'Susu Putih', 'D', 3000, '', '', 'rakamp'),
-('D005', 'Susu Coklat', 'D', 3000, '', '', 'rakamp'),
-('D006', 'Susu Jahe', 'D', 3500, '', '', 'rakamp'),
-('D007', 'Susu Teh Madu Jahe', 'D', 12500, 'Uenak tenan', 'susu-teh-madu-jahe.jpg', 'toor'),
-('D010', 'Jus Tomat', 'D', 5000, 'Jus tomat adalah minuman yang terbuat dari sari buah tomat', 'img7-jus-tomat.jpg', 'rakamp'),
-('D012', 'Jus Melon', 'D', 5000, 'Jus melon adalah minuman yang terbuat dari sari buah melon', 'img6-jus-melon.jpg', 'rakamp'),
-('D013', 'Bandrek', 'D', 6000, 'Bandrek adalah minuman tradisional orang Sunda dari Jawa Barat, Indonesia, yang dikonsumsi untuk meningkatkan kehangatan tubuh. Minuman ini biasanya dihidangkan pada cuaca dingin, seperti di kala hujan ataupun malam hari.', 'bandrek.jpg', 'toor'),
-('D014', 'Bajigur', 'D', 4500, 'Bajigur adalah minuman tradisional khas masyarakat Sunda dari daerah Jawa Barat, Indonesia. Bahan utamanya adalah gula aren dan santan. Untuk menambah kenikmatan dicampurkan pula sedikit jahe, garam, dan bubuk vanili.', 'bajigur.jpg', 'toor'),
-('F001', 'Nasi Lengko Cirebon', 'F', 15000, 'Sega lengko (nasi lengko dalam bahasa Indonesia) adalah makanan khas masyarakat pantai utara (Cirebon, Indramayu, Brebes, Tegal dan sekitarnya). Makanan khas yang sederhana ini sarat akan protein dan serat serta rendah kalori karena bahan-bahan          yang digunakan adalah 100% non-hewani. Bahan-bahannya antara lain: nasi putih (panas-panas lebih baik), tempe goreng, tahu goreng, mentimun (mentah segar, dicacah), tauge (direbus), daun kucai (dipotong kecil-kecil), bawang goreng, bumbu          kacang (seperti bumbu rujak, pedas atau tidak, tergantung selera), dan kecap manis. Dan, umumnya kecap manis yang dipergunakan adalah kecap manis encer, bukan yang kental. Disiramkan ke atas semua bahan.', 'img1-lengko-cirebon.jpg', 'toor'),
-('F002', 'Nasi Tutug Oncom', 'F', 7500, 'Nasi Tutug Oncom atau Sangu Tutug Oncom dalam Bahasa Sunda sering disingkat Nasi T.O adalah makanan yang dibuat dari nasi yang diaduk dengan oncom goreng atau bakar. Penyajian makanan ini umumnya dalam keadaan hangat. Secara bahasa, kata tutug dalam Bahasa Sunda artinya menumbuk. Proses aduk-tumbuk nasi dengan oncom ini menjadi nama jenis makanan yang dikenal dengan nama tutug oncom. Nasi tutug oncom menjadimakanan khas Tasikmalaya. Walaupun menjadi makanan khas, tutug oncom dapat dibawa menjadi oleh-oleh karena sekarang sudah tersedia tutug oncom instan yang telah dikemas dan mampu bertahan hingga berbulan-bulan tanpa menggunakan pengawet.', 'img4-nasi-tutug-oncom-tasikmalaya.jpg', 'toor'),
-('F003', 'Rendang Padang', 'F', 13000, 'Rendang atau randang adalah masakan daging bercita rasa pedas yang menggunakan campuran dari berbagai bumbu dan rempah-rempah. Masakan ini dihasilkan dari proses memasak yang dipanaskan berulang-ulang dengan santan kelapa. Proses memasaknya memakan waktu berjam-jam (biasanya sekitar empat jam) hingga kering dan berwarna hitam pekat. Dalam suhu ruangan, rendang dapat bertahan hingga berminggu-minggu. Rendang yang dimasak dalam waktu yang lebih singkat dan santannya belum mengering disebut kalio, berwarna coklat terang keemasan.', 'img2-rendang-padang.jpg', 'toor'),
-('F004', 'Gudeg Yogyakarta', 'F', 12000, 'Gudeg adalah makanan khas Yogyakarta dan Jawa Tengah yang terbuat dari nangka muda yang dimasak dengan santan. Perlu waktu berjam-jam untuk membuat masakan ini. Warna coklat biasanya dihasilkan oleh daun jati yang dimasak bersamaan. Gudeg dimakan dengan nasi dan disajikan dengan kuah santan kental (areh), ayam kampung, telur, tahu dan sambal goreng krecek.', 'img3-gudeg-yogyakarta.jpg', 'toor'),
-('F005', 'Nasi Goreng', 'F', 12000, 'Nasi goreng adalah sebuah makanan berupa nasi yang digoreng dan diaduk dalam minyak goreng atau margarin, biasanya ditambah kecap manis, bawang merah, bawang putih, asam jawa, lada dan bumbu-bumbu lainnya, seperti telur, ayam, dan kerupuk.', 'img11-nasi-goreng.jpg', 'rakamp'),
-('F006', 'Nasi Goreng Manis', 'F', 12000, '', '', 'rakamp'),
-('F007', 'Magelangan', 'F', 12000, 'Nasi goreng yang dipadukan dengan mie yang kenyal. Bumbu cabai, kemiri, dan rempah-rempah membuat rasanya gurih. Makin enak disantap dengan kerupuk dan acar.', 'img12-magelangan.jpg', 'rakamp'),
-('F008', 'Mi Goreng', 'F', 7500, 'Mi goreng berarti "mi yang digoreng" adalah makanan yang populer dan digemari di Indonesia, Malaysia, dan Singapura. Walau cara memasaknya pakai air juga, tetap disebut mi goreng.', 'img12-mie-goreng.jpg', 'rakamp'),
-('F011', 'Ayam Betutu', 'F', 15000, 'Ayam', 'ayam-betutu.jpg', 'toor'),
-('F012', 'Ayam Goreng Mentega', 'F', 20000, 'Ayam', 'ayam-betutu.jpg', 'toor');
+(1, 'Nasi Ayam Penyet', 'F', 18000, 'Ayam penyet is Indonesian — more precisely East Javanese cuisine — fried chicken dish consisting of fried chicken that is smashed with the pestle against mortar to make it softer, served with sambal, slices of cucumbers, fried tofu and tempeh.', 'ayam-penyet.jpg', 'conan'),
+(2, 'Milk Shake', 'D', 10000, 'Susu kocok adalah minuman dingin dari campuran susu, es krim, dan sirop berperasa yang dikocok hingga berbusa. Selain dikocok dengan blender, susu kocok bisa dibuat dengan memakai gelas pengocok bertutup.', 'milk-shake.jpg', 'conan'),
+(3, 'Strawberry Tubruk', 'D', 10000, 'Stroberi atau tepatnya stroberi kebun adalah sebuah varietas stroberi yang paling banyak dikenal di dunia. Seperti spesies lain dalam genus Fragaria, buah ini berada dalam keluarga Rosaceae', 'stroberry-tubruk.jpg', 'conan'),
+(4, 'Teh Manis', 'D', 3500, 'Teh manis adalah minuman yang terbuat dari larutan teh yang diberi pemanis, biasanya gula tebu, sebelum minuman ini siap disajikan. Untuk konteks Indonesia, teh manis yang diberi es biasa disebut es teh.', 'teh-manis.jpg', 'conan'),
+(7, 'Rendang Padang', 'F', 13500, 'Rendang atau randang adalah masakan dari daging bercita rasa pedas yang menggunakan campuran dari berbagai bumbu dan rempah-rempah. Masakan ini dihasilkan dari proses memasak yang dipanaskan berulang-ulang dengan santan kelapa.', 'rendang-padang.jpg', 'conan'),
+(8, 'Nasi Lengko', 'F', 16500, 'Sega lengko adalah makanan khas masyarakat pantai utara. Makanan khas yang sederhana ini sarat akan protein dan serat serta rendah kalori karena bahan-bahan yang digunakan adalah 100% non-hewani.', 'nasi-lengko.jpg', 'conan'),
+(9, 'Soto Ayam', 'F', 14500, 'Soto ayam adalah makanan khas Indonesia yang berupa sejenis sup ayam dengan kuah yang berwarna kekuningan. Warna kuning ini dikarenakan oleh kunyit yang digunakan sebagai bumbu. Soto ayam banyak ditemukan di daerah-daerah di Indonesia dan Singapura.', 'soto-ayam.jpg', 'conan'),
+(10, 'Sate Ayam', 'F', 15000, 'Sate Ayam adalah makanan khas Indonesia. Sate Ayam dibuat dari daging ayam. Pada umumnya sate ayam dimasak dengan cara dipanggang dengan menggunakan arang dan disajikan dengan pilihan bumbu kacang atau bumbu kecap.', 'sate-ayam.jpg', 'conan'),
+(11, 'Nasi Putih', 'F', 7500, 'Nasi adalah beras yang telah direbus. Proses perebusan beras dikenal juga sebagai ''tim''. Penanakan diperlukan untuk membangkitkan aroma nasi dan membuatnya lebih lunak tetapi tetap terjaga konsistensinya.', 'nasi-putih.jpg', 'conan'),
+(12, 'Teh Botol Sosro', 'D', 4500, 'Teh Botol Sosro adalah merek teh beraroma melati yang dipasarkan oleh PT. Sinar Sosro. Teh Botol Sosro sangat populer di Indonesia dan kini juga dijual di berbagai negara di luar Indonesia.', 'teh-botol-sosro.jpg', 'conan'),
+(13, 'Fanta', 'D', 5000, 'Fanta adalah merek minuman ringan berkarbonasi rasa buah yang diproduksi oleh The Coca-Cola Company. Tersedia lebih dari ratusan pilihan rasa di seluruh dunia. Minuman ini diperkenalkan pertama kali di Jerman pada tahun 1940.', 'fanta.jpg', 'conan'),
+(14, 'Coca Cola', 'D', 5000, 'Coca-Cola adalah minuman ringan berkarbonasi yang dijual di toko, restoran, dan mesin penjual di lebih dari 200 negara. Minuman ini diproduksi oleh The Coca-Cola Company asal Atlanta, Georgia, dan sering disebut Coke saja.', 'coca-cola.jpg', 'conan'),
+(15, 'Sprite', 'D', 5000, 'Sprite (sebelumnya bernama Fanta Klare Zitrone (Clear Lemon Fanta) di Jerman Barat pada tahun 1959, di Venezuela disebut sebagai "Chinotto") adalah minuman yang tidak berwarna dengan rasa lemon dan jeruk nipis serta bebas kafeina yang diproduksi oleh The Coca-Cola Company dan diluncurkan secara resm', 'sprite.jpg', 'conan');
 
 -- --------------------------------------------------------
 
@@ -299,17 +315,47 @@ INSERT INTO `menu` (`kode_menu`, `nama_menu`, `jenis_menu`, `harga_menu`, `deskr
 CREATE TABLE IF NOT EXISTS `menu_detil` (
 `kode_menu_detil` int(10) unsigned NOT NULL,
   `jumlah_bahan_baku_detil` float NOT NULL,
-  `kode_menu` varchar(15) NOT NULL,
+  `kode_menu` int(10) unsigned NOT NULL,
   `kode_bahan_baku` int(10) unsigned NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=155 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `menu_detil`
 --
 
 INSERT INTO `menu_detil` (`kode_menu_detil`, `jumlah_bahan_baku_detil`, `kode_menu`, `kode_bahan_baku`) VALUES
-(27, 1, 'F011', 1),
-(28, 5, 'F011', 2);
+(118, 250, 2, 3),
+(119, 20, 2, 6),
+(120, 1, 1, 1),
+(121, 200, 1, 8),
+(122, 20, 1, 28),
+(123, 3, 1, 27),
+(124, 250, 3, 3),
+(125, 5, 3, 7),
+(126, 250, 4, 3),
+(127, 20, 4, 12),
+(128, 1, 4, 29),
+(132, 10, 7, 19),
+(133, 10, 7, 13),
+(134, 1, 7, 2),
+(135, 150, 7, 9),
+(136, 150, 8, 8),
+(137, 1, 8, 31),
+(138, 2, 8, 30),
+(139, 5, 8, 33),
+(140, 5, 8, 32),
+(143, 1, 9, 1),
+(144, 1, 9, 34),
+(145, 1, 10, 31),
+(146, 1, 10, 1),
+(147, 10, 10, 25),
+(148, 3, 10, 27),
+(149, 100, 11, 3),
+(150, 150, 11, 8),
+(151, 1, 14, 35),
+(152, 1, 13, 36),
+(153, 1, 15, 37),
+(154, 1, 12, 38);
 
 -- --------------------------------------------------------
 
@@ -354,12 +400,14 @@ CREATE TABLE IF NOT EXISTS `pegawai` (
 --
 
 INSERT INTO `pegawai` (`kode_pegawai`, `kata_sandi_pegawai`, `nama_pegawai`, `jenis_kelamin_pegawai`, `gambar_pegawai`, `kode_otoritas`) VALUES
-('azmi', '$2y$10$EiB4S1rXnTd/BZL.J4eUJe1OdLJGbcCvGBmQSMnHwOZgp3Z8qe17y', 'Azmi Yudista', 'L', 'azmi-yudista.jpg', 'pantry'),
-('binsar', '$2y$10$DGSqqJ9tPobQrTFy2pf0ju5kA6PpqfXRQthxJ83b1gyGJmBMPlvpC', 'Binsar Bernandus Silalahi', 'L', 'binsar-bernandus-silalahi.png', 'chef'),
-('john', '$2y$10$jXDMU.zxmBoTQrfCYdGvVuON7VEv9laytzWiFCHleSqx0xj/BeO1G', 'John Cena', 'L', 'john-cena.png', 'waiter'),
-('rakamp', '$2y$10$b63tb1MDRqWBD0ODRwsVduMaS0Zb5bBqL2cd4b6C1D0isqEM8j8Vy', 'Raka Muhamad Pratama', 'L', 'raka-muhamad-pratama.png', 'cs'),
-('toor', '$2y$10$83An5pLgersDP.LxkdHMzeyImkugOfYOnaeuxWT8eHLMTDXLbqNw2', 'Raka Suryaardi Widjaja', 'L', 'raka-suryaardi-widjaja.jpg', 'root'),
-('zaki', '$2y$10$rygQqVUgg9YEKpqEoOkY6e/TixLAhgC9/tgfv3EmO0Y0XXC/8YrEq', 'Muhammad Zaki', 'L', 'muhammad-zaki.png', 'cashier');
+('azmi', '$2y$10$2Ek5MCjdYMxc9bKboh70DeB2kPBiGP48EHviXqEHkKzu1czuLRRfO', 'Azmi Yudista', 'L', 'azmi-yudista.jpg', 'pantry'),
+('binsar', '$2y$10$khX/bOJ46mhfRZSQ3towheZU9zk5PekMKl7OP2Y32kBfSgy6Ff2Ki', 'Binsar Bernandus Silalahi', 'P', 'binsar-bernandus-silalahi.png', 'chef'),
+('conan', '$2y$10$5LrQFL0Ag6XD4Lcp5Ut6/ukLUw5H7IRN7dr2CS6E2zQ1CIAm3.BOK', 'Edogawa Conan', 'L', 'edogawa-conan.png', 'root'),
+('john', '$2y$10$ibk0IfTORSmZ9Rb3t/bzzuA7fQlWBSlEjhZKHC0sklrcOXxUcwFWm', 'John Cena', 'L', 'john-cena.png', 'waiter'),
+('joker', '$2y$10$rndZe1IUssuxA.L61GDMUuJ8Rop4m.xZNxzLpuoKNGM4GcjTzs7bu', 'Joker ', 'L', '', 'root'),
+('rakamp', '$2y$10$ETeX9YAQtLeVpucrk8qPzeBJOCMgkHgHB0q/FQ8OW07s/AwzSKTgS', 'Raka Muhamad Pratama', 'L', 'raka-muhamad-pratama.png', 'cs'),
+('toor', '$2y$10$EDeS.BEQTQT7JvdnASMIMeuauH/B/wMMW2AFt2FE4zY8XK0LHfQhy', 'Raka Suryaardi Widjaja', 'L', 'raka-suryaardi-widjaja.png', 'root'),
+('zaki', '$2y$10$fRhyE1ZLIHVpvbhN2Mgg7elrPIAeMnNu89OZybGTMjg8eSJl1/3D2', 'Muhammad Zaki', 'L', 'muhammad-zaki.png', 'cashier');
 
 -- --------------------------------------------------------
 
@@ -372,80 +420,44 @@ CREATE TABLE IF NOT EXISTS `pemberitahuan` (
   `isi_pemberitahuan` text NOT NULL,
   `tanggal_pemberitahuan` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `kode_perangkat` varchar(15) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=96 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `pemberitahuan`
 --
 
 INSERT INTO `pemberitahuan` (`kode_pemberitahuan`, `isi_pemberitahuan`, `tanggal_pemberitahuan`, `kode_perangkat`) VALUES
-(1, 'Jomblo 1 membutuhkan bantuan.', '2017-12-19 16:25:05', 'JB001'),
-(2, 'Jomblo 1 membutuhkan bantuan.', '2017-12-19 16:25:33', 'JB001'),
-(3, 'Jomblo 1 membutuhkan bantuan.', '2017-12-19 16:25:50', 'JB001'),
-(4, 'Jomblo 1 membutuhkan bantuan.', '2017-12-19 16:27:22', 'JB001'),
-(5, 'Jomblo 1 membutuhkan bantuan.', '2017-12-19 16:28:42', 'JB001'),
-(6, 'Jomblo 1 membutuhkan bantuan.', '2017-12-19 16:29:08', 'JB001'),
-(7, 'Jomblo 1 membutuhkan bantuan.', '2017-12-19 16:29:13', 'JB001'),
-(8, 'Jomblo 1 membutuhkan bantuan.', '2017-12-19 16:29:15', 'JB001'),
-(9, 'Jomblo 1 membutuhkan bantuan.', '2017-12-19 16:29:16', 'JB001'),
-(10, 'Jomblo 1 membutuhkan bantuan.', '2017-12-19 16:29:24', 'JB001'),
-(11, 'Jomblo 1 membutuhkan bantuan.', '2017-12-19 16:29:25', 'JB001'),
-(12, 'Jomblo 1 membutuhkan bantuan.', '2017-12-19 16:29:27', 'JB001'),
-(13, 'Jomblo 1 membutuhkan bantuan.', '2017-12-19 16:29:28', 'JB001'),
-(14, 'Terdapat order baru di perangkat Jomblo 1.', '2017-12-19 16:31:16', 'JB001'),
-(15, 'Terdapat order baru di perangkat Jomblo 1.', '2017-12-19 16:36:53', 'JB001'),
-(16, 'Pesanan Ujang[Jomblo 1] sudah dikonfirmasi pelayan.', '2017-12-19 16:59:32', 'JB001'),
-(17, 'Pesanan #1 [Ujang@Jomblo 1] selesai dibuat.', '2017-12-19 17:10:53', 'JB001'),
-(18, 'Transaksi Ujang[Jomblo 1] selesai dilakukan, perangkat bisa digunakan kembali.', '2017-12-19 17:12:16', 'JB001'),
-(19, 'Terdapat order baru di perangkat Jomblo 1.', '2017-12-19 17:26:36', 'JB001'),
-(20, 'Pesanan [Jomblo 1] sudah dikonfirmasi pelayan.', '2017-12-19 17:26:52', 'JB001'),
-(21, 'Pesanan #2 [@Jomblo 1] selesai dibuat.', '2017-12-19 17:27:11', 'JB001'),
-(22, 'Pesanan #2 [@Jomblo 1] selesai dibuat.', '2017-12-19 17:31:20', 'JB001'),
-(23, 'Transaksi [Jomblo 1] selesai dilakukan, perangkat bisa digunakan kembali.', '2017-12-19 17:31:29', 'JB001'),
 (24, 'Terdapat order baru di perangkat Kamboja 2.', '2017-12-19 17:35:25', 'KJ002'),
 (25, 'Pesanan Momon[Kamboja 2] sudah dikonfirmasi pelayan.', '2017-12-19 17:35:32', 'KJ002'),
 (26, 'Terdapat order baru di perangkat Kamboja 2.', '2017-12-19 19:30:48', 'KJ002'),
 (27, 'Terdapat order baru di perangkat Kamboja 2.', '2017-12-19 19:32:10', 'KJ002'),
 (28, 'Pesanan Monica[Kamboja 2] sudah dikonfirmasi pelayan.', '2017-12-19 19:32:20', 'KJ002'),
-(29, 'Terdapat order baru di perangkat Jomblo 1.', '2017-12-19 19:49:34', 'JB001'),
-(30, 'Pesanan Mbe[Jomblo 1] sudah dikonfirmasi pelayan.', '2017-12-19 19:49:53', 'JB001'),
 (31, 'Pesanan #4 [Monica@Kamboja 2] selesai dibuat.', '2017-12-19 21:08:23', 'KJ002'),
 (32, 'Terdapat order baru di perangkat Mawar 1.', '2017-12-19 21:10:17', 'MW001'),
 (33, 'Pesanan [Mawar 1] sudah dikonfirmasi pelayan.', '2017-12-19 21:11:11', 'MW001'),
-(34, 'Pesanan #5 (Ayam Betutu) [Mbe@Jomblo 1] selesai dibuat.', '2017-12-19 21:13:50', 'JB001'),
-(35, 'Pesanan #5 [Mbe@Jomblo 1] selesai dibuat.', '2017-12-19 21:14:52', 'JB001'),
 (36, 'Pesanan #6 (Bandrek) [@Mawar 1] selesai dibuat.', '2017-12-19 21:16:32', 'MW001'),
 (37, 'Pesanan #6 (Ayam Betutu) [@Mawar 1] selesai dibuat.', '2017-12-19 21:17:00', 'MW001'),
 (38, 'Pesanan #6 [@Mawar 1] selesai dibuat.', '2017-12-19 21:18:39', 'MW001'),
 (39, 'Pesanan Monica[Kamboja 2] sudah dikonfirmasi pelayan.', '2017-12-19 21:20:22', 'KJ002'),
-(40, 'Pesanan Mbe[Jomblo 1] sudah dikonfirmasi pelayan.', '2017-12-19 21:20:33', 'JB001'),
 (41, 'Pesanan Monica[Kamboja 2] sudah dikonfirmasi pelayan.', '2017-12-19 21:21:59', 'KJ002'),
-(42, 'Pesanan Mbe[Jomblo 1] sudah dikonfirmasi pelayan.', '2017-12-19 21:24:40', 'JB001'),
 (43, 'Pesanan [Mawar 1] sudah dikonfirmasi pelayan.', '2017-12-19 21:24:47', 'MW001'),
 (44, 'Pesanan Monica[Kamboja 2] sudah dikonfirmasi pelayan.', '2017-12-19 21:25:24', 'KJ002'),
-(45, 'Pesanan Mbe[Jomblo 1] sudah dikonfirmasi pelayan.', '2017-12-19 21:25:45', 'JB001'),
 (46, 'Pesanan [Mawar 1] sudah dikonfirmasi pelayan.', '2017-12-19 21:25:52', 'MW001'),
 (47, 'Pesanan #4 [Monica@Kamboja 2] selesai dibuat.', '2017-12-19 21:27:47', 'KJ002'),
-(48, 'Pesanan #5 [Mbe@Jomblo 1] selesai dibuat.', '2017-12-19 21:28:31', 'JB001'),
 (49, 'Pesanan #6 [@Mawar 1] selesai dibuat.', '2017-12-19 21:28:40', 'MW001'),
-(50, 'Terdapat order baru di perangkat Jomblo 1.', '2017-12-19 21:52:33', 'JB001'),
-(51, 'Pesanan [Jomblo 1] sudah dikonfirmasi pelayan.', '2017-12-19 21:59:10', 'JB001'),
-(52, 'Pesanan #7 (Ayam Betutu) [@Jomblo 1] selesai dibuat.', '2017-12-19 21:59:37', 'JB001'),
-(53, 'Pesanan #7 (Bandrek) [@Jomblo 1] selesai dibuat.', '2017-12-19 22:00:11', 'JB001'),
-(54, 'Pesanan #7 [@Jomblo 1] selesai dibuat.', '2017-12-19 22:00:59', 'JB001'),
-(55, 'Pesanan #7 [@Jomblo 1] selesai dibuat.', '2017-12-19 22:40:51', 'JB001'),
-(56, 'Pesanan #7 [@Jomblo 1] selesai dibuat.', '2017-12-19 22:42:01', 'JB001'),
-(57, 'Transaksi [Jomblo 1] selesai dilakukan, perangkat bisa digunakan kembali.', '2017-12-19 22:42:13', 'JB001'),
-(58, 'Pesanan [Jomblo 1] sudah dikonfirmasi pelayan.', '2017-12-19 22:48:32', 'JB001'),
-(59, 'Pesanan #7 [@Jomblo 1] selesai dibuat.', '2017-12-19 22:48:45', 'JB001'),
-(60, 'Transaksi [Jomblo 1] selesai dilakukan, perangkat bisa digunakan kembali.', '2017-12-19 22:49:08', 'JB001'),
-(61, 'Pesanan #7 [@Jomblo 1] selesai dibuat.', '2017-12-19 22:50:53', 'JB001'),
-(62, 'Transaksi [Jomblo 1] selesai dilakukan, perangkat bisa digunakan kembali.', '2017-12-19 22:53:04', 'JB001'),
-(63, 'Jomblo 1 membutuhkan bantuan.', '2017-12-22 14:46:16', 'JB001'),
-(64, 'Jomblo 1 membutuhkan bantuan.', '2017-12-23 08:41:06', 'JB001'),
-(65, 'Jomblo 1 membutuhkan bantuan.', '2018-01-01 16:30:14', 'JB001'),
-(66, 'Jomblo 1 membutuhkan bantuan.', '2018-01-05 14:28:21', 'JB001'),
-(67, 'Jomblo 1 membutuhkan bantuan.', '2018-01-05 14:28:30', 'JB001');
+(69, 'Kamboja 2 membutuhkan bantuan.', '2018-01-11 16:33:19', 'KJ002'),
+(71, 'Terdapat order baru di perangkat Mawar 1.', '2018-01-13 17:23:20', 'MW001'),
+(73, 'Pesanan [Mawar 1] sudah dikonfirmasi pelayan.', '2018-01-13 17:23:55', 'MW001'),
+(75, 'Pesanan #2 [@Mawar 1] selesai dibuat.', '2018-01-13 17:24:14', 'MW001'),
+(77, 'Transaksi [Mawar 1] selesai dilakukan, perangkat bisa digunakan kembali.', '2018-01-13 17:25:19', 'MW001'),
+(82, 'Terdapat order baru di perangkat Mawar 1.', '2018-01-14 01:34:07', 'MW001'),
+(83, 'Pesanan [Mawar 1] sudah dikonfirmasi pelayan.', '2018-01-14 01:37:15', 'MW001'),
+(84, 'Pesanan #4 [@Mawar 1] selesai dibuat.', '2018-01-14 01:38:46', 'MW001'),
+(85, 'Transaksi [Mawar 1] selesai dilakukan, perangkat bisa digunakan kembali.', '2018-01-14 01:41:23', 'MW001'),
+(92, 'Terdapat order baru di perangkat Kamboja 1.', '2018-01-14 09:58:01', 'KJ001'),
+(93, 'Pesanan [Kamboja 1] sudah dikonfirmasi pelayan.', '2018-01-14 09:58:22', 'KJ001'),
+(94, 'Pesanan #6 [@Kamboja 1] selesai dibuat.', '2018-01-14 09:59:49', 'KJ001'),
+(95, 'Transaksi [Kamboja 1] selesai dilakukan, perangkat bisa digunakan kembali.', '2018-01-14 10:00:42', 'KJ001');
 
 -- --------------------------------------------------------
 
@@ -462,7 +474,19 @@ CREATE TABLE IF NOT EXISTS `pengadaan_bahan_baku` (
   `status_pengadaan_bahan_baku` tinyint(1) DEFAULT '0',
   `kode_pegawai` varchar(15) NOT NULL,
   `kode_prioritas` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `pengadaan_bahan_baku`
+--
+
+INSERT INTO `pengadaan_bahan_baku` (`kode_pengadaan_bahan_baku`, `subjek_pengadaan_bahan_baku`, `tanggal_pengadaan_bahan_baku`, `waktu_pengadaan_bahan_baku`, `catatan_pengadaan_bahan_baku`, `status_pengadaan_bahan_baku`, `kode_pegawai`, `kode_prioritas`) VALUES
+(1, 'Pengajuan_satu', '2018-01-13', '15:01:07', 'Cepetan', -1, 'binsar', '2'),
+(2, 'pengajuan_dua', '2018-01-13', '15:01:20', 'Cepetan', -1, 'binsar', '2'),
+(3, 'Pengajuan_satu', '2018-01-13', '16:01:44', 'Cepetan', -1, 'binsar', '1'),
+(4, 'Pengajuan_dua', '2018-01-13', '16:01:01', 'Cepetan', 1, 'binsar', '2'),
+(5, 'Pengajuan_tiga', '2018-01-13', '16:01:55', 'Cepetan', 1, 'binsar', '0'),
+(6, 'Pengajuan Minuman Baru', '2018-01-19', '15:01:05', 'Pengajuan Minuman Baru', 1, 'binsar', '1');
 
 -- --------------------------------------------------------
 
@@ -476,7 +500,34 @@ CREATE TABLE IF NOT EXISTS `pengadaan_bahan_baku_detil` (
   `jumlah_bahan_baku` float unsigned NOT NULL,
   `satuan_bahan_baku` varchar(10) NOT NULL,
   `kode_pengadaan_bahan_baku` int(10) unsigned NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `pengadaan_bahan_baku_detil`
+--
+
+INSERT INTO `pengadaan_bahan_baku_detil` (`kode_pengadaan_bahan_baku_detil`, `nama_bahan_baku`, `jumlah_bahan_baku`, `satuan_bahan_baku`, `kode_pengadaan_bahan_baku`) VALUES
+(1, 'Ayam', 0, '', 1),
+(2, 'Air Mineral', 0, '', 1),
+(3, 'Bandrek Instan', 0, '', 1),
+(4, 'Madu', 0, '', 1),
+(5, 'Cabai Hijau', 0, '', 2),
+(6, 'Air Mineral', 0, '', 2),
+(7, 'Ayam', 0, '', 3),
+(8, 'Air Mineral', 0, '', 3),
+(9, 'Bandrek Instan', 0, '', 3),
+(10, 'Cabai Hijau', 0, '', 3),
+(11, 'Cabai Hijau', 0, '', 4),
+(12, 'Ayam', 1000, 'gr', 4),
+(13, 'Air Kelapa', 1000, 'gr', 5),
+(14, 'Air Mineral', 5000, 'liter', 5),
+(15, 'Bandrek Instan', 1000, 'liter', 5),
+(16, 'Cabai Hijau', 1000, 'gr', 5),
+(17, 'Madu', 1000, 'gr', 5),
+(18, 'Coca Cola Kaleng', 200, 'kaleng', 6),
+(19, 'Fanta Kaleng', 200, 'kaleng', 6),
+(20, 'Sprite Kaleng', 200, 'kaleng', 6),
+(21, 'Teh Botol Sosro', 200, 'botol', 6);
 
 -- --------------------------------------------------------
 
@@ -497,9 +548,17 @@ CREATE TABLE IF NOT EXISTS `perangkat` (
 --
 
 INSERT INTO `perangkat` (`kode_perangkat`, `kata_sandi_perangkat`, `nama_perangkat`, `jumlah_kursi_perangkat`, `status_perangkat`) VALUES
-('JB001', '$2y$10$lPip/3jiBe88qS.HtGlEherclon3j.x/FVVmoH0dkMhtfSdTbXVg.', 'Jomblo 1', 1, 1),
-('KJ002', '$2y$10$xBGIzJEO9XiqrVplq86Wv.lAyQreSDR8vm2HrlwzLK8O6JnpZSSj.', 'Kamboja 2', 1, 1),
-('MW001', '$2y$10$UQ37G9RLcx8Ib7ld3S6oFOfphADDe24fiHY7eWdpeKn1HgYgX0DIu', 'Mawar 1', 2, 1);
+('AG001', '$2y$10$Fvq3uy06q5tK/.Ic6KWVPeAzBgL58u1L7oeD39gcO9zkCtbLBXN9W', 'Anggrek 1', 6, 0),
+('AG002', '$2y$10$BN6VLdDDydNWio6VtxPvQO.RIgaIBoOWdH9TpDc/Zgg/aerrR7Ueq', 'Anggrek 2', 6, 0),
+('JB001', '$2y$10$JL7UuE.XMM1Lndd9godjMeoOhVzxvBshTTw..cjxP2k8g91X4t5ge', 'Jomblo 1', 1, 1),
+('JB002', '$2y$10$RKHZ1BDa3hLXrJIoYBeVXOQC1HFeLdkVczYmZ98nvLLHv0AyQ931S', 'Jomblo 2', 1, 1),
+('JB003', '$2y$10$2IayHDJEVVB3.B5NSWn/BOHDTAWNM0120eFAPOR.84g/4hOn.l2XO', 'Jomblo 3', 1, 0),
+('KJ001', '$2y$10$np7QjOjygHid1TLglRt4zewykPkuGsiExEJor4wNTndbp1sc7PG5.', 'Kamboja 1', 3, 1),
+('KJ002', '$2y$10$xBGIzJEO9XiqrVplq86Wv.lAyQreSDR8vm2HrlwzLK8O6JnpZSSj.', 'Kamboja 2', 3, 1),
+('MW001', '$2y$10$UQ37G9RLcx8Ib7ld3S6oFOfphADDe24fiHY7eWdpeKn1HgYgX0DIu', 'Mawar 1', 2, 1),
+('MW002', '$2y$10$usTyzQS9ALM/2m4LehLYXOBMURAvKLhs6rPxyvnAvRXd8oq9o7u.q', 'Mawar 2', 2, 0),
+('TL001', '$2y$10$HarE/poujEt2jXzIb2KsGOCpxA8Heai2MyTj8.z7b1ic5poLcHFDK', 'Tulip 1', 5, 0),
+('TL002', '$2y$10$A5LiueefDMBlRNFX4tAKg.i2svTaLVIdWSVQvY29xP/scaspYNvYe', 'Tulip 2', 5, 0);
 
 -- --------------------------------------------------------
 
@@ -518,7 +577,16 @@ CREATE TABLE IF NOT EXISTS `pesanan` (
   `status_pesanan` enum('C','P','T','D') NOT NULL DEFAULT 'C' COMMENT 'C = Confirmation, P = Process, T = Transaction, D = Done',
   `kode_pegawai` varchar(15) DEFAULT NULL,
   `kode_perangkat` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `pesanan`
+--
+
+INSERT INTO `pesanan` (`kode_pesanan`, `tanggal_pesanan`, `waktu_pesanan`, `pembeli_pesanan`, `catatan_pesanan`, `harga_pesanan`, `tunai_pesanan`, `status_pesanan`, `kode_pegawai`, `kode_perangkat`) VALUES
+(2, '2018-01-13', '17:01:20', '', '', 10000, 11000, 'D', 'conan', 'MW001'),
+(4, '2018-01-14', '01:01:07', '', '', 30000, 30000, 'D', 'conan', 'MW001'),
+(6, '2018-01-14', '09:01:01', '', '', 100000, 150000, 'D', 'conan', 'KJ001');
 
 -- --------------------------------------------------------
 
@@ -531,8 +599,17 @@ CREATE TABLE IF NOT EXISTS `pesanan_detil` (
   `jumlah_pesanan_detil` smallint(6) unsigned NOT NULL,
   `status_pesanan_detil` enum('P','D') NOT NULL DEFAULT 'P' COMMENT 'P = Process, D = Done',
   `kode_pesanan` int(10) unsigned NOT NULL,
-  `kode_menu` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `kode_menu` int(10) unsigned NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `pesanan_detil`
+--
+
+INSERT INTO `pesanan_detil` (`kode_pesanan_detil`, `jumlah_pesanan_detil`, `status_pesanan_detil`, `kode_pesanan`, `kode_menu`) VALUES
+(2, 1, 'D', 2, 3),
+(4, 3, 'D', 4, 3),
+(8, 10, 'D', 6, 3);
 
 --
 -- Triggers `pesanan_detil`
@@ -680,7 +757,7 @@ ALTER TABLE `prioritas`
 -- AUTO_INCREMENT for table `bahan_baku`
 --
 ALTER TABLE `bahan_baku`
-MODIFY `kode_bahan_baku` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `kode_bahan_baku` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=39;
 --
 -- AUTO_INCREMENT for table `halaman_detil`
 --
@@ -690,47 +767,52 @@ MODIFY `kode_halaman_detil` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=33;
 -- AUTO_INCREMENT for table `kuisioner`
 --
 ALTER TABLE `kuisioner`
-MODIFY `kode_kuisioner` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+MODIFY `kode_kuisioner` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `kuisioner_detil`
 --
 ALTER TABLE `kuisioner_detil`
-MODIFY `kode_kuisioner_detil` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
+MODIFY `kode_kuisioner_detil` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=27;
 --
 -- AUTO_INCREMENT for table `kuisioner_perangkat`
 --
 ALTER TABLE `kuisioner_perangkat`
-MODIFY `kode_kuisioner_perangkat` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `kode_kuisioner_perangkat` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `menu`
+--
+ALTER TABLE `menu`
+MODIFY `kode_menu` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `menu_detil`
 --
 ALTER TABLE `menu_detil`
-MODIFY `kode_menu_detil` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
+MODIFY `kode_menu_detil` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=155;
 --
 -- AUTO_INCREMENT for table `pemberitahuan`
 --
 ALTER TABLE `pemberitahuan`
-MODIFY `kode_pemberitahuan` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=68;
+MODIFY `kode_pemberitahuan` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=96;
 --
 -- AUTO_INCREMENT for table `pengadaan_bahan_baku`
 --
 ALTER TABLE `pengadaan_bahan_baku`
-MODIFY `kode_pengadaan_bahan_baku` int(10) unsigned NOT NULL AUTO_INCREMENT;
+MODIFY `kode_pengadaan_bahan_baku` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `pengadaan_bahan_baku_detil`
 --
 ALTER TABLE `pengadaan_bahan_baku_detil`
-MODIFY `kode_pengadaan_bahan_baku_detil` int(10) unsigned NOT NULL AUTO_INCREMENT;
+MODIFY `kode_pengadaan_bahan_baku_detil` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT for table `pesanan`
 --
 ALTER TABLE `pesanan`
-MODIFY `kode_pesanan` int(10) unsigned NOT NULL AUTO_INCREMENT;
+MODIFY `kode_pesanan` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `pesanan_detil`
 --
 ALTER TABLE `pesanan_detil`
-MODIFY `kode_pesanan_detil` int(10) unsigned NOT NULL AUTO_INCREMENT;
+MODIFY `kode_pesanan_detil` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- Constraints for dumped tables
 --
@@ -771,8 +853,8 @@ ADD CONSTRAINT `menu_ibfk_1` FOREIGN KEY (`kode_pegawai`) REFERENCES `pegawai` (
 -- Constraints for table `menu_detil`
 --
 ALTER TABLE `menu_detil`
-ADD CONSTRAINT `menu_detil_ibfk_5` FOREIGN KEY (`kode_menu`) REFERENCES `menu` (`kode_menu`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `menu_detil_ibfk_6` FOREIGN KEY (`kode_bahan_baku`) REFERENCES `bahan_baku` (`kode_bahan_baku`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `menu_detil_ibfk_6` FOREIGN KEY (`kode_bahan_baku`) REFERENCES `bahan_baku` (`kode_bahan_baku`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `menu_detil_ibfk_7` FOREIGN KEY (`kode_menu`) REFERENCES `menu` (`kode_menu`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `pegawai`
@@ -810,8 +892,8 @@ ADD CONSTRAINT `pesanan_ibfk_4` FOREIGN KEY (`kode_perangkat`) REFERENCES `peran
 -- Constraints for table `pesanan_detil`
 --
 ALTER TABLE `pesanan_detil`
-ADD CONSTRAINT `pesanan_detil_ibfk_4` FOREIGN KEY (`kode_menu`) REFERENCES `menu` (`kode_menu`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `pesanan_detil_ibfk_5` FOREIGN KEY (`kode_pesanan`) REFERENCES `pesanan` (`kode_pesanan`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `pesanan_detil_ibfk_5` FOREIGN KEY (`kode_pesanan`) REFERENCES `pesanan` (`kode_pesanan`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `pesanan_detil_ibfk_6` FOREIGN KEY (`kode_menu`) REFERENCES `menu` (`kode_menu`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
